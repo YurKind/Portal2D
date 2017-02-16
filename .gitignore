@@ -54,6 +54,7 @@ gradlew*
 
 # Visual Studio #
 
+*.sdf
 *.sln
 *.vcxproj*
 **/.vs/
