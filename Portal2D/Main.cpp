@@ -5,7 +5,7 @@ using namespace std;
 
 int main()
 {
-	Menu::functionCaller(Menu::menu());
+	menu::functionCaller(menu::menu());
 
 	system("pause");
 

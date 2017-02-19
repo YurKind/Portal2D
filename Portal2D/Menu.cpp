@@ -1,6 +1,6 @@
 #include "Menu.h"
 
-int Menu::menu()
+int menu::menu()
 {
 	cout << " press 1 to start a game\n press 2 to show ... \n";
 	switch (_getch())
@@ -22,7 +22,7 @@ int Menu::menu()
 	}
 }
 
-void Menu::functionCaller(int playerChoice)
+void menu::functionCaller(int playerChoice)
 {
 	switch(playerChoice)
 	{
@@ -40,6 +40,6 @@ void Menu::functionCaller(int playerChoice)
 	default: 
 		cout << "You entered wrong key" << endl;
 		system("cls");
-		Menu::functionCaller(Menu::menu());
+		menu::functionCaller(menu::menu());
 	}
 }
