@@ -5,18 +5,18 @@ int menu::menu()
 	cout << " press 1 to start a game\n press 2 to show ... \n";
 	switch (_getch())
 	{
-	case START_GAME: 
+	case START_GAME:
 		return START_GAME;
 
 	case INSTRUCTION:
 		return INSTRUCTION;
-		
+
 	case RECORDS:
 		return RECORDS;
 
 	case EXIT:
 		return EXIT;
-	
+
 	default:
 		return NULL;
 	}
@@ -24,7 +24,7 @@ int menu::menu()
 
 void menu::functionCaller(int playerChoice)
 {
-	switch(playerChoice)
+	switch (playerChoice)
 	{
 	case START_GAME:
 		//startGame(); TODO add this
@@ -37,7 +37,7 @@ void menu::functionCaller(int playerChoice)
 		break;
 	case EXIT:
 		break;
-	default: 
+	default:
 		cout << "You entered wrong key" << endl;
 		system("cls");
 		menu::functionCaller(menu::menu());
