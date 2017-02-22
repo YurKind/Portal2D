@@ -1,8 +1,8 @@
 #pragma once
 
-struct DataAboutTheChampion 
+struct DataAboutTheChampion
 {
 	char *name;
-	float scores;
+	int scores;
 	int level;
 }/*нехуй тут ничего объ€вл€ть (€ про переменные, а не пол€)*/;
