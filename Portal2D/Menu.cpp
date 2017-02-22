@@ -1,4 +1,6 @@
 #include "Menu.h"
+#include "Structures.h"
+#include "Records.h"
 
 int menu::menu()
 {
@@ -33,7 +35,7 @@ void menu::functionCaller(int playerChoice)
 		//showInstruction(); TODO add this
 		break;
 	case RECORDS:
-		//records(); TODO add this
+		records::records(); 
 		break;
 	case EXIT:
 		break;
