@@ -53,7 +53,7 @@ DataAboutTheChampion records::sortingArrays(char *buf)
 	char time[5], lvl[5];
 	DataAboutTheChampion champion;
 	int counterLetter = 0, i = 0, size = 0;
-	char* name = new char[1];                        // янгдюк люяяхб 1 щкелемр х еаюмск рсдю хлъ люйяхлю. ъ тнйсямхй??? 
+	char* name = new char[1];                        // янгдюк люяяхб хг 1НЦН щкелемрЮ х еаюмск рсдю хлъ люйяхлю. ъ тнйсямхй??? 
 
 	while (buf[counterLetter] != '|')
 	{
