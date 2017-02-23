@@ -3,11 +3,11 @@
 
 void records::showTopOfRecords()
 {
-	int counterInit = records::countLettersInFile("Records.txt", "all");
+	int counterInit = records::countLettersInFile("Records.txt");
 	char *buf = new char[counterInit];
 	buf = records::initBuffer("Records.txt", counterInit);
 	DataAboutTheChampion champion = records::sortingArrays(buf);
-	std::cout << "name: " << champion.name << "scores: " << champion.scores << "lvl: " << champion.level;
+	std::cout << "name: " << champion.name << " scores: " << champion.scores << " lvl: " << champion.level;
 }
 
 char* records::initBuffer(char* fileName, int size)
@@ -19,41 +19,26 @@ char* records::initBuffer(char* fileName, int size)
 	return buf;
 }
 
-int records::countLettersInFile(char* fileName, char* x) 
+int records::countLettersInFile(char* fileName)
 {
 	int counter = 0;
 	std::ifstream fin(fileName);
-	if (!strcmp(x, "name"))
+	while (!fin.eof())
 	{
-		while (!fin.eof())
-		{
-			char c;
-			fin >> c;
-			if (c == '|')
-				break;
-			counter++;
-		}
-	}
-	else if (!strcmp(x, "all"))
-	{
-		while (!fin.eof())
-		{
-			char c;
-			fin >> c;
-			counter++;
-		}
+		char c;
+		fin >> c;
+		counter++;
 	}
 	fin.close();
 	return counter;
 }
-
 
 DataAboutTheChampion records::sortingArrays(char *buf)
 {
 	char time[5], lvl[5];
 	DataAboutTheChampion champion;
 	int counterLetter = 0, i = 0, size = 0;
-	char* name = new char[1];                        // —Œ«ƒ¿À Ã¿——»¬ »« 1Ó„Ó ›À≈Ã≈Õ“‡ » ≈¡¿Õ”À “”ƒ¿ »Ãﬂ Ã¿ —»Ã¿. ﬂ ‘Œ ”—Õ» ??? 
+	char *name = new char[20];
 
 	while (buf[counterLetter] != '|')
 	{
