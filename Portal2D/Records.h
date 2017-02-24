@@ -7,8 +7,9 @@
 
 namespace records
 {
+	void addRecords();
 	int knowFileSize(char *fileName);
-	int countLettersInFile(char* fileName);
+	int countLettersInFile(char* fileName, char* variant, std::ifstream &fin);
 	void showAllOfRecords();
-	DataAboutTheChampion sortingArrays(char *buf);
+	DataAboutTheChampion sortingArrays(char *buf, std::ifstream &fin);
 }
