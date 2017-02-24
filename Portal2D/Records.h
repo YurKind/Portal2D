@@ -7,10 +7,12 @@
 
 namespace records
 {
-	void addRecords();
+	int findingTheLocationInOrder(List *list);
+	void addInRecords();
 	int knowFileSize(char *fileName);
 	int countLettersInFile(char* variant, std::ifstream &fin);
 	void showAllOfRecords();
 	DataAboutTheChampion sortingArrays(char *buf, std::ifstream &fin, int number);
-	void clean(std::ifstream &fin);
+	void moveToNextLine(std::ifstream &fin);
+	List* addList(DataAboutTheChampion champions[], int numberOfChampions);
 }

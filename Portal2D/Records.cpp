@@ -1,8 +1,8 @@
 #include "Records.h"
 #include "Structures.h"
+#include "List"
 
-
-void records::addRecords() 
+void records::addInRecords() 
 {
 	std::ifstream fin("Records.txt");
 	std::ofstream fout("Records.txt");
@@ -17,13 +17,34 @@ void records::addRecords()
 		champions[i] = records::sortingArrays(buf, fin, i);
 		delete[] buf;
 	}
+	List *list = records::addList(champions, N);
+
+}
+
+int records::findingTheLocationInOrder(List *list)
+{
+	return 0;
+}
+
+List* records::addList(DataAboutTheChampion champions[], int numberOfChampions)
+{
+	List *begin = NULL;
+	begin = new List;
+	
+	for (int i = 0; i < numberOfChampions; i++)
+	{
+		begin->next = new List;
+		begin->champion = champions[i];
+		begin = begin->next;
+		begin->next = NULL;
+	}
+
+	return begin;
 }
 
 void records::showAllOfRecords()
 {
-	std::ifstream finLine("Records.txt");
-	std::ifstream finName("Records.txt");
-	std::ifstream finAll("Records.txt");
+	std::ifstream finLine("Records.txt"), finName("Records.txt"), finAll("Records.txt");
 	int N = records::knowFileSize("Records.txt");
 	DataAboutTheChampion *champions = new DataAboutTheChampion[N];
 
@@ -33,7 +54,7 @@ void records::showAllOfRecords()
 		char *buf = new char[counterInit];
 		finAll.getline(buf, counterInit);
 		champions[i] = records::sortingArrays(buf, finName, i);
-		clean(finName);
+		moveToNextLine(finName);
 		std::cout << "\nname: " << champions[i].name << " scores: " << champions[i].scores << " lvl: " << champions[i].level << "";
 		delete[] buf;
 	}
@@ -43,16 +64,11 @@ void records::showAllOfRecords()
 	finName.close();
 }
 
-void records::clean(std::ifstream &fin)
+void records::moveToNextLine(std::ifstream &fin)
 {
 	char *b = new char[20];
 	fin.getline(b, 20);
 	delete[] b;
-}
-
-int findingTheLocationInOrder() 
-{
-	return 0;
 }
 
 int records::knowFileSize(char *fileName)
