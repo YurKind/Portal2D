@@ -3,12 +3,12 @@
 #include <iomanip>
 
 
-game::Map** game::createMap()
+game::Map** game::createMap(int sizeOfMapHeight, int sizeOfMapWidth)
 {
-	game::Map** map = new game::Map*[5];
-	for (int i = 0; i < 5; i++)
+	game::Map** map = new game::Map*[sizeOfMapHeight];
+	for (int i = 0; i < sizeOfMapHeight; i++)
 	{
-		map[i] = new game::Map[5];
+		map[i] = new game::Map[sizeOfMapWidth];
 	}
 	return map;
 }

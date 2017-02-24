@@ -78,6 +78,6 @@ namespace game
 		char type;
 	};
 
-	Map** createMap();
+	Map** createMap(int, int);
 	//void printMap(char** map);
 }
