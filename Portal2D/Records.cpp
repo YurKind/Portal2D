@@ -1,22 +1,34 @@
 #include "Records.h"
 #include "Structures.h"
 
-void records::showTopOfRecords()
+int records::knowFileSize(char *fileName)
 {
-	int counterInit = records::countLettersInFile("Records.txt");
-	char *buf = new char[counterInit];
-	buf = records::initBuffer("Records.txt", counterInit);
-	DataAboutTheChampion champion = records::sortingArrays(buf);
-	std::cout << "name: " << champion.name << " scores: " << champion.scores << " lvl: " << champion.level;
+	int count = 0;
+	std::ifstream fin(fileName);
+	while (!fin.eof()) 
+	{
+		char *arr = new char[1024];
+		fin.getline(arr, 1024);
+		count++;
+		delete[] arr;
+	}
+	return count;
 }
 
-char* records::initBuffer(char* fileName, int size)
+void records::showAllOfRecords()
 {
-	std::ifstream fin(fileName);
-	char *buf = new char[size];
-	fin.getline(buf, size);
+	std::ifstream fin("Records.txt");
+	int N = records::knowFileSize("Records.txt");
+	DataAboutTheChampion *champions = new DataAboutTheChampion[N];
+	int counterInit = records::countLettersInFile("Records.txt");
+	for (int i = 0; i < N; i++)
+	{
+		char *buf = new char[counterInit];
+		fin.getline(buf, counterInit);
+		DataAboutTheChampion champion = records::sortingArrays(buf);
+		std::cout << "\nname: " << champion.name << " scores: " << champion.scores << " lvl: " << champion.level << "";
+	}
 	fin.close();
-	return buf;
 }
 
 int records::countLettersInFile(char* fileName)

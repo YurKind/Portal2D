@@ -7,8 +7,8 @@
 
 namespace records
 {
+	int knowFileSize(char *fileName);
 	int countLettersInFile(char* fileName);
-	char* initBuffer(char* fileName, int number);
-	void showTopOfRecords();
+	void showAllOfRecords();
 	DataAboutTheChampion sortingArrays(char *buf);
 }

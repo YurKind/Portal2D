@@ -35,7 +35,7 @@ void menu::functionCaller(int playerChoice)
 		//showInstruction(); TODO add this
 		break;
 	case RECORDS:
-		records::showTopOfRecords();
+		records::showAllOfRecords();
 		break;
 	case EXIT:
 		break;

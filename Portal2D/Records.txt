@@ -1,1 +1,5 @@
-MaximBoylingNagovotsin|44|1
+MaximBoylingNagovotsin|44|10
+Andrey|43|10
+Player|56|9
+Victor|53|7
+Alexander|42|3
