@@ -26,17 +26,18 @@ int menu::menu()
 
 void menu::functionCaller(int playerChoice)
 {
+	DataAboutTheChampion newChampion = { "000000", 47, 10 };
 	switch (playerChoice)
 	{
 	case START_GAME:
 		//startGame(); TODO add this
 		break;
 	case INSTRUCTION:
-		//showInstruction(); TODO add this
+		//showInstruction(); TODO add this    
 		break;
 	case RECORDS:
 		records::showAllOfRecords();
-		records::addInRecords();
+		records::addInRecords(newChampion);
 		break;
 	case EXIT:
 		break;

@@ -2,44 +2,82 @@
 #include "Structures.h"
 #include "List"
 
-void records::addInRecords() 
+void records::Free_memory(List *begin)                 
 {
-	std::ifstream fin("Records.txt");
-	std::ofstream fout("Records.txt");
-	int counterInit = records::countLettersInFile("line", fin);
+	List *cleaner = begin;
+	while (begin)              
+	{
+		cleaner = begin;         
+		begin = begin->next;     
+		delete cleaner;          
+	}
+}
+
+void records::addInRecords(DataAboutTheChampion newChampion)
+{
+	List *begin = NULL;
+	begin = new List;
+
+	std::ifstream finLine("Records.txt"), finName("Records.txt"), finAll("Records.txt");
+	//std::ofstream fout("Records.txt");
 	int N = records::knowFileSize("Records.txt");
 	DataAboutTheChampion *champions = new DataAboutTheChampion[N];
 
 	for (int i = 0; i < N; i++)
 	{
+		int counterInit = records::countLettersInFile("line", finLine);
 		char *buf = new char[counterInit];
-		fin.getline(buf, counterInit);
-		champions[i] = records::sortingArrays(buf, fin, i);
+		finAll.getline(buf, counterInit);
+		champions[i] = records::sortingArrays(buf, finName, i);
+		moveToNextLine(finName);
 		delete[] buf;
 	}
-	List *list = records::addList(champions, N);
-
+	List *list = begin;
+	list = records::addList(champions, N, begin);
+	delete[] champions;
 }
 
-int records::findingTheLocationInOrder(List *list)
+int records::findingTheLocationInOrder(List *begin, int numberOfChampions, DataAboutTheChampion newChampion)
 {
+	List *list = begin;
+
+	for (int i = 0; i < numberOfChampions; i++)
+	{
+		if (list->champion.level == newChampion.level) 
+		{
+			if (list->champion.scores > newChampion.scores)
+			{
+				list = list->next;
+			}
+			else
+			{
+				list = new List;
+				list->champion = newChampion;
+				list = list->next;
+			}
+		}
+		else
+		{
+			list = list->next;
+		}
+	}
 	return 0;
 }
 
-List* records::addList(DataAboutTheChampion champions[], int numberOfChampions)
+List* records::addList(DataAboutTheChampion champions[], int numberOfChampions, List *begin)
 {
-	List *begin = NULL;
-	begin = new List;
-	
+	List *add = begin;
+	add = new List;
+
 	for (int i = 0; i < numberOfChampions; i++)
 	{
-		begin->next = new List;
-		begin->champion = champions[i];
-		begin = begin->next;
-		begin->next = NULL;
+		add->next = new List;
+		add->champion = champions[i];
+		add = add->next;
+		add->next = NULL;
 	}
 
-	return begin;
+	return add;
 }
 
 void records::showAllOfRecords()
