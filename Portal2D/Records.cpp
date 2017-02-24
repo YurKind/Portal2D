@@ -6,7 +6,7 @@ void records::addRecords()
 {
 	std::ifstream fin("Records.txt");
 	std::ofstream fout("Records.txt");
-	int counterInit = records::countLettersInFile("Records.txt", "line", fin);
+	int counterInit = records::countLettersInFile("line", fin);
 	int N = records::knowFileSize("Records.txt");
 	DataAboutTheChampion *champions = new DataAboutTheChampion[N];
 
@@ -14,7 +14,7 @@ void records::addRecords()
 	{
 		char *buf = new char[counterInit];
 		fin.getline(buf, counterInit);
-		champions[i] = records::sortingArrays(buf, fin);
+		champions[i] = records::sortingArrays(buf, fin, i);
 		delete[] buf;
 	}
 }
@@ -25,17 +25,29 @@ void records::showAllOfRecords()
 	std::ifstream finName("Records.txt");
 	std::ifstream finAll("Records.txt");
 	int N = records::knowFileSize("Records.txt");
+	DataAboutTheChampion *champions = new DataAboutTheChampion[N];
 
 	for (int i = 0; i < N; i++)
 	{
-		int counterInit = records::countLettersInFile("Records.txt", "line", finLine);
+		int counterInit = records::countLettersInFile("line", finLine);
 		char *buf = new char[counterInit];
 		finAll.getline(buf, counterInit);
-		DataAboutTheChampion champion = records::sortingArrays(buf, finName);
-		std::cout << "\nname: " << champion.name << " scores: " << champion.scores << " lvl: " << champion.level << "";
+		champions[i] = records::sortingArrays(buf, finName, i);
+		clean(finName);
+		std::cout << "\nname: " << champions[i].name << " scores: " << champions[i].scores << " lvl: " << champions[i].level << "";
 		delete[] buf;
 	}
+	delete[] champions;
 	finAll.close();
+	finLine.close();
+	finName.close();
+}
+
+void records::clean(std::ifstream &fin)
+{
+	char *b = new char[20];
+	fin.getline(b, 20);
+	delete[] b;
 }
 
 int findingTheLocationInOrder() 
@@ -58,7 +70,7 @@ int records::knowFileSize(char *fileName)
 	return count;
 }
 
-int records::countLettersInFile(char* fileName, char* variant, std::ifstream &fin)
+int records::countLettersInFile(char* variant, std::ifstream &fin)
 {
 	char temp = NULL;
 	char* buf = new char[1000];
@@ -77,21 +89,20 @@ int records::countLettersInFile(char* fileName, char* variant, std::ifstream &fi
 	{
 		char temp = NULL;
 		fin.getline(buf, 1000);
-		while (buf[counter] != '\0')
-		{
-			buf[counter++] >> temp;
+		while (buf[counter] != '\0') {
+			counter++;
 		}
 	}
 	delete[] buf;
-	return counter;
+	return ++counter;
 }
 
-DataAboutTheChampion records::sortingArrays(char *buf, std::ifstream &fin)
+DataAboutTheChampion records::sortingArrays(char *buf, std::ifstream &fin, int number)
 {
 	char time[5], lvl[2];
 	DataAboutTheChampion champion;
 	int counterLetter = 0, i = 0, size = 0;
-	int sizeName = records::countLettersInFile("Records.txt", "name", fin);
+	int sizeName = records::countLettersInFile("name", fin);
 	char *name = new char[sizeName];
 
 	while (buf[counterLetter] != '|')
@@ -101,12 +112,13 @@ DataAboutTheChampion records::sortingArrays(char *buf, std::ifstream &fin)
 	}
 	counterLetter++;
 
-	static std::string str = "";
-	for (int j = 0; j < sizeName - 1; j++)
+	static std::string *str = new std::string[knowFileSize("Records.txt")];
+	for (int j = 0; j < sizeName - 2; j++)
 	{
-		str += name[j];
+		str[number] += name[j];
 	}
-	champion.name = &str[0];
+	champion.name = &str[number][0];
+	delete[] name;
 
 	while (buf[counterLetter] != '|')
 	{
