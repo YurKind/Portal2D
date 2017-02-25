@@ -1,6 +1,7 @@
 #include <iostream>
 #include <iomanip>
 #include <fstream>
+#include <conio.h>
 
 #include "Gameplay.h"
 
@@ -73,6 +74,40 @@ void game::drawFrame(int sizeOfMapHeight, int sizeOfMapWidth, game::Map** map)
 			}
 		}
 		std::cout << std::endl;
+	}
+}
+
+void game::moving(int heroXCoordinate, int heroYCoordinate, game::Map** map)
+{
+	while (true)
+	{
+		if (_kbhit())
+		{
+			switch (_getch())
+			{
+			case(A_LOWER_CASE /*|| A_UPPER_CASE*/) :
+				int x = NULL;
+				int y = NULL;
+				for (int i = 0; i < MAP_HEIGHT; i++)
+				{
+					for (int j = 0; j < MAP_WIDTH; j++)
+					{
+						if (map[i][j].type == HERO)
+						{
+							x = i;
+							y = j;
+						}
+					}
+				}
+				if (map[x - 1][y].passable == true)
+				{
+					map[x][y].type = EMPTY_SPACE;
+					map[x - 1][y].type = HERO;
+				}
+			}
+		}
+		system("cls");
+		game::drawFrame(MAP_HEIGHT, MAP_WIDTH, map);
 	}
 }
 

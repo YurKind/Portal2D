@@ -1,7 +1,6 @@
 #include "Menu.h"
 #include "Gameplay.h"
 
-
 using namespace std;
 /*
 	ВНИМАНИЕ! (кто не будет соблюдать правила - того ебём в жопу стулом)
@@ -76,37 +75,8 @@ int main()
 
 	game::drawFrame(MAP_HEIGHT, MAP_WIDTH, map);
 
-
-	while(true)
-	{
-		if(_kbhit())
-		{
-			switch (_getch())
-			{
-			case(A_LOWER_CASE /*|| A_UPPER_CASE*/):
-				int x = NULL;
-				int y = NULL;
-				for(int i = 0; i < MAP_HEIGHT; i++)
-				{
-					for(int j = 0; j < MAP_WIDTH; j++)
-					{
-						if(map[i][j].type == HERO)
-						{
-							x = i;
-							y = j;
-						}
-					}
-				}
-				if(map[x-1][y].passable == true)
-				{
-					map[x][y].type = EMPTY_SPACE;
-					map[x-1][y].type = HERO;
-				}
-			}
-		}
-		system("cls");
-		game::drawFrame(MAP_HEIGHT, MAP_WIDTH, map);
-	}
+	game::moving(MAP_HEIGHT, MAP_WIDTH, map);
+	
 
 
 	system("pause");
