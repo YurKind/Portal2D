@@ -92,5 +92,6 @@ namespace game
 
 	Map** createMap(int sizeOfMapHeight, int sizeOfMapWidth, char* levelName);
 	void drawFrame(int sizeOfMapHeight, int sizeOfMapWidth, Map** map);
+	void jump(int heroXCoordinate, int heroYCoordinate, Map** map);
 	
 }

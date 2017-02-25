@@ -76,3 +76,28 @@ void game::drawFrame(int sizeOfMapHeight, int sizeOfMapWidth, game::Map** map)
 	}
 }
 
+void game::jump(int heroXCoordinate, int heroYCoordinate, game::Map** map)
+{
+	if((map[heroXCoordinate][heroYCoordinate + 1].passable == true) && 
+		(map[heroXCoordinate][heroYCoordinate + 2].passable == true))
+	{
+		map[heroXCoordinate][heroYCoordinate].type = EMPTY_SPACE;
+		map[heroXCoordinate][heroYCoordinate + 1].type = HERO;
+		map[heroXCoordinate][heroYCoordinate + 1].healthPoints = 
+			map[heroXCoordinate][heroYCoordinate].healthPoints;
+		drawFrame(MAP_HEIGHT, MAP_WIDTH, map);
+		map[heroXCoordinate][heroYCoordinate + 1].type = EMPTY_SPACE;
+		map[heroXCoordinate][heroYCoordinate + 2].type = HERO;
+		map[heroXCoordinate][heroYCoordinate + 2].healthPoints = 
+			map[heroXCoordinate][heroYCoordinate + 1].healthPoints;
+	}
+
+	else if ((map[heroXCoordinate][heroYCoordinate + 1].passable == true) &&
+		(map[heroXCoordinate][heroYCoordinate + 2].passable == false))
+	{
+		map[heroXCoordinate][heroYCoordinate].type = EMPTY_SPACE;
+		map[heroXCoordinate][heroYCoordinate + 1].type = HERO;
+		map[heroXCoordinate][heroYCoordinate + 1].healthPoints =
+			map[heroXCoordinate][heroYCoordinate].healthPoints;
+	}
+}
