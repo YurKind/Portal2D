@@ -2,7 +2,7 @@
 #include "Structures.h"
 #include "List"
 
-void records::Free_memory(List *begin)                 
+void records::freeMemory(List *begin)                 
 {
 	List *cleaner = begin;
 	while (begin)              
@@ -19,7 +19,6 @@ void records::addInRecords(DataAboutTheChampion newChampion)
 	begin = new List;
 
 	std::ifstream finLine("Records.txt"), finName("Records.txt"), finAll("Records.txt");
-	//std::ofstream fout("Records.txt");
 	int N = records::knowFileSize("Records.txt");
 	DataAboutTheChampion *champions = new DataAboutTheChampion[N];
 
@@ -33,42 +32,34 @@ void records::addInRecords(DataAboutTheChampion newChampion)
 		delete[] buf;
 	}
 	List *list = begin;
-	list = records::addList(champions, N, begin);
+	records::addList(champions, N, begin);
 	delete[] champions;
+	int placeInRank = records::findingTheLocationInOrder(begin, N, newChampion);
+	records::addInCertainPlace(begin, placeInRank, newChampion);
+	overwriteFile(begin);
+	finLine.close();
+	finName.close();
+	finAll.close();
+	freeMemory(begin);
 }
 
-int records::findingTheLocationInOrder(List *begin, int numberOfChampions, DataAboutTheChampion newChampion)
+void records::overwriteFile(List *begin)
 {
-	List *list = begin;
-
-	for (int i = 0; i < numberOfChampions; i++)
+	std::ofstream fout("Records.txt");
+	while (begin->next != NULL)
 	{
-		if (list->champion.level == newChampion.level) 
-		{
-			if (list->champion.scores > newChampion.scores)
-			{
-				list = list->next;
-			}
-			else
-			{
-				list = new List;
-				list->champion = newChampion;
-				list = list->next;
-			}
+		fout << begin->champion.name << "|" << begin->champion.scores << "|" << begin->champion.level << "|";
+		if (begin->next->next != NULL) {
+			fout << std::endl;
 		}
-		else
-		{
-			list = list->next;
-		}
+		begin = begin->next;
 	}
-	return 0;
+	fout.close();
 }
 
-List* records::addList(DataAboutTheChampion champions[], int numberOfChampions, List *begin)
+void records::addList(DataAboutTheChampion champions[], int numberOfChampions, List *begin)
 {
 	List *add = begin;
-	add = new List;
-
 	for (int i = 0; i < numberOfChampions; i++)
 	{
 		add->next = new List;
@@ -76,8 +67,38 @@ List* records::addList(DataAboutTheChampion champions[], int numberOfChampions, 
 		add = add->next;
 		add->next = NULL;
 	}
+}
 
-	return add;
+int records::findingTheLocationInOrder(List *begin, int numberOfChampions, DataAboutTheChampion newChampion)
+{
+	int counter = 0;
+	List *list = begin;
+	while (list->champion.level > newChampion.level)
+	{
+		list = list->next;
+		counter++;
+	}
+	while (list->champion.scores > newChampion.scores && list->champion.level == newChampion.level)
+	{
+		list = list->next;
+		counter++;
+	}
+
+	return counter;
+}
+
+void records::addInCertainPlace(List *begin, int placeNumber, DataAboutTheChampion newChampion)
+{
+	List *insert = begin;
+	for (int i = 0; i < placeNumber - 1; i++)
+	{
+		insert = insert->next;
+	}
+	List *end = insert->next;
+	List *add = new List;
+	insert->next = add;
+	add->champion = newChampion;
+	add->next = end;
 }
 
 void records::showAllOfRecords()
@@ -121,6 +142,7 @@ int records::knowFileSize(char *fileName)
 		count++;
 		delete[] arr;
 	}
+	fin.close();
 	return count;
 }
 
@@ -151,11 +173,11 @@ int records::countLettersInFile(char* variant, std::ifstream &fin)
 	return ++counter;
 }
 
-DataAboutTheChampion records::sortingArrays(char *buf, std::ifstream &fin, int number)
+DataAboutTheChampion records::sortingArrays(char *buf, std::ifstream &fin, int callNumber)
 {
 	char time[5], lvl[2];
 	DataAboutTheChampion champion;
-	int counterLetter = 0, i = 0, size = 0;
+	int counterLetter = 0, i = 0, fileSize = knowFileSize("Records.txt");
 	int sizeName = records::countLettersInFile("name", fin);
 	char *name = new char[sizeName];
 
@@ -166,12 +188,17 @@ DataAboutTheChampion records::sortingArrays(char *buf, std::ifstream &fin, int n
 	}
 	counterLetter++;
 
-	static std::string *str = new std::string[knowFileSize("Records.txt")];
+	static std::string *str;
+	if (callNumber == 0)
+	{
+		str = new std::string[fileSize];
+	} 
+	
 	for (int j = 0; j < sizeName - 2; j++)
 	{
-		str[number] += name[j];
+		str[callNumber] += name[j];
 	}
-	champion.name = &str[number][0];
+	champion.name = &str[callNumber][0];
 	delete[] name;
 
 	while (buf[counterLetter] != '|')
@@ -194,6 +221,10 @@ DataAboutTheChampion records::sortingArrays(char *buf, std::ifstream &fin, int n
 	int level = atoi(lvl);
 	champion.level = level;
 
+	if (callNumber == fileSize)
+	{
+		delete[] str;
+	}
+
 	return champion;
 }
-

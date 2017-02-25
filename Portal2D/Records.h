@@ -7,13 +7,15 @@
 
 namespace records
 {
-	void Free_memory(List *begin);
+	void overwriteFile(List *begin);
+	void addInCertainPlace(List *begin, int placeNumber, DataAboutTheChampion newChampion);
+	void freeMemory(List *begin);
 	int findingTheLocationInOrder(List *list, int numberOfChampions, DataAboutTheChampion newChampion);
 	void addInRecords(DataAboutTheChampion newChampion);
 	int knowFileSize(char *fileName);
 	int countLettersInFile(char* variant, std::ifstream &fin);
 	void showAllOfRecords();
-	DataAboutTheChampion sortingArrays(char *buf, std::ifstream &fin, int number);
+	DataAboutTheChampion sortingArrays(char *buf, std::ifstream &fin, int callNumber);
 	void moveToNextLine(std::ifstream &fin);
-	List* addList(DataAboutTheChampion champions[], int numberOfChampions, List *begin);
+	void addList(DataAboutTheChampion champions[], int numberOfChampions, List *begin);
 }

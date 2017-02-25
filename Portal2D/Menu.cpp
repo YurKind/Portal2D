@@ -26,7 +26,7 @@ int menu::menu()
 
 void menu::functionCaller(int playerChoice)
 {
-	DataAboutTheChampion newChampion = { "000000", 47, 10 };
+	DataAboutTheChampion newChampion = { "000000", 55, 8 };
 	switch (playerChoice)
 	{
 	case START_GAME:
