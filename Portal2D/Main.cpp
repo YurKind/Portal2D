@@ -97,10 +97,10 @@ int main()
 						}
 					}
 				}
-				if(map[y-1][x].block.passable == false)
+				if(map[x-1][y].passable == true)
 				{
-					map[y][x].type = EMPTY_SPACE;
-					map[y - 1][x].type = HERO;
+					map[x][y].type = EMPTY_SPACE;
+					map[x-1][y].type = HERO;
 				}
 			}
 		}

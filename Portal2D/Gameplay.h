@@ -26,7 +26,7 @@
 
 namespace game
 {
-	struct Hero
+	/*struct Hero
 	{
 		char symbol = HERO;
 		int xCoordinate;
@@ -79,18 +79,15 @@ namespace game
 		int xCoordinate;
 		int yCoordinate;
 		bool passable = true;
-	};
+	};*/
 
 	struct Map
 	{
-		Hero hero;
-		Turret turret;
-		TimerButton timeButton;
-		Block block;
-		BluePortal bluePortal;
-		RedPortal redPortal;
-		EmptySpace emptySpace;
 		char type;
+		int xCoordinate;
+		int yCoordinate;
+		bool passable;
+		int healthPoints = 100;
 	};
 
 	Map** createMap(int sizeOfMapHeight, int sizeOfMapWidth, char* levelName);

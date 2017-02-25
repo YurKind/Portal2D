@@ -27,18 +27,21 @@ game::Map** game::createMap(int sizeOfMapHeight, int sizeOfMapWidth, char* level
 			{
 			case HERO_SYMBOL:
 				map[i][j].type = HERO;
-				map[i][j].hero.xCoordinate = i;
-				map[i][j].hero.yCoordinate = j;
+				map[i][j].xCoordinate = i;
+				map[i][j].yCoordinate = j;
+				map[i][j].passable = true;
 				break;
 			case BLOCK_SHARP:
 				map[i][j].type = BLOCK;
-				map[i][j].block.xCoordinate = i;
-				map[i][j].block.yCoordinate = j;
+				map[i][j].xCoordinate = i;
+				map[i][j].yCoordinate = j;
+				map[i][j].passable = false;
 				break;
 			case EMPTY_SPACE:
 				map[i][j].type = EMPTY_SPACE;
-				map[i][j].emptySpace.xCoordinate = i;
-				map[i][j].emptySpace.yCoordinate = j;
+				map[i][j].xCoordinate = i;
+				map[i][j].yCoordinate = j;
+				map[i][j].passable = true;
 				break;
 			default:
 				break;
@@ -52,9 +55,9 @@ game::Map** game::createMap(int sizeOfMapHeight, int sizeOfMapWidth, char* level
 
 void game::drawFrame(int sizeOfMapHeight, int sizeOfMapWidth, game::Map** map)
 {
-	for (int i = 0; i < sizeOfMapHeight; i++)
+	for (int i = 0; i < sizeOfMapWidth; i++)
 	{
-		for (int j = 0; j < sizeOfMapWidth; j++)
+		for (int j = 0; j < sizeOfMapHeight; j++)
 		{
 			switch (map[i][j].type)
 			{
