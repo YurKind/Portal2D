@@ -71,11 +71,11 @@ int main()
 	
 	//menu::functionCaller(menu::menu());
 
-	game::Map** map = game::createMap(MAP_HEIGHT, MAP_WIDTH, "Lvl_1.txt");
+	game::Map** map = game::createMap("Lvl_1.txt");
 
-	game::drawFrame(MAP_HEIGHT, MAP_WIDTH, map);
+	game::drawFrame(map);
 
-	game::moving(MAP_HEIGHT, MAP_WIDTH, map);
+	game::moving(map);
 	
 
 
