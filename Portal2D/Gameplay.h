@@ -10,6 +10,9 @@
 #define BLUE_PORTAL 'O'
 #define NEW_LINE '\n'
 
+#define MAP_HEIGHT 20
+#define MAP_WIDTH 35
+
 
 namespace game
 {
@@ -80,6 +83,7 @@ namespace game
 		char type;
 	};
 
-	Map** createMap(int, int);
-	//void printMap(char** map);
+	Map** createMap(int sizeOfMapHeight, int sizeOfMapWidth, char* levelName);
+	void drawFrame(int sizeOfMapHeight, int sizeOfMapWidth, Map** map);
+	
 }

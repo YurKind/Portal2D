@@ -1,8 +1,6 @@
-#define _CRT_SECURE_NO_WARNINGS
-
 #include "Menu.h"
 #include "Gameplay.h"
-#include <fstream>
+
 
 using namespace std;
 /*
@@ -71,59 +69,14 @@ using namespace std;
 
 int main()
 {
-	const int sizeOfMapHeight = 20;
-	const int sizeOfMapWidth = 35;
+	
 	//menu::functionCaller(menu::menu());
 
 
-	game::Map** map = game::createMap(sizeOfMapHeight, sizeOfMapWidth);
+	game::Map** map = game::createMap(MAP_HEIGHT, MAP_WIDTH, "Lvl_1.txt");
 
-	char currentSymbol;
-	ifstream fin("Lvl_1.txt", ios_base::in);
+	game::drawFrame(MAP_HEIGHT, MAP_WIDTH, map);
 
-	for (int i = 0; i < sizeOfMapHeight; i++)
-	{
-		for (int j = 0; j < sizeOfMapWidth; j++)
-		{
-			currentSymbol = fin.get();
-			if (currentSymbol == NEW_LINE)
-				currentSymbol = fin.get();
-
-			switch (currentSymbol)
-			{
-			case BLOCK_SHARP:
-				map[i][j].type = BLOCK;
-				map[i][j].block.xCoordinate = i;
-				map[i][j].block.yCoordinate = j;
-				break;
-			case EMPTY_SPACE:
-				map[i][j].type = EMPTY_SPACE;
-				map[i][j].emptySpace.xCoordinate = i;
-				map[i][j].emptySpace.yCoordinate = j;
-				break;
-			default:
-				break;
-			}
-		}
-	}
-	fin.close();
-
-	for (int i = 0; i < sizeOfMapHeight; i++)
-	{
-		for (int j = 0; j < sizeOfMapWidth; j++)
-		{
-			switch (map[i][j].type)
-			{
-			case BLOCK:
-				cout << BLOCK;
-				break;
-			case EMPTY_SPACE:
-				cout << EMPTY_SPACE;
-				break;
-			}
-		}
-		cout << endl;
-	}
 
 	system("pause");
 
