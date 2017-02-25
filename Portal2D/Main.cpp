@@ -72,10 +72,41 @@ int main()
 	
 	//menu::functionCaller(menu::menu());
 
-
 	game::Map** map = game::createMap(MAP_HEIGHT, MAP_WIDTH, "Lvl_1.txt");
 
 	game::drawFrame(MAP_HEIGHT, MAP_WIDTH, map);
+
+
+	while(true)
+	{
+		if(_kbhit())
+		{
+			switch (_getch())
+			{
+			case(A_LOWER_CASE /*|| A_UPPER_CASE*/):
+				int x = NULL;
+				int y = NULL;
+				for(int i = 0; i < MAP_HEIGHT; i++)
+				{
+					for(int j = 0; j < MAP_WIDTH; j++)
+					{
+						if(map[i][j].type == HERO)
+						{
+							x = i;
+							y = j;
+						}
+					}
+				}
+				if(map[y-1][x].block.passable == false)
+				{
+					map[y][x].type = EMPTY_SPACE;
+					map[y - 1][x].type = HERO;
+				}
+			}
+		}
+		system("cls");
+		game::drawFrame(MAP_HEIGHT, MAP_WIDTH, map);
+	}
 
 
 	system("pause");

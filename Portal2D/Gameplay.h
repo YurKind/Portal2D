@@ -1,6 +1,7 @@
 #pragma once
 
 #define HERO static_cast<char>(2)
+#define HERO_SYMBOL 'H'
 #define BLOCK_SHARP '#'
 #define BLOCK static_cast<char>(219)
 #define EMPTY_SPACE ' '
@@ -13,6 +14,15 @@
 #define MAP_HEIGHT 20
 #define MAP_WIDTH 35
 
+//--------KEYS---------//
+#define W_LOWER_CASE 119
+#define A_LOWER_CASE 97
+#define S_LOWER_CASE 115
+#define D_LOWER_CASE 100
+#define W_UPPER_CASE 87
+#define A_UPPER_CASE 65
+#define S_UPPER_CASE 83
+#define D_UPPER_CASE 68
 
 namespace game
 {

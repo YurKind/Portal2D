@@ -25,6 +25,11 @@ game::Map** game::createMap(int sizeOfMapHeight, int sizeOfMapWidth, char* level
 
 			switch (currentSymbol)
 			{
+			case HERO_SYMBOL:
+				map[i][j].type = HERO;
+				map[i][j].hero.xCoordinate = i;
+				map[i][j].hero.yCoordinate = j;
+				break;
 			case BLOCK_SHARP:
 				map[i][j].type = BLOCK;
 				map[i][j].block.xCoordinate = i;
@@ -53,6 +58,9 @@ void game::drawFrame(int sizeOfMapHeight, int sizeOfMapWidth, game::Map** map)
 		{
 			switch (map[i][j].type)
 			{
+			case HERO:
+				std::cout << HERO;
+				break;
 			case BLOCK:
 				std::cout << BLOCK;
 				break;
