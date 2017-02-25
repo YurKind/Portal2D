@@ -78,41 +78,6 @@ int main()
 
 	game::Map** map = game::createMap(sizeOfMapHeight, sizeOfMapWidth);
 
-	////------------------------READING FILE---------------------------//
-	//char symbolMass[sizeOfMapHeight][sizeOfMapWidth];
-
-	//for (int i = 0; i < sizeOfMapHeight; i++)
-	//{
-	//	for (int j = 0; j < 1; j++)
-	//	{
-	//		symbolMass[i][j] = BLOCK;
-	//	}
-
-	//	for (int j = sizeOfMapWidth - 1; j < sizeOfMapWidth; j++)
-	//	{
-	//		symbolMass[i][j] = BLOCK;
-	//	}
-
-	//}
-
-	//for (int i = 0; i < 1; i++)
-	//{
-	//	for (int j = 0; j < sizeOfMapWidth; j++)
-	//	{
-	//		symbolMass[i][j] = BLOCK;
-	//	}
-	//}
-
-	//for (int i = sizeOfMapHeight - 1; i < sizeOfMapHeight; i++)
-	//{
-	//	for (int j = 0; j < sizeOfMapWidth; j++)
-	//	{
-	//		symbolMass[i][j] = BLOCK;
-	//	}
-	//}
-
-	////---------------------------------------------------//
-	
 	char currentSymbol;
 	ifstream fin("Lvl_1.txt", ios_base::in);
 
