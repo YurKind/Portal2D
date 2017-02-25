@@ -101,31 +101,31 @@ void game::moving(game::Map** map)
 	}
 }
 
-void game::jump(int heroXCoordinate, int heroYCoordinate, game::Map** map)
-{
-	if((map[heroXCoordinate][heroYCoordinate + 1].passable == true) && 
-		(map[heroXCoordinate][heroYCoordinate + 2].passable == true))
-	{
-		map[heroXCoordinate][heroYCoordinate].type = EMPTY_SPACE;
-		map[heroXCoordinate][heroYCoordinate + 1].type = HERO;
-		map[heroXCoordinate][heroYCoordinate + 1].healthPoints = 
-			map[heroXCoordinate][heroYCoordinate].healthPoints;
-		drawFrame(map);
-		map[heroXCoordinate][heroYCoordinate + 1].type = EMPTY_SPACE;
-		map[heroXCoordinate][heroYCoordinate + 2].type = HERO;
-		map[heroXCoordinate][heroYCoordinate + 2].healthPoints = 
-			map[heroXCoordinate][heroYCoordinate + 1].healthPoints;
-	}
-
-	else if ((map[heroXCoordinate][heroYCoordinate + 1].passable == true) &&
-		(map[heroXCoordinate][heroYCoordinate + 2].passable == false))
-	{
-		map[heroXCoordinate][heroYCoordinate].type = EMPTY_SPACE;
-		map[heroXCoordinate][heroYCoordinate + 1].type = HERO;
-		map[heroXCoordinate][heroYCoordinate + 1].healthPoints =
-			map[heroXCoordinate][heroYCoordinate].healthPoints;
-	}
-}
+//void game::jump(int heroXCoordinate, int heroYCoordinate, game::Map** map) TODO: Rework this!
+//{
+//	if((map[heroXCoordinate][heroYCoordinate + 1].passable == true) && 
+//		(map[heroXCoordinate][heroYCoordinate + 2].passable == true))
+//	{
+//		map[heroXCoordinate][heroYCoordinate].type = EMPTY_SPACE;
+//		map[heroXCoordinate][heroYCoordinate + 1].type = HERO;
+//		map[heroXCoordinate][heroYCoordinate + 1].healthPoints = 
+//			map[heroXCoordinate][heroYCoordinate].healthPoints;
+//		drawFrame(map);
+//		map[heroXCoordinate][heroYCoordinate + 1].type = EMPTY_SPACE;
+//		map[heroXCoordinate][heroYCoordinate + 2].type = HERO;
+//		map[heroXCoordinate][heroYCoordinate + 2].healthPoints = 
+//			map[heroXCoordinate][heroYCoordinate + 1].healthPoints;
+//	}
+//
+//	else if ((map[heroXCoordinate][heroYCoordinate + 1].passable == true) &&
+//		(map[heroXCoordinate][heroYCoordinate + 2].passable == false))
+//	{
+//		map[heroXCoordinate][heroYCoordinate].type = EMPTY_SPACE;
+//		map[heroXCoordinate][heroYCoordinate + 1].type = HERO;
+//		map[heroXCoordinate][heroYCoordinate + 1].healthPoints =
+//			map[heroXCoordinate][heroYCoordinate].healthPoints;
+//	}
+//}
 
 int game::findHeroYCoordinate(game::Map** map)
 {
