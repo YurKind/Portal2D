@@ -1,9 +1,10 @@
-#include <iostream>
+#define _CRT_SECURE_NO_WARNINGS
+
 #include "Menu.h"
 #include "Gameplay.h"
+#include <fstream>
 
 using namespace std;
-
 /*
 	ВНИМАНИЕ! (кто не будет соблюдать правила - того ебём в жопу стулом)
 
@@ -77,61 +78,70 @@ int main()
 
 	game::Map** map = game::createMap(sizeOfMapHeight, sizeOfMapWidth);
 
-	//------------------------READING FILE---------------------------//
-	char symbolMass[sizeOfMapHeight][sizeOfMapWidth];
+	////------------------------READING FILE---------------------------//
+	//char symbolMass[sizeOfMapHeight][sizeOfMapWidth];
+
+	//for (int i = 0; i < sizeOfMapHeight; i++)
+	//{
+	//	for (int j = 0; j < 1; j++)
+	//	{
+	//		symbolMass[i][j] = BLOCK;
+	//	}
+
+	//	for (int j = sizeOfMapWidth - 1; j < sizeOfMapWidth; j++)
+	//	{
+	//		symbolMass[i][j] = BLOCK;
+	//	}
+
+	//}
+
+	//for (int i = 0; i < 1; i++)
+	//{
+	//	for (int j = 0; j < sizeOfMapWidth; j++)
+	//	{
+	//		symbolMass[i][j] = BLOCK;
+	//	}
+	//}
+
+	//for (int i = sizeOfMapHeight - 1; i < sizeOfMapHeight; i++)
+	//{
+	//	for (int j = 0; j < sizeOfMapWidth; j++)
+	//	{
+	//		symbolMass[i][j] = BLOCK;
+	//	}
+	//}
+
+	////---------------------------------------------------//
+	
+	char currentSymbol;
+	ifstream fin("Lvl_1.txt", ios_base::in);
 
 	for (int i = 0; i < sizeOfMapHeight; i++)
 	{
-		for (int j = 0; j < 1; j++)
-		{
-			symbolMass[i][j] = BLOCK;
-		}
-
-		for (int j = sizeOfMapWidth - 1; j < sizeOfMapWidth; j++)
-		{
-			symbolMass[i][j] = BLOCK;
-		}
-
-	}
-
-	for (int i = 0; i < 1; i++)
-	{
 		for (int j = 0; j < sizeOfMapWidth; j++)
 		{
-			symbolMass[i][j] = BLOCK;
-		}
-	}
+			currentSymbol = fin.get();
+			if (currentSymbol == NEW_LINE)
+				currentSymbol = fin.get();
 
-	for (int i = sizeOfMapHeight - 1; i < sizeOfMapHeight; i++)
-	{
-		for (int j = 0; j < sizeOfMapWidth; j++)
-		{
-			symbolMass[i][j] = BLOCK;
-		}
-	}
-
-	//---------------------------------------------------//
-
-
-	for (int i = 0; i < sizeOfMapHeight; i++)
-	{
-		for (int j = 0; j < sizeOfMapWidth; j++)
-		{
-			switch (symbolMass[i][j])
+			switch (currentSymbol)
 			{
-			case BLOCK:
+			case BLOCK_SHARP:
 				map[i][j].type = BLOCK;
 				map[i][j].block.xCoordinate = i;
 				map[i][j].block.yCoordinate = j;
 				break;
-			default:
+			case EMPTY_SPACE:
 				map[i][j].type = EMPTY_SPACE;
 				map[i][j].emptySpace.xCoordinate = i;
 				map[i][j].emptySpace.yCoordinate = j;
 				break;
+			default:
+				break;
 			}
 		}
 	}
+	fin.close();
 
 	for (int i = 0; i < sizeOfMapHeight; i++)
 	{
@@ -143,7 +153,7 @@ int main()
 				cout << BLOCK;
 				break;
 			case EMPTY_SPACE:
-				cout <<EMPTY_SPACE;
+				cout << EMPTY_SPACE;
 				break;
 			}
 		}

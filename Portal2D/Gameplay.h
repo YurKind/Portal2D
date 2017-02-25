@@ -1,12 +1,14 @@
 #pragma once
 
 #define HERO static_cast<char>(2)
-#define BLOCK '#'
+#define BLOCK_SHARP '#'
+#define BLOCK static_cast<char>(219)
 #define EMPTY_SPACE ' '
 //#define TURRET ''
 //#define TIMER_BUTTON ''
 #define RED_PORTAL 'O'
 #define BLUE_PORTAL 'O'
+#define NEW_LINE '\n'
 
 
 namespace game
