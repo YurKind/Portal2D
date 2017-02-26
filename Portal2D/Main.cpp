@@ -7,13 +7,13 @@ using namespace std;
 
 int main()
 {
-	//menu::functionCaller(menu::menu());
+	menu::functionCaller(menu::menu());
 
-	game::Map** map = game::createMap("Lvl_1.txt");
+	//game::Map** map = game::createMap("Lvl_1.txt");
 
-	game::drawFrame(map);
+	//game::drawFrame(map);
 
-	game::performAnAction(map);
+	//game::performAnAction(map);
 	
 	system("pause");
 
