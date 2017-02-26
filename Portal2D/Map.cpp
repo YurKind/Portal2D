@@ -50,6 +50,20 @@ game::Map** game::createMap(char* levelName)		// функция считывающая карту из фа
 				map[i][j].passable = true;	// клетка становится проходимой
 				break;
 
+			case BlACK_WALL_S:				// если текущий символ равен "X", то
+				map[i][j].type = BLACK_WALL;	// тип текущей клетки становится "непроходимая стена"
+				map[i][j].xCoordinate = j;	// запоминаются его координаты
+				map[i][j].yCoordinate = i;
+				map[i][j].passable = false;	// клетка становится непроходимой
+				break;
+
+			case EXIT_S:					// если текущий символ равен "X", то
+				map[i][j].type = EXIT;		// тип текущей клетки становится "выход"
+				map[i][j].xCoordinate = j;	// запоминаются его координаты
+				map[i][j].yCoordinate = i;
+				map[i][j].passable = true;	// клетка становится проходимой
+				break;
+
 			default:
 				break;
 			}

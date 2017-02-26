@@ -61,6 +61,14 @@ void game::performAnAction(game::Map** map)
 				jump(heroYCoordinate, heroXCoordinate, map);
 				break;
 
+			case Q_LOWER_CASE:
+				setRedPortal(RED_PORTAL, aimYCoordinate, aimXCoordinate, map);
+				break;
+
+			case E_LOWER_CASE:
+				setRedPortal(BLUE_PORTAL, aimYCoordinate, aimXCoordinate, map);
+				break;
+
 			default:
 				break;
 			}
@@ -153,4 +161,14 @@ void game::gravitation(char type, int yCoordinate, int xCoordinate, game::Map** 
 		map[yCoordinate + 1][xCoordinate].healthPoints = 
 			map[yCoordinate][xCoordinate].healthPoints;
 	}
+}
+
+//-----Portals_Functions------//
+void game::setRedPortal(char type, int aimYCoordinate, int aimXCoordinate, game::Map** map)
+{
+	map[aimYCoordinate][aimXCoordinate].type = RED_PORTAL;
+}
+void game::setBluePortal(char type, int aimYCoordinate, int aimXCoordinate, game::Map** map)
+{
+	map[aimYCoordinate][aimXCoordinate].type = BLUE_PORTAL;
 }

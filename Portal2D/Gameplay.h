@@ -21,4 +21,7 @@ namespace game
 	void moveAimDown(char type, int aimYCoordinate, int aimXCoordinate, Map** map);
 
 	void gravitation(char type, int yCoordinate, int xCoordinate, Map** map);
+
+	void setRedPortal(char type, int aimYCoordinate, int aimXCoordinate, game::Map** map);
+	void setBluePortal(char type, int aimYCoordinate, int aimXCoordinate, game::Map** map);
 }

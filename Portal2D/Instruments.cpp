@@ -74,6 +74,14 @@ void game::drawFrame(game::Map** map)		// отрисовка карты
 			case AIM_DOT:					// если встречен тип "прицел_точка", то отрисовывается прицел
 				std::cout << AIM;
 				break;
+				
+			case BLACK_WALL:				// если встречен тип "непроходимая стена", то отрисовывается непроходимая стена
+				std::cout << BLACK_WALL;
+				break;
+
+			case EXIT:					// если встречен тип "выход", то отрисовывается выход
+				std::cout << EXIT;
+				break;
 
 			default:
 				break;
