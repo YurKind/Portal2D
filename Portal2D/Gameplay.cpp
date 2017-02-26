@@ -7,12 +7,12 @@ void game::performAnAction(game::Map** map)
 {
 	while (true)
 	{
+		int heroXCoordinate = findHeroXCoordinate(map);
+		int heroYCoordinate = findHeroYCoordinate(map);
+		int aimXCoordinate = findAimXCoordinate(map);
+		int aimYCoordinate = findAimYCoordinate(map);
 		if (_kbhit())
 		{
-			int heroXCoordinate = findHeroXCoordinate(map);
-			int heroYCoordinate = findHeroYCoordinate(map);
-			int aimXCoordinate = findAimXCoordinate(map);
-			int aimYCoordinate = findAimYCoordinate(map);
 			switch (_getch())
 			{
 			case A_LOWER_CASE:
@@ -66,7 +66,9 @@ void game::performAnAction(game::Map** map)
 			}
 		}
 		game::clearScreen();
+		game::gravitation(HERO, heroYCoordinate, heroXCoordinate, map);
 		game::drawFrame(map);
+		Sleep(200);
 	}
 }
 
@@ -78,14 +80,14 @@ void game::jump(int heroYCoordinate, int heroXCoordinate, game::Map** map)
 		map[heroYCoordinate][heroXCoordinate].type = EMPTY_SPACE;
 		map[heroYCoordinate - 1][heroXCoordinate].type = HERO;
 		map[heroYCoordinate - 1][heroXCoordinate].healthPoints = 
-			map[heroXCoordinate][heroYCoordinate].healthPoints;
+			map[heroYCoordinate][heroXCoordinate].healthPoints;
 
 		drawFrame(map);
 
 		map[heroYCoordinate - 1][heroXCoordinate].type = EMPTY_SPACE;
 		map[heroYCoordinate - 2][heroXCoordinate].type = HERO;
 		map[heroYCoordinate - 2][heroXCoordinate].healthPoints = 
-			map[heroXCoordinate - 1][heroYCoordinate].healthPoints;
+			map[heroYCoordinate - 1][heroXCoordinate].healthPoints;
 	}
 
 	else if ((map[heroYCoordinate - 1][heroXCoordinate].passable == true) &&
@@ -102,12 +104,16 @@ void game::moveLeft(char type, int yCoordinate, int xCoordinate, game::Map** map
 {
 	map[yCoordinate][xCoordinate].type = EMPTY_SPACE;
 	map[yCoordinate][xCoordinate - 1].type = type;
+	map[yCoordinate][xCoordinate - 1].healthPoints = 
+		map[yCoordinate][xCoordinate].healthPoints;
 }
 
 void game::moveRight(char type, int yCoordinate, int xCoordinate, game::Map** map)
 {
 	map[yCoordinate][xCoordinate].type = EMPTY_SPACE;
 	map[yCoordinate][xCoordinate + 1].type = type;
+	map[yCoordinate][xCoordinate + 1].healthPoints =
+		map[yCoordinate][xCoordinate].healthPoints;
 }
 
 
@@ -138,3 +144,14 @@ void game::moveAimDown(char type, int aimYCoordinate, int aimXCoordinate, game::
 
 
 //------Gravitation_Functions------//
+
+void game::gravitation(char type, int yCoordinate, int xCoordinate, game::Map** map)
+{
+	if(map[yCoordinate + 1][xCoordinate].passable == true)
+	{
+		map[yCoordinate][xCoordinate].type = EMPTY_SPACE;
+		map[yCoordinate + 1][xCoordinate].type = type;
+		map[yCoordinate + 1][xCoordinate].healthPoints = 
+			map[yCoordinate][xCoordinate].healthPoints;
+	}
+}

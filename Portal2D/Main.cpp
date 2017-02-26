@@ -7,7 +7,6 @@ using namespace std;
 
 int main()
 {
-	
 	//menu::functionCaller(menu::menu());
 
 	game::Map** map = game::createMap("Lvl_1.txt");
