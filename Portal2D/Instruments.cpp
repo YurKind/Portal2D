@@ -2,7 +2,8 @@
 #include "Map.h"
 #include "Instruments.h"
 
-int game::findHeroYCoordinate(game::Map** map)		// функция ищет координаты пресонажа по Y и возвращает их
+// функция ищет координаты пресонажа по Y и возвращает их, в качестве аргумента принимает двумерный массив структур
+int game::findHeroYCoordinate(game::Map** map)
 {
 	for (int i = 0; i < MAP_HEIGHT; i++)			// цикл ищет с символ обозначающий героя
 	{
@@ -13,7 +14,8 @@ int game::findHeroYCoordinate(game::Map** map)		// функция ищет координаты пресо
 	}
 }
 
-int game::findHeroXCoordinate(game::Map** map)		// функция ищет координаты пресонажа по X и возвращает их
+// функция ищет координаты пресонажа по X и возвращает их, в качестве аргумента принимает двумерный массив структур
+int game::findHeroXCoordinate(game::Map** map)
 {
 	for (int i = 0; i < MAP_HEIGHT; i++)			// цикл ищет с символ обозначающий героя
 	{
@@ -24,7 +26,8 @@ int game::findHeroXCoordinate(game::Map** map)		// функция ищет координаты пресо
 	}
 }
 
-int game::findAimXCoordinate(game::Map** map)		// функция ищет координаты прицела по X и возвращает их
+// функция ищет координаты прицела по X и возвращает их, в качестве аргумента принимает двумерный массив структур
+int game::findAimXCoordinate(game::Map** map)
 {
 	{
 		for (int i = 0; i < MAP_HEIGHT; i++)
@@ -37,7 +40,8 @@ int game::findAimXCoordinate(game::Map** map)		// функция ищет координаты прицел
 	}
 }
 
-int game::findAimYCoordinate(game::Map** map)		// функция ищет координаты прицела по Y и возвращает их
+// функция ищет координаты прицела по Y и возвращает их, в качестве аргумента принимает двумерный массив структур
+int game::findAimYCoordinate(game::Map** map)
 {
 	{
 		for (int i = 0; i < MAP_HEIGHT; i++)
@@ -50,8 +54,8 @@ int game::findAimYCoordinate(game::Map** map)		// функция ищет координаты прицел
 	}
 }
 
-
-void game::drawFrame(game::Map** map)		// отрисовка карты
+// отрисовка карты, в качестве аргумента принимает двумерный массив структур
+void game::drawFrame(game::Map** map)
 {
 	for (int i = 0; i < MAP_HEIGHT; i++)
 	{
