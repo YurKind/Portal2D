@@ -1,10 +1,11 @@
 #include "Menu.h"
 #include "Structures.h"
 #include "Records.h"
+#include "Gameplay.h"
 
 int menu::menu()
 {
-	cout << " press 1 to start a game\n press 2 to show ... \n";
+	cout << " press 1 to start a game\n press 2 to show instuction \n press 3 to show high scores \n press 4 to exit";
 	switch (_getch())
 	{
 	case START_GAME:
@@ -30,9 +31,11 @@ void menu::functionCaller(int playerChoice)
 	switch (playerChoice)
 	{
 	case START_GAME:
-		//startGame(); TODO add this
+		// TODO: Rework!
+		game::levelOne();
 		break;
 	case INSTRUCTION:
+		cout << "In development" << endl;
 		//showInstruction(); TODO add this    
 		break;
 	case RECORDS:

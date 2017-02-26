@@ -6,31 +6,32 @@
 #include <conio.h>
 
 #include "DistrOfDefine.h"
+#include "Map.h"
 
 namespace game
 {
-	struct Map
-	{
-		char type;
-		int xCoordinate;
-		int yCoordinate;
-		bool passable;
-		int healthPoints = 100;
-	};
+	// Выполняя необходимые проверки, совершает прыжок, если он возможен
+	void jump(int heroYCoordinate, int heroXCoordinate, Map** map); 
 
-	Map** createMap(char* levelName);
-	void drawFrame(Map** map);
-	void jump(int heroXCoordinate, int heroYCoordinate, Map** map);
-	void moving(Map** map);
-	int findHeroXCoordinate(Map** map);
-	int findHeroYCoordinate(Map** map);
+	// Совершает определенное действие в зависимости от нажатой игроком клавиши
+	void performAnAction(Map** map);
+	
+	// Функции для перемещения героя влево-вправо
 	void moveLeft(char type, int yCoordinate, int xCoordinate, Map** map);
 	void moveRight(char type, int yCoordinate, int xCoordinate, Map** map);
 	
-	int findAimXCoordinate(Map** map);
-	int findAimYCoordinate(Map** map);
-	void moveAimRight(char type, int aimXCoordinate, int aimYCoordinate, Map** map);
-	void moveAimLeft(char type, int aimXCoordinate, int aimYCoordinate, Map** map);
-	void moveAimUp(char type, int aimXCoordinate, int aimYCoordinate, Map** map);
-	void moveAimDown(char type, int aimXCoordinate, int aimYCoordinate, Map** map);
+	// Функции для перемещения прицела вправо-влево-вверх-вниз
+	void moveAimRight(char type, int aimYCoordinate, int aimXCoordinate, Map** map);
+	void moveAimLeft(char type, int aimYCoordinate, int aimXCoordinate, Map** map);
+	void moveAimUp(char type, int aimYCoordinate, int aimXCoordinate, Map** map);
+	void moveAimDown(char type, int aimYCoordinate, int aimXCoordinate, Map** map);
+
+	// Временная функция для запуска первого уровня
+	void levelOne(); 
+
+	// Выполняя необходимые проверки, имитирует гравитацию
+	void gravitation(char type, int yCoordinate, int xCoordinate, Map** map); 
+
+	//void setRedPortal(char type, int redPortalYCoordinate, int redPortalXCoordinate, int aimYCoordinate, int aimXCoordinate, game::Map** map);
+	//void setBluePortal(char type, int bluePortalYCoordinate, int bluePortalXCoordinate, int aimYCoordinate, int aimXCoordinate, game::Map** map);
 }

@@ -10,9 +10,13 @@
 //#define TIMER_BUTTON ''
 //#define STAY_ON_BUTTON ''
 #define RED_PORTAL 'O'
-#define BLUE_PORTAL 'O'
+#define BLUE_PORTAL '0'
 #define AIM static_cast<char>(250);
 #define AIM_DOT '.'
+#define BLACK_WALL static_cast<char>(176)
+#define BlACK_WALL_S 'X'
+#define EXIT static_cast<char>(178)
+#define EXIT_S 'E'
 
 //------MAP------//
 #define NEW_LINE '\n'
@@ -40,11 +44,23 @@
 #define S_LOWER_CASE_RU 235
 #define D_LOWER_CASE_RU 162
 
+#define SPACE_JUMP 32
+
 //------AIM_KEYS------//
 #define UP_ARROW 72
 #define LEFT_ARROW 75
 #define DOWN_ARROW 80
 #define RIGHT_ARROW 77
+
+//------PORTAL_GUN_KEYS------//
+#define Q_UPPER_CASE 81
+#define E_UPPER_CASE 69
+#define Q_LOWER_CASE 113
+#define E_LOWER_CASE 101
+#define Q_UPPER_CASE_RU 137
+#define E_UPPER_CASE_RU 147
+#define Q_LOWER_CASE_RU 169
+#define E_UPPER_CASE_RU 227
 
 //------ACTION_KEYS------//
 #define ENTER 13
