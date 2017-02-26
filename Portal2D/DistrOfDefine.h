@@ -11,6 +11,8 @@
 //#define STAY_ON_BUTTON ''
 #define RED_PORTAL 'O'
 #define BLUE_PORTAL 'O'
+#define AIM static_cast<char>(250);
+#define AIM_DOT '.'
 
 //------MAP------//
 #define NEW_LINE '\n'

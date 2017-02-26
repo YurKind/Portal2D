@@ -39,6 +39,12 @@ game::Map** game::createMap(char* levelName)
 				map[i][j].yCoordinate = i;
 				map[i][j].passable = true;
 				break;
+			case AIM_DOT:
+				map[i][j].type = AIM_DOT;
+				map[i][j].xCoordinate = j;
+				map[i][j].yCoordinate = i;
+				map[i][j].passable = true;
+				break;
 			default:
 				break;
 			}
@@ -66,6 +72,11 @@ void game::drawFrame(game::Map** map)
 			case EMPTY_SPACE:
 				std::cout << EMPTY_SPACE;
 				break;
+			case AIM_DOT:
+				std::cout << AIM;
+				break;
+			default:
+				break;
 			}
 		}
 		std::cout << std::endl;
@@ -80,6 +91,8 @@ void game::moving(game::Map** map)
 		{
 			int heroXCoordinate = findHeroXCoordinate(map);
 			int heroYCoordinate = findHeroYCoordinate(map);
+			int aimXCoordinate = findAimXCoordinate(map);
+			int aimYCoordinate = findAimYCoordinate(map);
 			switch (_getch())
 			{
 			case A_LOWER_CASE:
@@ -94,6 +107,33 @@ void game::moving(game::Map** map)
 					moveRight(HERO, heroYCoordinate, heroXCoordinate, map);
 					break;
 				}
+			case LEFT_ARROW:
+				if (map[aimYCoordinate][aimXCoordinate - 1].passable == true)
+				{
+					moveAimLeft(AIM_DOT, aimYCoordinate, aimXCoordinate, map);
+					break;
+				}
+			case RIGHT_ARROW:
+				if (map[aimYCoordinate][aimXCoordinate + 1].passable == true)
+				{
+					moveAimRight(AIM_DOT, aimYCoordinate, aimXCoordinate, map);
+					break;
+				}
+			case UP_ARROW:
+				if (map[aimYCoordinate - 1][aimXCoordinate].passable == true)
+				{
+					moveAimUp(AIM_DOT, aimYCoordinate, aimXCoordinate, map);
+					break;
+				}
+
+			case DOWN_ARROW:
+				if (map[aimYCoordinate + 1][aimXCoordinate].passable == true)
+				{
+					moveAimDown(AIM_DOT, aimYCoordinate, aimXCoordinate, map);
+					break;
+				}
+			default:
+				break;
 			}
 		}
 		system("cls");
@@ -149,6 +189,8 @@ int game::findHeroXCoordinate(game::Map** map)
 	}
 }
 
+
+
 void game::moveLeft(char type, int yCoordinate, int xCoordinate, game::Map** map)
 {
 	map[yCoordinate][xCoordinate].type = EMPTY_SPACE;
@@ -159,4 +201,54 @@ void game::moveRight(char type, int yCoordinate, int xCoordinate, game::Map** ma
 {
 	map[yCoordinate][xCoordinate].type = EMPTY_SPACE;
 	map[yCoordinate][xCoordinate + 1].type = type;
+}
+
+int game::findAimXCoordinate(game::Map** map)
+{
+	{
+		for (int i = 0; i < MAP_HEIGHT; i++)
+		{
+			for (int j = 0; j < MAP_WIDTH; j++)
+			{
+				if (map[i][j].type == AIM_DOT) return j;
+			}
+		}
+	}
+}
+
+int game::findAimYCoordinate(game::Map** map)
+{
+	{
+		for (int i = 0; i < MAP_HEIGHT; i++)
+		{
+			for (int j = 0; j < MAP_WIDTH; j++)
+			{
+				if (map[i][j].type == AIM_DOT) return i;
+			}
+		}
+	}
+}
+
+void game::moveAimLeft(char type, int aimYCoordinate, int aimXCoordinate, game::Map** map)
+{
+	map[aimYCoordinate][aimXCoordinate].type = EMPTY_SPACE;
+	map[aimYCoordinate][aimXCoordinate - 1].type = type;
+}
+
+void game::moveAimRight(char type, int aimYCoordinate, int aimXCoordinate, game::Map** map)
+{
+	map[aimYCoordinate][aimXCoordinate].type = EMPTY_SPACE;
+	map[aimYCoordinate][aimXCoordinate + 1].type = type;
+}
+
+void game::moveAimUp(char type, int aimYCoordinate, int aimXCoordinate, game::Map** map)
+{
+	map[aimYCoordinate][aimXCoordinate].type = EMPTY_SPACE;
+	map[aimYCoordinate - 1][aimXCoordinate].type = type;
+}
+
+void game::moveAimDown(char type, int aimYCoordinate, int aimXCoordinate, game::Map** map)
+{
+	map[aimYCoordinate][aimXCoordinate].type = EMPTY_SPACE;
+	map[aimYCoordinate + 1][aimXCoordinate].type = type;
 }

@@ -26,4 +26,11 @@ namespace game
 	int findHeroYCoordinate(Map** map);
 	void moveLeft(char type, int yCoordinate, int xCoordinate, Map** map);
 	void moveRight(char type, int yCoordinate, int xCoordinate, Map** map);
+	
+	int findAimXCoordinate(Map** map);
+	int findAimYCoordinate(Map** map);
+	void moveAimRight(char type, int aimXCoordinate, int aimYCoordinate, Map** map);
+	void moveAimLeft(char type, int aimXCoordinate, int aimYCoordinate, Map** map);
+	void moveAimUp(char type, int aimXCoordinate, int aimYCoordinate, Map** map);
+	void moveAimDown(char type, int aimXCoordinate, int aimYCoordinate, Map** map);
 }
