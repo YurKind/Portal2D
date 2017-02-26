@@ -5,10 +5,11 @@
 #include <fstream>
 #include "Structures.h"
 
-namespace records
+namespace records           
 {
+	void addBegin(List **begin, DataAboutTheChampion newChampion);
 	void overwriteFile(List *begin);
-	void addInCertainPlace(List *begin, int placeNumber, DataAboutTheChampion newChampion);
+	void addInCertainPlace(List **begin, int placeNumber, DataAboutTheChampion newChampion);
 	void freeMemory(List *begin);
 	int findingTheLocationInOrder(List *list, int numberOfChampions, DataAboutTheChampion newChampion);
 	void addInRecords(DataAboutTheChampion newChampion);

@@ -2,14 +2,14 @@
 #include "Structures.h"
 #include "List"
 
-void records::freeMemory(List *begin)                 
+void records::freeMemory(List *begin)       // освобождение памяти от списка 
 {
-	List *cleaner = begin;
-	while (begin)              
+	List *cleaner = begin;        // новый указатель на начало списка
+	while (begin)
 	{
-		cleaner = begin;         
-		begin = begin->next;     
-		delete cleaner;          
+		cleaner = begin;
+		begin = begin->next;
+		delete cleaner;
 	}
 }
 
@@ -18,32 +18,32 @@ void records::addInRecords(DataAboutTheChampion newChampion)
 	List *begin = NULL;
 	begin = new List;
 
-	std::ifstream finLine("Records.txt"), finName("Records.txt"), finAll("Records.txt");
-	int N = records::knowFileSize("Records.txt");
-	DataAboutTheChampion *champions = new DataAboutTheChampion[N];
-
-	for (int i = 0; i < N; i++)
+	std::ifstream finSizeLine("Records.txt"), finSizeName("Records.txt"), finAll("Records.txt");     // 3 объекта для считывание из файла: для считывание длины строки, 
+	                                                                                                // для считывание длины имени и для считывание всей строки в буфер
+	int numberOfChampions = records::knowFileSize("Records.txt");         // узнаем количество строк в файле (кол-во рекордсменов)
+	DataAboutTheChampion *champions = new DataAboutTheChampion[numberOfChampions];
+	for (int i = 0; i < numberOfChampions; i++)
 	{
-		int counterInit = records::countLettersInFile("line", finLine);
+		int counterInit = records::countLettersInFile("line", finSizeLine);      // узнаем размер строки
 		char *buf = new char[counterInit];
-		finAll.getline(buf, counterInit);
-		champions[i] = records::sortingArrays(buf, finName, i);
-		moveToNextLine(finName);
+		finAll.getline(buf, counterInit);       // инициализируем буфер
+		champions[i] = records::sortingArrays(buf, finSizeName, i);      // из буфера инициализируем массив с рекордсменами 
+		moveToNextLine(finSizeName);         // продвигаем объект для имён на следующую строку
 		delete[] buf;
 	}
-	List *list = begin;
-	records::addList(champions, N, begin);
+	List *list = begin;           // новый указатель на начало списка
+	records::addList(champions, numberOfChampions, begin);        // инициализируем список из массива 
 	delete[] champions;
-	int placeInRank = records::findingTheLocationInOrder(begin, N, newChampion);
-	records::addInCertainPlace(begin, placeInRank, newChampion);
-	overwriteFile(begin);
-	finLine.close();
-	finName.close();
+	int placeInRank = records::findingTheLocationInOrder(begin, numberOfChampions, newChampion);      // находим место нового рекордсмена в списке
+	records::addInCertainPlace(&begin, placeInRank, newChampion);            // добавляем его в список
+	overwriteFile(begin);             // перезаписываем файл
+	finSizeLine.close();
+	finSizeName.close();
 	finAll.close();
-	freeMemory(begin);
+	freeMemory(begin);             // освобождаем память от списка
 }
 
-void records::overwriteFile(List *begin)
+void records::overwriteFile(List *begin)        // перезапись файла
 {
 	std::ofstream fout("Records.txt");
 	while (begin->next != NULL)
@@ -57,7 +57,7 @@ void records::overwriteFile(List *begin)
 	fout.close();
 }
 
-void records::addList(DataAboutTheChampion champions[], int numberOfChampions, List *begin)
+void records::addList(DataAboutTheChampion champions[], int numberOfChampions, List *begin)          // создание и инициализация списка
 {
 	List *add = begin;
 	for (int i = 0; i < numberOfChampions; i++)
@@ -69,7 +69,7 @@ void records::addList(DataAboutTheChampion champions[], int numberOfChampions, L
 	}
 }
 
-int records::findingTheLocationInOrder(List *begin, int numberOfChampions, DataAboutTheChampion newChampion)
+int records::findingTheLocationInOrder(List *begin, int numberOfChampions, DataAboutTheChampion newChampion)      // высчитывание места нового рекордсмена в зависимости от уровня и очков
 {
 	int counter = 0;
 	List *list = begin;
@@ -87,50 +87,65 @@ int records::findingTheLocationInOrder(List *begin, int numberOfChampions, DataA
 	return counter;
 }
 
-void records::addInCertainPlace(List *begin, int placeNumber, DataAboutTheChampion newChampion)
+void records::addBegin(List **begin, DataAboutTheChampion newChampion)        // вставка в начало списка
 {
-	List *insert = begin;
-	for (int i = 0; i < placeNumber - 1; i++)
-	{
-		insert = insert->next;
-	}
-	List *end = insert->next;
 	List *add = new List;
-	insert->next = add;
 	add->champion = newChampion;
-	add->next = end;
+	add->next = *begin;
+	*begin = add;
+}
+
+void records::addInCertainPlace(List **begin, int placeNumber, DataAboutTheChampion newChampion)       // вставка элемента списка с новым рекордсменом на соответствующее место 
+{
+	if (placeNumber == 0)
+	{
+		records::addBegin(begin, newChampion);           // всавка в начало списка
+	}
+	else
+	{
+		List *insert = *begin;         // новый указатель на начало списка
+		for (int i = 0; i < placeNumber - 1; i++)
+		{
+			insert = insert->next;      // передвигаемся до нужного места
+		}
+		List *end = insert->next;       // указатель на элемент на который будет ссылаться новый элемент списка 
+		List *add = new List;           // новый элемент
+		insert->next = add;             // указатель предыдущего элемента на новый элемент
+		add->champion = newChampion;    // инициализация нового элемента
+		add->next = end;                // указатель нового элемента к следующему элементу списка
+	}
 }
 
 void records::showAllOfRecords()
 {
-	std::ifstream finLine("Records.txt"), finName("Records.txt"), finAll("Records.txt");
-	int N = records::knowFileSize("Records.txt");
+	std::ifstream finSizeLine("Records.txt"), finSizeName("Records.txt"), finAll("Records.txt");           // 3 объекта для считывание из файла: для считывание длины строки, 
+	                                                                                             // для считывание длины имени и для считывание всей строки в буфер
+	int N = records::knowFileSize("Records.txt");         // узнаем количество строк в файле (кол-во рекордсменов)
 	DataAboutTheChampion *champions = new DataAboutTheChampion[N];
-
 	for (int i = 0; i < N; i++)
 	{
-		int counterInit = records::countLettersInFile("line", finLine);
+		int counterInit = records::countLettersInFile("line", finSizeLine);      // узнаем размер строки
 		char *buf = new char[counterInit];
-		finAll.getline(buf, counterInit);
-		champions[i] = records::sortingArrays(buf, finName, i);
-		moveToNextLine(finName);
-		std::cout << "\nname: " << champions[i].name << " scores: " << champions[i].scores << " lvl: " << champions[i].level << "";
+		finAll.getline(buf, counterInit);          // инициализируем буфер
+		champions[i] = records::sortingArrays(buf, finSizeName, i);      // из буфера инициализируем массив с рекордсменами 
+		moveToNextLine(finSizeName);            // продвигаем объект для имён на следующую строку
 		delete[] buf;
+		std::cout << "\nname: " << champions[i].name << " scores: " << champions[i].scores << " lvl: " << champions[i].level << "";
 	}
 	delete[] champions;
+	finSizeLine.close();
+	finSizeName.close();
 	finAll.close();
-	finLine.close();
-	finName.close();
 }
 
-void records::moveToNextLine(std::ifstream &fin)
+void records::moveToNextLine(std::ifstream &fin)      // переход объекта на следующую строку
 {
 	char *b = new char[20];
 	fin.getline(b, 20);
 	delete[] b;
 }
 
-int records::knowFileSize(char *fileName)
+int records::knowFileSize(char *fileName)           // узнаем количество рекордсменов в файле (количество строк)
 {
 	int count = 0;
 	std::ifstream fin(fileName);
@@ -146,28 +161,26 @@ int records::knowFileSize(char *fileName)
 	return count;
 }
 
-int records::countLettersInFile(char* variant, std::ifstream &fin)
-{
+int records::countLettersInFile(char* variant, std::ifstream &fin)          // функция для вычисления размера имени рекорсдмена или           
+{                                                                          //размера всей строки (все данных о рекордсмене)
 	char temp = NULL;
 	char* buf = new char[1000];
-	int counter = 0;
+	int counter = 0;             // счетчик символов
 	if (!strcmp(variant, "name"))
 	{
 		while (!fin.eof())
 		{
-			if (temp == '|')
+			if (temp == '|')         // пока не наткнулись на разделитель 
 				break;
-			fin >> temp;
-			counter++;
+			fin >> temp;        // считываем очередной символ из файла
+			counter++;               
 		}
 	}
 	else if (!strcmp(variant, "line"))
 	{
 		char temp = NULL;
 		fin.getline(buf, 1000);
-		while (buf[counter] != '\0') {
-			counter++;
-		}
+		while (buf[counter++] != '\0');    // пока не конец строки прибавляем 1 к счетчику 
 	}
 	delete[] buf;
 	return ++counter;
@@ -192,8 +205,8 @@ DataAboutTheChampion records::sortingArrays(char *buf, std::ifstream &fin, int c
 	if (callNumber == 0)
 	{
 		str = new std::string[fileSize];
-	} 
-	
+	}
+
 	for (int j = 0; j < sizeName - 2; j++)
 	{
 		str[callNumber] += name[j];
