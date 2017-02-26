@@ -3,6 +3,9 @@
 #include "DistrOfDefine.h"
 #include "Map.h"
 
+#include <iostream>
+#include <conio.h>
+
 namespace game
 {
 	int findHeroXCoordinate(Map** map);
@@ -10,4 +13,6 @@ namespace game
 
 	int findAimXCoordinate(Map** map);
 	int findAimYCoordinate(Map** map);
+
+	void drawFrame(Map** map);
 }
