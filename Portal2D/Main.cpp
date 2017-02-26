@@ -1,8 +1,7 @@
-#include <iostream>
 #include "Menu.h"
+#include "Gameplay.h"
 
 using namespace std;
-
 /*
 	ВНИМАНИЕ! (кто не будет соблюдать правила - того ебём в жопу стулом)
 
@@ -69,7 +68,16 @@ using namespace std;
 
 int main()
 {
-	menu::functionCaller(menu::menu());
+	
+	//menu::functionCaller(menu::menu());
+
+	game::Map** map = game::createMap("Lvl_1.txt");
+
+	game::drawFrame(map);
+
+	game::moving(map);
+	
+
 
 	system("pause");
 
