@@ -40,6 +40,8 @@
 #define S_LOWER_CASE_RU 235
 #define D_LOWER_CASE_RU 162
 
+#define SPACE_JUMP 32
+
 //------AIM_KEYS------//
 #define UP_ARROW 72
 #define LEFT_ARROW 75
