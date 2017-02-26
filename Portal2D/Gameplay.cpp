@@ -1,77 +1,8 @@
 #include "Gameplay.h"
+#include "Map.h"
+#include "Instruments.h"
 
-game::Map** game::createMap(char* levelName)
-{
-	game::Map** map = new game::Map*[MAP_HEIGHT];
-	for (int i = 0; i < MAP_HEIGHT; i++)
-	{
-		map[i] = new game::Map[MAP_WIDTH];
-	}
-
-	char currentSymbol;
-	std::ifstream fin(levelName, std::ios_base::in);
-
-	for (int i = 0; i < MAP_HEIGHT; i++)
-	{
-		for (int j = 0; j < MAP_WIDTH; j++)
-		{
-			currentSymbol = fin.get();
-			if (currentSymbol == NEW_LINE)
-				currentSymbol = fin.get();
-
-			switch (currentSymbol)
-			{
-			case HERO_SYMBOL:
-				map[i][j].type = HERO;
-				map[i][j].xCoordinate = j;
-				map[i][j].yCoordinate = i;
-				map[i][j].passable = true;
-				break;
-			case BLOCK_SHARP:
-				map[i][j].type = BLOCK;
-				map[i][j].xCoordinate = j;
-				map[i][j].yCoordinate = i;
-				map[i][j].passable = false;
-				break;
-			case EMPTY_SPACE:
-				map[i][j].type = EMPTY_SPACE;
-				map[i][j].xCoordinate = j;
-				map[i][j].yCoordinate = i;
-				map[i][j].passable = true;
-				break;
-			default:
-				break;
-			}
-		}
-	}
-	fin.close();
-
-	return map;
-}
-
-void game::drawFrame(game::Map** map)
-{
-	for (int i = 0; i < MAP_HEIGHT; i++)
-	{
-		for (int j = 0; j < MAP_WIDTH; j++)
-		{
-			switch (map[i][j].type)
-			{
-			case HERO:
-				std::cout << HERO;
-				break;
-			case BLOCK:
-				std::cout << BLOCK;
-				break;
-			case EMPTY_SPACE:
-				std::cout << EMPTY_SPACE;
-				break;
-			}
-		}
-		std::cout << std::endl;
-	}
-}
-
+//------Moving_Functions------//
 void game::moving(game::Map** map)
 {
 	while (true)
@@ -80,20 +11,58 @@ void game::moving(game::Map** map)
 		{
 			int heroXCoordinate = findHeroXCoordinate(map);
 			int heroYCoordinate = findHeroYCoordinate(map);
+			int aimXCoordinate = findAimXCoordinate(map);
+			int aimYCoordinate = findAimYCoordinate(map);
 			switch (_getch())
 			{
 			case A_LOWER_CASE:
 				if (map[heroYCoordinate][heroXCoordinate - 1].passable == true)
 				{
 					moveLeft(HERO, heroYCoordinate, heroXCoordinate, map);
-					break;
 				}
+				break;
+
 			case D_LOWER_CASE:
 				if (map[heroYCoordinate][heroXCoordinate + 1].passable == true)
 				{
 					moveRight(HERO, heroYCoordinate, heroXCoordinate, map);
-					break;
 				}
+				break;
+
+			case LEFT_ARROW:
+				if (map[aimYCoordinate][aimXCoordinate - 1].passable == true)
+				{
+					moveAimLeft(AIM_DOT, aimYCoordinate, aimXCoordinate, map);
+				}
+				break;
+
+			case RIGHT_ARROW:
+				if (map[aimYCoordinate][aimXCoordinate + 1].passable == true)
+				{
+					moveAimRight(AIM_DOT, aimYCoordinate, aimXCoordinate, map);
+				}
+				break;
+
+			case UP_ARROW:
+				if (map[aimYCoordinate - 1][aimXCoordinate].passable == true)
+				{
+					moveAimUp(AIM_DOT, aimYCoordinate, aimXCoordinate, map);
+				}
+				break;
+
+			case DOWN_ARROW:
+				if (map[aimYCoordinate + 1][aimXCoordinate].passable == true)
+				{
+					moveAimDown(AIM_DOT, aimYCoordinate, aimXCoordinate, map);
+				}
+				break;
+
+			case SPACE_JUMP:
+				jump(heroYCoordinate, heroXCoordinate, map);
+				break;
+
+			default:
+				break;
 			}
 		}
 		system("cls");
@@ -101,51 +70,31 @@ void game::moving(game::Map** map)
 	}
 }
 
-//void game::jump(int heroXCoordinate, int heroYCoordinate, game::Map** map) TODO: Rework this!
-//{
-//	if((map[heroXCoordinate][heroYCoordinate + 1].passable == true) && 
-//		(map[heroXCoordinate][heroYCoordinate + 2].passable == true))
-//	{
-//		map[heroXCoordinate][heroYCoordinate].type = EMPTY_SPACE;
-//		map[heroXCoordinate][heroYCoordinate + 1].type = HERO;
-//		map[heroXCoordinate][heroYCoordinate + 1].healthPoints = 
-//			map[heroXCoordinate][heroYCoordinate].healthPoints;
-//		drawFrame(map);
-//		map[heroXCoordinate][heroYCoordinate + 1].type = EMPTY_SPACE;
-//		map[heroXCoordinate][heroYCoordinate + 2].type = HERO;
-//		map[heroXCoordinate][heroYCoordinate + 2].healthPoints = 
-//			map[heroXCoordinate][heroYCoordinate + 1].healthPoints;
-//	}
-//
-//	else if ((map[heroXCoordinate][heroYCoordinate + 1].passable == true) &&
-//		(map[heroXCoordinate][heroYCoordinate + 2].passable == false))
-//	{
-//		map[heroXCoordinate][heroYCoordinate].type = EMPTY_SPACE;
-//		map[heroXCoordinate][heroYCoordinate + 1].type = HERO;
-//		map[heroXCoordinate][heroYCoordinate + 1].healthPoints =
-//			map[heroXCoordinate][heroYCoordinate].healthPoints;
-//	}
-//}
-
-int game::findHeroYCoordinate(game::Map** map)
+void game::jump(int heroYCoordinate, int heroXCoordinate, game::Map** map)
 {
-	for(int i = 0; i < MAP_HEIGHT; i++)
+	if((map[heroYCoordinate - 1][heroXCoordinate].passable == true) && 
+		(map[heroYCoordinate - 2][heroXCoordinate].passable == true))
 	{
-		for(int j = 0; j < MAP_WIDTH; j++)
-		{
-			if (map[i][j].type == HERO) return i;
-		}
+		map[heroYCoordinate][heroXCoordinate].type = EMPTY_SPACE;
+		map[heroYCoordinate - 1][heroXCoordinate].type = HERO;
+		map[heroYCoordinate - 1][heroXCoordinate].healthPoints = 
+			map[heroXCoordinate][heroYCoordinate].healthPoints;
+
+		drawFrame(map);
+
+		map[heroYCoordinate - 1][heroXCoordinate].type = EMPTY_SPACE;
+		map[heroYCoordinate - 2][heroXCoordinate].type = HERO;
+		map[heroYCoordinate - 2][heroXCoordinate].healthPoints = 
+			map[heroXCoordinate - 1][heroYCoordinate].healthPoints;
 	}
-}
 
-int game::findHeroXCoordinate(game::Map** map)
-{
-	for (int i = 0; i < MAP_HEIGHT; i++)
+	else if ((map[heroYCoordinate - 1][heroXCoordinate].passable == true) &&
+		(map[heroYCoordinate - 2][heroXCoordinate].passable == false))
 	{
-		for (int j = 0; j < MAP_WIDTH; j++)
-		{
-			if (map[i][j].type == HERO) return j;
-		}
+		map[heroYCoordinate][heroXCoordinate].type = EMPTY_SPACE;
+		map[heroYCoordinate - 1][heroXCoordinate].type = HERO;
+		map[heroYCoordinate - 1][heroXCoordinate].healthPoints =
+			map[heroYCoordinate][heroXCoordinate].healthPoints;
 	}
 }
 
@@ -160,3 +109,32 @@ void game::moveRight(char type, int yCoordinate, int xCoordinate, game::Map** ma
 	map[yCoordinate][xCoordinate].type = EMPTY_SPACE;
 	map[yCoordinate][xCoordinate + 1].type = type;
 }
+
+
+//------Aim_Functions------//
+void game::moveAimLeft(char type, int aimYCoordinate, int aimXCoordinate, game::Map** map)
+{
+	map[aimYCoordinate][aimXCoordinate].type = EMPTY_SPACE;
+	map[aimYCoordinate][aimXCoordinate - 1].type = type;
+}
+
+void game::moveAimRight(char type, int aimYCoordinate, int aimXCoordinate, game::Map** map)
+{
+	map[aimYCoordinate][aimXCoordinate].type = EMPTY_SPACE;
+	map[aimYCoordinate][aimXCoordinate + 1].type = type;
+}
+
+void game::moveAimUp(char type, int aimYCoordinate, int aimXCoordinate, game::Map** map)
+{
+	map[aimYCoordinate][aimXCoordinate].type = EMPTY_SPACE;
+	map[aimYCoordinate - 1][aimXCoordinate].type = type;
+}
+
+void game::moveAimDown(char type, int aimYCoordinate, int aimXCoordinate, game::Map** map)
+{
+	map[aimYCoordinate][aimXCoordinate].type = EMPTY_SPACE;
+	map[aimYCoordinate + 1][aimXCoordinate].type = type;
+}
+
+
+//------Gravitation_Functions------//

@@ -11,6 +11,8 @@
 //#define STAY_ON_BUTTON ''
 #define RED_PORTAL 'O'
 #define BLUE_PORTAL 'O'
+#define AIM static_cast<char>(250);
+#define AIM_DOT '.'
 
 //------MAP------//
 #define NEW_LINE '\n'
@@ -37,6 +39,8 @@
 #define A_LOWER_CASE_RU 228
 #define S_LOWER_CASE_RU 235
 #define D_LOWER_CASE_RU 162
+
+#define SPACE_JUMP 32
 
 //------AIM_KEYS------//
 #define UP_ARROW 72
