@@ -10,12 +10,12 @@
 
 namespace game
 {
-	int findHeroXCoordinate(Map** map);
-	int findHeroYCoordinate(Map** map);
+	int findHeroXCoordinate(Map** map);	// функция ищет координаты пресонажа по X и возвращает их
+	int findHeroYCoordinate(Map** map);	// функция ищет координаты пресонажа по Y и возвращает их
 
-	int findAimXCoordinate(Map** map);
-	int findAimYCoordinate(Map** map);
+	int findAimXCoordinate(Map** map);  // функция ищет координаты прицела по X и возвращает их
+	int findAimYCoordinate(Map** map);	// функция ищет координаты прицела по Y и возвращает их
 
-	void drawFrame(Map** map);
-	void clearScreen();
+	void drawFrame(Map** map);			// отрисовка карты
+	void clearScreen();					// функция очистки консоли (без мерцания) !(надо разобраться)!
 }

@@ -4,14 +4,14 @@
 
 namespace game
 {
-	struct Map
+	struct Map						// структура Map хранит всебе данные об элементе массива структур
 	{
-		char type;
-		int xCoordinate;
-		int yCoordinate;
-		bool passable;
-		int healthPoints = 100;
+		char type;					// переменная для хранения текстуры (персонажа, блоков и тд)
+		int xCoordinate;			// координаты по x ?(оно пригодится в будущем)?
+		int yCoordinate;			// координаты по y ???
+		bool passable;				// переменная хранит в себе данные о возможности пройти сквозь неё
+		int healthPoints = 100;		// здоровье персонажей
 	};
 
-	Map** createMap(char* levelName);
+	Map** createMap(char* levelName);	// функция считывающая карту из файла в двумерный массив структур
 }

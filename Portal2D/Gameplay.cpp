@@ -144,7 +144,6 @@ void game::moveAimDown(char type, int aimYCoordinate, int aimXCoordinate, game::
 
 
 //------Gravitation_Functions------//
-
 void game::gravitation(char type, int yCoordinate, int xCoordinate, game::Map** map)
 {
 	if(map[yCoordinate + 1][xCoordinate].passable == true)
