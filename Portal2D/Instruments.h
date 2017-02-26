@@ -1,10 +1,12 @@
 #pragma once
 
+#include <iostream>
+
+#include <Windows.h>
+#include <conio.h>
+
 #include "DistrOfDefine.h"
 #include "Map.h"
-
-#include <iostream>
-#include <conio.h>
 
 namespace game
 {
@@ -15,4 +17,5 @@ namespace game
 	int findAimYCoordinate(Map** map);
 
 	void drawFrame(Map** map);
+	void clearScreen();
 }

@@ -82,3 +82,16 @@ void game::drawFrame(game::Map** map)
 		std::cout << std::endl;
 	}
 }
+
+void game::clearScreen() {
+	HANDLE Handle = nullptr;
+	Handle = GetStdHandle(STD_OUTPUT_HANDLE);
+	COORD Cursor;
+	Cursor.X = 0;
+	Cursor.Y = 0;
+	SetConsoleCursorPosition(Handle, Cursor);
+	CONSOLE_CURSOR_INFO structCursorInfo;
+	GetConsoleCursorInfo(Handle, &structCursorInfo);
+	structCursorInfo.bVisible = FALSE;
+	SetConsoleCursorInfo(Handle, &structCursorInfo);
+}

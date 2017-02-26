@@ -65,7 +65,7 @@ void game::performAnAction(game::Map** map)
 				break;
 			}
 		}
-		system("cls");
+		game::clearScreen();
 		game::drawFrame(map);
 	}
 }
