@@ -13,7 +13,7 @@ enum PlayerChoice
 	EXIT = 52
 };
 
-namespace menu // namespace'ы называют с маленькой буквы
+namespace menu
 {
 	int menu();
 	void functionCaller(int playerChoice);
