@@ -1,7 +1,8 @@
 #include "Gameplay.h"
 #include "Map.h"
 
-game::Map** game::createMap(char* levelName)		// функция считывающая карту из файла в двумерный массив структур
+// функция считывающая карту из файла в двумерный массив структур, функция принимает в качетсве аргумета имя уровня
+game::Map** game::createMap(char* levelName)
 {
 	game::Map** map = new game::Map*[MAP_HEIGHT];	//создание динамического массива
 	for (int i = 0; i < MAP_HEIGHT; i++)
