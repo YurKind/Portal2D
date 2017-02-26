@@ -1,5 +1,7 @@
 #include "Menu.h"
 #include "Gameplay.h"
+#include "Instruments.h"
+#include "Map.h"
 
 using namespace std;
 

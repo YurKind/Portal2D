@@ -48,5 +48,15 @@
 #define DOWN_ARROW 80
 #define RIGHT_ARROW 77
 
+//------PORTAL_GUN_KEYS------//
+#define Q_UPPER_CASE 81
+#define E_UPPER_CASE 69
+#define Q_LOWER_CASE 113
+#define E_LOWER_CASE 101
+//#define 
+//#define 
+//#define 
+//#define 
+
 //------ACTION_KEYS------//
 #define ENTER 13

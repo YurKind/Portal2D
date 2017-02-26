@@ -14,5 +14,4 @@ namespace game
 	};
 
 	Map** createMap(char* levelName);
-	void drawFrame(Map** map);
 }

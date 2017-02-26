@@ -49,3 +49,36 @@ int game::findAimYCoordinate(game::Map** map)
 		}
 	}
 }
+
+
+void game::drawFrame(game::Map** map)
+{
+	for (int i = 0; i < MAP_HEIGHT; i++)
+	{
+		for (int j = 0; j < MAP_WIDTH; j++)
+		{
+			switch (map[i][j].type)
+			{
+			case HERO:
+				std::cout << HERO;
+				break;
+
+			case BLOCK:
+				std::cout << BLOCK;
+				break;
+
+			case EMPTY_SPACE:
+				std::cout << EMPTY_SPACE;
+				break;
+
+			case AIM_DOT:
+				std::cout << AIM;
+				break;
+
+			default:
+				break;
+			}
+		}
+		std::cout << std::endl;
+	}
+}
