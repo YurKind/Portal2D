@@ -22,6 +22,6 @@ namespace game
 
 	void gravitation(char type, int yCoordinate, int xCoordinate, Map** map);
 
-	void setRedPortal(char type, int aimYCoordinate, int aimXCoordinate, game::Map** map);
-	void setBluePortal(char type, int aimYCoordinate, int aimXCoordinate, game::Map** map);
+	//void setRedPortal(char type, int redPortalYCoordinate, int redPortalXCoordinate, int aimYCoordinate, int aimXCoordinate, game::Map** map);
+	//void setBluePortal(char type, int bluePortalYCoordinate, int bluePortalXCoordinate, int aimYCoordinate, int aimXCoordinate, game::Map** map);
 }

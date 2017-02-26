@@ -83,6 +83,14 @@ void game::drawFrame(game::Map** map)		// отрисовка карты
 				std::cout << EXIT;
 				break;
 
+			/*case RED_PORTAL:
+				std::cout << RED_PORTAL;
+				break;*/
+
+			/*case BLUE_PORTAL:
+				std::cout << BLUE_PORTAL;
+				break;*/
+
 			default:
 				break;
 			}

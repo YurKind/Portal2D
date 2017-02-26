@@ -5,12 +5,19 @@
 //------Moving_Functions------//
 void game::performAnAction(game::Map** map)
 {
+	int redPortalXCoordinate = 0;
+	int redPortalYCoordinate = 0;
+	int bluePortalXCoordinate = 0;
+	int bluePortalYCoordinate = 0;
+
 	while (true)
 	{
 		int heroXCoordinate = findHeroXCoordinate(map);
 		int heroYCoordinate = findHeroYCoordinate(map);
+
 		int aimXCoordinate = findAimXCoordinate(map);
 		int aimYCoordinate = findAimYCoordinate(map);
+
 		if (_kbhit())
 		{
 			switch (_getch())
@@ -61,13 +68,17 @@ void game::performAnAction(game::Map** map)
 				jump(heroYCoordinate, heroXCoordinate, map);
 				break;
 
-			case Q_LOWER_CASE:
-				setRedPortal(RED_PORTAL, aimYCoordinate, aimXCoordinate, map);
-				break;
+			/*case E_LOWER_CASE:
+				redPortalXCoordinate = aimXCoordinate;
+				redPortalYCoordinate = aimYCoordinate;
+				setRedPortal(RED_PORTAL, redPortalYCoordinate, redPortalXCoordinate, aimYCoordinate, aimXCoordinate, map);
+				break;*/
 
-			case E_LOWER_CASE:
-				setRedPortal(BLUE_PORTAL, aimYCoordinate, aimXCoordinate, map);
-				break;
+			/*case Q_LOWER_CASE:
+				bluePortalXCoordinate = aimXCoordinate;
+				bluePortalYCoordinate = aimYCoordinate;
+				setBluePortal(BLUE_PORTAL, redPortalYCoordinate, redPortalXCoordinate, aimYCoordinate, aimXCoordinate, map);
+				break;*/
 
 			default:
 				break;
@@ -164,11 +175,41 @@ void game::gravitation(char type, int yCoordinate, int xCoordinate, game::Map** 
 }
 
 //-----Portals_Functions------//
-void game::setRedPortal(char type, int aimYCoordinate, int aimXCoordinate, game::Map** map)
+/*void game::setRedPortal(char type, int redPortalYCoordinate, int redPortalXCoordinate, int aimYCoordinate, int aimXCoordinate, game::Map** map)
 {
 	map[aimYCoordinate][aimXCoordinate].type = RED_PORTAL;
+	map[redPortalYCoordinate][redPortalXCoordinate].type = EMPTY_SPACE;
+
+	if (map[aimYCoordinate][aimXCoordinate - 1].type = EMPTY_SPACE)
+	{
+		aimXCoordinate = aimXCoordinate - 1;
+		map[aimYCoordinate][aimXCoordinate].type = AIM_DOT;
+	}
+
+	else if (map[aimYCoordinate][aimXCoordinate + 1].type = EMPTY_SPACE)
+	{
+		aimXCoordinate = aimXCoordinate + 1;
+		map[aimYCoordinate][aimXCoordinate].type = AIM_DOT;
+	}
+	redPortalXCoordinate = aimXCoordinate;
+	redPortalYCoordinate = aimYCoordinate;
 }
-void game::setBluePortal(char type, int aimYCoordinate, int aimXCoordinate, game::Map** map)
+void game::setBluePortal(char type, int bluePortalYCoordinate, int bluePortalXCoordinate, int aimYCoordinate, int aimXCoordinate, game::Map** map)
 {
 	map[aimYCoordinate][aimXCoordinate].type = BLUE_PORTAL;
-}
+	map[bluePortalYCoordinate][bluePortalXCoordinate].type = EMPTY_SPACE;
+
+	if (map[aimYCoordinate][aimXCoordinate - 1].type = EMPTY_SPACE)
+	{
+		aimXCoordinate = aimXCoordinate - 1;
+		map[aimYCoordinate][aimXCoordinate].type = AIM_DOT;
+	}
+
+	else if (map[aimYCoordinate][aimXCoordinate + 1].type = EMPTY_SPACE)
+	{
+		aimXCoordinate = aimXCoordinate + 1;
+		map[aimYCoordinate][aimXCoordinate].type = AIM_DOT;
+	}
+	bluePortalXCoordinate = aimXCoordinate;
+	bluePortalYCoordinate = aimYCoordinate;
+}*/

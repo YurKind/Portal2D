@@ -10,7 +10,7 @@
 //#define TIMER_BUTTON ''
 //#define STAY_ON_BUTTON ''
 #define RED_PORTAL 'O'
-#define BLUE_PORTAL 'o'
+#define BLUE_PORTAL '0'
 #define AIM static_cast<char>(250);
 #define AIM_DOT '.'
 #define BLACK_WALL static_cast<char>(176)
