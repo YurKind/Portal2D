@@ -1,4 +1,6 @@
 #include "Menu.h"
+#include "Structures.h"
+#include "Records.h"
 
 int menu::menu()
 {
@@ -24,16 +26,18 @@ int menu::menu()
 
 void menu::functionCaller(int playerChoice)
 {
+	DataAboutTheChampion newChampion = { "000000", 55, 8 };
 	switch (playerChoice)
 	{
 	case START_GAME:
 		//startGame(); TODO add this
 		break;
 	case INSTRUCTION:
-		//showInstruction(); TODO add this
+		//showInstruction(); TODO add this    
 		break;
 	case RECORDS:
-		//records(); TODO add this
+		records::showAllOfRecords();
+		records::addInRecords(newChampion);
 		break;
 	case EXIT:
 		break;
