@@ -99,39 +99,38 @@ void game::moving(game::Map** map)
 				if (map[heroYCoordinate][heroXCoordinate - 1].passable == true)
 				{
 					moveLeft(HERO, heroYCoordinate, heroXCoordinate, map);
-					break;
 				}
+				break;
 			case D_LOWER_CASE:
 				if (map[heroYCoordinate][heroXCoordinate + 1].passable == true)
 				{
 					moveRight(HERO, heroYCoordinate, heroXCoordinate, map);
-					break;
 				}
+				break;
 			case LEFT_ARROW:
 				if (map[aimYCoordinate][aimXCoordinate - 1].passable == true)
 				{
 					moveAimLeft(AIM_DOT, aimYCoordinate, aimXCoordinate, map);
-					break;
 				}
+				break;
 			case RIGHT_ARROW:
 				if (map[aimYCoordinate][aimXCoordinate + 1].passable == true)
 				{
 					moveAimRight(AIM_DOT, aimYCoordinate, aimXCoordinate, map);
-					break;
 				}
+				break;
 			case UP_ARROW:
 				if (map[aimYCoordinate - 1][aimXCoordinate].passable == true)
 				{
 					moveAimUp(AIM_DOT, aimYCoordinate, aimXCoordinate, map);
-					break;
 				}
-
+				break;
 			case DOWN_ARROW:
 				if (map[aimYCoordinate + 1][aimXCoordinate].passable == true)
 				{
 					moveAimDown(AIM_DOT, aimYCoordinate, aimXCoordinate, map);
-					break;
 				}
+				break;
 			default:
 				break;
 			}
