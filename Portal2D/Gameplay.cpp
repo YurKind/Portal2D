@@ -3,7 +3,7 @@
 #include "Instruments.h"
 
 //------Moving_Functions------//
-void game::moving(game::Map** map)
+void game::performAnAction(game::Map** map)
 {
 	while (true)
 	{

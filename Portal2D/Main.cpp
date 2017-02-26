@@ -12,10 +12,8 @@ int main()
 
 	game::drawFrame(map);
 
-	game::moving(map);
+	game::performAnAction(map);
 	
-
-
 	system("pause");
 
 	return 0;
