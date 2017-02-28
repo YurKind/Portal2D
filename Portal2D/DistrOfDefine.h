@@ -1,7 +1,7 @@
-#pragma once
+﻿#pragma once
 
 //------TEXTURES------//
-#define HERO static_cast<char>(2)
+#define HERO '\2'
 #define HERO_SYMBOL 'H'
 #define BLOCK_SHARP '#'
 #define BLOCK static_cast<char>(219)
