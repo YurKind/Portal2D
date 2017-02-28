@@ -1,21 +1,21 @@
 #pragma once
 
 //------TEXTURES------//
-#define HERO static_cast<char>(2)
+#define HERO (char)2
 #define HERO_SYMBOL 'H'
 #define BLOCK_SHARP '#'
-#define BLOCK static_cast<char>(219)
+#define BLOCK (char)219
 #define EMPTY_SPACE ' '
 //#define TURRET ''
 //#define TIMER_BUTTON ''
 //#define STAY_ON_BUTTON ''
 #define RED_PORTAL 'O'
 #define BLUE_PORTAL '0'
-#define AIM static_cast<char>(250);
+#define AIM (char)250
 #define AIM_DOT '.'
-#define BLACK_WALL static_cast<char>(176)
+#define BLACK_WALL (char)176
 #define BlACK_WALL_S 'X'
-#define EXIT static_cast<char>(178)
+#define EXIT (char)178
 #define EXIT_S 'E'
 
 //------MAP------//
@@ -60,7 +60,7 @@
 #define Q_UPPER_CASE_RU 137
 #define E_UPPER_CASE_RU 147
 #define Q_LOWER_CASE_RU 169
-#define E_UPPER_CASE_RU 227
+#define E_LOWER_CASE_RU 227
 
 //------ACTION_KEYS------//
 #define ENTER 13
