@@ -1,14 +1,20 @@
 #pragma once
 
-struct DataAboutTheChampion
+namespace records
 {
-	char *name;
-	int scores;
-	int level;
-};
+	struct DataAboutTheChampion
+	{
+		std::string name;
+		int scores;
+		int level;
+	};
+}
 
-struct List
+namespace list
 {
-	DataAboutTheChampion champion;
-	List *next;
-};
+	struct List
+	{
+		records::DataAboutTheChampion champion;
+		List *next;
+	};
+}

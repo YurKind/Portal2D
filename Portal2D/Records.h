@@ -1,22 +1,21 @@
 #pragma once
 
-#include <string.h>
+#include <string>
 #include <iostream>
 #include <fstream>
 #include "Structures.h"
+#include "List.h"
+
+#define FILE_NAME_RECORDS "Records.txt"
 
 namespace records           
 {
-	void addBegin(List **begin, DataAboutTheChampion newChampion);
-	void overwriteFile(List *begin);
-	void addInCertainPlace(List **begin, int placeNumber, DataAboutTheChampion newChampion);
-	void freeMemory(List *begin);
-	int findingTheLocationInOrder(List *list, int numberOfChampions, DataAboutTheChampion newChampion);
-	void addInRecords(DataAboutTheChampion newChampion);
+	void overwriteFile(list::List *begin);
+	int findingTheLocationInOrder(list::List *list, DataAboutTheChampion newChampion);
+	void addInRecordsOrShowRecords(DataAboutTheChampion newChampion, char *variant);
 	int knowFileSize(char *fileName);
 	int countLettersInFile(char* variant, std::ifstream &fin);
-	void showAllOfRecords();
-	DataAboutTheChampion sortingArrays(char *buf, std::ifstream &fin, int callNumber);
+	DataAboutTheChampion sortingDataAboutTheChampion(char *buf);
 	void moveToNextLine(std::ifstream &fin);
-	void addList(DataAboutTheChampion champions[], int numberOfChampions, List *begin);
+	int countLengthLine(std::ifstream &finForSize);
 }
