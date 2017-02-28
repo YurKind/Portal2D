@@ -60,7 +60,7 @@
 #define Q_UPPER_CASE_RU 137
 #define E_UPPER_CASE_RU 147
 #define Q_LOWER_CASE_RU 169
-#define E_UPPER_CASE_RU 227
+#define E_LOWER_CASE_RU 227
 
 //------ACTION_KEYS------//
 #define ENTER 13
