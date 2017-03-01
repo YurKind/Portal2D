@@ -2,12 +2,12 @@
 #include "Map.h"
 
 // функция считывающая карту из файла в двумерный массив структур, функция принимает в качетсве аргумета имя уровня
-game::Map** game::createMap(char* levelName)
+game::MapShell** game::createMap(char* levelName)
 {
-	game::Map** map = new game::Map*[MAP_HEIGHT];	//создание динамического массива
+	game::MapShell** map = new game::MapShell*[MAP_HEIGHT];	//создание динамического массива
 	for (int i = 0; i < MAP_HEIGHT; i++)
 	{
-		map[i] = new game::Map[MAP_WIDTH];
+		map[i] = new game::MapShell[MAP_WIDTH];
 	}
 
 	char currentSymbol;	// переменная для временного хранения текущего символа, считанного из файла
@@ -51,7 +51,7 @@ game::Map** game::createMap(char* levelName)
 				map[i][j].passable = true;	// клетка становится проходимой
 				break;
 
-			case BlACK_WALL_S:				// если текущий символ равен "X", то
+			case BLACK_WALL_S:				// если текущий символ равен "X", то
 				map[i][j].type = BLACK_WALL;	// тип текущей клетки становится "непроходимая стена"
 				map[i][j].xCoordinate = j;	// запоминаются его координаты
 				map[i][j].yCoordinate = i;

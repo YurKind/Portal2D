@@ -3,7 +3,7 @@
 #include "Instruments.h"
 
 //------Moving_Functions------//
-void game::performAnAction(game::Map** map)
+void game::performAnAction(game::MapShell** map)
 {
 	int redPortalXCoordinate = 0;
 	int redPortalYCoordinate = 0;
@@ -93,7 +93,7 @@ void game::performAnAction(game::Map** map)
 	}
 }
 
-void game::jump(int heroYCoordinate, int heroXCoordinate, game::Map** map)
+void game::jump(int heroYCoordinate, int heroXCoordinate, game::MapShell** map)
 {
 	if((map[heroYCoordinate - 1][heroXCoordinate].passable == true) && // Если обе клетки над героем свободны
 		(map[heroYCoordinate - 2][heroXCoordinate].passable == true))
@@ -121,7 +121,7 @@ void game::jump(int heroYCoordinate, int heroXCoordinate, game::Map** map)
 	}
 }
 
-void game::moveLeft(char type, int yCoordinate, int xCoordinate, game::Map** map)
+void game::moveLeft(char type, int yCoordinate, int xCoordinate, game::MapShell** map)
 {
 	map[yCoordinate][xCoordinate].type = EMPTY_SPACE; // В клетку, где был герой заносим пробел, в клетку
 	map[yCoordinate][xCoordinate - 1].type = type;	  // слева заносим символ героя, а так же переносим инфу о HP
@@ -129,7 +129,7 @@ void game::moveLeft(char type, int yCoordinate, int xCoordinate, game::Map** map
 		map[yCoordinate][xCoordinate].healthPoints;
 }
 
-void game::moveRight(char type, int yCoordinate, int xCoordinate, game::Map** map)
+void game::moveRight(char type, int yCoordinate, int xCoordinate, game::MapShell** map)
 {
 	map[yCoordinate][xCoordinate].type = EMPTY_SPACE; // В клетку, где был герой заносим пробел, в клетку
 	map[yCoordinate][xCoordinate + 1].type = type;    // справа заносим символ героя, а так же переносим инфу о HP
@@ -139,25 +139,25 @@ void game::moveRight(char type, int yCoordinate, int xCoordinate, game::Map** ma
 
 
 //------Aim_Functions------//
-void game::moveAimLeft(char type, int aimYCoordinate, int aimXCoordinate, game::Map** map)
+void game::moveAimLeft(char type, int aimYCoordinate, int aimXCoordinate, game::MapShell** map)
 {
 	map[aimYCoordinate][aimXCoordinate].type = EMPTY_SPACE; // В клетку, где был прицел заносим пробел, в клетку
 	map[aimYCoordinate][aimXCoordinate - 1].type = type;    // слева заносим символ прицела
 }
 
-void game::moveAimRight(char type, int aimYCoordinate, int aimXCoordinate, game::Map** map)
+void game::moveAimRight(char type, int aimYCoordinate, int aimXCoordinate, game::MapShell** map)
 {
 	map[aimYCoordinate][aimXCoordinate].type = EMPTY_SPACE; // В клетку, где был прицел заносим пробел, в клетку
 	map[aimYCoordinate][aimXCoordinate + 1].type = type;	// справа заносим символ прицела
 }
 
-void game::moveAimUp(char type, int aimYCoordinate, int aimXCoordinate, game::Map** map)
+void game::moveAimUp(char type, int aimYCoordinate, int aimXCoordinate, game::MapShell** map)
 {
 	map[aimYCoordinate][aimXCoordinate].type = EMPTY_SPACE; // В клетку, где был прицел заносим пробел, в клетку
 	map[aimYCoordinate - 1][aimXCoordinate].type = type;	// вверху заносим символ прицела
 }
 
-void game::moveAimDown(char type, int aimYCoordinate, int aimXCoordinate, game::Map** map)
+void game::moveAimDown(char type, int aimYCoordinate, int aimXCoordinate, game::MapShell** map)
 {
 	map[aimYCoordinate][aimXCoordinate].type = EMPTY_SPACE; // В клетку, где был прицел заносим пробел, в клетку
 	map[aimYCoordinate + 1][aimXCoordinate].type = type;	// внизу заносим символ прицела
@@ -165,7 +165,7 @@ void game::moveAimDown(char type, int aimYCoordinate, int aimXCoordinate, game::
 
 
 //------Gravitation_Functions------//
-void game::gravitation(char type, int yCoordinate, int xCoordinate, game::Map** map)
+void game::gravitation(char type, int yCoordinate, int xCoordinate, game::MapShell** map)
 {
 	if(map[yCoordinate + 1][xCoordinate].passable == true) // Если клетка под объектом - проходима
 	{
@@ -180,7 +180,7 @@ void game::levelOne()
 {
 	game::clearScreen(); // Чистим экран
 
-	game::Map** map = game::createMap("Lvl_1.txt"); // Создаем двумерный массив структур, используя текстовый документ
+	game::MapShell** map = game::createMap("Lvl_1.txt"); // Создаем двумерный массив структур, используя текстовый документ
 
 	game::drawFrame(map); // Рисуем первый кадр
 

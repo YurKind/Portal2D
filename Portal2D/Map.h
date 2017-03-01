@@ -1,10 +1,10 @@
 #pragma once
 
-#include "DistrOfDefine.h"
+#include "Definitions.h"
 
 namespace game
 {
-	struct Map						// структура Map хранит всебе данные об элементе массива структур
+	struct MapShell					// структура MapShell хранит всебе данные об элементе массива структур
 	{
 		char type;					// переменная для хранения текстуры (персонажа, блоков и тд)
 		int xCoordinate;			// координаты по x ?(оно пригодится в будущем)?
@@ -14,5 +14,5 @@ namespace game
 	};
 
 	// функция считывающая карту из файла в двумерный массив структур, функция принимает в качетсве аргумета имя уровня
-	Map** createMap(char* levelName);
+	MapShell** createMap(char* levelName);
 }
