@@ -9,14 +9,14 @@ void game::performAnAction(game::MapShell** map)
 
 	while (gameIsRunning)
 	{
-		int heroXCoordinate = findHeroXCoordinate(map); //»щем координату геро€ на оси X
-		int heroYCoordinate = findHeroYCoordinate(map); //»щем координату геро€ на оси Y
+		int heroXCoordinate = findSomeTypeXCoordinate(HERO, map); //»щем координату геро€ на оси X
+		int heroYCoordinate = findSomeTypeYCoordinate(HERO, map); //»щем координату геро€ на оси Y
 
-		int PortalXCoordinate = findPortalXCoordinate(RED_PORTAL, map);
-		int PortalYCoordinate = findPortalYCoordinate(RED_PORTAL, map);
+		int PortalXCoordinate = findSomeTypeXCoordinate(RED_PORTAL, map);
+		int PortalYCoordinate = findSomeTypeYCoordinate(RED_PORTAL, map);
 
-		int aimXCoordinate = findAimXCoordinate(map); //»щем координату прицела на оси X
-		int aimYCoordinate = findAimYCoordinate(map); //»щем координату прицела на оси X
+		int aimXCoordinate = findSomeTypeXCoordinate(AIM_DOT, map); //»щем координату прицела на оси X
+		int aimYCoordinate = findSomeTypeYCoordinate(AIM_DOT, map); //»щем координату прицела на оси X
 
 		if (_kbhit()) // ≈сли нажата клавиша
 		{
@@ -64,6 +64,21 @@ void game::performAnAction(game::MapShell** map)
 
 			case Q_LOWER_CASE:
 				setPortal(BLUE_PORTAL, PortalYCoordinate, PortalXCoordinate, aimYCoordinate, aimXCoordinate, map);
+				break;
+
+			case ENTER:
+				//int bPortalXCooedinate = find
+
+				if (PortalXCoordinate == heroXCoordinate && PortalYCoordinate == heroYCoordinate)
+				{
+
+				}
+				
+				else if (PortalXCoordinate == heroXCoordinate && PortalYCoordinate == heroYCoordinate)
+				{
+
+				}
+
 				break;
 
 			default:
@@ -186,8 +201,8 @@ void game::setPortal(char type, int PortalYCoordinate, int PortalXCoordinate, in
 {
 	if (type == RED_PORTAL)
 	{
-		PortalXCoordinate = findPortalXCoordinate(RED_PORTAL, map);
-		PortalYCoordinate = findPortalYCoordinate(RED_PORTAL, map);
+		PortalXCoordinate = findSomeTypeXCoordinate(RED_PORTAL, map);
+		PortalYCoordinate = findSomeTypeYCoordinate(RED_PORTAL, map);
 
 		map[PortalYCoordinate][PortalXCoordinate].type = EMPTY_SPACE;
 
@@ -208,8 +223,8 @@ void game::setPortal(char type, int PortalYCoordinate, int PortalXCoordinate, in
 
 	else if (type == BLUE_PORTAL)
 	{
-		PortalXCoordinate = findPortalXCoordinate(BLUE_PORTAL, map);
-		PortalYCoordinate = findPortalYCoordinate(BLUE_PORTAL, map);
+		PortalXCoordinate = findSomeTypeXCoordinate(BLUE_PORTAL, map);
+		PortalYCoordinate = findSomeTypeYCoordinate(BLUE_PORTAL, map);
 
 		map[PortalYCoordinate][PortalXCoordinate].type = EMPTY_SPACE;
 
@@ -227,4 +242,9 @@ void game::setPortal(char type, int PortalYCoordinate, int PortalXCoordinate, in
 			map[aimYCoordinate][aimXCoordinate].type = AIM_DOT;
 		}
 	}
+}
+
+void game::enterThePortal(MapShell** map)
+{
+	
 }
