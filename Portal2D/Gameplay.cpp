@@ -66,20 +66,9 @@ void game::performAnAction(game::MapShell** map)
 				setPortal(BLUE_PORTAL, PortalYCoordinate, PortalXCoordinate, aimYCoordinate, aimXCoordinate, map);
 				break;
 
-			case ENTER:
-				//int bPortalXCooedinate = find
-
-				if (PortalXCoordinate == heroXCoordinate && PortalYCoordinate == heroYCoordinate)
-				{
-
-				}
+			/*case ENTER:
 				
-				else if (PortalXCoordinate == heroXCoordinate && PortalYCoordinate == heroYCoordinate)
-				{
-
-				}
-
-				break;
+				break;*/
 
 			default:
 				break;
@@ -244,7 +233,7 @@ void game::setPortal(char type, int PortalYCoordinate, int PortalXCoordinate, in
 	}
 }
 
-void game::enterThePortal(MapShell** map)
-{
-	
-}
+//void game::enterThePortal(char type, MapShell** map)
+//{
+//	
+//}

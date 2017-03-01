@@ -35,5 +35,5 @@ namespace game
 	void gravity(MapShell** map);
 
 	void setPortal(char type, int PortalYCoordinate, int PortalXCoordinate, int aimYCoordinate, int aimXCoordinate, MapShell** map);
-	void enterThePortal(MapShell** map);
+	/*void enterThePortal(char type, MapShell** map);*/
 }
