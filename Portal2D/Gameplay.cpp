@@ -27,7 +27,7 @@ void game::performAnAction(game::MapShell** map)
 			case A_LOWER_CASE:
 				if (map[heroYCoordinate][heroXCoordinate - 1].passable == true) // Если клетка слева проходима
 				{
-					moveLeft(HERO, heroYCoordinate, heroXCoordinate, map); 
+					moveLeft(HERO, heroYCoordinate, heroXCoordinate, map);
 				}
 				break;
 
@@ -39,75 +39,75 @@ void game::performAnAction(game::MapShell** map)
 				break;
 
 			case LEFT_ARROW:
-				if (map[aimYCoordinate][aimXCoordinate - 1].passable == true) 
+				if (map[aimYCoordinate][aimXCoordinate - 1].passable == true)
 				{
-					moveAimLeft(AIM_DOT, aimYCoordinate, aimXCoordinate, map);
+					moveLeft(AIM_DOT, aimYCoordinate, aimXCoordinate, map);
 				}
 				break;
 
 			case RIGHT_ARROW:
 				if (map[aimYCoordinate][aimXCoordinate + 1].passable == true)
 				{
-					moveAimRight(AIM_DOT, aimYCoordinate, aimXCoordinate, map);
+					moveRight(AIM_DOT, aimYCoordinate, aimXCoordinate, map);
 				}
 				break;
 
 			case UP_ARROW:
 				if (map[aimYCoordinate - 1][aimXCoordinate].passable == true)
 				{
-					moveAimUp(AIM_DOT, aimYCoordinate, aimXCoordinate, map);
+					moveUp(AIM_DOT, aimYCoordinate, aimXCoordinate, map);
 				}
 				break;
 
 			case DOWN_ARROW:
 				if (map[aimYCoordinate + 1][aimXCoordinate].passable == true)
 				{
-					moveAimDown(AIM_DOT, aimYCoordinate, aimXCoordinate, map);
+					moveDown(AIM_DOT, aimYCoordinate, aimXCoordinate, map);
 				}
 				break;
 
-			case SPACE_JUMP: 
+			case SPACE_JUMP:
 				jump(heroYCoordinate, heroXCoordinate, map); // Прыжок
 				break;
 
-			/*case E_LOWER_CASE:
-				redPortalXCoordinate = aimXCoordinate;
-				redPortalYCoordinate = aimYCoordinate;
-				setRedPortal(RED_PORTAL, redPortalYCoordinate, redPortalXCoordinate, aimYCoordinate, aimXCoordinate, map);
-				break;*/
+				/*case E_LOWER_CASE:
+					redPortalXCoordinate = aimXCoordinate;
+					redPortalYCoordinate = aimYCoordinate;
+					setRedPortal(RED_PORTAL, redPortalYCoordinate, redPortalXCoordinate, aimYCoordinate, aimXCoordinate, map);
+					break;*/
 
-			/*case Q_LOWER_CASE:
-				bluePortalXCoordinate = aimXCoordinate;
-				bluePortalYCoordinate = aimYCoordinate;
-				setBluePortal(BLUE_PORTAL, redPortalYCoordinate, redPortalXCoordinate, aimYCoordinate, aimXCoordinate, map);
-				break;*/
+					/*case Q_LOWER_CASE:
+						bluePortalXCoordinate = aimXCoordinate;
+						bluePortalYCoordinate = aimYCoordinate;
+						setBluePortal(BLUE_PORTAL, redPortalYCoordinate, redPortalXCoordinate, aimYCoordinate, aimXCoordinate, map);
+						break;*/
 
 			default:
 				break;
 			}
 		}
 		game::clearScreen(); // Очищаем экран
-		game::gravitation(HERO, heroYCoordinate, heroXCoordinate, map); // Имитируем гравитацию
-		game::drawFrame(map); // Рисуем кадр
-		Sleep(200);
+		game::drawFrame(map);
+		game::gravity(map); // Имитируем гравитацию
+		Sleep(100);
 	}
 }
 
 void game::jump(int heroYCoordinate, int heroXCoordinate, game::MapShell** map)
 {
-	if((map[heroYCoordinate - 1][heroXCoordinate].passable == true) && // Если обе клетки над героем свободны
+	if ((map[heroYCoordinate - 1][heroXCoordinate].passable == true) && // Если обе клетки над героем свободны
 		(map[heroYCoordinate - 2][heroXCoordinate].passable == true))
 	{
 		map[heroYCoordinate][heroXCoordinate].type = EMPTY_SPACE; // В клетку, где был герой заносим пробел, в клетку
 		map[heroYCoordinate - 1][heroXCoordinate].type = HERO;	  // выше заносим символ героя, а так же переносим инфу о HP
-		map[heroYCoordinate - 1][heroXCoordinate].healthPoints = 
+		map[heroYCoordinate - 1][heroXCoordinate].healthPoints =
 			map[heroYCoordinate][heroXCoordinate].healthPoints;
 
 		drawFrame(map);
 
 		map[heroYCoordinate - 1][heroXCoordinate].type = EMPTY_SPACE;
 		map[heroYCoordinate - 2][heroXCoordinate].type = HERO;
-		map[heroYCoordinate - 2][heroXCoordinate].healthPoints = 
+		map[heroYCoordinate - 2][heroXCoordinate].healthPoints =
 			map[heroYCoordinate - 1][heroXCoordinate].healthPoints;
 	}
 
@@ -123,60 +123,76 @@ void game::jump(int heroYCoordinate, int heroXCoordinate, game::MapShell** map)
 
 void game::moveLeft(char type, int yCoordinate, int xCoordinate, game::MapShell** map)
 {
-	map[yCoordinate][xCoordinate].type = EMPTY_SPACE; // В клетку, где был герой заносим пробел, в клетку
-	map[yCoordinate][xCoordinate - 1].type = type;	  // слева заносим символ героя, а так же переносим инфу о HP
-	map[yCoordinate][xCoordinate - 1].healthPoints = 
-		map[yCoordinate][xCoordinate].healthPoints;
-}
-
-void game::moveRight(char type, int yCoordinate, int xCoordinate, game::MapShell** map)
-{
-	map[yCoordinate][xCoordinate].type = EMPTY_SPACE; // В клетку, где был герой заносим пробел, в клетку
-	map[yCoordinate][xCoordinate + 1].type = type;    // справа заносим символ героя, а так же переносим инфу о HP
-	map[yCoordinate][xCoordinate + 1].healthPoints =
-		map[yCoordinate][xCoordinate].healthPoints;
-}
-
-
-//------Aim_Functions------//
-void game::moveAimLeft(char type, int aimYCoordinate, int aimXCoordinate, game::MapShell** map)
-{
-	map[aimYCoordinate][aimXCoordinate].type = EMPTY_SPACE; // В клетку, где был прицел заносим пробел, в клетку
-	map[aimYCoordinate][aimXCoordinate - 1].type = type;    // слева заносим символ прицела
-}
-
-void game::moveAimRight(char type, int aimYCoordinate, int aimXCoordinate, game::MapShell** map)
-{
-	map[aimYCoordinate][aimXCoordinate].type = EMPTY_SPACE; // В клетку, где был прицел заносим пробел, в клетку
-	map[aimYCoordinate][aimXCoordinate + 1].type = type;	// справа заносим символ прицела
-}
-
-void game::moveAimUp(char type, int aimYCoordinate, int aimXCoordinate, game::MapShell** map)
-{
-	map[aimYCoordinate][aimXCoordinate].type = EMPTY_SPACE; // В клетку, где был прицел заносим пробел, в клетку
-	map[aimYCoordinate - 1][aimXCoordinate].type = type;	// вверху заносим символ прицела
-}
-
-void game::moveAimDown(char type, int aimYCoordinate, int aimXCoordinate, game::MapShell** map)
-{
-	map[aimYCoordinate][aimXCoordinate].type = EMPTY_SPACE; // В клетку, где был прицел заносим пробел, в клетку
-	map[aimYCoordinate + 1][aimXCoordinate].type = type;	// внизу заносим символ прицела
-}
-
-
-//------Gravitation_Functions------//
-void game::gravitation(char type, int yCoordinate, int xCoordinate, game::MapShell** map)
-{
-	if(map[yCoordinate + 1][xCoordinate].passable == true) // Если клетка под объектом - проходима
+	if (map[yCoordinate][xCoordinate - 1].passable == true) // Если клетка слева проходима 
 	{
 		map[yCoordinate][xCoordinate].type = EMPTY_SPACE; // В клетку, где был объект заносим пробел, в клетку
-		map[yCoordinate + 1][xCoordinate].type = type;    // внизу заносим символ объекта, а так же переносим инфу о HP
-		map[yCoordinate + 1][xCoordinate].healthPoints = 
+		map[yCoordinate][xCoordinate - 1].type = type;	  // слева заносим символ объекта, а так же переносим инфу о HP
+		map[yCoordinate][xCoordinate - 1].healthPoints =
 			map[yCoordinate][xCoordinate].healthPoints;
 	}
 }
 
-void game::levelOne() 
+void game::moveRight(char type, int yCoordinate, int xCoordinate, game::MapShell** map)
+{
+	if (map[yCoordinate][xCoordinate + 1].passable == true) // Если клетка справа проходима
+	{
+		map[yCoordinate][xCoordinate].type = EMPTY_SPACE; // В клетку, где был объект заносим пробел, в клетку
+		map[yCoordinate][xCoordinate + 1].type = type;    // справа заносим символ объекта, а так же переносим инфу о HP
+		map[yCoordinate][xCoordinate + 1].healthPoints =
+			map[yCoordinate][xCoordinate].healthPoints;
+	}
+}
+
+void game::moveUp(char type, int yCoordinate, int xCoordinate, game::MapShell** map)
+{
+	if (map[yCoordinate - 1][xCoordinate].passable == true) // Если клетка сверху проходима
+	{
+		map[yCoordinate][xCoordinate].type = EMPTY_SPACE; // В клетку, где был объект заносим пробел, в клетку
+		map[yCoordinate - 1][xCoordinate].type = type;    // справа заносим символ объекта, а так же переносим инфу о HP
+		map[yCoordinate - 1][xCoordinate].healthPoints =
+			map[yCoordinate][xCoordinate].healthPoints;
+	}
+}
+
+void game::moveDown(char type, int yCoordinate, int xCoordinate, game::MapShell** map)
+{
+	if (map[yCoordinate + 1][xCoordinate].passable == true) // Если клетка снизу проходима 
+	{
+		map[yCoordinate][xCoordinate].type = EMPTY_SPACE; // В клетку, где был объект заносим пробел, в клетку
+		map[yCoordinate + 1][xCoordinate].type = type;    // справа заносим символ объекта, а так же переносим инфу о HP
+		map[yCoordinate + 1][xCoordinate].healthPoints =
+			map[yCoordinate][xCoordinate].healthPoints;
+	}
+}
+
+//------Gravitation_Functions------//
+void game::gravity(game::MapShell** map)
+{
+	for (int i = 0; i < MAP_HEIGHT; i++)
+	{
+		for (int j = 0; j < MAP_WIDTH; j++)
+		{
+			//Если в клетке герой и клетка под ним - проходима
+			if(map[i][j].type == HERO && map[i + 1][j].passable == true) 
+			{
+					map[i][j].type = EMPTY_SPACE; // В клетку, где был объект заносим пробел, в клетку
+					map[i + 1][j].type = HERO;    // внизу заносим символ объекта, а так же переносим инфу о HP
+					map[i + 1][j].healthPoints =
+						map[i][j].healthPoints;
+					return;
+			}
+		}
+	}
+	//if (map[yCoordinate + 1][xCoordinate].passable == true) // Если клетка под объектом - проходима
+	//{
+	//	map[yCoordinate][xCoordinate].type = EMPTY_SPACE; // В клетку, где был объект заносим пробел, в клетку
+	//	map[yCoordinate + 1][xCoordinate].type = type;    // внизу заносим символ объекта, а так же переносим инфу о HP
+	//	map[yCoordinate + 1][xCoordinate].healthPoints =
+	//		map[yCoordinate][xCoordinate].healthPoints;
+	//}
+}
+
+void game::levelOne()
 {
 	game::clearScreen(); // Чистим экран
 
