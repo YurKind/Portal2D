@@ -25,45 +25,27 @@ void game::performAnAction(game::MapShell** map)
 			switch (_getch()) // Читаем клавишу
 			{
 			case A_LOWER_CASE:
-				if (map[heroYCoordinate][heroXCoordinate - 1].passable == true) // Если клетка слева проходима
-				{
-					moveLeft(HERO, heroYCoordinate, heroXCoordinate, map);
-				}
+				moveLeft(HERO, heroYCoordinate, heroXCoordinate, map);
 				break;
 
 			case D_LOWER_CASE:
-				if (map[heroYCoordinate][heroXCoordinate + 1].passable == true) // Если клетка справа проходима
-				{
-					moveRight(HERO, heroYCoordinate, heroXCoordinate, map);
-				}
+				moveRight(HERO, heroYCoordinate, heroXCoordinate, map);
 				break;
 
 			case LEFT_ARROW:
-				if (map[aimYCoordinate][aimXCoordinate - 1].passable == true)
-				{
-					moveLeft(AIM_DOT, aimYCoordinate, aimXCoordinate, map);
-				}
+				moveLeft(AIM_DOT, heroYCoordinate, heroXCoordinate, map);
 				break;
 
 			case RIGHT_ARROW:
-				if (map[aimYCoordinate][aimXCoordinate + 1].passable == true)
-				{
-					moveRight(AIM_DOT, aimYCoordinate, aimXCoordinate, map);
-				}
+				moveRight(AIM_DOT, heroYCoordinate, heroXCoordinate, map);
 				break;
 
 			case UP_ARROW:
-				if (map[aimYCoordinate - 1][aimXCoordinate].passable == true)
-				{
-					moveUp(AIM_DOT, aimYCoordinate, aimXCoordinate, map);
-				}
+				moveUp(AIM_DOT, heroYCoordinate, heroXCoordinate, map);
 				break;
 
 			case DOWN_ARROW:
-				if (map[aimYCoordinate + 1][aimXCoordinate].passable == true)
-				{
-					moveDown(AIM_DOT, aimYCoordinate, aimXCoordinate, map);
-				}
+				moveDown(AIM_DOT, heroYCoordinate, heroXCoordinate, map);
 				break;
 
 			case SPACE_JUMP:
@@ -183,13 +165,6 @@ void game::gravity(game::MapShell** map)
 			}
 		}
 	}
-	//if (map[yCoordinate + 1][xCoordinate].passable == true) // Если клетка под объектом - проходима
-	//{
-	//	map[yCoordinate][xCoordinate].type = EMPTY_SPACE; // В клетку, где был объект заносим пробел, в клетку
-	//	map[yCoordinate + 1][xCoordinate].type = type;    // внизу заносим символ объекта, а так же переносим инфу о HP
-	//	map[yCoordinate + 1][xCoordinate].healthPoints =
-	//		map[yCoordinate][xCoordinate].healthPoints;
-	//}
 }
 
 void game::levelOne()
