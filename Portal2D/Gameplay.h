@@ -34,6 +34,6 @@ namespace game
 	// Выполняя необходимые проверки, имитирует гравитацию
 	void gravity(MapShell** map);
 
-	//void setRedPortal(char type, int redPortalYCoordinate, int redPortalXCoordinate, int aimYCoordinate, int aimXCoordinate, game::Map** map);
-	//void setBluePortal(char type, int bluePortalYCoordinate, int bluePortalXCoordinate, int aimYCoordinate, int aimXCoordinate, game::Map** map);
+	void setPortal(char type, int PortalYCoordinate, int PortalXCoordinate, int aimYCoordinate, int aimXCoordinate, MapShell** map);
+	//void setBluePortal(char type, int bluePortalYCoordinate, int bluePortalXCoordinate, int aimYCoordinate, int aimXCoordinate, Map** map);
 }

@@ -16,6 +16,9 @@ namespace game
 	int findAimXCoordinate(MapShell** map);  // функция ищет координаты прицела по X и возвращает их, функция принимает в качетсве аргумета двумерный массив структур
 	int findAimYCoordinate(MapShell** map);	// функция ищет координаты прицела по Y и возвращает их, функция принимает в качетсве аргумета двумерный массив структур
 
+	int findPortalXCoordinate(char type, MapShell** map);
+	int findPortalYCoordinate(char type, MapShell** map);
+
 	void drawFrame(MapShell** map);			// отрисовка карты, функция принимает в качетсве аргумета двумерный массив структур
 	void clearScreen();					// функция очистки консоли (без мерцания) !(надо разобраться)!
 }

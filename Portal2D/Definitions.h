@@ -21,7 +21,7 @@
 //------MAP------//
 #define NEW_LINE '\n'
 #define MAP_HEIGHT 20
-#define MAP_WIDTH 35
+#define MAP_WIDTH 40
 
 //------MOVE_KEYS------//
 #define W_LOWER_CASE 119

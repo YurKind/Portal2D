@@ -26,26 +26,22 @@ int game::findHeroXCoordinate(game::MapShell** map)		// функция ищет координаты 
 
 int game::findAimXCoordinate(game::MapShell** map)		// функция ищет координаты прицела по X и возвращает их, функция принимает в качетсве аргумета двумерный массив структур
 {
+	for (int i = 0; i < MAP_HEIGHT; i++)
 	{
-		for (int i = 0; i < MAP_HEIGHT; i++)
+		for (int j = 0; j < MAP_WIDTH; j++)
 		{
-			for (int j = 0; j < MAP_WIDTH; j++)
-			{
-				if (map[i][j].type == AIM_DOT) return j;	// когда встречен искомый сивол, функция возвращает X координату
-			}
+			if (map[i][j].type == AIM_DOT) return j;	// когда встречен искомый сивол, функция возвращает X координату
 		}
 	}
 }
 
 int game::findAimYCoordinate(game::MapShell** map)		// функция ищет координаты прицела по Y и возвращает их, функция принимает в качетсве аргумета двумерный массив структур
 {
+	for (int i = 0; i < MAP_HEIGHT; i++)
 	{
-		for (int i = 0; i < MAP_HEIGHT; i++)
+		for (int j = 0; j < MAP_WIDTH; j++)
 		{
-			for (int j = 0; j < MAP_WIDTH; j++)
-			{
-				if (map[i][j].type == AIM_DOT) return i;	// когда встречен искомый сивол, функция возвращает Y координату
-			}
+			if (map[i][j].type == AIM_DOT) return i;	// когда встречен искомый сивол, функция возвращает Y координату
 		}
 	}
 }
@@ -83,19 +79,42 @@ void game::drawFrame(game::MapShell** map)		// отрисовка карты, функция принимае
 				std::cout << EXIT;
 				break;
 
-			/*case RED_PORTAL:
+			case RED_PORTAL:
 				std::cout << RED_PORTAL;
-				break;*/
+				break;
 
-			/*case BLUE_PORTAL:
+			case BLUE_PORTAL:
 				std::cout << BLUE_PORTAL;
-				break;*/
+				break;
 
 			default:
 				break;
 			}
 		}
 		std::cout << std::endl;
+	}
+}
+
+
+int game::findPortalXCoordinate(char type, MapShell** map)
+{
+	for (int i = 0; i < MAP_HEIGHT; i++)
+	{
+		for (int j = 0; j < MAP_WIDTH; j++)
+		{
+			if (map[i][j].type == type) return j;
+		}
+	}
+}
+
+int game::findPortalYCoordinate(char type, MapShell** map)
+{
+	for (int i = 0; i < MAP_HEIGHT; i++)
+	{
+		for (int j = 0; j < MAP_WIDTH; j++)
+		{
+			if (map[i][j].type == type) return i;
+		}
 	}
 }
 

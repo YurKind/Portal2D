@@ -5,17 +5,15 @@
 //------Moving_Functions------//
 void game::performAnAction(game::MapShell** map)
 {
-	int redPortalXCoordinate = 0;
-	int redPortalYCoordinate = 0;
-	int bluePortalXCoordinate = 0;
-	int bluePortalYCoordinate = 0;
-
 	bool gameIsRunning = true; // Временно
 
 	while (gameIsRunning)
 	{
 		int heroXCoordinate = findHeroXCoordinate(map); //Ищем координату героя на оси X
 		int heroYCoordinate = findHeroYCoordinate(map); //Ищем координату героя на оси Y
+
+		int PortalXCoordinate = findPortalXCoordinate(RED_PORTAL, map);
+		int PortalYCoordinate = findPortalYCoordinate(RED_PORTAL, map);
 
 		int aimXCoordinate = findAimXCoordinate(map); //Ищем координату прицела на оси X
 		int aimYCoordinate = findAimYCoordinate(map); //Ищем координату прицела на оси X
@@ -33,36 +31,40 @@ void game::performAnAction(game::MapShell** map)
 				break;
 
 			case LEFT_ARROW:
-				moveLeft(AIM_DOT, heroYCoordinate, heroXCoordinate, map);
+				//условие ниже вызывает неприязнь и желание его уничтожить, но это временно, пока не появится стек
+				if ((map[aimYCoordinate][aimXCoordinate - 1].type != RED_PORTAL) && (map[aimYCoordinate][aimXCoordinate - 1].type != BLUE_PORTAL))
+					moveLeft(AIM_DOT, aimYCoordinate, aimXCoordinate, map);
 				break;
 
 			case RIGHT_ARROW:
-				moveRight(AIM_DOT, heroYCoordinate, heroXCoordinate, map);
+				//условие ниже вызывает неприязнь и желание его уничтожить, но это временно, пока не появится стек
+				if ((map[aimYCoordinate][aimXCoordinate + 1].type != RED_PORTAL) && (map[aimYCoordinate][aimXCoordinate + 1].type != BLUE_PORTAL))
+					moveRight(AIM_DOT, aimYCoordinate, aimXCoordinate, map);
 				break;
 
 			case UP_ARROW:
-				moveUp(AIM_DOT, heroYCoordinate, heroXCoordinate, map);
+				//условие ниже вызывает неприязнь и желание его уничтожить, но это временно, пока не появится стек
+				if ((map[aimYCoordinate - 1][aimXCoordinate].type != RED_PORTAL) && (map[aimYCoordinate - 1][aimXCoordinate].type != BLUE_PORTAL))
+					moveUp(AIM_DOT, aimYCoordinate, aimXCoordinate, map);
 				break;
 
 			case DOWN_ARROW:
-				moveDown(AIM_DOT, heroYCoordinate, heroXCoordinate, map);
+				//условие ниже вызывает неприязнь и желание его уничтожить, но это временно, пока не появится стек
+					if ((map[aimYCoordinate + 1][aimXCoordinate].type != RED_PORTAL) && (map[aimYCoordinate + 1][aimXCoordinate].type != BLUE_PORTAL))
+				moveDown(AIM_DOT, aimYCoordinate, aimXCoordinate, map);
 				break;
 
 			case SPACE_JUMP:
 				jump(heroYCoordinate, heroXCoordinate, map); // Прыжок
 				break;
 
-				/*case E_LOWER_CASE:
-					redPortalXCoordinate = aimXCoordinate;
-					redPortalYCoordinate = aimYCoordinate;
-					setRedPortal(RED_PORTAL, redPortalYCoordinate, redPortalXCoordinate, aimYCoordinate, aimXCoordinate, map);
-					break;*/
+			case E_LOWER_CASE:
+				setPortal(RED_PORTAL, PortalYCoordinate, PortalXCoordinate, aimYCoordinate, aimXCoordinate, map);
+				break;
 
-					/*case Q_LOWER_CASE:
-						bluePortalXCoordinate = aimXCoordinate;
-						bluePortalYCoordinate = aimYCoordinate;
-						setBluePortal(BLUE_PORTAL, redPortalYCoordinate, redPortalXCoordinate, aimYCoordinate, aimXCoordinate, map);
-						break;*/
+			case Q_LOWER_CASE:
+				setPortal(BLUE_PORTAL, PortalYCoordinate, PortalXCoordinate, aimYCoordinate, aimXCoordinate, map);
+				break;
 
 			default:
 				break;
@@ -71,7 +73,7 @@ void game::performAnAction(game::MapShell** map)
 		game::clearScreen(); // Очищаем экран
 		game::drawFrame(map);
 		game::gravity(map); // Имитируем гравитацию
-		Sleep(100);
+		Sleep(75);
 	}
 }
 
@@ -85,12 +87,13 @@ void game::jump(int heroYCoordinate, int heroXCoordinate, game::MapShell** map)
 		map[heroYCoordinate - 1][heroXCoordinate].healthPoints =
 			map[heroYCoordinate][heroXCoordinate].healthPoints;
 
-		drawFrame(map);
+		game::drawFrame(map);
 
 		map[heroYCoordinate - 1][heroXCoordinate].type = EMPTY_SPACE;
 		map[heroYCoordinate - 2][heroXCoordinate].type = HERO;
 		map[heroYCoordinate - 2][heroXCoordinate].healthPoints =
 			map[heroYCoordinate - 1][heroXCoordinate].healthPoints;
+
 	}
 
 	else if ((map[heroYCoordinate - 1][heroXCoordinate].passable == true) && // Если свободна только одна
@@ -179,41 +182,49 @@ void game::levelOne()
 }
 
 //-----Portals_Functions------//
-/*void game::setRedPortal(char type, int redPortalYCoordinate, int redPortalXCoordinate, int aimYCoordinate, int aimXCoordinate, game::Map** map)
+void game::setPortal(char type, int PortalYCoordinate, int PortalXCoordinate, int aimYCoordinate, int aimXCoordinate, game::MapShell** map)
 {
-	map[aimYCoordinate][aimXCoordinate].type = RED_PORTAL;
-	map[redPortalYCoordinate][redPortalXCoordinate].type = EMPTY_SPACE;
-
-	if (map[aimYCoordinate][aimXCoordinate - 1].type = EMPTY_SPACE)
+	if (type == RED_PORTAL)
 	{
-		aimXCoordinate = aimXCoordinate - 1;
-		map[aimYCoordinate][aimXCoordinate].type = AIM_DOT;
+		PortalXCoordinate = findPortalXCoordinate(RED_PORTAL, map);
+		PortalYCoordinate = findPortalYCoordinate(RED_PORTAL, map);
+
+		map[PortalYCoordinate][PortalXCoordinate].type = EMPTY_SPACE;
+
+		map[aimYCoordinate][aimXCoordinate].type = type;
+
+		if (map[aimYCoordinate][aimXCoordinate - 1].type == EMPTY_SPACE)
+		{
+			aimXCoordinate = aimXCoordinate - 1;
+			map[aimYCoordinate][aimXCoordinate].type = AIM_DOT;
+		}
+
+		else if (map[aimYCoordinate][aimXCoordinate + 1].type == EMPTY_SPACE)
+		{
+			aimXCoordinate = aimXCoordinate + 1;
+			map[aimYCoordinate][aimXCoordinate].type = AIM_DOT;
+		}
 	}
 
-	else if (map[aimYCoordinate][aimXCoordinate + 1].type = EMPTY_SPACE)
+	else if (type == BLUE_PORTAL)
 	{
-		aimXCoordinate = aimXCoordinate + 1;
-		map[aimYCoordinate][aimXCoordinate].type = AIM_DOT;
+		PortalXCoordinate = findPortalXCoordinate(BLUE_PORTAL, map);
+		PortalYCoordinate = findPortalYCoordinate(BLUE_PORTAL, map);
+
+		map[PortalYCoordinate][PortalXCoordinate].type = EMPTY_SPACE;
+
+		map[aimYCoordinate][aimXCoordinate].type = type;
+
+		if (map[aimYCoordinate][aimXCoordinate - 1].type == EMPTY_SPACE)
+		{
+			aimXCoordinate = aimXCoordinate - 1;
+			map[aimYCoordinate][aimXCoordinate].type = AIM_DOT;
+		}
+
+		else if (map[aimYCoordinate][aimXCoordinate + 1].type == EMPTY_SPACE)
+		{
+			aimXCoordinate = aimXCoordinate + 1;
+			map[aimYCoordinate][aimXCoordinate].type = AIM_DOT;
+		}
 	}
-	redPortalXCoordinate = aimXCoordinate;
-	redPortalYCoordinate = aimYCoordinate;
 }
-void game::setBluePortal(char type, int bluePortalYCoordinate, int bluePortalXCoordinate, int aimYCoordinate, int aimXCoordinate, game::Map** map)
-{
-	map[aimYCoordinate][aimXCoordinate].type = BLUE_PORTAL;
-	map[bluePortalYCoordinate][bluePortalXCoordinate].type = EMPTY_SPACE;
-
-	if (map[aimYCoordinate][aimXCoordinate - 1].type = EMPTY_SPACE)
-	{
-		aimXCoordinate = aimXCoordinate - 1;
-		map[aimYCoordinate][aimXCoordinate].type = AIM_DOT;
-	}
-
-	else if (map[aimYCoordinate][aimXCoordinate + 1].type = EMPTY_SPACE)
-	{
-		aimXCoordinate = aimXCoordinate + 1;
-		map[aimYCoordinate][aimXCoordinate].type = AIM_DOT;
-	}
-	bluePortalXCoordinate = aimXCoordinate;
-	bluePortalYCoordinate = aimYCoordinate;
-}*/

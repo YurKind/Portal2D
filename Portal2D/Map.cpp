@@ -65,6 +65,20 @@ game::MapShell** game::createMap(char* levelName)
 				map[i][j].passable = true;	// клетка становится проходимой
 				break;
 
+			case RED_PORTAL:
+				map[i][j].type = RED_PORTAL;
+				map[i][j].xCoordinate = j;
+				map[i][j].yCoordinate = i;
+				map[i][j].passable = true;
+				break;
+
+			case BLUE_PORTAL:
+				map[i][j].type = BLUE_PORTAL;
+				map[i][j].xCoordinate = j;
+				map[i][j].yCoordinate = i;
+				map[i][j].passable = true;
+				break;
+
 			default:
 				break;
 			}
