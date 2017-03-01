@@ -78,6 +78,7 @@ void game::performAnAction(game::MapShell** map)
 		game::drawFrame(map);
 		game::gravity(map); // Имитируем гравитацию
 		Sleep(75);
+		game::clearScreen(); // Очищаем экран
 	}
 }
 
