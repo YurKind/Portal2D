@@ -1,8 +1,8 @@
 #include "List.h"
 
-void list::addList(List **begin, std::ifstream &fin)          // создание и инициализация списка
+void list::addList(list::List<records::DataAboutTheChampion> **begin, std::ifstream &fin)          // создание и инициализация списка
 {
-	List *add = *begin;
+	list::List<records::DataAboutTheChampion> *add = *begin;
 	std::ifstream finForSize(FILE_NAME_RECORDS);
 	char *buf = NULL;
 	while (!fin.eof())
@@ -10,8 +10,8 @@ void list::addList(List **begin, std::ifstream &fin)          // создание и иниц
 		int lengthLine = records::countLengthLine(finForSize);
 		buf = new char[lengthLine];
 		fin.getline(buf, lengthLine);
-		add->next = new List;
-		add->champion = records::sortingDataAboutTheChampion(buf);
+		add->next = new list::List<records::DataAboutTheChampion>;
+		add->value = records::sortingDataAboutTheChampion(buf);
 		add = add->next;
 		add->next = NULL;
 	}
@@ -19,38 +19,39 @@ void list::addList(List **begin, std::ifstream &fin)          // создание и иниц
 	delete[] buf;
 }
 
-void list::addBegin(List **begin, records::DataAboutTheChampion newChampion)        // вставка в начало списка
+template<class T1, class T2>
+void list::addBegin(T1 **begin, T2 insertable)        // вставка в начало списка
 {
-	List *add = new List;
-	add->champion = newChampion;
+	T1 *add = new T1;
+	add->value = insertable;
 	add->next = *begin;
 	*begin = add;
 }
 
-void list::addInCertainPlace(List **begin, int placeNumber, records::DataAboutTheChampion newChampion)       // вставка элемента списка с новым рекордсменом на соответствующее место 
+void list::addInCertainPlace(list::List<records::DataAboutTheChampion> **begin, int placeNumber, records::DataAboutTheChampion newChampion)       // вставка элемента списка с новым рекордсменом на соответствующее место 
 {
 	if (placeNumber == 0)
 	{
-		addBegin(begin, newChampion);           // всавка в начало списка
+		list::addBegin(begin, newChampion);           // всавка в начало списка
 	}
 	else
 	{
-		List *insert = *begin;         // новый указатель на начало списка
+		list::List<records::DataAboutTheChampion> *insert = *begin;         // новый указатель на начало списка
 		for (int i = 0; i < placeNumber - 1; i++)
 		{
 			insert = insert->next;      // передвигаемся до нужного места
 		}
-		List *end = insert->next;       // указатель на элемент на который будет ссылаться новый элемент списка 
-		List *add = new List;           // новый элемент
+		list::List<records::DataAboutTheChampion> *end = insert->next;       // указатель на элемент на который будет ссылаться новый элемент списка 
+		list::List<records::DataAboutTheChampion> *add = new list::List<records::DataAboutTheChampion>;           // новый элемент
 		insert->next = add;             // указатель предыдущего элемента на новый элемент
-		add->champion = newChampion;    // инициализация нового элемента
+		add->value = newChampion;    // инициализация нового элемента
 		add->next = end;                // указатель нового элемента к следующему элементу списка
 	}
 }
 
-void list::freeMemory(List *begin)       // освобождение памяти от списка 
+void list::freeMemory(list::List<records::DataAboutTheChampion> *begin)       // освобождение памяти от списка 
 {
-	List *cleaner = begin;        // новый указатель на начало списка
+	list::List<records::DataAboutTheChampion> *cleaner = begin;        // новый указатель на начало списка
 	while (begin)
 	{
 		cleaner = begin;

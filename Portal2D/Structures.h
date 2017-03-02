@@ -12,9 +12,9 @@ namespace records
 
 namespace list
 {
-	struct List
+	template <class T> struct List
 	{
-		records::DataAboutTheChampion champion;
-		List *next;
+		T value;
+		List<T> *next;
 	};
 }

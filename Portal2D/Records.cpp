@@ -2,17 +2,16 @@
 #include "Structures.h"
 #include "List.h"
 
-void records::addInRecordsOrShowRecords(DataAboutTheChampion newChampion, char *variant)
+void records::addInRecordsOrShowRecords(records::DataAboutTheChampion newChampion, char *variant)
 {
-	list::List *begin = NULL;
-	begin = new list::List;
+	list::List<records::DataAboutTheChampion> *begin = new list::List<records::DataAboutTheChampion>;
 	std::ifstream fin(FILE_NAME_RECORDS);
 	addList(&begin, fin);
 	if (!strcmp(variant, "show"))
 	{
 		while (begin->next)
 		{
-			std::cout << "name: " << begin->champion.name << " level: " << begin->champion.level << " score: " << begin->champion.scores << std::endl;
+			std::cout << "name: " << begin->value.name << " level: " << begin->value.level << " score: " << begin->value.scores << std::endl;
 			begin = begin->next;
 		}
 	}
@@ -38,12 +37,12 @@ int records::countLengthLine(std::ifstream &finForSize)
 	return ++lengthLine;
 }
 
-void records::overwriteFile(list::List *begin)        // перезапись файла
+void records::overwriteFile(list::List<records::DataAboutTheChampion> *begin)        // перезапись файла
 {
 	std::ofstream fout("Records.txt");
 	while (begin->next != NULL)
 	{
-		fout << begin->champion.name << "|" << begin->champion.scores << "|" << begin->champion.level << ">";
+		fout << begin->value.name << "|" << begin->value.scores << "|" << begin->value.level << ">";
 		if (begin->next->next != NULL) {
 			fout << std::endl;
 		}
@@ -52,16 +51,16 @@ void records::overwriteFile(list::List *begin)        // перезапись файла
 	fout.close();
 }
 
-int records::findingTheLocationInOrder(list::List *begin, DataAboutTheChampion newChampion)      // высчитывание места нового рекордсмена в зависимости от уровня и очков
+int records::findingTheLocationInOrder(list::List<records::DataAboutTheChampion> *begin, records::DataAboutTheChampion newChampion)      // высчитывание места нового рекордсмена в зависимости от уровня и очков
 {
 	int counter = 0;
-	list::List *list = begin;
-	while (list->champion.level > newChampion.level)
+	list::List<records::DataAboutTheChampion> *list = begin;
+	while (list->value.level > newChampion.level)
 	{
 		list = list->next;
 		counter++;
 	}
-	while (list->champion.scores > newChampion.scores && list->champion.level == newChampion.level)
+	while (list->value.scores > newChampion.scores && list->value.level == newChampion.level)
 	{
 		list = list->next;
 		counter++;
@@ -73,7 +72,7 @@ int records::findingTheLocationInOrder(list::List *begin, DataAboutTheChampion n
 records::DataAboutTheChampion records::sortingDataAboutTheChampion(char *buf)
 {
 	char time[5], lvl[2];
-	DataAboutTheChampion champion = {};
+	records::DataAboutTheChampion champion = {};
 	int counterLetter = 0, i = 0;
 	while (buf[counterLetter] != '|')
 	{

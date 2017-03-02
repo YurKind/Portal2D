@@ -8,14 +8,16 @@
 
 #define FILE_NAME_RECORDS "Records.txt"
 
-namespace records           
+namespace records
 {
-	void overwriteFile(list::List *begin);
-	int findingTheLocationInOrder(list::List *list, DataAboutTheChampion newChampion);
-	void addInRecordsOrShowRecords(DataAboutTheChampion newChampion, char *variant);
-	int knowFileSize(char *fileName);
-	int countLettersInFile(char* variant, std::ifstream &fin);
-	DataAboutTheChampion sortingDataAboutTheChampion(char *buf);
-	void moveToNextLine(std::ifstream &fin);
+	void overwriteFile(list::List<records::DataAboutTheChampion> *begin);
+
+	int findingTheLocationInOrder(list::List<records::DataAboutTheChampion> *list, records::DataAboutTheChampion newChampion);
+
+
+	void addInRecordsOrShowRecords(records::DataAboutTheChampion newChampion, char *variant);
+
+	records::DataAboutTheChampion sortingDataAboutTheChampion(char *buf);
+
 	int countLengthLine(std::ifstream &finForSize);
 }

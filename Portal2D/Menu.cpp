@@ -27,7 +27,7 @@ int menu::menu()
 
 void menu::functionCaller(int playerChoice)
 {
-	records::DataAboutTheChampion newChampion = { "-1-1-1-1-1-1-1", 47, 6 };
+	records::DataAboutTheChampion newChampion = { "-1-1-1-1-1-1-1", 1000, 10 };
 	switch (playerChoice)
 	{
 	case START_GAME:
@@ -39,6 +39,7 @@ void menu::functionCaller(int playerChoice)
 		//showInstruction(); TODO add this    
 		break;
 	case RECORDS:
+		system("cls");
 		records::addInRecordsOrShowRecords(newChampion, "show");
 		records::addInRecordsOrShowRecords(newChampion, "add");
 		records::addInRecordsOrShowRecords(newChampion, "show");
