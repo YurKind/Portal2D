@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Definitions.h"
+#include "Instruments.h"
 
 namespace game
 {

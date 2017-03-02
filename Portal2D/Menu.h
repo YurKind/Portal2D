@@ -7,10 +7,10 @@ using namespace std;
 
 enum PlayerChoice
 {
-	START_GAME = 49,
-	INSTRUCTION = 50,
-	RECORDS = 51,
-	EXIT = 52
+	StartGame = 49,
+	Instruction = 50,
+	HighScores = 51,
+	Exit = 52
 };
 
 namespace menu

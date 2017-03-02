@@ -8,17 +8,17 @@ int menu::menu()
 	cout << " press 1 to start a game\n press 2 to show instuction \n press 3 to show high scores \n press 4 to exit";
 	switch (_getch())
 	{
-	case START_GAME:
-		return START_GAME;
+	case StartGame:
+		return StartGame;
 
-	case INSTRUCTION:
-		return INSTRUCTION;
+	case Instruction:
+		return Instruction;
 
-	case RECORDS:
-		return RECORDS;
+	case HighScores:
+		return HighScores;
 
-	case EXIT:
-		return EXIT;
+	case Exit:
+		return Exit;
 
 	default:
 		return NULL;
@@ -30,19 +30,20 @@ void menu::functionCaller(int playerChoice)
 	DataAboutTheChampion newChampion = { "000000", 55, 8 };
 	switch (playerChoice)
 	{
-	case START_GAME:
+	case StartGame:
 		// TODO: Rework!
 		game::levelOne();
 		break;
-	case INSTRUCTION:
+	case Instruction:
 		cout << "In development" << endl;
 		//showInstruction(); TODO add this    
 		break;
-	case RECORDS:
+	case HighScores:
 		records::showAllOfRecords();
 		records::addInRecords(newChampion);
 		break;
-	case EXIT:
+	case Exit:
+		exit(0);
 		break;
 	default:
 		cout << "You entered wrong key" << endl;

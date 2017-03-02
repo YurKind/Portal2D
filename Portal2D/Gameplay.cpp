@@ -16,7 +16,7 @@ void game::performAnAction(game::MapShell** map)
 		int PortalYCoordinate = findSomeTypeYCoordinate(RED_PORTAL, map);
 
 		int aimXCoordinate = findSomeTypeXCoordinate(AIM_DOT, map); //Ищем координату прицела на оси X
-		int aimYCoordinate = findSomeTypeYCoordinate(AIM_DOT, map); //Ищем координату прицела на оси X
+		int aimYCoordinate = findSomeTypeYCoordinate(AIM_DOT, map); //Ищем координату прицела на оси Y
 
 		if (_kbhit()) // Если нажата клавиша
 		{

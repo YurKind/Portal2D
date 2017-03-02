@@ -86,68 +86,19 @@ void game::clearScreen()		// функция очистки консоли (без мерцания)
 	SetConsoleCursorInfo(Handle, &structCursorInfo);
 }
 
-//int game::findHeroYCoordinate(game::MapShell** map)		// функция ищет координаты пресонажа по Y и возвращает их, функция принимает в качетсве аргумета двумерный массив структур
+//void game::push(char type, MapShell* &topElement)
 //{
-//	for (int i = 0; i < MAP_HEIGHT; i++)			// цикл ищет с символ обозначающий героя
-//	{
-//		for (int j = 0; j < MAP_WIDTH; j++)
-//		{
-//			if (map[i][j].type == HERO) return i;	// когда встречен искомый сивол, функция возвращает Y координату
-//		}
-//	}
+//	MapShell* newType = new MapShell;
+//	newType->type = type;
+//	newType->next = topElement;
+//	topElement = newType;
 //}
 //
-//int game::findHeroXCoordinate(game::MapShell** map)		// функция ищет координаты пресонажа по X и возвращает их, функция принимает в качетсве аргумета двумерный массив структур
+//char game::pop(MapShell* &topElement)
 //{
-//	for (int i = 0; i < MAP_HEIGHT; i++)			// цикл ищет с символ обозначающий героя
-//	{
-//		for (int j = 0; j < MAP_WIDTH; j++)
-//		{
-//			if (map[i][j].type == HERO) return j;	// когда встречен искомый сивол, функция возвращает X координату
-//		}
-//	}
-//}
-//
-//int game::findAimXCoordinate(game::MapShell** map)		// функция ищет координаты прицела по X и возвращает их, функция принимает в качетсве аргумета двумерный массив структур
-//{
-//	for (int i = 0; i < MAP_HEIGHT; i++)
-//	{
-//		for (int j = 0; j < MAP_WIDTH; j++)
-//		{
-//			if (map[i][j].type == AIM_DOT) return j;	// когда встречен искомый сивол, функция возвращает X координату
-//		}
-//	}
-//}
-//
-//int game::findAimYCoordinate(game::MapShell** map)		// функция ищет координаты прицела по Y и возвращает их, функция принимает в качетсве аргумета двумерный массив структур
-//{
-//	for (int i = 0; i < MAP_HEIGHT; i++)
-//	{
-//		for (int j = 0; j < MAP_WIDTH; j++)
-//		{
-//			if (map[i][j].type == AIM_DOT) return i;	// когда встречен искомый сивол, функция возвращает Y координату
-//		}
-//	}
-//}
-//
-//int game::findPortalXCoordinate(char type, MapShell** map)
-//{
-//	for (int i = 0; i < MAP_HEIGHT; i++)
-//	{
-//		for (int j = 0; j < MAP_WIDTH; j++)
-//		{
-//			if (map[i][j].type == type) return j;
-//		}
-//	}
-//}
-//
-//int game::findPortalYCoordinate(char type, MapShell** map)
-//{
-//	for (int i = 0; i < MAP_HEIGHT; i++)
-//	{
-//		for (int j = 0; j < MAP_WIDTH; j++)
-//		{
-//			if (map[i][j].type == type) return i;
-//		}
-//	}
+//	char temp = topElement->type;
+//	MapShell* currentElement = topElement;
+//	topElement = topElement->next;
+//	delete currentElement;
+//	return temp;
 //}
