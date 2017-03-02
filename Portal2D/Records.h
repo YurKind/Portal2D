@@ -14,7 +14,6 @@ namespace records
 
 	int findingTheLocationInOrder(list::List<records::DataAboutTheChampion> *list, records::DataAboutTheChampion newChampion);
 
-
 	void addInRecordsOrShowRecords(records::DataAboutTheChampion newChampion, char *variant);
 
 	records::DataAboutTheChampion sortingDataAboutTheChampion(char *buf);

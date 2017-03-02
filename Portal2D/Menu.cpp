@@ -2,6 +2,8 @@
 #include "Structures.h"
 #include "Records.h"
 #include "Gameplay.h"
+#include "SortingMethods.h"
+#include <ctime>
 
 int menu::menu()
 {
@@ -25,6 +27,23 @@ int menu::menu()
 	}
 }
 
+//template<typename T> void bubbleSort(T* array, int length)
+//{
+//	for (int i = 0; i < length - 1; i++)
+//	{
+//		for (int j = 0; j < length - i - 1; j++)
+//		{
+//			if (array[j] > array[j + 1])
+//			{
+//				T temp = array[j];
+//				array[j] = array[j + 1];
+//				array[j + 1] = temp;
+//			}
+//		}
+//	}
+//}
+
+
 void menu::functionCaller(int playerChoice)
 {
 	records::DataAboutTheChampion newChampion = { "-1-1-1-1-1-1-1", 1000, 10 };
@@ -43,6 +62,7 @@ void menu::functionCaller(int playerChoice)
 		records::addInRecordsOrShowRecords(newChampion, "show");
 		records::addInRecordsOrShowRecords(newChampion, "add");
 		records::addInRecordsOrShowRecords(newChampion, "show");
+
 		break;
 	case EXIT:
 		break;

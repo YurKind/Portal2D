@@ -44,7 +44,7 @@ void list::addInCertainPlace(list::List<records::DataAboutTheChampion> **begin, 
 		list::List<records::DataAboutTheChampion> *end = insert->next;       // указатель на элемент на который будет ссылаться новый элемент списка 
 		list::List<records::DataAboutTheChampion> *add = new list::List<records::DataAboutTheChampion>;           // новый элемент
 		insert->next = add;             // указатель предыдущего элемента на новый элемент
-		add->value = newChampion;    // инициализация нового элемента
+		add->value = newChampion;       // инициализация нового элемента
 		add->next = end;                // указатель нового элемента к следующему элементу списка
 	}
 }
