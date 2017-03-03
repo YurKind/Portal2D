@@ -5,7 +5,7 @@ namespace records
 	struct DataAboutTheChampion
 	{
 		std::string name;
-		int scores;
+		int score;
 		int level;
 	};
 }

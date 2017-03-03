@@ -2,18 +2,23 @@
 
 namespace sorting
 {
-	template<typename T> void bubbleSort(T* arr, int length)
+	void bubbleSortForList(list::List<records::DataAboutTheChampion>* begin)    // вроде не работает, хз
 	{
-		for (int i = 0; i < length - 1; i++)
+		list::List<records::DataAboutTheChampion> *sort = begin;
+		int swap = 1;
+		while (swap != 0)
 		{
-			for (int j = 0; j < length - i - 1; j++)
+			swap = 0;
+			while (sort->next)
 			{
-				if (arr[j] > arr[j + 1])
+				if (sort->value.score > sort->next->value.score)
 				{
-					T temp = arr[j];
-					arr[j] = arr[j + 1];
-					arr[j + 1] = temp;
+					records::DataAboutTheChampion temp = sort->value;
+					sort->value = sort->next->value;
+					sort->next->value = temp;
+					swap++;
 				}
+				sort = sort->next;
 			}
 		}
 	}

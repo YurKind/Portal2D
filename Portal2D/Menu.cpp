@@ -2,8 +2,6 @@
 #include "Structures.h"
 #include "Records.h"
 #include "Gameplay.h"
-#include "SortingMethods.h"
-#include <ctime>
 
 int menu::menu()
 {
@@ -45,7 +43,7 @@ void menu::functionCaller(int playerChoice)
 		records::addInRecordsOrShowRecords(newChampion, "show");
 		records::addInRecordsOrShowRecords(newChampion, "add");
 		records::addInRecordsOrShowRecords(newChampion, "show");
-
+		records::giveBestPlayerInLevel(10);
 		break;
 	case EXIT:
 		break;

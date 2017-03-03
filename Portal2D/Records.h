@@ -18,5 +18,9 @@ namespace records
 
 	records::DataAboutTheChampion sortingDataAboutTheChampion(char *buf);
 
+	void giveBestPlayerInLevel(int levelNumber);
+
+	void removeItemsExcessLevels(list::List<records::DataAboutTheChampion> *begin, int rightLevel);
+
 	int countLengthLine(std::ifstream &finForSize);
 }
