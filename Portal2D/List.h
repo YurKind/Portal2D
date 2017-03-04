@@ -1,9 +1,14 @@
 #pragma once
-
 #include "Records.h"
 
 namespace list
 {
+	template <class T> struct List
+	{
+		T value;
+		List<T> *next;
+	};
+
 	void addList(list::List<records::DataAboutTheChampion> **begin, std::ifstream &fin);
 
 	void freeMemory(list::List<records::DataAboutTheChampion> *begin);

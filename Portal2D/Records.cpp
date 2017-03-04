@@ -1,13 +1,11 @@
 #include "Records.h"
-#include "Structures.h"
-#include "List.h"
 #include "SortingMethods.h"
 
 void records::addInRecordsOrShowRecords(records::DataAboutTheChampion newChampion, char *variant)
 {
 	list::List<records::DataAboutTheChampion> *begin = new list::List<records::DataAboutTheChampion>;
 	std::ifstream fin(FILE_NAME_RECORDS);
-	addList(&begin, fin);
+	list::addList(&begin, fin);
 	if (!strcmp(variant, "show"))
 	{
 		while (begin->next)

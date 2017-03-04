@@ -1,7 +1,7 @@
 #include "Menu.h"
-#include "Structures.h"
 #include "Records.h"
 #include "Gameplay.h"
+#include "RandomLevel.h"
 
 int menu::menu()
 {
@@ -34,19 +34,23 @@ void menu::functionCaller(int playerChoice)
 		// TODO: Rework!
 		game::levelOne();
 		break;
+
 	case INSTRUCTION:
 		cout << "In development" << endl;
 		//showInstruction(); TODO add this    
 		break;
+
 	case RECORDS:
 		system("cls");
-		records::addInRecordsOrShowRecords(newChampion, "show");
-		records::addInRecordsOrShowRecords(newChampion, "add");
-		records::addInRecordsOrShowRecords(newChampion, "show");
-		records::giveBestPlayerInLevel(10);
+		//records::addInRecordsOrShowRecords(newChampion, "show");
+		//records::addInRecordsOrShowRecords(newChampion, "add");
+		//records::addInRecordsOrShowRecords(newChampion, "show");
+		//records::giveBestPlayerInLevel(10);
 		break;
+
 	case EXIT:
 		break;
+
 	default:
 		cout << "You entered wrong key" << endl;
 		system("cls");

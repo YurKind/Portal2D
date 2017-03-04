@@ -2,7 +2,7 @@
 
 namespace sorting
 {
-	void bubbleSortForList(list::List<records::DataAboutTheChampion>* begin)    // вроде не работает, хз
+	void bubbleSortForList(list::List<records::DataAboutTheChampion>* begin)  
 	{
 		list::List<records::DataAboutTheChampion> *sort = begin;
 		int swap = 1;
