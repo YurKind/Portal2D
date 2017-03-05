@@ -9,7 +9,6 @@
 
 namespace game
 {
-<<<<<<< HEAD
 	struct MapShell;
 
 	struct StackOfTypes
@@ -17,13 +16,6 @@ namespace game
 		char type;
 		StackOfTypes* next;
 	};
-=======
-	int findHeroXCoordinate(Map** map);	// функция ищет координаты пресонажа по X и возвращает их, в качестве аргумента принимает двумерный массив структур
-	int findHeroYCoordinate(Map** map);	// функция ищет координаты пресонажа по Y и возвращает их, в качестве аргумента принимает двумерный массив структур
-
-	int findAimXCoordinate(Map** map);  // функция ищет координаты прицела по X и возвращает их, в качестве аргумента принимает двумерный массив структур
-	int findAimYCoordinate(Map** map);	// функция ищет координаты прицела по Y и возвращает их, в качестве аргумента принимает двумерный массив структур
->>>>>>> Andrey
 
 	//void push(char type, MapShell* &next);
 	//char pop(MapShell* &next);

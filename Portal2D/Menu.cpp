@@ -167,12 +167,7 @@ void RewriterCaseUpPoint(int a)
 }
 void RewriterCaseUpPoint2(int a)
 {
-<<<<<<< HEAD
 	switch (a)
-=======
-	records::DataAboutTheChampion newChampion = { "-1-1-1-1-1-1-1", 1000, 10 };
-	switch (playerChoice)
->>>>>>> Andrey
 	{
 
 	case 1:
@@ -260,7 +255,6 @@ void UserSelection2(int Cur)
 		SetConsoleTextAttribute(H, 7);
 		game::levelOne();
 		break;
-<<<<<<< HEAD
 	case 3:cout << "Level 2";
 		break;
 	case 4:cout << "Level 3";
@@ -281,7 +275,6 @@ void UserSelection3(int Cur)
 	system("cls");
 	switch (Cur)
 	{
-
 	case 1: cout << "All Records";
 		break;
 	case 2:cout << "10 Records";
@@ -290,29 +283,6 @@ void UserSelection3(int Cur)
 		Point();
 		MoveToMenuPoint();
 		break;
-=======
-
-	case INSTRUCTION:
-		cout << "In development" << endl;
-		//showInstruction(); TODO add this    
-		break;
-
-	case RECORDS:
-		system("cls");
-		records::addInRecordsOrShowRecords(newChampion, "show");
-		records::addInRecordsOrShowRecords(newChampion, "add");
-		records::addInRecordsOrShowRecords(newChampion, "show");
-		records::giveBestPlayerInLevel(10);
-		break;
-
-	case EXIT:
-		break;
-
-	default:
-		cout << "You entered wrong key" << endl;
-		system("cls");
-		menu::functionCaller(menu::menu());
->>>>>>> Andrey
 	}
 }
 

@@ -43,11 +43,6 @@ namespace game
 		int healthPoints = 100;		// здоровье персонажей
 	};
 
-<<<<<<< HEAD
 	// функция считывающая карту из файла в двумерный массив структур, функция принимает в качетсве аргумета имя уровня
 	MapShell** createMap(char* levelName, Hero* hero, Aim* aim, RedPortal* redPortal, BluePotal* bluePortal);
 }
-=======
-	Map** createMap(char* levelName);	// функция считывающая карту из файла в двумерный массив структур, принимает в качестве аргумента имя уровня
-}
->>>>>>> Andrey
