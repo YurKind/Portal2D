@@ -1,54 +1,80 @@
-#include "Records.h"
-#include "Structures.h"
-#include "List"
+#include "List.h"
+#include "SortingMethods.h"
 
-void records::freeMemory(List *begin)                 
+void records::addInRecordsOrShowRecords(records::DataAboutTheChampion newChampion, char *variant)
 {
-	List *cleaner = begin;
-	while (begin)              
+	list::List<records::DataAboutTheChampion> *begin = new list::List<records::DataAboutTheChampion>;
+	std::ifstream fin(FILE_NAME_RECORDS);
+	list::addList(&begin, fin);
+	if (!strcmp(variant, "show"))
 	{
-		cleaner = begin;         
-		begin = begin->next;     
-		delete cleaner;          
+		while (begin->next)
+		{
+			std::cout << "name: " << begin->value.name << " level: " << begin->value.level << " score: " << begin->value.score << std::endl;
+			begin = begin->next;
+		}
+	}
+	else if (!strcmp(variant, "add"))
+	{
+		int placeInRank = records::findingTheLocationInOrder(begin, newChampion);
+		list::addInCertainPlace(&begin, placeInRank, newChampion);
+		records::overwriteFile(begin);
+	}
+	fin.close();
+	list::freeMemory(begin);
+}
+
+void records::giveBestPlayerInLevel(int levelNumber)
+{
+	list::List<records::DataAboutTheChampion> *begin = new list::List<records::DataAboutTheChampion>;;
+	begin->next = NULL;
+	std::ifstream fin(FILE_NAME_RECORDS);
+	list::addList(&begin, fin);
+	records::removeItemsExcessLevels(begin, levelNumber);
+	std::cout << " -> name: " << begin->value.name << " level: " << begin->value.level << " score: " << begin->value.score << std::endl;
+	fin.close();
+	list::freeMemory(begin);
+}
+
+void records::removeItemsExcessLevels(list::List<records::DataAboutTheChampion> *begin, int rightLevel)
+{
+	list::List<records::DataAboutTheChampion> *cleaner = begin;        // новый указатель на начало списка
+	list::List<records::DataAboutTheChampion> *end = NULL;
+	while (begin)
+	{
+		if (begin->value.level != rightLevel)
+		{
+			end->next = NULL;
+			cleaner = begin;
+			begin = begin->next;
+			delete cleaner;
+		}
+		else
+		{
+			end = begin;
+			begin = begin->next;
+		}
 	}
 }
 
-void records::addInRecords(DataAboutTheChampion newChampion)
+int records::countLengthLine(std::ifstream &finForSize)
 {
-	List *begin = NULL;
-	begin = new List;
-
-	std::ifstream finLine("Records.txt"), finName("Records.txt"), finAll("Records.txt");
-	int N = records::knowFileSize("Records.txt");
-	DataAboutTheChampion *champions = new DataAboutTheChampion[N];
-
-	for (int i = 0; i < N; i++)
+	int lengthLine = 0;
+	char temp = ' ';
+	while (temp != '>')
 	{
-		int counterInit = records::countLettersInFile("line", finLine);
-		char *buf = new char[counterInit];
-		finAll.getline(buf, counterInit);
-		champions[i] = records::sortingArrays(buf, finName, i);
-		moveToNextLine(finName);
-		delete[] buf;
+		finForSize >> temp;
+		lengthLine++;
 	}
-	List *list = begin;
-	records::addList(champions, N, begin);
-	delete[] champions;
-	int placeInRank = records::findingTheLocationInOrder(begin, N, newChampion);
-	records::addInCertainPlace(begin, placeInRank, newChampion);
-	overwriteFile(begin);
-	finLine.close();
-	finName.close();
-	finAll.close();
-	freeMemory(begin);
+	return ++lengthLine;
 }
 
-void records::overwriteFile(List *begin)
+void records::overwriteFile(list::List<records::DataAboutTheChampion> *begin)        // перезапись файла
 {
-	std::ofstream fout("Records.txt");
+	std::ofstream fout(FILE_NAME_RECORDS);
 	while (begin->next != NULL)
 	{
-		fout << begin->champion.name << "|" << begin->champion.scores << "|" << begin->champion.level << "|";
+		fout << begin->value.name << "|" << begin->value.score << "|" << begin->value.level << ">";
 		if (begin->next->next != NULL) {
 			fout << std::endl;
 		}
@@ -57,28 +83,16 @@ void records::overwriteFile(List *begin)
 	fout.close();
 }
 
-void records::addList(DataAboutTheChampion champions[], int numberOfChampions, List *begin)
-{
-	List *add = begin;
-	for (int i = 0; i < numberOfChampions; i++)
-	{
-		add->next = new List;
-		add->champion = champions[i];
-		add = add->next;
-		add->next = NULL;
-	}
-}
-
-int records::findingTheLocationInOrder(List *begin, int numberOfChampions, DataAboutTheChampion newChampion)
+int records::findingTheLocationInOrder(list::List<records::DataAboutTheChampion> *begin, records::DataAboutTheChampion newChampion)      // высчитывание места нового рекордсмена в зависимости от уровня и очков
 {
 	int counter = 0;
-	List *list = begin;
-	while (list->champion.level > newChampion.level)
+	list::List<records::DataAboutTheChampion> *list = begin;
+	while (list->value.level > newChampion.level)
 	{
 		list = list->next;
 		counter++;
 	}
-	while (list->champion.scores > newChampion.scores && list->champion.level == newChampion.level)
+	while (list->value.score > newChampion.score && list->value.level == newChampion.level)
 	{
 		list = list->next;
 		counter++;
@@ -87,132 +101,28 @@ int records::findingTheLocationInOrder(List *begin, int numberOfChampions, DataA
 	return counter;
 }
 
-void records::addInCertainPlace(List *begin, int placeNumber, DataAboutTheChampion newChampion)
-{
-	List *insert = begin;
-	for (int i = 0; i < placeNumber - 1; i++)
-	{
-		insert = insert->next;
-	}
-	List *end = insert->next;
-	List *add = new List;
-	insert->next = add;
-	add->champion = newChampion;
-	add->next = end;
-}
-
-void records::showAllOfRecords()
-{
-	std::ifstream finLine("Records.txt"), finName("Records.txt"), finAll("Records.txt");
-	int N = records::knowFileSize("Records.txt");
-	DataAboutTheChampion *champions = new DataAboutTheChampion[N];
-
-	for (int i = 0; i < N; i++)
-	{
-		int counterInit = records::countLettersInFile("line", finLine);
-		char *buf = new char[counterInit];
-		finAll.getline(buf, counterInit);
-		champions[i] = records::sortingArrays(buf, finName, i);
-		moveToNextLine(finName);
-		std::cout << "\nname: " << champions[i].name << " scores: " << champions[i].scores << " lvl: " << champions[i].level << "";
-		delete[] buf;
-	}
-	delete[] champions;
-	finAll.close();
-	finLine.close();
-	finName.close();
-}
-
-void records::moveToNextLine(std::ifstream &fin)
-{
-	char *b = new char[20];
-	fin.getline(b, 20);
-	delete[] b;
-}
-
-int records::knowFileSize(char *fileName)
-{
-	int count = 0;
-	std::ifstream fin(fileName);
-
-	while (!fin.eof())
-	{
-		char *arr = new char[1024];
-		fin.getline(arr, 1024);
-		count++;
-		delete[] arr;
-	}
-	fin.close();
-	return count;
-}
-
-int records::countLettersInFile(char* variant, std::ifstream &fin)
-{
-	char temp = NULL;
-	char* buf = new char[1000];
-	int counter = 0;
-	if (!strcmp(variant, "name"))
-	{
-		while (!fin.eof())
-		{
-			if (temp == '|')
-				break;
-			fin >> temp;
-			counter++;
-		}
-	}
-	else if (!strcmp(variant, "line"))
-	{
-		char temp = NULL;
-		fin.getline(buf, 1000);
-		while (buf[counter] != '\0') {
-			counter++;
-		}
-	}
-	delete[] buf;
-	return ++counter;
-}
-
-DataAboutTheChampion records::sortingArrays(char *buf, std::ifstream &fin, int callNumber)
+records::DataAboutTheChampion records::sortingDataAboutTheChampion(char *buf)
 {
 	char time[5], lvl[2];
-	DataAboutTheChampion champion;
-	int counterLetter = 0, i = 0, fileSize = knowFileSize("Records.txt");
-	int sizeName = records::countLettersInFile("name", fin);
-	char *name = new char[sizeName];
-
+	records::DataAboutTheChampion champion = {};
+	int counterLetter = 0, i = 0;
 	while (buf[counterLetter] != '|')
 	{
-		name[counterLetter] = buf[counterLetter];
+		champion.name += buf[counterLetter];
 		counterLetter++;
 	}
 	counterLetter++;
-
-	static std::string *str;
-	if (callNumber == 0)
-	{
-		str = new std::string[fileSize];
-	} 
-	
-	for (int j = 0; j < sizeName - 2; j++)
-	{
-		str[callNumber] += name[j];
-	}
-	champion.name = &str[callNumber][0];
-	delete[] name;
-
 	while (buf[counterLetter] != '|')
 	{
 		time[i] = buf[counterLetter];
 		counterLetter++;
 		i++;
 	}
-	int scores = atoi(time);
-	champion.scores = scores;
+	int score = atoi(time);
+	champion.score = score;
 	counterLetter++;
 	i = 0;
-
-	while (buf[counterLetter] != '|')
+	while (buf[counterLetter] != '>')
 	{
 		lvl[i] = buf[counterLetter];
 		counterLetter++;
@@ -220,11 +130,6 @@ DataAboutTheChampion records::sortingArrays(char *buf, std::ifstream &fin, int c
 	}
 	int level = atoi(lvl);
 	champion.level = level;
-
-	if (callNumber == fileSize)
-	{
-		delete[] str;
-	}
 
 	return champion;
 }

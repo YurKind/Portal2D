@@ -2,7 +2,12 @@
 #include "Map.h"
 #include "Instruments.h"
 
+<<<<<<< HEAD
 int game::findSomeTypeXCoordinate(char type, MapShell** map)
+=======
+// функция ищет координаты пресонажа по Y и возвращает их, в качестве аргумента принимает двумерный массив структур
+int game::findHeroYCoordinate(game::Map** map)
+>>>>>>> Andrey
 {
 	for (int i = 0; i < MAP_HEIGHT; i++)
 	{
@@ -13,7 +18,12 @@ int game::findSomeTypeXCoordinate(char type, MapShell** map)
 	}
 }
 
+<<<<<<< HEAD
 int game::findSomeTypeYCoordinate(char type, MapShell** map)
+=======
+// функция ищет координаты пресонажа по X и возвращает их, в качестве аргумента принимает двумерный массив структур
+int game::findHeroXCoordinate(game::Map** map)
+>>>>>>> Andrey
 {
 	for (int i = 0; i < MAP_HEIGHT; i++)
 	{
@@ -24,7 +34,40 @@ int game::findSomeTypeYCoordinate(char type, MapShell** map)
 	}
 }
 
+<<<<<<< HEAD
 void game::drawFrame(game::MapShell** map)		// отрисовка карты, функция принимает в качетсве аргумета двумерный массив структур
+=======
+// функция ищет координаты прицела по X и возвращает их, в качестве аргумента принимает двумерный массив структур
+int game::findAimXCoordinate(game::Map** map)
+{
+	{
+		for (int i = 0; i < MAP_HEIGHT; i++)
+		{
+			for (int j = 0; j < MAP_WIDTH; j++)
+			{
+				if (map[i][j].type == AIM_DOT) return j;	// когда встречен искомый сивол, функция возвращает X координату
+			}
+		}
+	}
+}
+
+// функция ищет координаты прицела по Y и возвращает их, в качестве аргумента принимает двумерный массив структур
+int game::findAimYCoordinate(game::Map** map)
+{
+	{
+		for (int i = 0; i < MAP_HEIGHT; i++)
+		{
+			for (int j = 0; j < MAP_WIDTH; j++)
+			{
+				if (map[i][j].type == AIM_DOT) return i;	// когда встречен искомый сивол, функция возвращает Y координату
+			}
+		}
+	}
+}
+
+// отрисовка карты, в качестве аргумента принимает двумерный массив структур
+void game::drawFrame(game::Map** map)
+>>>>>>> Andrey
 {
 	for (int i = 0; i < MAP_HEIGHT; i++)
 	{
