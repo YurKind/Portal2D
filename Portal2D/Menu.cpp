@@ -1,5 +1,4 @@
 #include "Menu.h"
-#include "Structures.h"
 #include "Records.h"
 #include "Gameplay.h"
 
@@ -27,16 +26,51 @@ int menu::menu()
 
 void menu::functionCaller(int playerChoice)
 {
+<<<<<<< HEAD
 	DataAboutTheChampion newChampion = { "000000", 55, 8 };
 	switch (playerChoice)
+=======
+<<<<<<< HEAD
+	switch (a)
+=======
+	records::DataAboutTheChampion newChampion = { "-1-1-1-1-1-1-1", 1000, 10 };
+	switch (playerChoice)
+>>>>>>> Andrey
+>>>>>>> 3961de4c8b60b1c3db86816a25f7d5b5ac4d20df
 	{
 	case StartGame:
 		// TODO: Rework!
 		game::levelOne();
 		break;
+<<<<<<< HEAD
 	case Instruction:
 		cout << "In development" << endl;
 		//showInstruction(); TODO add this    
+=======
+<<<<<<< HEAD
+	case 3:cout << "Level 2";
+		break;
+	case 4:cout << "Level 3";
+		break;
+	case 5:cout << "Level 4";
+		break;
+	case 6:cout << "Level 5";
+		break;
+	case 7:
+		Point();
+
+		MoveToMenuPoint();
+		break;
+	}
+}
+void UserSelection3(int Cur)
+{
+	system("cls");
+	switch (Cur)
+	{
+
+	case 1: cout << "All Records";
+>>>>>>> 3961de4c8b60b1c3db86816a25f7d5b5ac4d20df
 		break;
 	case HighScores:
 		records::showAllOfRecords();
@@ -45,9 +79,34 @@ void menu::functionCaller(int playerChoice)
 	case Exit:
 		exit(0);
 		break;
+<<<<<<< HEAD
+=======
+=======
+
+	case INSTRUCTION:
+		cout << "In development" << endl;
+		//showInstruction(); TODO add this    
+		break;
+
+	case RECORDS:
+		system("cls");
+		records::addInRecordsOrShowRecords(newChampion, "show");
+		records::addInRecordsOrShowRecords(newChampion, "add");
+		records::addInRecordsOrShowRecords(newChampion, "show");
+		records::giveBestPlayerInLevel(10);
+		break;
+
+	case EXIT:
+		break;
+
+>>>>>>> 3961de4c8b60b1c3db86816a25f7d5b5ac4d20df
 	default:
 		cout << "You entered wrong key" << endl;
 		system("cls");
 		menu::functionCaller(menu::menu());
+<<<<<<< HEAD
+=======
+>>>>>>> Andrey
+>>>>>>> 3961de4c8b60b1c3db86816a25f7d5b5ac4d20df
 	}
 }

@@ -1,14 +1,37 @@
 #pragma once
+#include <iostream>
 
-struct DataAboutTheChampion
+namespace records
 {
-	char *name;
-	int scores;
-	int level;
-}/*нехуй тут ничего объ€вл€ть (€ про переменные, а не пол€)*/;
+	struct DataAboutTheChampion
+	{
+		std::string name;
+		int score;
+		int level;
+	};
+}
 
-struct List
+namespace list
 {
-	DataAboutTheChampion champion;
-	List *next;
-};
+	template <class T> struct List
+	{
+		T value;
+		List<T> *next;
+	};
+}
+
+namespace queue
+{
+	template <class T> struct Node
+	{
+		T data;
+		Node *next;
+		Node *previous;
+	};
+
+	template <class T> struct Queue
+	{
+		Node<T> *head = NULL;
+		Node<T> *tail = NULL;
+	};
+}
