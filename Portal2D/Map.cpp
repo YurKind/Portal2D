@@ -2,7 +2,7 @@
 #include "Map.h"
 
 // функция считывающая карту из файла в двумерный массив структур, функция принимает в качетсве аргумета имя уровня
-game::MapShell** game::createMap(char* levelName)
+game::MapShell** game::createMap(char* levelName, Hero* hero, Aim* aim, RedPotal* redPortal, BluePotal* bluePortal)
 {
 	game::MapShell** map = new game::MapShell*[MAP_HEIGHT];	//создание динамического массива
 	for (int i = 0; i < MAP_HEIGHT; i++)
@@ -25,9 +25,9 @@ game::MapShell** game::createMap(char* levelName)
 			{
 			case HERO_SYMBOL:				// если текущий символ равен "H", то
 				map[i][j].type = HERO;		// тип текущей клетки становится "Герой"
-				map[i][j].xCoordinate = j;	// запоминаются его координаты
-				map[i][j].yCoordinate = i;
-				map[i][j].passable = true;	// клетка становится проходимой
+				hero->xCoordinate = j;	// запоминаются его координаты
+				hero->yCoordinate = i;
+				map[i][j].passable = true;
 				break;
 
 			case BLOCK_SHARP:				// если текущий символ равен "решётка", то
@@ -46,8 +46,8 @@ game::MapShell** game::createMap(char* levelName)
 
 			case AIM_DOT:					// если текущий символ равен "точке", то
 				map[i][j].type = AIM_DOT;	// тип текущей клетки становится "прицел"
-				map[i][j].xCoordinate = j;	// запоминаются его координаты
-				map[i][j].yCoordinate = i;
+				aim->xCoordinate = j;	// запоминаются его координаты
+				aim->yCoordinate = i;
 				map[i][j].passable = true;	// клетка становится проходимой
 				break;
 

@@ -11,16 +11,21 @@
 namespace game
 {
 	// Выполняя необходимые проверки, совершает прыжок, если он возможен
-	void jump(int heroYCoordinate, int heroXCoordinate, MapShell** map);
+	void jump(Hero* hero, game::MapShell** map);
 
 	// Совершает определенное действие в зависимости от нажатой игроком клавиши
-	void performAnAction(MapShell** map);
+	void performAnAction(MapShell** map, Hero* hero, Aim* aim, RedPotal* redPortal, BluePotal* bluePortal);
 	
 	// Функции для перемещения объектов влево-вправо-вверх-вниз
-	void moveLeft(char type, int yCoordinate, int xCoordinate, MapShell** map);
-	void moveRight(char type, int yCoordinate, int xCoordinate, MapShell** map);
-	void moveUp(char type, int yCoordinate, int xCoordinate, MapShell** map);
-	void moveDown(char type, int yCoordinate, int xCoordinate, MapShell** map);
+
+	template <class T>
+	void moveLeft(char type, T *object, MapShell** map);
+	template <class T>
+	void moveRight(char type, T *object, MapShell** map);
+	template <class T>
+	void moveUp(char type, T *object, game::MapShell** map);
+	template <class T>
+	void moveDown(char type, T *object, game::MapShell** map);
 	
 	// Функции для перемещения прицела вправо-влево-вверх-вниз
 	/*void moveAimRight(char type, int aimYCoordinate, int aimXCoordinate, MapShell** map);
@@ -32,7 +37,8 @@ namespace game
 	void levelOne(); 
 
 	// Выполняя необходимые проверки, имитирует гравитацию
-	void gravity(MapShell** map);
+	template <class T>
+	void gravity(MapShell** map, T* object);
 
 	void setPortal(char type, int PortalYCoordinate, int PortalXCoordinate, int aimYCoordinate, int aimXCoordinate, MapShell** map);
 	/*void enterThePortal(char type, MapShell** map);*/

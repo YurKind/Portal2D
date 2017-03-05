@@ -5,6 +5,35 @@
 
 namespace game
 {
+	struct Hero
+	{
+		//char type = HERO;
+		int xCoordinate;
+		int yCoordinate;
+		int healthPoints = 100;
+	};
+
+	struct Aim
+	{
+		//char type = AIM_DOT;
+		int xCoordinate;
+		int yCoordinate;
+	};
+
+	struct RedPotal
+	{
+		//char type = RED_PORTAL;
+		int xCoordinate;
+		int yCoordinate;
+	};
+
+	struct BluePotal
+	{
+		//char type = BLUE_PORTAL;
+		int xCoordinate;
+		int yCoordinate;
+	};
+
 	struct MapShell					// структура MapShell хранит всебе данные об элементе массива структур
 	{
 		char type;					// переменная для хранения текстуры (персонажа, блоков и тд)
@@ -15,5 +44,5 @@ namespace game
 	};
 
 	// функция считывающая карту из файла в двумерный массив структур, функция принимает в качетсве аргумета имя уровня
-	MapShell** createMap(char* levelName);
+	MapShell** createMap(char* levelName, Hero* hero, Aim* aim, RedPotal* redPortal, BluePotal* bluePortal);
 }
