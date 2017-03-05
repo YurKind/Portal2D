@@ -30,21 +30,33 @@ void records::giveBestPlayerInLevel(int levelNumber)
 	begin->next = NULL;
 	std::ifstream fin(FILE_NAME_RECORDS);
 	list::addList(&begin, fin);
-	records::removeItemsExcessLevels(begin, levelNumber);
-	std::cout << " -> name: " << begin->value.name << " level: " << begin->value.level << " score: " << begin->value.score << std::endl;
+	records::DataAboutTheChampion bestResult = records::removeItemsExcessLevels(begin, levelNumber);
+	if (bestResult.name == "errorEmptyListOfRecords")
+	{
+		std::cout << "Be the first at this level! " << std::endl;
+	}
+	else
+	{
+		std::cout << " -> name: " << bestResult.name << " score: " << bestResult.score << std::endl;
+	}
 	fin.close();
-	list::freeMemory(begin);
 }
 
-void records::removeItemsExcessLevels(list::List<records::DataAboutTheChampion> *begin, int rightLevel)
+records::DataAboutTheChampion records::removeItemsExcessLevels(list::List<records::DataAboutTheChampion> *begin, int rightLevel)
 {
+	bool counterEmptyListOfRecordsForRightlevel = false;
 	list::List<records::DataAboutTheChampion> *cleaner = begin;        // новый указатель на начало списка
 	list::List<records::DataAboutTheChampion> *end = NULL;
-	while (begin)
+	records::DataAboutTheChampion bestResult;
+	bestResult.score = NULL;
+	while (begin && bestResult.score == NULL)
 	{
-		if (begin->value.level != rightLevel)
+		if (begin->value.level != rightLevel && bestResult.score == NULL)
 		{
-			end->next = NULL;
+			if (end)
+			{
+				end->next = NULL;
+			}
 			cleaner = begin;
 			begin = begin->next;
 			delete cleaner;
@@ -52,9 +64,17 @@ void records::removeItemsExcessLevels(list::List<records::DataAboutTheChampion> 
 		else
 		{
 			end = begin;
+			counterEmptyListOfRecordsForRightlevel++;
+			bestResult = begin->value;
 			begin = begin->next;
 		}
 	}
+	if (!counterEmptyListOfRecordsForRightlevel)
+	{
+		bestResult.name = "errorEmptyListOfRecords";
+	}
+	list::freeMemory(begin);
+	return bestResult;
 }
 
 int records::countLengthLine(std::ifstream &finForSize)
