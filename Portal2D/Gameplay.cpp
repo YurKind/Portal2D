@@ -3,20 +3,12 @@
 #include "Instruments.h"
 
 //------Moving_Functions------//
-void game::performAnAction(game::MapShell** map, Hero* hero, Aim* aim, RedPotal* redPortal, BluePotal* bluePortal)
+void game::performAnAction(game::MapShell** map, Hero* hero, Aim* aim, RedPortal* redPortal, BluePotal* bluePortal)
 {
 	bool gameIsRunning = true; // ¬ременно
 
 	while (gameIsRunning)
 	{
-		//int heroXCoordinate = findSomeTypeXCoordinate(HERO, map); //»щем координату геро€ на оси X
-		//int heroYCoordinate = findSomeTypeYCoordinate(HERO, map); //»щем координату геро€ на оси Y
-
-		int PortalXCoordinate = findSomeTypeXCoordinate(RED_PORTAL, map);
-		int PortalYCoordinate = findSomeTypeYCoordinate(RED_PORTAL, map);
-
-		//int aimXCoordinate = findSomeTypeXCoordinate(AIM_DOT, map); //»щем координату прицела на оси X
-		//int aimYCoordinate = findSomeTypeYCoordinate(AIM_DOT, map); //»щем координату прицела на оси Y
 
 		if (_kbhit()) // ≈сли нажата клавиша
 		{
@@ -31,26 +23,20 @@ void game::performAnAction(game::MapShell** map, Hero* hero, Aim* aim, RedPotal*
 				break;
 
 			case LEFT_ARROW:
-				//условие ниже вызывает непри€знь и желание его уничтожить, но это временно, пока не по€витс€ стек
-				if ((map[aim->yCoordinate][aim->xCoordinate - 1].type != RED_PORTAL) && (map[aim->yCoordinate][aim->xCoordinate - 1].type != BLUE_PORTAL))
-					moveLeft(AIM_DOT, aim, map);
+				moveLeft(AIM_DOT, aim, map);
 				break;
 
 			case RIGHT_ARROW:
-				//условие ниже вызывает непри€знь и желание его уничтожить, но это временно, пока не по€витс€ стек
-				if ((map[aim->yCoordinate][aim->xCoordinate + 1].type != RED_PORTAL) && (map[aim->yCoordinate][aim->xCoordinate + 1].type != BLUE_PORTAL))
-					moveRight(AIM_DOT, aim, map);
+				moveRight(AIM_DOT, aim, map);
 				break;
 
 			case UP_ARROW:
 				//условие ниже вызывает непри€знь и желание его уничтожить, но это временно, пока не по€витс€ стек
-				if ((map[aim->yCoordinate - 1][aim->xCoordinate].type != RED_PORTAL) && (map[aim->yCoordinate - 1][aim->xCoordinate].type != BLUE_PORTAL))
-					moveUp(AIM_DOT, aim, map);
+				moveUp(AIM_DOT, aim, map);
 				break;
 
 			case DOWN_ARROW:
 				//условие ниже вызывает непри€знь и желание его уничтожить, но это временно, пока не по€витс€ стек
-					if ((map[aim->yCoordinate + 1][aim->xCoordinate].type != RED_PORTAL) && (map[aim->yCoordinate + 1][aim->xCoordinate].type != BLUE_PORTAL))
 				moveDown(AIM_DOT, aim, map);
 				break;
 
@@ -59,11 +45,11 @@ void game::performAnAction(game::MapShell** map, Hero* hero, Aim* aim, RedPotal*
 				break;
 
 			case E_LOWER_CASE:
-				setPortal(RED_PORTAL, PortalYCoordinate, PortalXCoordinate, aim->yCoordinate, aim->xCoordinate, map);
+				setPortal(RED_PORTAL, redPortal, aim, map);
 				break;
 
 			case Q_LOWER_CASE:
-				setPortal(BLUE_PORTAL, PortalYCoordinate, PortalXCoordinate, aim->yCoordinate, aim->xCoordinate, map);
+				setPortal(BLUE_PORTAL, bluePortal, aim, map);
 				break;
 
 			/*case ENTER:
@@ -111,7 +97,7 @@ void game::jump(Hero* hero, game::MapShell** map)
 }
 
 template <class T>
-void game::moveLeft(char type, T *object, game::MapShell** map)
+void game::moveLeft(char type, T* object, game::MapShell** map)
 {
 	if (map[object->yCoordinate][object->xCoordinate - 1].passable == true) // ≈сли клетка слева проходима 
 	{
@@ -122,7 +108,7 @@ void game::moveLeft(char type, T *object, game::MapShell** map)
 }
 
 template <class T>
-void game::moveRight(char type, T *object, game::MapShell** map)
+void game::moveRight(char type, T* object, game::MapShell** map)
 {
 	if (map[object->yCoordinate][object->xCoordinate + 1].passable == true) // ≈сли клетка слева проходима 
 	{
@@ -131,8 +117,9 @@ void game::moveRight(char type, T *object, game::MapShell** map)
 		object->xCoordinate = object->xCoordinate + 1;
 	}
 }
+
 template <class T>
-void game::moveUp(char type, T *object, game::MapShell** map)
+void game::moveUp(char type, T* object, game::MapShell** map)
 {
 	if (map[object->yCoordinate - 1][object->xCoordinate].passable == true) // ≈сли клетка сверху проходима
 	{
@@ -143,7 +130,7 @@ void game::moveUp(char type, T *object, game::MapShell** map)
 }
 
 template <class T>
-void game::moveDown(char type, T *object, game::MapShell** map)
+void game::moveDown(char type, T* object, game::MapShell** map)
 {
 	if (map[object->yCoordinate + 1][object->xCoordinate].passable == true) // ≈сли клетка снизу проходима 
 	{
@@ -188,7 +175,7 @@ void game::levelOne()
 {
 	game::Hero* hero = new Hero;
 	game::Aim* aim = new Aim;
-	game::RedPotal* redPortal = new RedPotal;
+	game::RedPortal* redPortal = new RedPortal;
 	game::BluePotal* bluePortal = new BluePotal;
 
 	game::clearScreen(); // „истим экран
@@ -201,50 +188,21 @@ void game::levelOne()
 }
 
 //-----Portals_Functions------//
-void game::setPortal(char type, int PortalYCoordinate, int PortalXCoordinate, int aimYCoordinate, int aimXCoordinate, game::MapShell** map)
+template <class T>
+void game::setPortal(char type, T* object, Aim* aim, game::MapShell** map)
 {
 	if (type == RED_PORTAL)
 	{
-		PortalXCoordinate = findSomeTypeXCoordinate(RED_PORTAL, map);
-		PortalYCoordinate = findSomeTypeYCoordinate(RED_PORTAL, map);
-
-		map[PortalYCoordinate][PortalXCoordinate].type = EMPTY_SPACE;
-
-		map[aimYCoordinate][aimXCoordinate].type = type;
-
-		if (map[aimYCoordinate][aimXCoordinate - 1].type == EMPTY_SPACE)
-		{
-			aimXCoordinate = aimXCoordinate - 1;
-			map[aimYCoordinate][aimXCoordinate].type = AIM_DOT;
-		}
-
-		else if (map[aimYCoordinate][aimXCoordinate + 1].type == EMPTY_SPACE)
-		{
-			aimXCoordinate = aimXCoordinate + 1;
-			map[aimYCoordinate][aimXCoordinate].type = AIM_DOT;
-		}
+		map[aim->yCoordinate][aim->xCoordinate].type = type;
+		object->xCoordinate = aim->xCoordinate;
+		object->yCoordinate = aim->yCoordinate;
 	}
 
 	else if (type == BLUE_PORTAL)
 	{
-		PortalXCoordinate = findSomeTypeXCoordinate(BLUE_PORTAL, map);
-		PortalYCoordinate = findSomeTypeYCoordinate(BLUE_PORTAL, map);
-
-		map[PortalYCoordinate][PortalXCoordinate].type = EMPTY_SPACE;
-
-		map[aimYCoordinate][aimXCoordinate].type = type;
-
-		if (map[aimYCoordinate][aimXCoordinate - 1].type == EMPTY_SPACE)
-		{
-			aimXCoordinate = aimXCoordinate - 1;
-			map[aimYCoordinate][aimXCoordinate].type = AIM_DOT;
-		}
-
-		else if (map[aimYCoordinate][aimXCoordinate + 1].type == EMPTY_SPACE)
-		{
-			aimXCoordinate = aimXCoordinate + 1;
-			map[aimYCoordinate][aimXCoordinate].type = AIM_DOT;
-		}
+		map[aim->yCoordinate][aim->xCoordinate].type = type;
+		object->xCoordinate = aim->xCoordinate;
+		object->yCoordinate = aim->yCoordinate;
 	}
 }
 

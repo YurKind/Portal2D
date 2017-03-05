@@ -20,7 +20,7 @@ namespace game
 		int yCoordinate;
 	};
 
-	struct RedPotal
+	struct RedPortal
 	{
 		//char type = RED_PORTAL;
 		int xCoordinate;
@@ -44,5 +44,5 @@ namespace game
 	};
 
 	// функция считывающая карту из файла в двумерный массив структур, функция принимает в качетсве аргумета имя уровня
-	MapShell** createMap(char* levelName, Hero* hero, Aim* aim, RedPotal* redPortal, BluePotal* bluePortal);
+	MapShell** createMap(char* levelName, Hero* hero, Aim* aim, RedPortal* redPortal, BluePotal* bluePortal);
 }

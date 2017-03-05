@@ -2,7 +2,7 @@
 #include "Map.h"
 
 // функция считывающая карту из файла в двумерный массив структур, функция принимает в качетсве аргумета имя уровня
-game::MapShell** game::createMap(char* levelName, Hero* hero, Aim* aim, RedPotal* redPortal, BluePotal* bluePortal)
+game::MapShell** game::createMap(char* levelName, Hero* hero, Aim* aim, RedPortal* redPortal, BluePotal* bluePortal)
 {
 	game::MapShell** map = new game::MapShell*[MAP_HEIGHT];	//создание динамического массива
 	for (int i = 0; i < MAP_HEIGHT; i++)
