@@ -7,9 +7,6 @@ using namespace std;
 
 int main()
 {
-
-	Point();
-	MoveToMenuPoint();
 	/*game::StackOfTypes* next = nullptr;
 
 	char numberOne = '1';
@@ -21,7 +18,7 @@ int main()
 	cout << game::pop(next) << endl;
 	cout << game::pop(next) << endl;*/
 
-	//menu::functionCaller(menu::menu());
+	menu::functionCaller(menu::menu());
 
 	//game::Map** map = game::createMap("Lvl_1.txt");
 
