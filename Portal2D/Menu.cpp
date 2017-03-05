@@ -27,6 +27,7 @@ int menu::menu()
 void menu::functionCaller(int playerChoice)
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
 	DataAboutTheChampion newChampion = { "000000", 55, 8 };
 	switch (playerChoice)
 =======
@@ -37,17 +38,23 @@ void menu::functionCaller(int playerChoice)
 	switch (playerChoice)
 >>>>>>> Andrey
 >>>>>>> 3961de4c8b60b1c3db86816a25f7d5b5ac4d20df
+=======
+	switch (a)
+>>>>>>> c09189a9eefbd98c72a8542b92ffdd1a625975fd
 	{
 	case StartGame:
 		// TODO: Rework!
 		game::levelOne();
 		break;
 <<<<<<< HEAD
+<<<<<<< HEAD
 	case Instruction:
 		cout << "In development" << endl;
 		//showInstruction(); TODO add this    
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> c09189a9eefbd98c72a8542b92ffdd1a625975fd
 	case 3:cout << "Level 2";
 		break;
 	case 4:cout << "Level 3";
@@ -68,7 +75,6 @@ void UserSelection3(int Cur)
 	system("cls");
 	switch (Cur)
 	{
-
 	case 1: cout << "All Records";
 >>>>>>> 3961de4c8b60b1c3db86816a25f7d5b5ac4d20df
 		break;
@@ -79,6 +85,7 @@ void UserSelection3(int Cur)
 	case Exit:
 		exit(0);
 		break;
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 =======
@@ -108,5 +115,7 @@ void UserSelection3(int Cur)
 =======
 >>>>>>> Andrey
 >>>>>>> 3961de4c8b60b1c3db86816a25f7d5b5ac4d20df
+=======
+>>>>>>> c09189a9eefbd98c72a8542b92ffdd1a625975fd
 	}
 }

@@ -1,17 +1,14 @@
 ﻿#pragma once
 
 //------TEXTURES------//
-<<<<<<< HEAD:Portal2D/Definitions.h
 #define HERO '\2'// looks like ☻
 #define HERO_SYMBOL 'H'
 #define BLOCK_SHARP '#'
 #define BLOCK static_cast<char>(219) // looks like █
-=======
 #define HERO (char)2
 #define HERO_SYMBOL 'H'
 #define BLOCK_SHARP '#'
 #define BLOCK (char)219
->>>>>>> Andrey:Portal2D/DistrOfDefine.h
 #define EMPTY_SPACE ' '
 //#define TURRET ''
 //#define TIMER_BUTTON ''
@@ -20,15 +17,12 @@
 #define BLUE_PORTAL '0'
 #define AIM (char)250
 #define AIM_DOT '.'
-<<<<<<< HEAD:Portal2D/Definitions.h
 #define BLACK_WALL static_cast<char>(176)
 #define BLACK_WALL_S 'X'
 #define EXIT static_cast<char>(178)
-=======
 #define BLACK_WALL (char)176
 #define BlACK_WALL_S 'X'
 #define EXIT (char)178
->>>>>>> Andrey:Portal2D/DistrOfDefine.h
 #define EXIT_S 'E'
 
 //------MAP------//
