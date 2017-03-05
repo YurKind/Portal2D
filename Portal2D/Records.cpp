@@ -1,4 +1,4 @@
-#include "Records.h"
+#include "List.h"
 #include "SortingMethods.h"
 
 void records::addInRecordsOrShowRecords(records::DataAboutTheChampion newChampion, char *variant)
@@ -29,7 +29,7 @@ void records::giveBestPlayerInLevel(int levelNumber)
 	list::List<records::DataAboutTheChampion> *begin = new list::List<records::DataAboutTheChampion>;;
 	begin->next = NULL;
 	std::ifstream fin(FILE_NAME_RECORDS);
-	addList(&begin, fin);
+	list::addList(&begin, fin);
 	records::removeItemsExcessLevels(begin, levelNumber);
 	std::cout << " -> name: " << begin->value.name << " level: " << begin->value.level << " score: " << begin->value.score << std::endl;
 	fin.close();
@@ -71,7 +71,7 @@ int records::countLengthLine(std::ifstream &finForSize)
 
 void records::overwriteFile(list::List<records::DataAboutTheChampion> *begin)        // перезапись файла
 {
-	std::ofstream fout("Records.txt");
+	std::ofstream fout(FILE_NAME_RECORDS);
 	while (begin->next != NULL)
 	{
 		fout << begin->value.name << "|" << begin->value.score << "|" << begin->value.level << ">";

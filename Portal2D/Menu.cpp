@@ -1,7 +1,7 @@
 #include "Menu.h"
 #include "Records.h"
 #include "Gameplay.h"
-#include "RandomLevel.h"
+//#include "RandomLevel.h"
 
 int menu::menu()
 {
@@ -42,10 +42,10 @@ void menu::functionCaller(int playerChoice)
 
 	case RECORDS:
 		system("cls");
-		//records::addInRecordsOrShowRecords(newChampion, "show");
-		//records::addInRecordsOrShowRecords(newChampion, "add");
-		//records::addInRecordsOrShowRecords(newChampion, "show");
-		//records::giveBestPlayerInLevel(10);
+		records::addInRecordsOrShowRecords(newChampion, "show");
+		records::addInRecordsOrShowRecords(newChampion, "add");
+		records::addInRecordsOrShowRecords(newChampion, "show");
+		records::giveBestPlayerInLevel(10);
 		break;
 
 	case EXIT:

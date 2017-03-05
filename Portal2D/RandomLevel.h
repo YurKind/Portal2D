@@ -1,5 +1,4 @@
 #pragma once
-#include "Structures.h"
 
 #define NUMBER_OF_LEVELS 10
 
