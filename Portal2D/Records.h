@@ -2,18 +2,12 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include "Structures.h"
 
 #define FILE_NAME_RECORDS "Records.txt"
 
 namespace records
 {
-	struct DataAboutTheChampion
-	{
-		std::string name;
-		int score;
-		int level;
-	};
-
 	void overwriteFile(list::List<DataAboutTheChampion> *begin);
 
 	int findingTheLocationInOrder(list::List<DataAboutTheChampion> *list, DataAboutTheChampion newChampion);

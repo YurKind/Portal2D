@@ -3,13 +3,6 @@
 
 namespace list
 {
-	template <class T> struct List
-	{
-		T value;
-		List<T> *next;
-	};
-
-
 	void addList(List<records::DataAboutTheChampion> **begin, std::ifstream &fin);
 
 	void freeMemory(List<records::DataAboutTheChampion> *begin);
