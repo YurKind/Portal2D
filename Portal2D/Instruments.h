@@ -20,9 +20,6 @@ namespace game
 	//void push(char type, MapShell* &next);
 	//char pop(MapShell* &next);
 
-	int findSomeTypeXCoordinate(char type, MapShell** map);	// функция ищет координаты "объекта_на_карте" по X и возвращает их, функция принимает в качетсве аргумета двумерный массив структур
-	int findSomeTypeYCoordinate(char type, MapShell** map);	// функция ищет координаты "объекта_на_карте" по Y и возвращает их, функция принимает в качетсве аргумета двумерный массив структур
-
 	void drawFrame(MapShell** map);			// отрисовка карты, функция принимает в качетсве аргумета двумерный массив структур
 	void clearScreen();					// функция очистки консоли (без мерцания) !(надо разобраться)!
 }
