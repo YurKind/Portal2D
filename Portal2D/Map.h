@@ -5,7 +5,7 @@
 
 namespace game
 {
-	struct Hero
+	struct Hero							// Хранит данные о герое (координаты, очки здоровья)
 	{
 		//char type = HERO;
 		int xCoordinate;
@@ -13,21 +13,21 @@ namespace game
 		int healthPoints = 100;
 	};
 
-	struct Aim
+	struct Aim							// Хранит данные о прицеле (его координаты)
 	{
 		//char type = AIM_DOT;
 		int xCoordinate;
 		int yCoordinate;
 	};
 
-	struct RedPortal
+	struct RedPortal                   // Хранит данные о красном портале (его координаты)
 	{
 		//char type = RED_PORTAL;
 		int xCoordinate;
 		int yCoordinate;
 	};
 
-	struct BluePotal
+	struct BluePotal				  // Хранит данные о синем портале (его координаты)
 	{
 		//char type = BLUE_PORTAL;
 		int xCoordinate;

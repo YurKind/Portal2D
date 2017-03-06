@@ -65,18 +65,18 @@ game::MapShell** game::createMap(char* levelName, Hero* hero, Aim* aim, RedPorta
 				map[i][j].passable = true;	// клетка становится проходимой
 				break;
 
-			case RED_PORTAL:
-				map[i][j].type = RED_PORTAL;
-				map[i][j].xCoordinate = j;
-				map[i][j].yCoordinate = i;
-				map[i][j].passable = true;
+			case RED_PORTAL:				  // если текущий символ равен "O", то
+				map[i][j].type = RED_PORTAL;  // тип текущей клетки становится "красный портал"
+				map[i][j].xCoordinate = j;	  
+				map[i][j].yCoordinate = i;	  // запоминаются его координаты
+				map[i][j].passable = true;    // клетка становится проходимой
 				break;
 
 			case BLUE_PORTAL:
-				map[i][j].type = BLUE_PORTAL;
-				map[i][j].xCoordinate = j;
-				map[i][j].yCoordinate = i;
-				map[i][j].passable = true;
+				map[i][j].type = BLUE_PORTAL; // если текущий символ равен "O", то
+				map[i][j].xCoordinate = j;    // тип текущей клетки становится "красный портал"
+				map[i][j].yCoordinate = i;	  // запоминаются его координаты
+				map[i][j].passable = true;    // клетка становится проходимой
 				break;
 
 			default:
