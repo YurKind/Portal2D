@@ -11,33 +11,24 @@
 namespace game
 {
 	// Выполняя необходимые проверки, совершает прыжок, если он возможен
-	void jump(Hero* hero, game::MapCell** map);
+	void jump(GameInfo* gameInfo, game::MapCell** map);
 
 	// Совершает определенное действие в зависимости от нажатой игроком клавиши
-	void performAnAction(MapCell** map, Hero* hero, Object* aim, Object* redPortal, Object* bluePortal);
+	void performAnAction(MapCell** map, GameInfo* gameInfo);
 	
 	// Функции для перемещения объектов влево-вправо-вверх-вниз
 
-	template <class T>
-	void moveLeft(char type, T *object, MapCell** map);
-
-	template <class T>
-	void moveRight(char type, T *object, MapCell** map);
-
-	template <class T>
-	void moveUp(char type, T *object, game::MapCell** map);
-
-	template <class T>
-	void moveDown(char type, T *object, game::MapCell** map);
+	void moveLeft(char type, GameInfo* gameInfo, MapCell** map);
+	void moveRight(char type, GameInfo* gameInfo, MapCell** map);
+	void moveUp(char type, GameInfo* gameInfo, MapCell** map);
+	void moveDown(char type, GameInfo* gameInfo, MapCell** map);
 
 	// Временная функция для запуска первого уровня
 	void levelOne(); 
 
 	// Выполняя необходимые проверки, имитирует гравитацию
-	template <class T>
-	void gravity(MapCell** map, T* object);
+	void gravity(MapCell** map, GameInfo* gameInfo);
 
-	template <class T>
-	void setPortal(char type, T* object, Object* aim, game::MapCell** map);
+	void setPortal(char type, GameInfo* gameInfo, game::MapCell** map);
 	/*void enterThePortal(char type, MapCell** map);*/
 }

@@ -5,17 +5,20 @@
 
 namespace game
 {
-	struct Hero							// Хранит данные о герое (координаты, очки здоровья)
+	struct GameInfo
 	{
-		int xCoordinate;
-		int yCoordinate;
-		int healthPoints = 100;
-	};
+		struct Hero							// Хранит данные о герое (координаты, очки здоровья)
+		{
+			int xCoordinate;
+			int yCoordinate;
+			int healthPoints = 100;
+		} hero;
 
-	struct Object                  // Хранит данные об объектах на карте (прицел, порталы)
-	{
-		int xCoordinate;
-		int yCoordinate;
+		struct Object                  // Хранит данные об объектах на карте (прицел, порталы)
+		{
+			int xCoordinate;
+			int yCoordinate;
+		} redPortal, bluePortal, aim;
 	};
 
 	struct MapCell					// структура MapCell хранит всебе данные о клетке карты
@@ -27,5 +30,5 @@ namespace game
 	};
 
 	// функция считывающая карту из файла в двумерный массив структур, функция принимает в качетсве аргумета имя уровня
-	MapCell** createMap(char* levelName, Hero* hero, Object* aim, Object* redPortal, Object* bluePortal);
+	MapCell** createMap(char* levelName, GameInfo* gameInfo);
 }
