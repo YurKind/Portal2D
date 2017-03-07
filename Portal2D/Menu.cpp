@@ -81,6 +81,9 @@ void Point()
 	Stand(30, 13, GREEN_COLOR_DARK, "Exit");
 }
 
+/***
+ * kjhfvjhgcdjgfdcg
+ */
 void Point2()
 {
 	Hat();

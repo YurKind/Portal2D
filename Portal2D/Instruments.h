@@ -9,7 +9,7 @@
 
 namespace game
 {
-	struct MapShell;
+	struct MapCell;
 
 	struct StackOfTypes
 	{
@@ -17,9 +17,9 @@ namespace game
 		StackOfTypes* next;
 	};
 
-	//void push(char type, MapShell* &next);
-	//char pop(MapShell* &next);
+	//void push(char type, MapCell* &next);
+	//char pop(MapCell* &next);
 
-	void drawFrame(MapShell** map);			// отрисовка карты, функция принимает в качетсве аргумета двумерный массив структур
+	void drawFrame(MapCell** map);			// отрисовка карты, функция принимает в качетсве аргумета двумерный массив структур
 	void clearScreen();					// функция очистки консоли (без мерцания) !(надо разобраться)!
 }
