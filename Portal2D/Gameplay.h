@@ -14,7 +14,7 @@ namespace game
 	void jump(Hero* hero, game::MapCell** map);
 
 	// Совершает определенное действие в зависимости от нажатой игроком клавиши
-	void performAnAction(MapCell** map, Hero* hero, Aim* aim, RedPortal* redPortal, BluePotal* bluePortal);
+	void performAnAction(MapCell** map, Hero* hero, Object* aim, Object* redPortal, Object* bluePortal);
 	
 	// Функции для перемещения объектов влево-вправо-вверх-вниз
 
@@ -38,6 +38,6 @@ namespace game
 	void gravity(MapCell** map, T* object);
 
 	template <class T>
-	void setPortal(char type, T* object, Aim* aim, game::MapCell** map);
+	void setPortal(char type, T* object, Object* aim, game::MapCell** map);
 	/*void enterThePortal(char type, MapCell** map);*/
 }

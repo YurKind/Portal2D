@@ -2,7 +2,7 @@
 #include "Map.h"
 
 // функция считывающая карту из файла в двумерный массив структур, функция принимает в качетсве аргумета имя уровня
-game::MapCell** game::createMap(char* levelName, Hero* hero, Aim* aim, RedPortal* redPortal, BluePotal* bluePortal)
+game::MapCell** game::createMap(char* levelName, Hero* hero, Object* aim, Object* redPortal, Object* bluePortal)
 {
 	game::MapCell** map = new game::MapCell*[MAP_HEIGHT];	//создание динамического массива
 	for (int i = 0; i < MAP_HEIGHT; i++)
@@ -32,15 +32,15 @@ game::MapCell** game::createMap(char* levelName, Hero* hero, Aim* aim, RedPortal
 
 			case BLOCK_SHARP:				// если текущий символ равен "решётка", то
 				map[i][j].type = BLOCK;		// тип текущей клетки становится "Блок"
-				map[i][j].xCoordinate = j;	// запоминаются его координаты
-				map[i][j].yCoordinate = i;
+				//map[i][j].xCoordinate = j;	// запоминаются его координаты
+				//map[i][j].yCoordinate = i;
 				map[i][j].passable = false;	//клетка становится непроходимой
 				break;
 
 			case EMPTY_SPACE:				// если текущий символ равен "_", то
 				map[i][j].type = EMPTY_SPACE;	// тип текущей клетки становится "пустое пространство"
-				map[i][j].xCoordinate = j;		// запоминаются её координаты
-				map[i][j].yCoordinate = i;
+				//map[i][j].xCoordinate = j;		// запоминаются её координаты
+				//map[i][j].yCoordinate = i;
 				map[i][j].passable = true;	// клетка становится проходимой
 				break;
 
@@ -53,30 +53,30 @@ game::MapCell** game::createMap(char* levelName, Hero* hero, Aim* aim, RedPortal
 
 			case BLACK_WALL_S:				// если текущий символ равен "X", то
 				map[i][j].type = BLACK_WALL;	// тип текущей клетки становится "непроходимая стена"
-				map[i][j].xCoordinate = j;	// запоминаются его координаты
-				map[i][j].yCoordinate = i;
+				//map[i][j].xCoordinate = j;	// запоминаются его координаты
+				//map[i][j].yCoordinate = i;
 				map[i][j].passable = false;	// клетка становится непроходимой
 				break;
 
 			case EXIT_S:					// если текущий символ равен "X", то
 				map[i][j].type = EXIT;		// тип текущей клетки становится "выход"
-				map[i][j].xCoordinate = j;	// запоминаются его координаты
-				map[i][j].yCoordinate = i;
+				//map[i][j].xCoordinate = j;	// запоминаются его координаты
+				//map[i][j].yCoordinate = i;
 				map[i][j].passable = true;	// клетка становится проходимой
 				break;
 
 			case RED_PORTAL:				  // если текущий символ равен "O", то
 				map[i][j].type = RED_PORTAL;  // тип текущей клетки становится "красный портал"
-				map[i][j].xCoordinate = j;	  
-				map[i][j].yCoordinate = i;	  // запоминаются его координаты
+				redPortal->xCoordinate = j;
+				redPortal->yCoordinate = i;   // запоминаются его координаты
 				map[i][j].passable = true;    // клетка становится проходимой
 				break;
 
 			case BLUE_PORTAL:
-				map[i][j].type = BLUE_PORTAL; // если текущий символ равен "O", то
-				map[i][j].xCoordinate = j;    // тип текущей клетки становится "красный портал"
-				map[i][j].yCoordinate = i;	  // запоминаются его координаты
-				map[i][j].passable = true;    // клетка становится проходимой
+				map[i][j].type = BLUE_PORTAL;   // если текущий символ равен "O", то
+				bluePortal->xCoordinate = j;    // тип текущей клетки становится "красный портал"
+				bluePortal->yCoordinate = i;	// запоминаются его координаты
+				map[i][j].passable = true;      // клетка становится проходимой
 				break;
 
 			default:

@@ -3,7 +3,7 @@
 #include "Instruments.h"
 
 //------Moving_Functions------//
-void game::performAnAction(game::MapCell** map, Hero* hero, Aim* aim, RedPortal* redPortal, BluePotal* bluePortal)
+void game::performAnAction(game::MapCell** map, Hero* hero, Object* aim, Object* redPortal, Object* bluePortal)
 {
 	bool gameIsRunning = true; // Временно
 
@@ -174,9 +174,9 @@ void game::gravity(game::MapCell** map, T *object)
 void game::levelOne()
 {
 	game::Hero* hero = new Hero;
-	game::Aim* aim = new Aim;
-	game::RedPortal* redPortal = new RedPortal;
-	game::BluePotal* bluePortal = new BluePotal;
+	game::Object* aim = new Object;
+	game::Object* redPortal = new Object;
+	game::Object* bluePortal = new Object;
 
 	game::clearScreen(); // Чистим экран
 
@@ -189,7 +189,7 @@ void game::levelOne()
 
 //-----Portals_Functions------//
 template <class T>
-void game::setPortal(char type, T* object, Aim* aim, game::MapCell** map)
+void game::setPortal(char type, T* object, Object* aim, game::MapCell** map)
 {
 	if (type == RED_PORTAL)
 	{
