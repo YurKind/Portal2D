@@ -30,5 +30,5 @@ namespace game
 	void gravity(MapCell** map, GameInfo* gameInfo);
 
 	void setPortal(char type, GameInfo* gameInfo, game::MapCell** map);
-	/*void enterThePortal(char type, MapCell** map);*/
+	void enterThePortal(char type, GameInfo* gameInfo, MapCell** map);
 }

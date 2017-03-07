@@ -52,9 +52,9 @@ void game::performAnAction(MapCell** map, GameInfo* gameInfo)
 				setPortal(BLUE_PORTAL, gameInfo, map);
 				break;
 
-			/*case ENTER:
-				
-				break;*/
+			case ENTER:
+				enterThePortal(HERO, gameInfo, map);
+				break;
 
 			default:
 				break;
@@ -106,16 +106,17 @@ void game::moveLeft(char type, GameInfo* gameInfo, game::MapCell** map)
 			map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].type = EMPTY_SPACE; // В клетку, где был объект заносим пробел, в клетку
 			map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate - 1].type = type;	  // слева заносим символ объекта, а так же переносим инфу о HP
 			gameInfo->aim.xCoordinate = gameInfo->aim.xCoordinate - 1;
-			break;
 		}
+		break;
+
 	case HERO:
 		if (map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate - 1].passable == true)
 		{
 			map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].type = EMPTY_SPACE; // В клетку, где был объект заносим пробел, в клетку
 			map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate - 1].type = type;	  // слева заносим символ объекта, а так же переносим инфу о HP
 			gameInfo->hero.xCoordinate = gameInfo->hero.xCoordinate - 1;
-			break;
 		}
+		break;
 	}
 }
 
@@ -129,16 +130,17 @@ void game::moveRight(char type, GameInfo* gameInfo, game::MapCell** map)
 			map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].type = EMPTY_SPACE; // В клетку, где был объект заносим пробел, в клетку
 			map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate + 1].type = type;	  // слева заносим символ объекта, а так же переносим инфу о HP
 			gameInfo->aim.xCoordinate = gameInfo->aim.xCoordinate + 1;
-			break;
 		}
+		break;
+
 	case HERO:
 		if (map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate + 1].passable == true)
 		{
 			map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].type = EMPTY_SPACE; // В клетку, где был объект заносим пробел, в клетку
 			map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate + 1].type = type;	  // слева заносим символ объекта, а так же переносим инфу о HP
 			gameInfo->hero.xCoordinate = gameInfo->hero.xCoordinate + 1;
-			break;
 		}
+		break;
 	}
 }
 
@@ -152,16 +154,17 @@ void game::moveUp(char type, GameInfo* gameInfo, game::MapCell** map)
 			map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].type = EMPTY_SPACE; // В клетку, где был объект заносим пробел, в клетку
 			map[gameInfo->aim.yCoordinate - 1][gameInfo->aim.xCoordinate].type = type;	  // слева заносим символ объекта, а так же переносим инфу о HP
 			gameInfo->aim.yCoordinate = gameInfo->aim.yCoordinate - 1;
-			break;
 		}
+		break;
+
 	case HERO:
 		if (map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].passable == true)
 		{
 			map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].type = EMPTY_SPACE; // В клетку, где был объект заносим пробел, в клетку
 			map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].type = type;	  // слева заносим символ объекта, а так же переносим инфу о HP
 			gameInfo->hero.yCoordinate = gameInfo->hero.yCoordinate - 1;
-			break;
 		}
+		break;
 	}
 }
 
@@ -175,16 +178,17 @@ void game::moveDown(char type, GameInfo* gameInfo, game::MapCell** map)
 			map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].type = EMPTY_SPACE; // В клетку, где был объект заносим пробел, в клетку
 			map[gameInfo->aim.yCoordinate + 1][gameInfo->aim.xCoordinate].type = type;	  // слева заносим символ объекта, а так же переносим инфу о HP
 			gameInfo->aim.yCoordinate = gameInfo->aim.yCoordinate + 1;
-			break;
 		}
+		break;
+
 	case HERO:
 		if (map[gameInfo->hero.yCoordinate + 1][gameInfo->hero.xCoordinate].passable == true)
 		{
 			map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].type = EMPTY_SPACE; // В клетку, где был объект заносим пробел, в клетку
 			map[gameInfo->hero.yCoordinate + 1][gameInfo->hero.xCoordinate].type = type;	  // слева заносим символ объекта, а так же переносим инфу о HP
 			gameInfo->hero.yCoordinate = gameInfo->hero.yCoordinate + 1;
-			break;
 		}
+		break;
 	}
 }
 
@@ -229,7 +233,23 @@ void game::setPortal(char type, GameInfo* gameInfo, game::MapCell** map)
 	}
 }
 
-//void game::enterThePortal(char type, MapCell** map)
-//{
-//	
-//}
+void game::enterThePortal(char type, GameInfo* gameInfo, MapCell** map)
+{
+	if (gameInfo->hero.xCoordinate == gameInfo->redPortal.xCoordinate &&	// надо переработать
+		gameInfo->hero.yCoordinate == gameInfo->redPortal.yCoordinate)		// если координаты игрока и красного портала совпадают
+	{
+		map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].type = EMPTY_SPACE;
+		gameInfo->hero.xCoordinate = gameInfo->bluePortal.xCoordinate;
+		gameInfo->hero.yCoordinate = gameInfo->bluePortal.yCoordinate;
+		map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].type = HERO;
+	}
+
+	else if (gameInfo->hero.xCoordinate == gameInfo->bluePortal.xCoordinate &&
+		gameInfo->hero.yCoordinate == gameInfo->bluePortal.yCoordinate)
+	{
+		map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].type = EMPTY_SPACE;
+		gameInfo->hero.xCoordinate = gameInfo->redPortal.xCoordinate;
+		gameInfo->hero.yCoordinate = gameInfo->redPortal.yCoordinate;
+		map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].type = HERO;
+	}
+}

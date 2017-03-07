@@ -14,7 +14,7 @@ namespace game
 			int healthPoints = 100;
 		} hero;
 
-		struct Object                  // Хранит данные об объектах на карте (прицел, порталы)
+		struct Coordinates                  // Хранит данные об объектах на карте (прицел, порталы)
 		{
 			int xCoordinate;
 			int yCoordinate;
