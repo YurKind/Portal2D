@@ -2,6 +2,7 @@
 #include "Map.h"
 #include "Instruments.h"
 
+<<<<<<< HEAD
 //int game::findSomeTypeXCoordinate(char type, MapShell** map)
 //{
 //	for (int i = 0; i < MAP_HEIGHT; i++)
@@ -25,6 +26,9 @@
 //}
 
 void game::drawFrame(game::MapShell** map)		// отрисовка карты, функция принимает в качетсве аргумета двумерный массив структур
+=======
+void game::drawFrame(game::MapCell** map)		// отрисовка карты, функция принимает в качетсве аргумета двумерный массив структур
+>>>>>>> Andrey
 {
 	for (int i = 0; i < MAP_HEIGHT; i++)
 	{
@@ -86,18 +90,18 @@ void game::clearScreen()		// функция очистки консоли (без мерцания)
 	SetConsoleCursorInfo(Handle, &structCursorInfo);
 }
 
-//void game::push(char type, MapShell* &topElement)
+//void game::push(char type, MapCell* &topElement)
 //{
-//	MapShell* newType = new MapShell;
+//	MapCell* newType = new MapCell;
 //	newType->type = type;
 //	newType->next = topElement;
 //	topElement = newType;
 //}
 //
-//char game::pop(MapShell* &topElement)
+//char game::pop(MapCell* &topElement)
 //{
 //	char temp = topElement->type;
-//	MapShell* currentElement = topElement;
+//	MapCell* currentElement = topElement;
 //	topElement = topElement->next;
 //	delete currentElement;
 //	return temp;

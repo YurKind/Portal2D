@@ -18,7 +18,7 @@ namespace records
 
 	void giveBestPlayerInLevel(int levelNumber);
 
-	void removeItemsExcessLevels(list::List<DataAboutTheChampion> *begin, int rightLevel);
+	DataAboutTheChampion removeItemsExcessLevels(list::List<DataAboutTheChampion> *begin, int rightLevel);
 
 	int countLengthLine(std::ifstream &finForSize);
 }

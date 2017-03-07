@@ -5,10 +5,6 @@
 #define HERO_SYMBOL 'H'
 #define BLOCK_SHARP '#'
 #define BLOCK static_cast<char>(219) // looks like █
-#define HERO (char)2
-#define HERO_SYMBOL 'H'
-#define BLOCK_SHARP '#'
-#define BLOCK (char)219
 #define EMPTY_SPACE ' '
 //#define TURRET ''
 //#define TIMER_BUTTON ''
@@ -17,11 +13,8 @@
 #define BLUE_PORTAL '0'
 #define AIM (char)250
 #define AIM_DOT '.'
-#define BLACK_WALL static_cast<char>(176)
-#define BLACK_WALL_S 'X'
-#define EXIT static_cast<char>(178)
 #define BLACK_WALL (char)176
-#define BlACK_WALL_S 'X'
+#define BLACK_WALL_S 'X'
 #define EXIT (char)178
 #define EXIT_S 'E'
 

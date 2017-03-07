@@ -3,7 +3,7 @@
 #include "Instruments.h"
 
 //------Moving_Functions------//
-void game::performAnAction(game::MapShell** map, Hero* hero, Aim* aim, RedPortal* redPortal, BluePotal* bluePortal)
+void game::performAnAction(game::MapCell** map, Hero* hero, Aim* aim, RedPortal* redPortal, BluePotal* bluePortal)
 {
 	bool gameIsRunning = true; // Временно
 
@@ -68,7 +68,7 @@ void game::performAnAction(game::MapShell** map, Hero* hero, Aim* aim, RedPortal
 	}
 }
 
-void game::jump(Hero* hero, game::MapShell** map)
+void game::jump(Hero* hero, game::MapCell** map)
 {
 	if (map[hero->yCoordinate + 1][hero->xCoordinate].passable == false)
 	{
@@ -97,7 +97,7 @@ void game::jump(Hero* hero, game::MapShell** map)
 }
 
 template <class T>
-void game::moveLeft(char type, T* object, game::MapShell** map)
+void game::moveLeft(char type, T* object, game::MapCell** map)
 {
 	if (map[object->yCoordinate][object->xCoordinate - 1].passable == true) // Если клетка слева проходима 
 	{
@@ -108,7 +108,7 @@ void game::moveLeft(char type, T* object, game::MapShell** map)
 }
 
 template <class T>
-void game::moveRight(char type, T* object, game::MapShell** map)
+void game::moveRight(char type, T* object, game::MapCell** map)
 {
 	if (map[object->yCoordinate][object->xCoordinate + 1].passable == true) // Если клетка слева проходима 
 	{
@@ -119,7 +119,7 @@ void game::moveRight(char type, T* object, game::MapShell** map)
 }
 
 template <class T>
-void game::moveUp(char type, T* object, game::MapShell** map)
+void game::moveUp(char type, T* object, game::MapCell** map)
 {
 	if (map[object->yCoordinate - 1][object->xCoordinate].passable == true) // Если клетка сверху проходима
 	{
@@ -130,7 +130,7 @@ void game::moveUp(char type, T* object, game::MapShell** map)
 }
 
 template <class T>
-void game::moveDown(char type, T* object, game::MapShell** map)
+void game::moveDown(char type, T* object, game::MapCell** map)
 {
 	if (map[object->yCoordinate + 1][object->xCoordinate].passable == true) // Если клетка снизу проходима 
 	{
@@ -142,7 +142,7 @@ void game::moveDown(char type, T* object, game::MapShell** map)
 
 //------Gravitation_Functions------//
 template <class T>
-void game::gravity(game::MapShell** map, T *object)
+void game::gravity(game::MapCell** map, T *object)
 {
 	if (map[object->yCoordinate][object->xCoordinate].type == HERO && map[object->yCoordinate + 1][object->xCoordinate].passable == true)
 	{
@@ -152,7 +152,7 @@ void game::gravity(game::MapShell** map, T *object)
 	}
 }
 
-//void game::gravity(game::MapShell** map)
+//void game::gravity(game::MapCell** map)
 //{
 //	for (int i = 0; i < MAP_HEIGHT; i++)
 //	{
@@ -180,7 +180,7 @@ void game::levelOne()
 
 	game::clearScreen(); // Чистим экран
 
-	game::MapShell** map = game::createMap("Lvl_1.txt", hero, aim, redPortal, bluePortal); // Создаем двумерный массив структур, используя текстовый документ
+	game::MapCell** map = game::createMap("Lvl_1.txt", hero, aim, redPortal, bluePortal); // Создаем двумерный массив структур, используя текстовый документ
 
 	game::drawFrame(map); // Рисуем первый кадр
 
@@ -189,7 +189,7 @@ void game::levelOne()
 
 //-----Portals_Functions------//
 template <class T>
-void game::setPortal(char type, T* object, Aim* aim, game::MapShell** map)
+void game::setPortal(char type, T* object, Aim* aim, game::MapCell** map)
 {
 	if (type == RED_PORTAL)
 	{
@@ -206,7 +206,7 @@ void game::setPortal(char type, T* object, Aim* aim, game::MapShell** map)
 	}
 }
 
-//void game::enterThePortal(char type, MapShell** map)
+//void game::enterThePortal(char type, MapCell** map)
 //{
 //	
 //}
