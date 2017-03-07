@@ -31,4 +31,6 @@ namespace game
 
 	void setPortal(char type, GameInfo* gameInfo, game::MapCell** map);
 	void enterThePortal(char type, GameInfo* gameInfo, MapCell** map);
+
+	void activateTheButton(GameInfo* gameInfo, game::MapCell** map);
 }

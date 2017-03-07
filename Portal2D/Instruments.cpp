@@ -42,6 +42,10 @@ void game::drawFrame(game::MapCell** map)		// отрисовка карты, функция принимает
 				std::cout << BLUE_PORTAL;
 				break;
 
+			case BUTTON:
+				std::cout << BUTTON;
+				break;
+
 			default:
 				break;
 			}

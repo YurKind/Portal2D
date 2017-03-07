@@ -49,11 +49,15 @@ game::MapCell** game::createMap(char* levelName, GameInfo* gameInfo)
 
 			case BLACK_WALL_S:				// если текущий символ равен "X", то
 				map[i][j].type = BLACK_WALL;	// тип текущей клетки становится "непроходимая стена"
+				gameInfo->blackWall.xCoordinate = j;
+				gameInfo->blackWall.yCoordinate = i;
 				map[i][j].passable = false;	// клетка становится непроходимой
 				break;
 
 			case EXIT_S:					// если текущий символ равен "X", то
 				map[i][j].type = EXIT;		// тип текущей клетки становится "выход"
+				gameInfo->exitFromLevel.xCoordinate = j;
+				gameInfo->exitFromLevel.yCoordinate = i;
 				map[i][j].passable = true;	// клетка становится проходимой
 				break;
 
@@ -69,6 +73,13 @@ game::MapCell** game::createMap(char* levelName, GameInfo* gameInfo)
 				gameInfo->bluePortal.xCoordinate = j;    // тип текущей клетки становится "красный портал"
 				gameInfo->bluePortal.yCoordinate = i;	// запоминаются его координаты
 				map[i][j].passable = true;      // клетка становится проходимой
+				break;
+
+			case BUTTON_S:
+				map[i][j].type = BUTTON;
+				gameInfo->button.xCoordinate = j;
+				gameInfo->button.yCoordinate = i;
+				map[i][j].passable = true;
 				break;
 
 			default:

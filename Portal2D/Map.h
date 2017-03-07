@@ -14,11 +14,11 @@ namespace game
 			int healthPoints = 100;
 		} hero;
 
-		struct Coordinates                  // Хранит данные об объектах на карте (прицел, порталы)
+		struct Objects                  // Хранит данные об объектах на карте (прицел, порталы)
 		{
 			int xCoordinate;
 			int yCoordinate;
-		} redPortal, bluePortal, aim;
+		} redPortal, bluePortal, aim, blackWall, exitFromLevel, button;
 	};
 
 	struct MapCell					// структура MapCell хранит всебе данные о клетке карты

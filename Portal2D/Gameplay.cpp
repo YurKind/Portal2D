@@ -54,6 +54,7 @@ void game::performAnAction(MapCell** map, GameInfo* gameInfo)
 
 			case ENTER:
 				enterThePortal(HERO, gameInfo, map);
+				activateTheButton(gameInfo, map);
 				break;
 
 			default:
@@ -232,7 +233,6 @@ void game::setPortal(char type, GameInfo* gameInfo, game::MapCell** map)
 		gameInfo->bluePortal.yCoordinate = gameInfo->aim.yCoordinate;
 	}
 }
-
 void game::enterThePortal(char type, GameInfo* gameInfo, MapCell** map)
 {
 	if (gameInfo->hero.xCoordinate == gameInfo->redPortal.xCoordinate &&	// надо переработать
@@ -251,5 +251,16 @@ void game::enterThePortal(char type, GameInfo* gameInfo, MapCell** map)
 		gameInfo->hero.xCoordinate = gameInfo->redPortal.xCoordinate;
 		gameInfo->hero.yCoordinate = gameInfo->redPortal.yCoordinate;
 		map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].type = HERO;
+	}
+}
+
+//------Button_Functions------//
+void game::activateTheButton(GameInfo* gameInfo, MapCell** map)
+{
+	if (gameInfo->hero.xCoordinate == gameInfo->button.xCoordinate &&
+		gameInfo->hero.yCoordinate == gameInfo->button.yCoordinate)
+	{
+		map[gameInfo->blackWall.yCoordinate][gameInfo->blackWall.xCoordinate].passable = true;
+		map[gameInfo->blackWall.yCoordinate][gameInfo->blackWall.xCoordinate].type = EMPTY_SPACE;
 	}
 }
