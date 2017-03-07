@@ -2,33 +2,7 @@
 #include "Map.h"
 #include "Instruments.h"
 
-<<<<<<< HEAD
-//int game::findSomeTypeXCoordinate(char type, MapShell** map)
-//{
-//	for (int i = 0; i < MAP_HEIGHT; i++)
-//	{
-//		for (int j = 0; j < MAP_WIDTH; j++)
-//		{
-//			if (map[i][j].type == type) return j;
-//		}
-//	}
-//}
-//
-//int game::findSomeTypeYCoordinate(char type, MapShell** map)
-//{
-//	for (int i = 0; i < MAP_HEIGHT; i++)
-//	{
-//		for (int j = 0; j < MAP_WIDTH; j++)
-//		{
-//			if (map[i][j].type == type) return i;
-//		}
-//	}
-//}
-
-void game::drawFrame(game::MapShell** map)		// отрисовка карты, функция принимает в качетсве аргумета двумерный массив структур
-=======
 void game::drawFrame(game::MapCell** map)		// отрисовка карты, функция принимает в качетсве аргумета двумерный массив структур
->>>>>>> Andrey
 {
 	for (int i = 0; i < MAP_HEIGHT; i++)
 	{
