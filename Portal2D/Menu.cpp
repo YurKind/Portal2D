@@ -249,11 +249,17 @@ void UserSelection(int Cur)
 
 void UserSelection2(int Cur)
 {
+	queue::Queue<int> *begin = new queue::Queue<int>;
 	system("cls");
 	switch (Cur)
 	{
 	case 1:
-		cout << "Random level";
+		cout << "Random level";	
+		std::cout << queue::generatingRandomLevelNumber(begin);
+		std::cout << queue::generatingRandomLevelNumber(begin);
+		std::cout << queue::generatingRandomLevelNumber(begin);
+		std::cout << queue::generatingRandomLevelNumber(begin);
+		queue::freeMemory(begin);
 		break;
 	case 2:
 		/*cout << "Level 1";*/
@@ -292,6 +298,7 @@ void UserSelection3(int Cur)
 
 	case 2:
 		cout << "10 Records";
+		records::addInRecordsOrShowRecords(empty, "show10");
 		break;
 
 	case 3:
