@@ -2,29 +2,7 @@
 #include "Map.h"
 #include "Instruments.h"
 
-int game::findSomeTypeXCoordinate(char type, MapShell** map)
-{
-	for (int i = 0; i < MAP_HEIGHT; i++)
-	{
-		for (int j = 0; j < MAP_WIDTH; j++)
-		{
-			if (map[i][j].type == type) return j;
-		}
-	}
-}
-
-int game::findSomeTypeYCoordinate(char type, MapShell** map)
-{
-	for (int i = 0; i < MAP_HEIGHT; i++)
-	{
-		for (int j = 0; j < MAP_WIDTH; j++)
-		{
-			if (map[i][j].type == type) return i;
-		}
-	}
-}
-
-void game::drawFrame(game::MapShell** map)		// отрисовка карты, функция принимает в качетсве аргумета двумерный массив структур
+void game::drawFrame(game::MapCell** map)		// отрисовка карты, функция принимает в качетсве аргумета двумерный массив структур
 {
 	for (int i = 0; i < MAP_HEIGHT; i++)
 	{
@@ -56,11 +34,11 @@ void game::drawFrame(game::MapShell** map)		// отрисовка карты, функция принимае
 				std::cout << EXIT;
 				break;
 
-			case RED_PORTAL:
+			case RED_PORTAL:			// если встречен тип "красный портал", то отрисовывается красный портал
 				std::cout << RED_PORTAL;
 				break;
 
-			case BLUE_PORTAL:
+			case BLUE_PORTAL:			// если встречен тип "синий портал", то отрисовывается синий портал
 				std::cout << BLUE_PORTAL;
 				break;
 
@@ -86,18 +64,18 @@ void game::clearScreen()		// функция очистки консоли (без мерцания)
 	SetConsoleCursorInfo(Handle, &structCursorInfo);
 }
 
-//void game::push(char type, MapShell* &topElement)
+//void game::push(char type, MapCell* &topElement)
 //{
-//	MapShell* newType = new MapShell;
+//	MapCell* newType = new MapCell;
 //	newType->type = type;
 //	newType->next = topElement;
 //	topElement = newType;
 //}
 //
-//char game::pop(MapShell* &topElement)
+//char game::pop(MapCell* &topElement)
 //{
 //	char temp = topElement->type;
-//	MapShell* currentElement = topElement;
+//	MapCell* currentElement = topElement;
 //	topElement = topElement->next;
 //	delete currentElement;
 //	return temp;

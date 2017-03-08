@@ -5,7 +5,7 @@
 
 namespace game
 {
-	struct Hero
+	struct Hero							// ’ранит данные о герое (координаты, очки здоровь€)
 	{
 		//char type = HERO;
 		int xCoordinate;
@@ -13,36 +13,36 @@ namespace game
 		int healthPoints = 100;
 	};
 
-	struct Aim
+	struct Aim							// ’ранит данные о прицеле (его координаты)
 	{
 		//char type = AIM_DOT;
 		int xCoordinate;
 		int yCoordinate;
 	};
 
-	struct RedPortal
+	struct RedPortal                   // ’ранит данные о красном портале (его координаты)
 	{
 		//char type = RED_PORTAL;
 		int xCoordinate;
 		int yCoordinate;
 	};
 
-	struct BluePotal
+	struct BluePotal				  // ’ранит данные о синем портале (его координаты)
 	{
 		//char type = BLUE_PORTAL;
 		int xCoordinate;
 		int yCoordinate;
 	};
 
-	struct MapShell					// структура MapShell хранит всебе данные об элементе массива структур
+	struct MapCell					// структура MapCell хранит всебе данные о клетке карты
 	{
 		char type;					// переменна€ дл€ хранени€ текстуры (персонажа, блоков и тд)
 		int xCoordinate;			// координаты по x ?(оно пригодитс€ в будущем)?
 		int yCoordinate;			// координаты по y ???
 		bool passable;				// переменна€ хранит в себе данные о возможности пройти сквозь неЄ
-		int healthPoints = 100;		// здоровье персонажей
+		//int healthPoints = 100;		// здоровье персонажей
 	};
 
 	// функци€ считывающа€ карту из файла в двумерный массив структур, функци€ принимает в качетсве аргумета им€ уровн€
-	MapShell** createMap(char* levelName, Hero* hero, Aim* aim, RedPortal* redPortal, BluePotal* bluePortal);
+	MapCell** createMap(char* levelName, Hero* hero, Aim* aim, RedPortal* redPortal, BluePotal* bluePortal);
 }
