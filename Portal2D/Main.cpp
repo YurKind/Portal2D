@@ -7,8 +7,24 @@ using namespace std;
 
 int main()
 {
-	Point();
-	MoveToMenuPoint();
+	/*Point();
+	MoveToMenuPoint();*/
+
+	game::levelOne();
+
+	//game::Stack<char>* newStack = new game::Stack<char>;
+
+	//char a = 'a';
+	//char b = 'b';
+
+	//game::push(a, newStack);
+	//game::push(b, newStack);
+
+	//cout << game::peek(newStack) << endl;
+
+	//game::pop(newStack);
+
+	//cout << game::peek(newStack) << endl;
 
 	system("pause");
 

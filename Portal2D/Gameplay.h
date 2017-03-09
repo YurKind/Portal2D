@@ -7,6 +7,7 @@
 
 #include "Definitions.h"
 #include "Map.h"
+#include "Stack.h"
 
 namespace game
 {

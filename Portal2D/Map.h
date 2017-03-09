@@ -2,6 +2,7 @@
 
 #include "Definitions.h"
 #include "Instruments.h"
+#include "Stack.h"
 
 namespace game
 {
@@ -23,9 +24,7 @@ namespace game
 
 	struct MapCell					// структура MapCell хранит всебе данные о клетке карты
 	{
-		char type;					// переменная для хранения текстуры (персонажа, блоков и тд)
-		//int xCoordinate;			// координаты по x ?(оно пригодится в будущем)?
-		//int yCoordinate;			// координаты по y ???
+		Stack<char>* types;			// переменная для хранения текстуры (персонажа, блоков и тд)
 		bool passable;				// переменная хранит в себе данные о возможности пройти сквозь неё
 	};
 
