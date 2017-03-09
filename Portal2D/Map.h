@@ -17,8 +17,8 @@ namespace game
 
 		struct Objects                  // Хранит данные об объектах на карте (прицел, порталы)
 		{
-			int xCoordinate;
-			int yCoordinate;
+			int xCoordinate = 0;
+			int yCoordinate = 0;
 		} redPortal, bluePortal, aim, blackWall, exitFromLevel, button;
 	};
 

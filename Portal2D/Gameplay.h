@@ -34,4 +34,6 @@ namespace game
 	void enterThePortal(char type, GameInfo* gameInfo, MapCell** map);
 
 	void activateTheButton(GameInfo* gameInfo, game::MapCell** map);
+
+	//bool winLevel(GameInfo* gameInfo, MapCell** map, bool gameIsRunning);
 }
