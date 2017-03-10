@@ -35,3 +35,13 @@ namespace queue
 		Node<T> *tail = NULL;
 	};
 }
+
+namespace branch
+{
+	template <typename T> struct Branch
+	{
+		T data;
+		Branch<T> *left = NULL;
+		Branch<T> *right = NULL;
+	};
+}
