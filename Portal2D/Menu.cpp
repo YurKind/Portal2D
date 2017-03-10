@@ -258,10 +258,12 @@ void UserSelection2(int Cur)
 	{
 	case 1:
 		cout << "Random level";	
+		std::cout << queue::checkCurrentSizeOfQueue(begin) << std::endl;
 		std::cout << queue::generatingRandomLevelNumber(begin);
 		std::cout << queue::generatingRandomLevelNumber(begin);
 		std::cout << queue::generatingRandomLevelNumber(begin);
-		std::cout << queue::generatingRandomLevelNumber(begin);
+		std::cout << queue::generatingRandomLevelNumber(begin) << std::endl;
+		std::cout << queue::checkCurrentSizeOfQueue(begin) << std::endl;
 		queue::freeMemory(begin);
 		break;
 	case 2:

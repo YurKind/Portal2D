@@ -26,6 +26,18 @@ namespace queue
 		}
 	}
 
+	template <typename T> int checkCurrentSizeOfQueue(queue::Queue<T> *begin)
+	{
+		int resultOfCount = 0;
+		queue::Queue<T> *counter = begin;
+		while (counter->head)
+		{
+			resultOfCount++;
+			counter->head = counter->head->next;
+		}
+		return resultOfCount;
+	}
+
 	template <typename T> T generatingRandomLevelNumber(queue::Queue<T> *begin)
 	{
 		int *arr = new int[NUMBER_OF_LEVELS];
