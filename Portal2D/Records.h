@@ -14,7 +14,7 @@ namespace records
 
 	void addInRecordsOrShowRecords(DataAboutTheChampion newChampion, char *variant);
 
-	DataAboutTheChampion sortingDataAboutTheChampion(char *buf);
+	DataAboutTheChampion initializationDataAboutTheChampion(char *buf);
 
 	void giveBestPlayerInLevel(int levelNumber);
 

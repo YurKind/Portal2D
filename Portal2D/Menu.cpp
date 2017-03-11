@@ -3,7 +3,8 @@
 #include "Gameplay.h"
 #include "Definitions.h"
 #include "Queue.h"
-#include "Branch.h"
+#include "List.h"
+#include "Tree.h"
 
 HANDLE H = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -258,7 +259,7 @@ void UserSelection2(int Cur)
 	switch (Cur)
 	{
 	case 1:
-		cout << "Random level";	
+		cout << "Random level";
 		std::cout << queue::checkCurrentSizeOfQueue(begin) << std::endl;
 		std::cout << queue::generatingRandomLevelNumber(begin);
 		std::cout << queue::generatingRandomLevelNumber(begin);
@@ -294,8 +295,12 @@ void UserSelection2(int Cur)
 void UserSelection3(int Cur)
 {
 	system("cls");
-	branch::Branch<int> *begin = NULL;
+	tree::BranchForNumber<records::DataAboutTheChampion> *tree = NULL;
 	records::DataAboutTheChampion empty;
+	std::ifstream fin(FILE_NAME_RECORDS);
+	tree::BranchForNumber<records::DataAboutTheChampion> **s = &tree;
+	tree::BranchForNumber<records::DataAboutTheChampion> *search;
+	int counter = 0;
 	switch (Cur)
 	{
 	case 1:
@@ -307,18 +312,30 @@ void UserSelection3(int Cur)
 		cout << "10 Records";
 		records::addInRecordsOrShowRecords(empty, "show10");
 		system("cls");
-		for (int i = 10; i > 0; i--)
+
+		tree::addTree(&tree, FILE_NAME_RECORDS);
+		std::cout << "\nmin = " << tree::getMinimum(tree).score << std::endl;
+		std::cout << "max = " << tree::getMaximum(tree).score << std::endl;
+
+		search = *s;
+		while (search)
 		{
-			branch::addTree(rand() % 100, begin);
+			if (counter)
+				*s = tree::searchByScore(search->right, 43.23);
+			else
+				*s = tree::searchByScore(search, 43.23);
+			search = *s; 
+			if (search)
+				std::cout << search->data.name << " -> " << search->data.level << std::endl;
+			counter++;
 		}
-
-		branch::freeMemory(begin);
+		tree::freeMemory(tree);
 		break;
 
-	case 3:
-		Point();
-		MoveToMenuPoint();
-		break;
+		/*case 3:
+			Point();
+			MoveToMenuPoint();
+			break;*/
 	}
 }
 
@@ -387,7 +404,7 @@ void MoveToMenuPoint3()
 	bool f = true;
 	int position = 1;
 
-	while (f == true) 
+	while (f == true)
 	{
 		int code = _getch();
 		switch (code)

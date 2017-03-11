@@ -6,7 +6,7 @@ namespace records
 	struct DataAboutTheChampion
 	{
 		std::string name;
-		int score;
+		double score;
 		int level;
 	};
 }
@@ -36,12 +36,12 @@ namespace queue
 	};
 }
 
-namespace branch
+namespace tree
 {
-	template <typename T> struct Branch
+	template <typename T> struct BranchForNumber
 	{
 		T data;
-		Branch<T> *left = NULL;
-		Branch<T> *right = NULL;
+		BranchForNumber<T> *left = NULL;
+		BranchForNumber<T> *right = NULL;
 	};
 }
