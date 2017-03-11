@@ -7,6 +7,8 @@ void game::performAnAction(MapCell** map, GameInfo* gameInfo)
 {
 	bool gameIsRunning = true; // Временно
 
+	double timeBeforeGame = clock();
+
 	while (gameIsRunning)
 	{
 
@@ -64,11 +66,20 @@ void game::performAnAction(MapCell** map, GameInfo* gameInfo)
 		winLevel(gameInfo, map, gameIsRunning);
 
 		game::clearScreen(); // Очищаем экран
-		game::drawFrame(map);
+		game::drawFrame(map, gameInfo);
 		game::gravity(map, gameInfo); // Имитируем гравитацию
 		Sleep(50);
 		game::clearScreen(); // Очищаем экран
+
+		double timeAfterAction = clock();
+
+		gameInfo->hero.score = (timeAfterAction - timeBeforeGame) / 1000.0;
 	}
+
+	double timeAfterGame = clock();
+
+	double requiredTime = (timeAfterGame - timeBeforeGame) / 1000.0;
+
 }
 
 void game::jump(GameInfo* gameInfo, game::MapCell** map)
@@ -83,7 +94,7 @@ void game::jump(GameInfo* gameInfo, game::MapCell** map)
 
 			gameInfo->hero.yCoordinate = gameInfo->hero.yCoordinate - 1;
 
-			game::drawFrame(map);
+			game::drawFrame(map, gameInfo);
 
 			push(pop(map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types),
 				map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].types);
@@ -107,7 +118,8 @@ void game::moveLeft(char type, GameInfo* gameInfo, game::MapCell** map)
 	switch (type)
 	{
 	case AIM_DOT:
-		if (map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate - 1].passable == true) // Если клетка слева проходима 
+		if (map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate - 1].passable == true &&
+			peek(map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate - 1].types) != HERO) // Если клетка слева проходима 
 		{
 			push(pop(map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types),
 				map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate - 1].types);
@@ -118,7 +130,8 @@ void game::moveLeft(char type, GameInfo* gameInfo, game::MapCell** map)
 		break;
 
 	case HERO:
-		if (map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate - 1].passable == true)
+		if (map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate - 1].passable == true &&
+			peek(map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate - 1].types) != AIM_DOT)
 		{
 			push(pop(map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types),
 				map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate - 1].types);
@@ -134,7 +147,8 @@ void game::moveRight(char type, GameInfo* gameInfo, game::MapCell** map)
 	switch (type)
 	{
 	case AIM_DOT:
-		if (map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate + 1].passable == true) // Если клетка слева проходима 
+		if (map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate + 1].passable == true &&
+			peek(map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate + 1].types) != HERO) // Если клетка слева проходима 
 		{
 			push(pop(map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types),
 				map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate + 1].types);
@@ -145,7 +159,8 @@ void game::moveRight(char type, GameInfo* gameInfo, game::MapCell** map)
 		break;
 
 	case HERO:
-		if (map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate + 1].passable == true)
+		if (map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate + 1].passable == true &&
+			peek(map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate + 1].types) != AIM_DOT)
 		{
 			push(pop(map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types),
 				map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate + 1].types);
@@ -158,55 +173,27 @@ void game::moveRight(char type, GameInfo* gameInfo, game::MapCell** map)
 
 void game::moveUp(char type, GameInfo* gameInfo, game::MapCell** map)
 {
-	switch (type)
+	if (map[gameInfo->aim.yCoordinate - 1][gameInfo->aim.xCoordinate].passable == true &&
+		peek(map[gameInfo->aim.yCoordinate - 1][gameInfo->aim.xCoordinate].types) != HERO) // Если клетка слева проходима 
 	{
-	case AIM_DOT:
-		if (map[gameInfo->aim.yCoordinate - 1][gameInfo->aim.xCoordinate].passable == true) // Если клетка слева проходима 
-		{
-			push(pop(map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types),
-				map[gameInfo->aim.yCoordinate - 1][gameInfo->aim.xCoordinate].types);
+		push(pop(map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types),
+			map[gameInfo->aim.yCoordinate - 1][gameInfo->aim.xCoordinate].types);
 
-			gameInfo->aim.yCoordinate = gameInfo->aim.yCoordinate - 1;
+		gameInfo->aim.yCoordinate = gameInfo->aim.yCoordinate - 1;
 
-		}
-		break;
-
-	case HERO:
-		if (map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].passable == true)
-		{
-			push(pop(map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types),
-				map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].types);
-
-			gameInfo->hero.yCoordinate = gameInfo->hero.yCoordinate - 1;
-		}
-		break;
 	}
 }
 
 void game::moveDown(char type, GameInfo* gameInfo, game::MapCell** map)
 {
-	switch (type)
+	if (map[gameInfo->aim.yCoordinate + 1][gameInfo->aim.xCoordinate].passable == true &&
+		peek(map[gameInfo->aim.yCoordinate + 1][gameInfo->aim.xCoordinate].types) != HERO) // Если клетка слева проходима 
 	{
-	case AIM_DOT:
-		if (map[gameInfo->aim.yCoordinate + 1][gameInfo->aim.xCoordinate].passable == true) // Если клетка слева проходима 
-		{
-			push(pop(map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types),
-				map[gameInfo->aim.yCoordinate + 1][gameInfo->aim.xCoordinate].types);
+		push(pop(map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types),
+			map[gameInfo->aim.yCoordinate + 1][gameInfo->aim.xCoordinate].types);
 
-			gameInfo->aim.yCoordinate = gameInfo->aim.yCoordinate + 1;
+		gameInfo->aim.yCoordinate = gameInfo->aim.yCoordinate + 1;
 
-		}
-		break;
-
-	case HERO:
-		if (map[gameInfo->hero.yCoordinate + 1][gameInfo->hero.xCoordinate].passable == true)
-		{
-			push(pop(map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types),
-				map[gameInfo->hero.yCoordinate + 1][gameInfo->hero.xCoordinate].types);
-
-			gameInfo->hero.yCoordinate = gameInfo->hero.yCoordinate + 1;
-		}
-		break;
 	}
 }
 
@@ -230,7 +217,7 @@ void game::levelOne()
 
 	game::MapCell** map = game::createMap("Lvl_1.txt", gameInfo); // Создаем двумерный массив структур, используя текстовый документ
 
-	game::drawFrame(map); // Рисуем первый кадр
+	game::drawFrame(map, gameInfo); // Рисуем первый кадр
 
 	game::performAnAction(map, gameInfo); // Выполняем далее в зависимости от действий игрока
 }
@@ -267,7 +254,8 @@ void game::setPortal(char type, GameInfo* gameInfo, game::MapCell** map)	 // !БА
 void game::enterThePortal(char type, GameInfo* gameInfo, MapCell** map)
 {
 	if (gameInfo->hero.xCoordinate == gameInfo->redPortal.xCoordinate &&	// надо переработать
-		gameInfo->hero.yCoordinate == gameInfo->redPortal.yCoordinate)		// если координаты игрока и красного портала совпадают
+		gameInfo->hero.yCoordinate == gameInfo->redPortal.yCoordinate &&
+		gameInfo->bluePortal.yCoordinate != 0 && gameInfo->bluePortal.xCoordinate != 0) 		// если координаты игрока и красного портала совпадают
 	{
 		push(pop(map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types), map[gameInfo->bluePortal.yCoordinate][gameInfo->bluePortal.xCoordinate].types);
 		gameInfo->hero.xCoordinate = gameInfo->bluePortal.xCoordinate;
@@ -275,7 +263,8 @@ void game::enterThePortal(char type, GameInfo* gameInfo, MapCell** map)
 	}
 
 	else if (gameInfo->hero.xCoordinate == gameInfo->bluePortal.xCoordinate &&
-		gameInfo->hero.yCoordinate == gameInfo->bluePortal.yCoordinate)
+		gameInfo->hero.yCoordinate == gameInfo->bluePortal.yCoordinate &&
+		gameInfo->bluePortal.yCoordinate != 0 && gameInfo->bluePortal.xCoordinate != 0)
 	{
 		push(pop(map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types), map[gameInfo->redPortal.yCoordinate][gameInfo->redPortal.xCoordinate].types);
 		gameInfo->hero.xCoordinate = gameInfo->redPortal.xCoordinate;

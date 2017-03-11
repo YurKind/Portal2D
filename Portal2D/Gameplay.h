@@ -11,6 +11,9 @@
 
 namespace game
 {
+	struct GameInfo;
+	struct MapCell;
+
 	// Выполняя необходимые проверки, совершает прыжок, если он возможен
 	void jump(GameInfo* gameInfo, game::MapCell** map);
 
