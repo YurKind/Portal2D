@@ -6,21 +6,26 @@
 
 namespace game
 {
+	struct Hero							// Хранит данные о герое (координаты, очки здоровья)
+	{
+		int xCoordinate;
+		int yCoordinate;
+		int healthPoints = 100;
+	};
+
+	struct Objects                  // Хранит данные об объектах на карте (прицел, порталы)
+	{
+		int xCoordinate = 0;
+		int yCoordinate = 0;
+	};
+
 	struct GameInfo
 	{
-		struct Hero							// Хранит данные о герое (координаты, очки здоровья)
-		{
-			int xCoordinate;
-			int yCoordinate;
-			int healthPoints = 100;
-		} hero;
-
-		struct Objects                  // Хранит данные об объектах на карте (прицел, порталы)
-		{
-			int xCoordinate = 0;
-			int yCoordinate = 0;
-		} redPortal, bluePortal, aim, blackWall, exitFromLevel, button;
+		Hero hero;
+		Objects redPortal, bluePortal, aim, blackWall, exitFromLevel, button;
 	};
+
+
 
 	struct MapCell					// структура MapCell хранит всебе данные о клетке карты
 	{

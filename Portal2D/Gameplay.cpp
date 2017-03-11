@@ -61,13 +61,7 @@ void game::performAnAction(MapCell** map, GameInfo* gameInfo)
 				break;
 			}
 		}
-		//winLevel(gameInfo, map, gameIsRunning);
-
-		if (gameInfo->hero.xCoordinate == gameInfo->exitFromLevel.xCoordinate &&
-			gameInfo->hero.yCoordinate == gameInfo->exitFromLevel.yCoordinate)
-		{
-			gameIsRunning = false;
-		}
+		winLevel(gameInfo, map, gameIsRunning);
 
 		game::clearScreen(); // Очищаем экран
 		game::drawFrame(map);
@@ -300,12 +294,12 @@ void game::activateTheButton(GameInfo* gameInfo, MapCell** map)
 	}
 }
 
-//bool game::winLevel(GameInfo* gameInfo, MapCell** map, bool gameIsRunning)
-//{
-//	if (gameInfo->hero.xCoordinate == gameInfo->exitFromLevel.xCoordinate &&
-//		gameInfo->hero.yCoordinate == gameInfo->exitFromLevel.yCoordinate)
-//	{
-//		gameIsRunning = false;
-//	}
-//	return gameIsRunning;
-//}
+bool game::winLevel(GameInfo* gameInfo, MapCell** map, bool& gameIsRunning)
+{
+	if (gameInfo->hero.xCoordinate == gameInfo->exitFromLevel.xCoordinate &&
+		gameInfo->hero.yCoordinate == gameInfo->exitFromLevel.yCoordinate)
+	{
+		gameIsRunning = false;
+	}
+	return gameIsRunning;
+}

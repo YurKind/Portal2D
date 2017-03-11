@@ -35,5 +35,5 @@ namespace game
 
 	void activateTheButton(GameInfo* gameInfo, game::MapCell** map);
 
-	//bool winLevel(GameInfo* gameInfo, MapCell** map, bool gameIsRunning);
+	bool winLevel(GameInfo* gameInfo, MapCell** map, bool& gameIsRunning);
 }
