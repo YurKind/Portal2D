@@ -1,9 +1,5 @@
-#include <fstream>
-#include <Windows.h>
-#include "Definitions.h"
-#include "Map.h"
 #include "Instruments.h"
-#include "Menu.h"
+
 
 void game::drawFrame(game::MapCell** map, game::GameInfo* gameInfo)		// отрисовка карты, функция принимает в качетсве аргумета двумерный массив структур
 {

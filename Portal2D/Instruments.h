@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <iomanip>
+#include <fstream>
 
 #include <Windows.h>
 #include <conio.h>
@@ -9,6 +10,7 @@
 #include "Definitions.h"
 #include "Map.h"
 #include "Gameplay.h"
+#include "Menu.h"
 
 namespace game
 {
