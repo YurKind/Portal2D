@@ -7,14 +7,10 @@ using namespace std;
 
 int main()
 {
-	HANDLE consoleHandler = GetStdHandle(STD_OUTPUT_HANDLE);
+	pointToMenu();
+	moveToMenuPoint();
 
-	/*game::printSpecialSymbol(consoleHandler, 5, 25, LightBlue, 'B');*/
-
-	/*Point();
-	MoveToMenuPoint();*/
-
-	game::startLevel("Lvl_1.txt");
+	/*game::startLevel("Lvl_1.txt");*/
 
 	system("pause");
 

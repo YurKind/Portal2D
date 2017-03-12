@@ -1,44 +1,50 @@
+#pragma once
+
 #include "Menu.h"
 #include "Records.h"
 #include "Gameplay.h"
 #include "Definitions.h"
 #include "Queue.h"
+//#include "Branch.h"
+
+using namespace std;
+
+
 
 HANDLE H = GetStdHandle(STD_OUTPUT_HANDLE);
 
-void Stand(int x, int y, int k, char *str)
+void stand(int X_COORD, int Y_COORD, int TEXT_COLOR, char*str)
 {
 	CONSOLE_CURSOR_INFO ci;
 	ci.bVisible = 0;
 	ci.dwSize = 100;
 	SetConsoleCursorInfo(H, &ci);
 	COORD c;
-	c.X = x;
-	c.Y = y;
+	c.X = X_COORD; c.Y = Y_COORD;
 	SetConsoleCursorPosition(H, c);
-	SetConsoleTextAttribute(H, k);
+	SetConsoleTextAttribute(H, TEXT_COLOR);
 
-	if (str == "Level 1" && k == 10)
+	if (str == "Level 1" &&  TEXT_COLOR == 10)
 	{
 		cout << str << " ";
 		records::giveBestPlayerInLevel(1);
 	}
-	else if (str == "Level 2" && k == 10)
+	else if (str == "Level 2" &&  TEXT_COLOR == 10)
 	{
 		cout << str << " ";
 		records::giveBestPlayerInLevel(2);
 	}
-	else if (str == "Level 3" && k == 10)
+	else if (str == "Level 3" &&  TEXT_COLOR == 10)
 	{
 		cout << str << " ";
 		records::giveBestPlayerInLevel(3);
 	}
-	else if (str == "Level 4" && k == 10)
+	else if (str == "Level 4" &&  TEXT_COLOR == 10)
 	{
 		cout << str << " ";
 		records::giveBestPlayerInLevel(4);
 	}
-	else if (str == "Level 5" && k == 10)
+	else if (str == "Level 5" &&  TEXT_COLOR == 10)
 	{
 		cout << str << " ";
 		records::giveBestPlayerInLevel(5);
@@ -49,12 +55,13 @@ void Stand(int x, int y, int k, char *str)
 	}
 }
 
-void Hat()
+void hat()
 {
 	const int rowsCount = 5;
 	const int columnsCount = 55;
 	const unsigned char levelData[rowsCount][columnsCount + 1] =
 	{
+		//?????????? ???????-?????
 		"           ***   **** ***  ***  *   *     ***  ***   ",
 		"           *  *  *  * *  *  *  * *  *       *  *  *  ",
 		"           ***   *  * * *   * * * * *     * *  *  *  ",
@@ -63,382 +70,467 @@ void Hat()
 
 	};
 	cout << "\t";
-	for (int r = 0; r < rowsCount; r++)
+	for (int r = 0; r <rowsCount; r++)
 	{
 		for (int c = 0; c < columnsCount; c++)
 		{
+
 			cout << levelData[r][c];
 		}
 		cout << "\n\t";
+
 	}
+
 }
 
-void Point()
+void pointToMenu()
 {
-	Hat();
-	Stand(30, 9, LightGreen, "Start game");
-	Stand(30, 11, LightGreen, "Records");
-	Stand(30, 13, LightGreen, "Exit");
+	//system("color 3F");
+	hat();
+	stand(30, 9, LightGreen, "Start game");
+	stand(30, 11, DarkGreen, "Records");
+	stand(30, 13, DarkGreen, "Exit");
 }
-
-/***
- * kjhfvjhgcdjgfdcg
- */
-void Point2()
+void pointToMenu2()
 {
-	Hat();
-	Stand(30, 9, LightGreen, "Random level");
-	Stand(30, 11, LightGreen, "Level 1");
-	Stand(30, 13, LightGreen, "Level 2");
-	Stand(30, 15, LightGreen, "Level 3");
-	Stand(30, 17, LightGreen, "Level 4");
-	Stand(30, 19, LightGreen, "Level 5");
-	Stand(30, 21, LightGreen, "Back");
+	//system("color 3F");
+	hat();
+	stand(30, 9, LightGreen, "Instruction");
+	stand(30, 11, DarkGreen, "Random level");
+	stand(30, 13, DarkGreen, "Level 1");
+	stand(30, 15, DarkGreen, "Level 2");
+	stand(30, 17, DarkGreen, "Level 3");
+	stand(30, 19, DarkGreen, "Level 4");
+	stand(30, 21, DarkGreen, "Level 5");
+	stand(30, 23, DarkGreen, "Back");
 }
-
-void Point3()
+void pointToMenu3()
 {
-	Hat();
-	Stand(30, 9, LightGreen, "Show all records");
-	Stand(30, 11, LightGreen, "Show 10 records");
-	Stand(30, 13, LightGreen, "Back");
+	//system("color 3F");
+	hat();
+	stand(30, 9, LightGreen, "Search");
+	stand(30, 11, DarkGreen, "Show all records");
+	stand(30, 13, DarkGreen, "Show 10 records");
+	stand(30, 15, DarkGreen, "Back");
+
 }
 
-void RewriterCaseDownPoint(int a)
+
+void rewriterCaseDownPoint(int a)
 {
 	switch (a)
 	{
 	case 2:
-		Stand(30, 9, LightGreen, "Start game");
-		Stand(30, 11, LightGreen, "Records");
+		stand(30, 9, DarkGreen, "Start game");
+		stand(30, 11, LightGreen, "Records");
 		break;
 	case 3:
-		Stand(30, 11, LightGreen, "Records");
-		Stand(30, 13, LightGreen, "Exit");
+		stand(30, 11, DarkGreen, "Records");
+		stand(30, 13, LightGreen, "Exit");
 		break;
 	}
-}
 
-void RewriterCaseDownPoint2(int a)
+}
+void rewriterCaseDownPoint2(int a)
 {
 	switch (a)
 	{
 	case 2:
-		Stand(30, 9, LightGreen, "Random level");
-		Stand(30, 11, LightGreen, "Level 1");
+		stand(30, 9, DarkGreen, "Instruction");
+		stand(30, 11, LightGreen, "Random level");
+
+		break;
+
+	case 3:
+		stand(30, 11, DarkGreen, "Random level");
+		stand(30, 13, LightGreen, "Level 1");
+
+		stand(38, 15, LightGreen, "                                          ");
+		stand(38, 17, LightGreen, "                                          ");
+		stand(38, 19, LightGreen, "                                          ");
+		stand(38, 21, LightGreen, "                                          ");
+
+
+
+		break;
+
+	case 4:
+		stand(30, 13, DarkGreen, "Level 1");
+		stand(30, 15, LightGreen, "Level 2");
+
+		stand(38, 13, LightGreen, "                                          ");
+		stand(38, 17, LightGreen, "                                          ");
+		stand(38, 19, LightGreen, "                                          ");
+		stand(38, 21, LightGreen, "                                          ");
+
+
+		break;
+
+	case 5:
+		stand(30, 15, DarkGreen, "Level 2");
+		stand(30, 17, LightGreen, "Level 3");
+
+		stand(38, 15, LightGreen, "                                          ");
+		stand(38, 13, LightGreen, "                                          ");
+		stand(38, 19, LightGreen, "                                          ");
+		stand(38, 21, LightGreen, "                                          ");
+
+		break;
+
+	case 6:
+		stand(30, 17, DarkGreen, "Level 3");
+		stand(30, 19, LightGreen, "Level 4");
+
+		stand(38, 15, LightGreen, "                                          ");
+		stand(38, 13, LightGreen, "                                          ");
+		stand(38, 17, LightGreen, "                                          ");
+		stand(38, 21, LightGreen, "                                          ");
+
+		break;
+
+	case 7:
+		stand(30, 19, DarkGreen, "Level 4");
+		stand(30, 21, LightGreen, "Level 5");
+
+		stand(38, 15, LightGreen, "                                          ");
+		stand(38, 13, LightGreen, "                                          ");
+		stand(38, 17, LightGreen, "                                          ");
+		stand(38, 19, LightGreen, "                                          ");
+
+		break;
+	case 8:
+		stand(30, 21, DarkGreen, "Level 5");
+		stand(30, 23, LightGreen, "Back");
+
+		stand(38, 21, LightGreen, "                                          ");
+
+		break;
+	}
+
+}
+void rewriterCaseDownPoint3(int a)
+{
+	switch (a)
+	{
+	case 2:
+		stand(30, 9, DarkGreen, "Search");
+		stand(30, 11, LightGreen, "Show all records");
 		break;
 	case 3:
-		Stand(30, 11, LightGreen, "Level 1");
-		Stand(30, 13, LightGreen, "Level 2");
+		stand(30, 11, DarkGreen, "Show all records");
+		stand(30, 13, LightGreen, "Show 10 records");
 		break;
 	case 4:
-		Stand(30, 13, LightGreen, "Level 2");
-		Stand(30, 15, LightGreen, "Level 3");
+		stand(30, 13, DarkGreen, "Show 10 records");
+		stand(30, 15, LightGreen, "Back");
 		break;
+	}
+
+}
+
+
+void rewriterCaseUpPoint(int a)
+{
+	switch (a)
+	{
+
+	case 1:
+		stand(30, 9, LightGreen, "Start game");
+		stand(30, 11, DarkGreen, "Records");
+		break;
+	case 2:
+		stand(30, 11, LightGreen, "Records");
+		stand(30, 13, DarkGreen, "Exit");
+		break;
+	case 3:
+		stand(30, 13, LightGreen, "Exit");
+		break;
+	}
+
+}
+void rewriterCaseUpPoint2(int a)
+{
+	switch (a)
+	{
+
+	case 1:
+		stand(30, 9, LightGreen, "Instruction");
+		stand(30, 11, DarkGreen, "Random level");
+
+
+
+		break;
+	case 2:
+		stand(38, 13, LightGreen, "                                          ");
+		stand(30, 11, LightGreen, "Random level");
+		stand(30, 13, DarkGreen, "Level 1");
+
+
+		break;
+
+	case 3:
+		stand(30, 13, LightGreen, "Level 1");
+		stand(30, 15, DarkGreen, "Level 2");
+		stand(38, 15, LightGreen, "                                          ");
+		stand(38, 17, LightGreen, "                                          ");
+		stand(38, 19, LightGreen, "                                          ");
+		stand(38, 21, LightGreen, "                                          ");
+		break;
+
+	case 4:
+		stand(30, 15, LightGreen, "Level 2");
+		stand(30, 17, DarkGreen, "Level 3");
+
+		stand(38, 13, LightGreen, "                                          ");
+		stand(38, 17, LightGreen, "                                          ");
+		stand(38, 19, LightGreen, "                                          ");
+		stand(38, 21, LightGreen, "                                          ");
+		break;
+
 	case 5:
-		Stand(30, 15, LightGreen, "Level 3");
-		Stand(30, 17, LightGreen, "Level 4");
+		stand(30, 17, LightGreen, "Level 3");
+		stand(30, 19, DarkGreen, "Level 4");
+
+		stand(38, 15, LightGreen, "                                          ");
+		stand(38, 13, LightGreen, "                                          ");
+		stand(38, 19, LightGreen, "                                          ");
+		stand(38, 21, LightGreen, "                                          ");
+
+
+
 		break;
+
 	case 6:
-		Stand(30, 17, LightGreen, "Level 4");
-		Stand(30, 19, LightGreen, "Level 5");
+		stand(30, 19, LightGreen, "Level 4");
+		stand(30, 21, DarkGreen, "Level 5");
+		stand(38, 15, LightGreen, "                                          ");
+		stand(38, 13, LightGreen, "                                          ");
+		stand(38, 17, LightGreen, "                                          ");
+		stand(38, 21, LightGreen, "                                          ");
+
+
+
 		break;
 	case 7:
-		Stand(30, 19, LightGreen, "Level 5");
-		Stand(30, 21, LightGreen, "Back");
+		stand(30, 21, LightGreen, "Level 5");
+		stand(30, 23, DarkGreen, "Back");
 		break;
+
+
 	}
 }
-
-void RewriterCaseDownPoint3(int a)
+void rewriterCaseUpPoint3(int a)
 {
 	switch (a)
 	{
-	case 2:
-		Stand(30, 9, LightGreen, "Show all records");
-		Stand(30, 11, LightGreen, "Show 10 records");
-		break;
-	case 3:
-		Stand(30, 11, LightGreen, "Show 10 records");
-		Stand(30, 13, LightGreen, "Back");
-		break;
-	}
-}
 
-void RewriterCaseUpPoint(int a)
-{
-	switch (a)
-	{
 	case 1:
-		Stand(30, 9, LightGreen, "Start game");
-		Stand(30, 11, LightGreen, "Records");
+		stand(30, 9, LightGreen, "Search");
+		stand(30, 11, DarkGreen, "Show all records");
 		break;
 	case 2:
-		Stand(30, 11, LightGreen, "Records");
-		Stand(30, 13, LightGreen, "Exit");
+		stand(30, 11, LightGreen, "Show all records");
+		stand(30, 13, DarkGreen, "Show 10 records");
 		break;
 	case 3:
-		Stand(30, 13, LightGreen, "Exit");
-		break;
-	}
-}
-
-void RewriterCaseUpPoint2(int a)
-{
-	switch (a)
-	{
-	case 1:
-		Stand(30, 9, LightGreen, "Random level");
-		Stand(30, 11, LightGreen, "Level 1");
-		break;
-	case 2:
-		Stand(30, 11, LightGreen, "Level 1");
-		Stand(30, 13, LightGreen, "Level 2");
-		break;
-	case 3:
-		Stand(30, 13, LightGreen, "Level 2");
-		Stand(30, 15, LightGreen, "Level 3");
+		stand(30, 13, LightGreen, "Show 10 records");
+		stand(30, 15, DarkGreen, "Back");
 		break;
 	case 4:
-		Stand(30, 15, LightGreen, "Level 3");
-		Stand(30, 17, LightGreen, "Level 4");
+		stand(30, 15, LightGreen, "Back");
+
 		break;
-	case 5:
-		Stand(30, 17, LightGreen, "Level 4");
-		Stand(30, 19, LightGreen, "Level 5");
-		break;
-	case 6:
-		Stand(30, 19, 10, "Level 5");
-		Stand(30, 21, LightGreen, "Back");
 		break;
 	}
+
 }
 
-void RewriterCaseUpPoint3(int a)
-{
-	switch (a)
-	{
-	case 1:
-		Stand(30, 9, LightGreen, "Show all records");
-		Stand(30, 11, LightGreen, "Show 10 records");
-		break;
-	case 2:
-		Stand(30, 11, LightGreen, "Show 10 records");
-		Stand(30, 13, LightGreen, "Back");
-		break;
-	case 3:
-		Stand(30, 13, LightGreen, "Back");
-		break;
-	}
-}
 
-void UserSelection(int Cur)
+// ???????????? ???? ??????? ?????? ? ???????? userSelection2 ? userSelection3, ?????? ??????????????? ????????? ?????????
+void userSelection(int Cur)
 {
 	system("cls");
 	switch (Cur)
 	{
-	case 1:
-		Point2();
-		MoveToMenuPoint2();
+
+	case 1:pointToMenu2();
+		moveToMenuPoint2();
 		break;
-	case 2:
-		Point3();
-		MoveToMenuPoint3();
+	case 2:pointToMenu3();
+		moveToMenuPoint3();
 		break;
 	case 3:;
+
 		break;
 	}
 }
-
-void UserSelection2(int Cur)
+void userSelection2(int Cur)
 {
 	system("cls");
 	switch (Cur)
 	{
-	case 1:
-		cout << "Random level";
+
+	case 1: cout << "Instruction";
+		cout << "smth_0";
+		_getch();
+		system("cls");
+		pointToMenu2();
+		moveToMenuPoint2();
+
 		break;
-	case 2:
-		/*cout << "Level 1";*/
-		SetConsoleTextAttribute(H, 7);
-		game::startLevel("Lvl_1.txt");
+	case 2:cout << "Random level";
+
+
+		_getch();
 		break;
 	case 3:
-		cout << "Level 2";
+		SetConsoleTextAttribute(H, LightGrey);
+		game::startLevel("Lvl_1.txt");
+		//_getch();
 		break;
-	case 4:
-		cout << "Level 3";
+	case 4:cout << "Level 2";
+		_getch();
 		break;
-	case 5:
-		cout << "Level 4";
+	case 5:cout << "Level 3";
+		_getch();
 		break;
-	case 6:
-		cout << "Level 5";
+	case 6:cout << "Level 4";
+		_getch();
 		break;
-	case 7:
-		Point();
-		MoveToMenuPoint();
+	case 7:cout << "Level 5";
+		_getch();
+		break;
+	case 8:
+		pointToMenu();
+		moveToMenuPoint();;
 		break;
 	}
 }
-
-void UserSelection3(int Cur)
+void userSelection3(int Cur)
 {
 	system("cls");
 	records::DataAboutTheChampion empty;
 	switch (Cur)
 	{
-	case 1:
-		cout << "All Records";
+
+	case 1: cout << "Search";
+		cout << "smth1";
+		_getch();
+		system("cls");
+		pointToMenu3();
+		moveToMenuPoint3();
+		break;
+	case 2:cout << "All Records";
 		records::addInRecordsOrShowRecords(empty, "show");
+		cout << "smth2";
+		_getch();
+		system("cls");
+		pointToMenu3();
+		moveToMenuPoint3();
 		break;
-
-	case 2:
-		cout << "10 Records";
+	case 3:cout << "10 Records";
+		records::addInRecordsOrShowRecords(empty, "show10");
+		cout << "smth3";
+		_getch();
+		system("cls");
+		pointToMenu3();
+		moveToMenuPoint3();
 		break;
-
-	case 3:
-		Point();
-		MoveToMenuPoint();
+	case 4:
+		pointToMenu();
+		moveToMenuPoint();;
 		break;
 	}
-}
+}  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void MoveToMenuPoint()
+
+void moveToMenuPoint()
 {
 	bool f = true;
 	int position = 1;
 
-	while (f == true)
-	{
+	while (f == true) {
 		int code = _getch();
 		switch (code)
 		{
 		case DOWN_ARROW:
-			if (position < 3)
+			if (position<3)
 				position++;
-			RewriterCaseDownPoint(position);
-			break;
+			rewriterCaseDownPoint(position);
 
+			break;
 		case UP_ARROW:
-			if (position > 1)
-				position--;
-			RewriterCaseUpPoint(position);
-			break;
+			if (position>1)
 
-		case ENTER:
-			UserSelection(position);
+				position--;
+			rewriterCaseUpPoint(position);
+
+			break;
+		case ENTER://????
+
+			userSelection(position);
 			f = false;
 			break;
 		}
 	}
 }
-
-void MoveToMenuPoint2()
+void moveToMenuPoint2()
 {
 	bool f = true;
 	int position = 1;
 
-	while (f == true)
-	{
+	while (f == true) {
 		int code = _getch();
 		switch (code)
 		{
 		case DOWN_ARROW:
-			if (position < 7)
+			if (position<8)
 				position++;
-			RewriterCaseDownPoint2(position);
-			break;
+			rewriterCaseDownPoint2(position);
 
+			break;
 		case UP_ARROW:
-			if (position > 1)
-				position--;
-			RewriterCaseUpPoint2(position);
-			break;
+			if (position>1)
 
+				position--;
+			rewriterCaseUpPoint2(position);
+
+			break;
 		case ENTER:
-			UserSelection2(position);
+			userSelection2(position);
+			f = false;
+
+			break;
+		}
+	}
+}
+void moveToMenuPoint3()
+{
+	bool f = true;
+	int position = 1;
+
+	while (f == true) {
+		int code = _getch();
+		switch (code)
+		{
+		case DOWN_ARROW:
+			if (position<4)
+				position++;
+			rewriterCaseDownPoint3(position);
+
+			break;
+		case UP_ARROW:
+			if (position>1)
+
+				position--;
+			rewriterCaseUpPoint3(position);
+
+			break;
+		case ENTER:
+
+			userSelection3(position);
 			f = false;
 			break;
 		}
 	}
 }
-
-void MoveToMenuPoint3()
-{
-	bool f = true;
-	int position = 1;
-
-	while (f == true) 
-	{
-		int code = _getch();
-		switch (code)
-		{
-		case DOWN_ARROW:
-			if (position < 3)
-				position++;
-			RewriterCaseDownPoint3(position);
-			break;
-
-		case UP_ARROW:
-			if (position > 1)
-				position--;
-			RewriterCaseUpPoint3(position);
-			break;
-
-		case ENTER:
-			UserSelection3(position);
-			f = false;
-			break;
-		}
-	}
-}
-
-//int menu::menu()
-//{
-//	cout << " press 1 to start a game\n press 2 to show instuction \n press 3 to show high scores \n press 4 to exit";
-//	switch (_getch())
-//	{
-//	case StartGame:
-//		return StartGame;
-//
-//	case Instruction:
-//		return Instruction;
-//
-//	case HighScores:
-//		return HighScores;
-//
-//	case Exit:
-//		return Exit;
-//
-//	default:
-//		return NULL;
-//	}
-//}
-//
-//void menu::functionCaller(int playerChoice)
-//{
-//	DataAboutTheChampion newChampion = { "000000", 55, 8 };
-//	switch (playerChoice)
-//	{
-//	case StartGame:
-//		// TODO: Rework!
-//		game::startLevel();
-//		break;
-//	case Instruction:
-//		cout << "In development" << endl;
-//		//showInstruction(); TODO add this    
-//		break;
-//	case HighScores:
-//		records::showAllOfRecords();
-//		records::addInRecords(newChampion);
-//		break;
-//	case Exit:
-//		exit(0);
-//		break;
-//	default:
-//		cout << "You entered wrong key" << endl;
-//		system("cls");
-//		menu::functionCaller(menu::menu());
-//	}
-//}

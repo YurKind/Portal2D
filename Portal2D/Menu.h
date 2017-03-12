@@ -37,23 +37,23 @@ enum PlayerChoice
 	Exit = 52
 };
 
-void MoveToMenuPoint3();
-void MoveToMenuPoint2();
-void MoveToMenuPoint();
-void UserSelection3(int Cur);
-void UserSelection2(int Cur);
-void UserSelection(int Cur);
-void RewriterCaseUpPoint3(int a);
-void RewriterCaseUpPoint2(int a);
-void RewriterCaseUpPoint(int a);
-void RewriterCaseDownPoint3(int a);
-void RewriterCaseDownPoint2(int a);
-void RewriterCaseDownPoint(int a);
-void Point3();
-void Point2();
-void Point();
-void Hat();
-void Stand(int x, int y, int k, char*str);
+void moveToMenuPoint3();
+void moveToMenuPoint2();
+void moveToMenuPoint();
+void userSelection3(int Cur);
+void userSelection2(int Cur);
+void userSelection(int Cur);
+void rewriterCaseUpPoint3(int a);
+void rewriterCaseUpPoint2(int a);
+void rewriterCaseUpPoint(int a);
+void rewriterCaseDownPoint3(int a);
+void rewriterCaseDownPoint2(int a);
+void rewriterCaseDownPoint(int a);
+void pointToMenu3();
+void pointToMenu2();
+void pointToMenu();
+void hat();
+void stand(int X_COORD, int Y_COORD, int TEXT_COLOR, char*str);
 
 //namespace menu
 //{
