@@ -64,7 +64,7 @@ void game::drawFrame(game::MapCell** map, game::GameInfo* gameInfo)		// отрисовк
 		}
 		std::cout << std::endl;
 	}
-	std::cout << std::endl << "HP: " << gameInfo->hero.healthPoints << "\t\t\tTIME: " << gameInfo->hero.score;
+	std::cout << std::endl << "HP: " << gameInfo->hero.healthPoints << "\t\t\tTIME: " << gameInfo->hero.time;
 }
 
 void game::clearScreen()		// функция очистки консоли (без мерцания)
@@ -106,4 +106,10 @@ void game::printSpecialSymbol(HANDLE consoleHandler, int yCoordinate, int xCoord
 	SetConsoleTextAttribute(consoleHandler, color);
 
 	cout << symbol;
+}
+
+double game::computeTheScore(GameInfo* gameInfo)
+{
+	double score = 1000 / gameInfo->hero.time;
+	return score;
 }

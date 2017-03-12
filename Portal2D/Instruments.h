@@ -19,5 +19,6 @@ namespace game
 	void clearScreen();									// функция очистки консоли (без мерцания) !(надо разобраться)!
 	void freeMemory(MapCell** map, GameInfo* gameInfo);
 	void printSpecialSymbol(HANDLE consoleHandler, int yCoordinate, int xCoordinate, int color, char symbol);
+	double computeTheScore(GameInfo* gameInfo);
 }
 

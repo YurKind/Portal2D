@@ -28,7 +28,7 @@ namespace game
 	void moveDown(char type, GameInfo* gameInfo, MapCell** map);
 	void replaceTheAim(char type, GameInfo* gameInfo, game::MapCell** map);
 	// Временная функция для запуска первого уровня
-	void startLevel(char* levelName); 
+	double startLevel(char* levelName); 
 
 	// Выполняя необходимые проверки, имитирует гравитацию
 	void gravity(MapCell** map, GameInfo* gameInfo);

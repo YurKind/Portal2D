@@ -9,7 +9,6 @@ int main()
 {
 	pointToMenu();
 	moveToMenuPoint();
-
 	/*game::startLevel("Lvl_1.txt");*/
 
 	system("pause");

@@ -69,17 +69,20 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 		game::clearScreen(); // Очищаем экран
 		game::drawFrame(map, gameInfo);
 		game::gravity(map, gameInfo); // Имитируем гравитацию
-		Sleep(50);
 		game::clearScreen(); // Очищаем экран
 
 		double timeAfterAction = clock();
-		gameInfo->hero.score = (timeAfterAction - timeBeforeGame) / 1000.0;
+		gameInfo->hero.time = (timeAfterAction - timeBeforeGame) / 1000.0;
+
+		if (gameInfo->hero.score > 0)
+		{
+			gameInfo->hero.score -= 1;
+		}
 	}
 
 	double timeAfterGame = clock();
 
 	double requiredTime = (timeAfterGame - timeBeforeGame) / 1000.0;
-
 }
 
 //------Moving_Functions------//
@@ -235,7 +238,7 @@ void game::gravity(game::MapCell** map, GameInfo* gameInfo)
 	}
 }
 
-void game::startLevel(char* levelName)
+double game::startLevel(char* levelName)
 {
 	game::GameInfo* gameInfo = new GameInfo;
 
@@ -246,8 +249,13 @@ void game::startLevel(char* levelName)
 	game::drawFrame(map, gameInfo); // Рисуем первый кадр
 
 	game::performAnAction(gameInfo, map); // Выполняем далее в зависимости от действий игрока
+	
+	double score = gameInfo->hero.score;
 
 	game::freeMemory(map, gameInfo); // Очищаем занятую память
+
+	std::cout << score;
+	return score;
 }
 
 //-----Portals_Functions------//

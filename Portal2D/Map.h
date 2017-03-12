@@ -11,7 +11,8 @@ namespace game
 		int xCoordinate;
 		int yCoordinate;
 		int healthPoints = 100;
-		double score = 10000;
+		double score = 1000.0;
+		double time = 10000.0;
 	};
 
 	struct Objects                  // Хранит данные об объектах на карте (прицел, порталы)
