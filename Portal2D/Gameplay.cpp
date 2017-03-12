@@ -72,7 +72,6 @@ void game::performAnAction(MapCell** map, GameInfo* gameInfo)
 		game::clearScreen(); // Очищаем экран
 
 		double timeAfterAction = clock();
-
 		gameInfo->hero.score = (timeAfterAction - timeBeforeGame) / 1000.0;
 	}
 
@@ -81,6 +80,21 @@ void game::performAnAction(MapCell** map, GameInfo* gameInfo)
 	double requiredTime = (timeAfterGame - timeBeforeGame) / 1000.0;
 
 }
+
+void game::levelOne()
+{
+	game::GameInfo* gameInfo = new GameInfo;
+
+	game::clearScreen(); // Чистим экран
+
+	game::MapCell** map = game::createMap("Lvl_1.txt", gameInfo); // Создаем двумерный массив структур, используя текстовый документ
+
+	game::drawFrame(map, gameInfo); // Рисуем первый кадр
+
+	game::performAnAction(map, gameInfo); // Выполняем далее в зависимости от действий игрока
+}
+
+//------Moving_Functions------//
 
 void game::jump(GameInfo* gameInfo, game::MapCell** map)
 {
@@ -197,6 +211,31 @@ void game::moveDown(char type, GameInfo* gameInfo, game::MapCell** map)
 	}
 }
 
+void game::replaceTheAim(char type, GameInfo* gameInfo, game::MapCell** map)
+{
+
+	if (peek(map[gameInfo->aim.yCoordinate - 1][gameInfo->aim.xCoordinate].types) == EMPTY_SPACE)
+	{
+		moveUp(AIM_DOT, gameInfo, map);
+	}
+
+	else if (peek(map[gameInfo->aim.yCoordinate + 1][gameInfo->aim.xCoordinate].types) == EMPTY_SPACE)
+	{
+		moveDown(AIM_DOT, gameInfo, map);
+	}
+
+	else if (peek(map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate + 1].types) == EMPTY_SPACE)
+	{
+		moveRight(AIM_DOT, gameInfo, map);
+	}
+
+	else if (peek(map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate - 1].types) == EMPTY_SPACE)
+	{
+		moveLeft(AIM_DOT, gameInfo, map);
+	}
+
+}
+
 //------Gravitation_Functions------//
 void game::gravity(game::MapCell** map, GameInfo* gameInfo)
 {
@@ -209,51 +248,49 @@ void game::gravity(game::MapCell** map, GameInfo* gameInfo)
 	}
 }
 
-void game::levelOne()
-{
-	game::GameInfo* gameInfo = new GameInfo;
-
-	game::clearScreen(); // Чистим экран
-
-	game::MapCell** map = game::createMap("Lvl_1.txt", gameInfo); // Создаем двумерный массив структур, используя текстовый документ
-
-	game::drawFrame(map, gameInfo); // Рисуем первый кадр
-
-	game::performAnAction(map, gameInfo); // Выполняем далее в зависимости от действий игрока
-}
-
 //-----Portals_Functions------//
-void game::setPortal(char type, GameInfo* gameInfo, game::MapCell** map)	 // !БАГ! если поставить портал на героя, то героем становится портал
+void game::setPortal(char type, GameInfo* gameInfo, game::MapCell** map)
 {
 	if (type == RED_PORTAL)
 	{
-		if (gameInfo->redPortal.yCoordinate != 0)
-			pop(map[gameInfo->redPortal.yCoordinate][gameInfo->redPortal.xCoordinate].types);
+		if (gameInfo->hero.xCoordinate != gameInfo->redPortal.xCoordinate &&
+			gameInfo->hero.yCoordinate != gameInfo->redPortal.yCoordinate)
+		{
+			if (gameInfo->redPortal.yCoordinate != 0)
+				pop(map[gameInfo->redPortal.yCoordinate][gameInfo->redPortal.xCoordinate].types);
 
-		gameInfo->redPortal.xCoordinate = gameInfo->aim.xCoordinate;
-		gameInfo->redPortal.yCoordinate = gameInfo->aim.yCoordinate;
+			gameInfo->redPortal.xCoordinate = gameInfo->aim.xCoordinate;
+			gameInfo->redPortal.yCoordinate = gameInfo->aim.yCoordinate;
 
-		pop(map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types);
-		push(RED_PORTAL, map[gameInfo->redPortal.yCoordinate][gameInfo->redPortal.xCoordinate].types);
-		push(AIM_DOT, map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types);
+			pop(map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types);
+			push(RED_PORTAL, map[gameInfo->redPortal.yCoordinate][gameInfo->redPortal.xCoordinate].types);
+			push(AIM_DOT, map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types);
+			replaceTheAim(AIM_DOT, gameInfo, map);	
+		}
 	}
+
 	else if (type == BLUE_PORTAL)
 	{
-		if (gameInfo->bluePortal.yCoordinate != 0)
-			pop(map[gameInfo->bluePortal.yCoordinate][gameInfo->bluePortal.xCoordinate].types);
+		if (gameInfo->hero.xCoordinate != gameInfo->bluePortal.xCoordinate &&
+			gameInfo->hero.yCoordinate != gameInfo->bluePortal.yCoordinate)
+		{
+			if (gameInfo->bluePortal.yCoordinate != 0)
+				pop(map[gameInfo->bluePortal.yCoordinate][gameInfo->bluePortal.xCoordinate].types);
 
-		gameInfo->bluePortal.xCoordinate = gameInfo->aim.xCoordinate;
-		gameInfo->bluePortal.yCoordinate = gameInfo->aim.yCoordinate;
+			gameInfo->bluePortal.xCoordinate = gameInfo->aim.xCoordinate;
+			gameInfo->bluePortal.yCoordinate = gameInfo->aim.yCoordinate;
 
-		pop(map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types);
-		push(BLUE_PORTAL, map[gameInfo->bluePortal.yCoordinate][gameInfo->bluePortal.xCoordinate].types);
-		push(AIM_DOT, map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types);
+			pop(map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types);
+			push(BLUE_PORTAL, map[gameInfo->bluePortal.yCoordinate][gameInfo->bluePortal.xCoordinate].types);
+			push(AIM_DOT, map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types);
+			replaceTheAim(AIM_DOT, gameInfo, map);
+		}
 	}
 }
 
 void game::enterThePortal(char type, GameInfo* gameInfo, MapCell** map)
 {
-	if (gameInfo->hero.xCoordinate == gameInfo->redPortal.xCoordinate &&	// надо переработать
+	if (gameInfo->hero.xCoordinate == gameInfo->redPortal.xCoordinate &&
 		gameInfo->hero.yCoordinate == gameInfo->redPortal.yCoordinate &&
 		gameInfo->bluePortal.yCoordinate != 0 && gameInfo->bluePortal.xCoordinate != 0) 		// если координаты игрока и красного портала совпадают
 	{

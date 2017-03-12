@@ -36,8 +36,6 @@ void game::drawFrame(game::MapCell** map, game::GameInfo* gameInfo)		// отрисовк
 				break;
 
 			case RED_PORTAL:			// если встречен тип "красный портал", то отрисовывается красный портал
-				system("color 1");
-				system("color 4");
 				std::cout << RED_PORTAL;
 				break;
 
@@ -71,20 +69,3 @@ void game::clearScreen()		// функция очистки консоли (без мерцания)
 	structCursorInfo.bVisible = FALSE;
 	SetConsoleCursorInfo(Handle, &structCursorInfo);
 }
-
-//void game::push(char type, MapCell* &topElement)
-//{
-//	MapCell* newType = new MapCell;
-//	newType->type = type;
-//	newType->next = topElement;
-//	topElement = newType;
-//}
-//
-//char game::pop(MapCell* &topElement)
-//{
-//	char temp = topElement->type;
-//	MapCell* currentElement = topElement;
-//	topElement = topElement->next;
-//	delete currentElement;
-//	return temp;
-//}
