@@ -26,8 +26,6 @@ namespace game
 		Objects redPortal, bluePortal, aim, blackWall, exitFromLevel, button;
 	};
 
-
-
 	struct MapCell					// структура MapCell хранит всебе данные о клетке карты
 	{
 		Stack<char>* types;			// переменная для хранения текстуры (персонажа, блоков и тд)
