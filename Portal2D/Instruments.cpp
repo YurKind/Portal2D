@@ -95,7 +95,6 @@ void game::freeMemory(game::MapCell** map, game::GameInfo* gameInfo)
 
 void game::printSpecialSymbol(HANDLE consoleHandler, int yCoordinate, int xCoordinate, int color, char symbol)
 {
-	
 	CONSOLE_CURSOR_INFO cursorInfo;
 	cursorInfo.bVisible = 0;
 	cursorInfo.dwSize = 100;
