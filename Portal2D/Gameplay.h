@@ -24,9 +24,9 @@ namespace game
 
 	void moveLeft(char type, GameInfo* gameInfo, MapCell** map);
 	void moveRight(char type, GameInfo* gameInfo, MapCell** map);
-	void moveUp(char type, GameInfo* gameInfo, MapCell** map);
-	void moveDown(char type, GameInfo* gameInfo, MapCell** map);
-	void replaceTheAim(char type, GameInfo* gameInfo, game::MapCell** map);
+	void moveUp(GameInfo* gameInfo, MapCell** map);
+	void moveDown(GameInfo* gameInfo, MapCell** map);
+	void replaceTheAim(GameInfo* gameInfo, game::MapCell** map);
 	// Временная функция для запуска первого уровня
 	double startLevel(char* levelName); 
 

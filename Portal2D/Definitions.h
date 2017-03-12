@@ -4,11 +4,11 @@
 #define HERO '\2'// looks like ☻
 #define HERO_SYMBOL 'H'
 #define BLOCK_SHARP '#'
-#define BLOCK static_cast<char>(219) // looks like █
+#define BLOCK char(219) // looks like █
 #define EMPTY_SPACE ' '
 //#define TURRET ''
-#define BUTTON_S 'b'
-#define BUTTON static_cast<char>(127)
+#define BUTTON_S '`'
+#define BUTTON char(127)
 //#define TIMER_BUTTON ''
 //#define STAY_ON_BUTTON ''
 #define RED_PORTAL 'O'

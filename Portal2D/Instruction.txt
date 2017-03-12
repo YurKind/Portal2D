@@ -1,3 +1,17 @@
-Добро пожаловать в игру Portal 2D!
+ Welcome to Portal 2D!
 
-Просто строка
+ /*Need more instructions*/
+
+ "H" - hero
+ "." - aim
+ "O" - portal
+ "E" - exit
+ "X" - impassable wall
+ "`" - button to turn off impassable wall
+
+ Controls:
+ moving - a, d
+ aiming - arrows "up, down, left, right"
+ set blue portal - e
+ set red portal - q
+ action - enter

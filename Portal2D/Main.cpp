@@ -7,13 +7,12 @@ using namespace std;
 
 int main()
 {
+	srand(time(NULL));
 	pointToMenu();
 	moveToMenuPoint();
 	/*game::startLevel("Lvl_1.txt");*/
-	srand(time(NULL));
 	//Point();
 	//MoveToMenuPoint();
-
 	system("pause");
 
 	return 0;
