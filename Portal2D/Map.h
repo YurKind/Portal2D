@@ -11,7 +11,7 @@ namespace game
 		int xCoordinate;
 		int yCoordinate;
 		int healthPoints = 100;
-		double score = 1000.0;
+		double score = 4000.0;
 		double time = 10000.0;
 	};
 
