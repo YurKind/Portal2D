@@ -12,6 +12,6 @@
  Controls:
  moving - a, d
  aiming - arrows "up, down, left, right"
- set blue Portal - e
- set red Portal - q
+ set blue portal - e
+ set red portal - q
  action - enter
