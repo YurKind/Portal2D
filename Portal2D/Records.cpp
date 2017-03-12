@@ -6,8 +6,9 @@ void records::addInRecordsOrShowRecords(records::DataAboutTheChampion newChampio
 	int counterOfPrintedChampions = 0;
 	list::List<records::DataAboutTheChampion> *begin = new list::List<records::DataAboutTheChampion>;
 	std::ifstream fin(FILE_NAME_RECORDS);
-	list::addList(&begin, fin);
-	if (!strcmp(variant, "show"))
+	list::addList(&begin, fin);       // инициализируем список
+
+	if (!strcmp(variant, "show"))     // показать все рекорды
 	{
 		std::cout << "\n";
 		while (begin->next)
@@ -18,13 +19,14 @@ void records::addInRecordsOrShowRecords(records::DataAboutTheChampion newChampio
 		}
 		std::cout << "\n";
 	}
-	else if (!strcmp(variant, "add"))
+	else if (!strcmp(variant, "add"))     // добавить в рекорды
 	{
-		int placeInRank = records::findingTheLocationInOrder(begin, newChampion);
-		list::addInCertainPlace(&begin, placeInRank, newChampion);
-		records::overwriteFile(begin);
+		int placeInRank = records::findingTheLocationInOrder(begin, newChampion);    // узнаем потенциальное место в списке
+		list::addInCertainPlace(&begin, placeInRank, newChampion);          // вставляем в найденное место
+		records::overwriteFile(begin);               // перезапись файла 
 	}
-	else if (!strcmp(variant, "show10")) {
+	else if (!strcmp(variant, "show10"))     // показать 10 лучших рекордов
+	{
 		std::cout << "\n";
 		while (begin->next && counterOfPrintedChampions < 10)
 		{
@@ -43,9 +45,10 @@ void records::giveBestPlayerInLevel(int levelNumber)
 	list::List<records::DataAboutTheChampion> *begin = new list::List<records::DataAboutTheChampion>;;
 	begin->next = NULL;
 	std::ifstream fin(FILE_NAME_RECORDS);
-	list::addList(&begin, fin);
+	list::addList(&begin, fin);    // инициализируем список
+
 	records::DataAboutTheChampion bestResult = records::removeItemsExcessLevels(begin, levelNumber);
-	if (bestResult.name == "errorEmptyListOfRecords")
+	if (bestResult.name == "_errorEmptyListOfRecords")      // если никого не нашли на данном уровне
 	{
 		std::cout << "Be the first at this level! " << std::endl;
 	}
@@ -56,16 +59,19 @@ void records::giveBestPlayerInLevel(int levelNumber)
 	fin.close();
 }
 
-records::DataAboutTheChampion records::removeItemsExcessLevels(list::List<records::DataAboutTheChampion> *begin, int rightLevel)
-{
-	bool counterEmptyListOfRecordsForRightlevel = false;
-	list::List<records::DataAboutTheChampion> *cleaner = begin;        // новый указатель на начало списка
-	list::List<records::DataAboutTheChampion> *end = NULL;
+/**
+  *функция удаляет элементы с уровнем != rightLevel и возвращает лучший результат среди рекордсменов уровня rightLevel
+  */
+records::DataAboutTheChampion records::removeItemsExcessLevels(list::List<records::DataAboutTheChampion> *begin, int rightLevel)    
+{                                                                
+	bool counterEmptyListOfRecordsForRightlevel = false;           
+	list::List<records::DataAboutTheChampion> *cleaner = begin;    // новый указатель на начало списка
+	list::List<records::DataAboutTheChampion> *end = NULL;         // указатель для хранения конца списка
 	records::DataAboutTheChampion bestResult;
 	bestResult.score = NULL;
 	while (begin && bestResult.score == NULL)
 	{
-		if (begin->value.level != rightLevel && bestResult.score == NULL)
+		if (begin->value.level != rightLevel && bestResult.score == NULL)    
 		{
 			if (end)
 			{
@@ -78,14 +84,14 @@ records::DataAboutTheChampion records::removeItemsExcessLevels(list::List<record
 		else
 		{
 			end = begin;
-			counterEmptyListOfRecordsForRightlevel++;
+			counterEmptyListOfRecordsForRightlevel++;    
 			bestResult = begin->value;
 			begin = begin->next;
 		}
 	}
-	if (!counterEmptyListOfRecordsForRightlevel)
+	if (!counterEmptyListOfRecordsForRightlevel)       // если никого в рекордах с уровнем rightLevel нет, то возвращаем имя-ошибку
 	{
-		bestResult.name = "errorEmptyListOfRecords";
+		bestResult.name = "_errorEmptyListOfRecords";
 	}
 	list::freeMemory(begin);
 	return bestResult;
@@ -117,52 +123,52 @@ void records::overwriteFile(list::List<records::DataAboutTheChampion> *begin)   
 	fout.close();
 }
 
-int records::findingTheLocationInOrder(list::List<records::DataAboutTheChampion> *begin, records::DataAboutTheChampion newChampion)      // высчитывание места нового рекордсмена в зависимости от уровня и очков
-{
-	int counter = 0;
-	list::List<records::DataAboutTheChampion> *list = begin;
-	while (list->value.level > newChampion.level)
+int records::findingTheLocationInOrder(list::List<records::DataAboutTheChampion> *begin, records::DataAboutTheChampion newChampion)     
+{                                                                 // высчитывание места нового рекордсмена в зависимости от уровня и очков (чтобы записать в файл не нарушив порядок)
+	int placInOrder = 0;
+	list::List<records::DataAboutTheChampion> *ptr = begin;
+	while (ptr->value.level > newChampion.level)    // пока уровень рекордсмена из списка больше чем у вставляемого рекордсмена
 	{
-		list = list->next;
-		counter++;
+		ptr = ptr->next;
+		placInOrder++;
 	}
-	while (list->value.score > newChampion.score && list->value.level == newChampion.level)
+	while (ptr->value.score > newChampion.score && ptr->value.level == newChampion.level)   // пока кол-во очков из списка больше вставляемого и уровень из списка равен уровню вставляемого рекордсмена
 	{
-		list = list->next;
-		counter++;
+		ptr = ptr->next;
+		placInOrder++;
 	}
 
-	return counter;
+	return placInOrder;
 }
 
-records::DataAboutTheChampion records::initializationDataAboutTheChampion(char *buf)
+records::DataAboutTheChampion records::initializationDataAboutTheChampion(char *buf)         
 {
-	char time[25], lvl[2];
+	char points[25], lvl[2];
 	records::DataAboutTheChampion champion = {};
 	int counterLetter = 0, i = 0;
-	while (buf[counterLetter] != '|')
+	while (buf[counterLetter] != '|')        // инициализация поля name из буфера со всей строкой
 	{
 		champion.name += buf[counterLetter];
 		counterLetter++;
 	}
 	counterLetter++;
-	while (buf[counterLetter] != '|')
+	while (buf[counterLetter] != '|')        // инициализация поля score 
 	{
-		time[i] = buf[counterLetter];
-		counterLetter++;
+		points[i] = buf[counterLetter];
 		i++;
+		counterLetter++;
 	}
-	double score = atof(time);
+	double score = atof(points);
 	champion.score = score;
 	counterLetter++;
 	i = 0;
-	while (buf[counterLetter] != '>')
+	while (buf[counterLetter] != '>')        // инициализация поля level 
 	{
 		lvl[i] = buf[counterLetter];
 		counterLetter++;
 		i++;
 	}
-	int level = atoi(lvl);
+	int level = atoi(lvl); 
 	champion.level = level;
 
 	return champion;

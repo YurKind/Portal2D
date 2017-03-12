@@ -1,4 +1,5 @@
 #include "Menu.h"
+#include "Tree.h"
 
 HANDLE H = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -399,16 +400,21 @@ void userSelection3(int Cur)
 {
 	system("cls");
 	records::DataAboutTheChampion empty;
+	int parametr = 0;
+	char *symbol = new char[1];
 	switch (Cur)
 	{
 
-	case 1: cout << "Search";
-		cout << "smth1";
-		_getch();
+	case 1: 
+		cout << "\tenter 1 - if you want to search by score parameter, 2 - level parameter, 3 - name parameter " << std::endl;
+		symbol[0] = _getch();
+		parametr = atoi(symbol);
+		tree::setSearchParametr(parametr);
 		system("cls");
 		pointToMenu3();
 		moveToMenuPoint3();
 		break;
+
 	case 2:cout << "All Records";
 		records::addInRecordsOrShowRecords(empty, "show");
 		cout << "smth2";
@@ -430,7 +436,8 @@ void userSelection3(int Cur)
 		moveToMenuPoint();;
 		break;
 	}
-}  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	delete[] symbol;
+}
 
 
 void moveToMenuPoint()
