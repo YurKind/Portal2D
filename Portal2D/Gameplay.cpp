@@ -253,8 +253,8 @@ void game::setPortal(char type, GameInfo* gameInfo, game::MapCell** map)
 {
 	if (type == RED_PORTAL)
 	{
-		if (gameInfo->hero.xCoordinate != gameInfo->redPortal.xCoordinate &&
-			gameInfo->hero.yCoordinate != gameInfo->redPortal.yCoordinate)
+		if ((gameInfo->hero.xCoordinate != gameInfo->redPortal.xCoordinate) ||
+			(gameInfo->hero.yCoordinate != gameInfo->redPortal.yCoordinate))
 		{
 			if (gameInfo->redPortal.yCoordinate != 0)
 				pop(map[gameInfo->redPortal.yCoordinate][gameInfo->redPortal.xCoordinate].types);
@@ -271,8 +271,8 @@ void game::setPortal(char type, GameInfo* gameInfo, game::MapCell** map)
 
 	else if (type == BLUE_PORTAL)
 	{
-		if (gameInfo->hero.xCoordinate != gameInfo->bluePortal.xCoordinate &&
-			gameInfo->hero.yCoordinate != gameInfo->bluePortal.yCoordinate)
+		if ((gameInfo->hero.xCoordinate != gameInfo->bluePortal.xCoordinate) ||
+			(gameInfo->hero.yCoordinate != gameInfo->bluePortal.yCoordinate))
 		{
 			if (gameInfo->bluePortal.yCoordinate != 0)
 				pop(map[gameInfo->bluePortal.yCoordinate][gameInfo->bluePortal.xCoordinate].types);
