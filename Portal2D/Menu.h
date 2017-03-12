@@ -10,7 +10,22 @@ using namespace std;
 
 enum Colors
 {
-	GREEN_COLOR = 10, GREEN_COLOR_DARK = 2 /*CASE_UP = 72, CASE_DOWN = 80, CASE_ENTER = 13*/
+	Black = 0,
+	DarkBlue = 1, 
+	DarkGreen = 2,
+	DarkCyan = 3, //сине-зеленый (цвет "морской волны") темный оттенок
+	DarkRed = 4,
+	DarkMagenta = 5, // розовый (темный оттенок)
+	Brown = 6,
+	LightGrey = 7,
+	DarkGrey = 8,
+	LightBlue = 9,
+	LightGreen = 10,
+	LightCyan = 11,
+	LightRed = 12,
+	LightMagenta = 13,
+	Yellow = 14,
+	White = 15
 };
 
 

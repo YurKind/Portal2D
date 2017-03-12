@@ -15,6 +15,9 @@ namespace game
 	struct GameInfo;
 	struct MapCell;
 
-	void drawFrame(MapCell** map, GameInfo* gameInfo);			// отрисовка карты, функция принимает в качетсве аргумета двумерный массив структур
-	void clearScreen();					// функция очистки консоли (без мерцания) !(надо разобраться)!
+	void drawFrame(MapCell** map, GameInfo* gameInfo);	// отрисовка карты, функция принимает в качетсве аргумета двумерный массив структур
+	void clearScreen();									// функция очистки консоли (без мерцания) !(надо разобраться)!
+	void freeMemory(MapCell** map, GameInfo* gameInfo);
+	void printSpecialSymbol(HANDLE consoleHandler, int yCoordinate, int xCoordinate, int color, char symbol);
 }
+

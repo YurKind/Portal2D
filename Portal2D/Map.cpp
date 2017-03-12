@@ -100,6 +100,7 @@ game::MapCell** game::createMap(char* levelName, GameInfo* gameInfo)
 			}
 		}
 	}
+
 	fin.close();
 
 	return map;

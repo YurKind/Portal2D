@@ -7,24 +7,14 @@ using namespace std;
 
 int main()
 {
+	HANDLE consoleHandler = GetStdHandle(STD_OUTPUT_HANDLE);
+
+	/*game::printSpecialSymbol(consoleHandler, 5, 25, LightBlue, 'B');*/
+
 	/*Point();
 	MoveToMenuPoint();*/
 
-	game::levelOne();
-
-	//game::Stack<char>* newStack = new game::Stack<char>;
-
-	//char a = 'a';
-	//char b = 'b';
-
-	//game::push(a, newStack);
-	//game::push(b, newStack);
-
-	//cout << game::peek(newStack) << endl;
-
-	//game::pop(newStack);
-
-	//cout << game::peek(newStack) << endl;
+	game::startLevel("Lvl_1.txt");
 
 	system("pause");
 

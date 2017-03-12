@@ -76,9 +76,9 @@ void Hat()
 void Point()
 {
 	Hat();
-	Stand(30, 9, GREEN_COLOR, "Start game");
-	Stand(30, 11, GREEN_COLOR_DARK, "Records");
-	Stand(30, 13, GREEN_COLOR_DARK, "Exit");
+	Stand(30, 9, LightGreen, "Start game");
+	Stand(30, 11, LightGreen, "Records");
+	Stand(30, 13, LightGreen, "Exit");
 }
 
 /***
@@ -87,21 +87,21 @@ void Point()
 void Point2()
 {
 	Hat();
-	Stand(30, 9, GREEN_COLOR, "Random level");
-	Stand(30, 11, GREEN_COLOR_DARK, "Level 1");
-	Stand(30, 13, GREEN_COLOR_DARK, "Level 2");
-	Stand(30, 15, GREEN_COLOR_DARK, "Level 3");
-	Stand(30, 17, GREEN_COLOR_DARK, "Level 4");
-	Stand(30, 19, GREEN_COLOR_DARK, "Level 5");
-	Stand(30, 21, GREEN_COLOR_DARK, "Back");
+	Stand(30, 9, LightGreen, "Random level");
+	Stand(30, 11, LightGreen, "Level 1");
+	Stand(30, 13, LightGreen, "Level 2");
+	Stand(30, 15, LightGreen, "Level 3");
+	Stand(30, 17, LightGreen, "Level 4");
+	Stand(30, 19, LightGreen, "Level 5");
+	Stand(30, 21, LightGreen, "Back");
 }
 
 void Point3()
 {
 	Hat();
-	Stand(30, 9, GREEN_COLOR, "Show all records");
-	Stand(30, 11, GREEN_COLOR_DARK, "Show 10 records");
-	Stand(30, 13, GREEN_COLOR_DARK, "Back");
+	Stand(30, 9, LightGreen, "Show all records");
+	Stand(30, 11, LightGreen, "Show 10 records");
+	Stand(30, 13, LightGreen, "Back");
 }
 
 void RewriterCaseDownPoint(int a)
@@ -109,12 +109,12 @@ void RewriterCaseDownPoint(int a)
 	switch (a)
 	{
 	case 2:
-		Stand(30, 9, GREEN_COLOR_DARK, "Start game");
-		Stand(30, 11, GREEN_COLOR, "Records");
+		Stand(30, 9, LightGreen, "Start game");
+		Stand(30, 11, LightGreen, "Records");
 		break;
 	case 3:
-		Stand(30, 11, GREEN_COLOR_DARK, "Records");
-		Stand(30, 13, GREEN_COLOR, "Exit");
+		Stand(30, 11, LightGreen, "Records");
+		Stand(30, 13, LightGreen, "Exit");
 		break;
 	}
 }
@@ -124,28 +124,28 @@ void RewriterCaseDownPoint2(int a)
 	switch (a)
 	{
 	case 2:
-		Stand(30, 9, GREEN_COLOR_DARK, "Random level");
-		Stand(30, 11, GREEN_COLOR, "Level 1");
+		Stand(30, 9, LightGreen, "Random level");
+		Stand(30, 11, LightGreen, "Level 1");
 		break;
 	case 3:
-		Stand(30, 11, GREEN_COLOR_DARK, "Level 1");
-		Stand(30, 13, GREEN_COLOR, "Level 2");
+		Stand(30, 11, LightGreen, "Level 1");
+		Stand(30, 13, LightGreen, "Level 2");
 		break;
 	case 4:
-		Stand(30, 13, GREEN_COLOR_DARK, "Level 2");
-		Stand(30, 15, GREEN_COLOR, "Level 3");
+		Stand(30, 13, LightGreen, "Level 2");
+		Stand(30, 15, LightGreen, "Level 3");
 		break;
 	case 5:
-		Stand(30, 15, GREEN_COLOR_DARK, "Level 3");
-		Stand(30, 17, GREEN_COLOR, "Level 4");
+		Stand(30, 15, LightGreen, "Level 3");
+		Stand(30, 17, LightGreen, "Level 4");
 		break;
 	case 6:
-		Stand(30, 17, GREEN_COLOR_DARK, "Level 4");
-		Stand(30, 19, GREEN_COLOR, "Level 5");
+		Stand(30, 17, LightGreen, "Level 4");
+		Stand(30, 19, LightGreen, "Level 5");
 		break;
 	case 7:
-		Stand(30, 19, GREEN_COLOR_DARK, "Level 5");
-		Stand(30, 21, GREEN_COLOR, "Back");
+		Stand(30, 19, LightGreen, "Level 5");
+		Stand(30, 21, LightGreen, "Back");
 		break;
 	}
 }
@@ -155,12 +155,12 @@ void RewriterCaseDownPoint3(int a)
 	switch (a)
 	{
 	case 2:
-		Stand(30, 9, GREEN_COLOR_DARK, "Show all records");
-		Stand(30, 11, GREEN_COLOR, "Show 10 records");
+		Stand(30, 9, LightGreen, "Show all records");
+		Stand(30, 11, LightGreen, "Show 10 records");
 		break;
 	case 3:
-		Stand(30, 11, GREEN_COLOR_DARK, "Show 10 records");
-		Stand(30, 13, GREEN_COLOR, "Back");
+		Stand(30, 11, LightGreen, "Show 10 records");
+		Stand(30, 13, LightGreen, "Back");
 		break;
 	}
 }
@@ -170,15 +170,15 @@ void RewriterCaseUpPoint(int a)
 	switch (a)
 	{
 	case 1:
-		Stand(30, 9, GREEN_COLOR, "Start game");
-		Stand(30, 11, GREEN_COLOR_DARK, "Records");
+		Stand(30, 9, LightGreen, "Start game");
+		Stand(30, 11, LightGreen, "Records");
 		break;
 	case 2:
-		Stand(30, 11, GREEN_COLOR, "Records");
-		Stand(30, 13, GREEN_COLOR_DARK, "Exit");
+		Stand(30, 11, LightGreen, "Records");
+		Stand(30, 13, LightGreen, "Exit");
 		break;
 	case 3:
-		Stand(30, 13, GREEN_COLOR, "Exit");
+		Stand(30, 13, LightGreen, "Exit");
 		break;
 	}
 }
@@ -188,28 +188,28 @@ void RewriterCaseUpPoint2(int a)
 	switch (a)
 	{
 	case 1:
-		Stand(30, 9, GREEN_COLOR, "Random level");
-		Stand(30, 11, GREEN_COLOR_DARK, "Level 1");
+		Stand(30, 9, LightGreen, "Random level");
+		Stand(30, 11, LightGreen, "Level 1");
 		break;
 	case 2:
-		Stand(30, 11, GREEN_COLOR, "Level 1");
-		Stand(30, 13, GREEN_COLOR_DARK, "Level 2");
+		Stand(30, 11, LightGreen, "Level 1");
+		Stand(30, 13, LightGreen, "Level 2");
 		break;
 	case 3:
-		Stand(30, 13, GREEN_COLOR, "Level 2");
-		Stand(30, 15, GREEN_COLOR_DARK, "Level 3");
+		Stand(30, 13, LightGreen, "Level 2");
+		Stand(30, 15, LightGreen, "Level 3");
 		break;
 	case 4:
-		Stand(30, 15, GREEN_COLOR, "Level 3");
-		Stand(30, 17, GREEN_COLOR_DARK, "Level 4");
+		Stand(30, 15, LightGreen, "Level 3");
+		Stand(30, 17, LightGreen, "Level 4");
 		break;
 	case 5:
-		Stand(30, 17, GREEN_COLOR, "Level 4");
-		Stand(30, 19, GREEN_COLOR_DARK, "Level 5");
+		Stand(30, 17, LightGreen, "Level 4");
+		Stand(30, 19, LightGreen, "Level 5");
 		break;
 	case 6:
 		Stand(30, 19, 10, "Level 5");
-		Stand(30, 21, GREEN_COLOR_DARK, "Back");
+		Stand(30, 21, LightGreen, "Back");
 		break;
 	}
 }
@@ -219,15 +219,15 @@ void RewriterCaseUpPoint3(int a)
 	switch (a)
 	{
 	case 1:
-		Stand(30, 9, GREEN_COLOR, "Show all records");
-		Stand(30, 11, GREEN_COLOR_DARK, "Show 10 records");
+		Stand(30, 9, LightGreen, "Show all records");
+		Stand(30, 11, LightGreen, "Show 10 records");
 		break;
 	case 2:
-		Stand(30, 11, GREEN_COLOR, "Show 10 records");
-		Stand(30, 13, GREEN_COLOR_DARK, "Back");
+		Stand(30, 11, LightGreen, "Show 10 records");
+		Stand(30, 13, LightGreen, "Back");
 		break;
 	case 3:
-		Stand(30, 13, GREEN_COLOR, "Back");
+		Stand(30, 13, LightGreen, "Back");
 		break;
 	}
 }
@@ -261,7 +261,7 @@ void UserSelection2(int Cur)
 	case 2:
 		/*cout << "Level 1";*/
 		SetConsoleTextAttribute(H, 7);
-		game::levelOne();
+		game::startLevel("Lvl_1.txt");
 		break;
 	case 3:
 		cout << "Level 2";
@@ -423,7 +423,7 @@ void MoveToMenuPoint3()
 //	{
 //	case StartGame:
 //		// TODO: Rework!
-//		game::levelOne();
+//		game::startLevel();
 //		break;
 //	case Instruction:
 //		cout << "In development" << endl;
