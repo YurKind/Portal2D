@@ -6,6 +6,14 @@
 #include <conio.h>
 #include <stdio.h> 
 
+#include "Records.h"
+#include "Gameplay.h"
+#include "Definitions.h"
+#include "Queue.h"
+#include "List.h"
+#include "Tree.h"
+#include "Structures.h"
+
 using namespace std;
 
 enum Colors
@@ -54,6 +62,7 @@ void pointToMenu2();
 void pointToMenu();
 void hat();
 void stand(int X_COORD, int Y_COORD, int TEXT_COLOR, char*str);
+void printRecords(int Y_COORD, int TEXT_COLOR, char*str);
 
 //namespace menu
 //{

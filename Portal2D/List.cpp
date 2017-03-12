@@ -11,7 +11,7 @@ void list::addList(list::List<records::DataAboutTheChampion> **begin, std::ifstr
 		buf = new char[lengthLine];
 		fin.getline(buf, lengthLine);
 		add->next = new list::List<records::DataAboutTheChampion>;
-		add->value = records::sortingDataAboutTheChampion(buf);
+		add->value = records::initializationDataAboutTheChampion(buf);
 		add = add->next;
 		add->next = NULL;
 	}

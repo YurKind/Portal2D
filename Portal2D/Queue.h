@@ -1,11 +1,12 @@
 #pragma once 
+
 #include "Structures.h" 
 
 #define NUMBER_OF_LEVELS 10 
 
 namespace queue
 {
-	void initializeArrayWithDifferentData(int *arr)
+	void inline initializeArrayWithDifferentData(int *arr)
 	{
 		for (int i = 0; i < NUMBER_OF_LEVELS; i++)
 		{
@@ -24,6 +25,18 @@ namespace queue
 				arr[i] = temp;
 			}
 		}
+	}
+
+	template <typename T> int checkCurrentSizeOfQueue(queue::Queue<T> *begin)
+	{
+		int resultOfCount = 0;
+		queue::Queue<T> *counter = begin;
+		while (counter->head)
+		{
+			resultOfCount++;
+			counter->head = counter->head->next;
+		}
+		return resultOfCount;
 	}
 
 	template <typename T> T generatingRandomLevelNumber(queue::Queue<T> *begin)

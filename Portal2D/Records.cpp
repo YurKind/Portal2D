@@ -135,9 +135,9 @@ int records::findingTheLocationInOrder(list::List<records::DataAboutTheChampion>
 	return counter;
 }
 
-records::DataAboutTheChampion records::sortingDataAboutTheChampion(char *buf)
+records::DataAboutTheChampion records::initializationDataAboutTheChampion(char *buf)
 {
-	char time[5], lvl[2];
+	char time[25], lvl[2];
 	records::DataAboutTheChampion champion = {};
 	int counterLetter = 0, i = 0;
 	while (buf[counterLetter] != '|')
@@ -152,7 +152,7 @@ records::DataAboutTheChampion records::sortingDataAboutTheChampion(char *buf)
 		counterLetter++;
 		i++;
 	}
-	int score = atoi(time);
+	double score = atof(time);
 	champion.score = score;
 	counterLetter++;
 	i = 0;
