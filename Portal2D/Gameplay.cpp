@@ -3,7 +3,7 @@
 #include "Instruments.h"
 
 //------Moving_Functions------//
-void game::performAnAction(MapCell** map, GameInfo* gameInfo)
+void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 {
 	bool gameIsRunning = true; // Временно
 
@@ -63,7 +63,8 @@ void game::performAnAction(MapCell** map, GameInfo* gameInfo)
 				break;
 			}
 		}
-		winLevel(gameInfo, map, gameIsRunning);
+		
+		gameIsRunning = checkGameOverConditions(gameInfo, map);
 
 		game::clearScreen(); // Очищаем экран
 		game::drawFrame(map, gameInfo);
@@ -209,17 +210,19 @@ void game::gravity(game::MapCell** map, GameInfo* gameInfo)
 	}
 }
 
-void game::levelOne()
+void game::startLevel(char* levelName)
 {
 	game::GameInfo* gameInfo = new GameInfo;
 
-	game::clearScreen(); // Чистим экран
+	game::MapCell** map = game::createMap(levelName, gameInfo); // Создаем двумерный массив структур, используя текстовый документ
 
-	game::MapCell** map = game::createMap("Lvl_1.txt", gameInfo); // Создаем двумерный массив структур, используя текстовый документ
+	game::clearScreen(); // Чистим экран
 
 	game::drawFrame(map, gameInfo); // Рисуем первый кадр
 
-	game::performAnAction(map, gameInfo); // Выполняем далее в зависимости от действий игрока
+	game::performAnAction(gameInfo, map); // Выполняем далее в зависимости от действий игрока
+
+	game::freeMemory(map, gameInfo); // Очищаем занятую память
 }
 
 //-----Portals_Functions------//
@@ -283,12 +286,15 @@ void game::activateTheButton(GameInfo* gameInfo, MapCell** map)
 	}
 }
 
-bool game::winLevel(GameInfo* gameInfo, MapCell** map, bool& gameIsRunning)
+bool game::checkGameOverConditions(GameInfo* gameInfo, MapCell** map)
 {
 	if (gameInfo->hero.xCoordinate == gameInfo->exitFromLevel.xCoordinate &&
 		gameInfo->hero.yCoordinate == gameInfo->exitFromLevel.yCoordinate)
 	{
-		gameIsRunning = false;
+		return false;
 	}
-	return gameIsRunning;
+	else
+	{
+		return true;
+	}
 }

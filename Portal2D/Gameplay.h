@@ -18,7 +18,7 @@ namespace game
 	void jump(GameInfo* gameInfo, game::MapCell** map);
 
 	// Совершает определенное действие в зависимости от нажатой игроком клавиши
-	void performAnAction(MapCell** map, GameInfo* gameInfo);
+	void performAnAction(GameInfo* gameInfo, MapCell** map);
 	
 	// Функции для перемещения объектов влево-вправо-вверх-вниз
 
@@ -28,7 +28,7 @@ namespace game
 	void moveDown(char type, GameInfo* gameInfo, MapCell** map);
 
 	// Временная функция для запуска первого уровня
-	void levelOne(); 
+	void startLevel(char* levelName); 
 
 	// Выполняя необходимые проверки, имитирует гравитацию
 	void gravity(MapCell** map, GameInfo* gameInfo);
@@ -38,5 +38,5 @@ namespace game
 
 	void activateTheButton(GameInfo* gameInfo, game::MapCell** map);
 
-	bool winLevel(GameInfo* gameInfo, MapCell** map, bool& gameIsRunning);
+	bool checkGameOverConditions(GameInfo* gameInfo, MapCell** map);
 }
