@@ -224,16 +224,15 @@ void game::replaceTheAim(char type, GameInfo* gameInfo, game::MapCell** map)
 		moveDown(AIM_DOT, gameInfo, map);
 	}
 
-	else if (peek(map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate + 1].types) == EMPTY_SPACE)
-	{
-		moveRight(AIM_DOT, gameInfo, map);
-	}
-
 	else if (peek(map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate - 1].types) == EMPTY_SPACE)
 	{
 		moveLeft(AIM_DOT, gameInfo, map);
 	}
 
+	else if (peek(map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate + 1].types) == EMPTY_SPACE)
+	{
+		moveRight(AIM_DOT, gameInfo, map);
+	}
 }
 
 //------Gravitation_Functions------//
