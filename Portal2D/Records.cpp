@@ -3,22 +3,36 @@
 
 void records::addInRecordsOrShowRecords(records::DataAboutTheChampion newChampion, char *variant)
 {
+	int counterOfPrintedChampions = 0;
 	list::List<records::DataAboutTheChampion> *begin = new list::List<records::DataAboutTheChampion>;
 	std::ifstream fin(FILE_NAME_RECORDS);
 	list::addList(&begin, fin);
 	if (!strcmp(variant, "show"))
 	{
+		std::cout << "\n";
 		while (begin->next)
 		{
-			std::cout << "name: " << begin->value.name << " level: " << begin->value.level << " score: " << begin->value.score << std::endl;
+			counterOfPrintedChampions++;
+			std::cout << "\n" << counterOfPrintedChampions << "." << "name: " << begin->value.name << " level: " << begin->value.level << " score: " << begin->value.score << std::endl;
 			begin = begin->next;
 		}
+		std::cout << "\n";
 	}
 	else if (!strcmp(variant, "add"))
 	{
 		int placeInRank = records::findingTheLocationInOrder(begin, newChampion);
 		list::addInCertainPlace(&begin, placeInRank, newChampion);
 		records::overwriteFile(begin);
+	}
+	else if (!strcmp(variant, "show10")) {
+		std::cout << "\n";
+		while (begin->next && counterOfPrintedChampions < 10)
+		{
+			counterOfPrintedChampions++;
+			std::cout << "\n" << counterOfPrintedChampions << "." << "name: " << begin->value.name << " level: " << begin->value.level << " score: " << begin->value.score << std::endl;
+			begin = begin->next;	
+		}
+		std::cout << "\n";
 	}
 	fin.close();
 	list::freeMemory(begin);

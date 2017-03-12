@@ -5,6 +5,42 @@
 
 namespace queue
 {
+	void initializeArrayWithDifferentData(int *arr)
+	{
+		for (int i = 0; i < NUMBER_OF_LEVELS; i++)
+		{
+			bool flag = true;
+			int temp = rand() % NUMBER_OF_LEVELS + 1;
+			for (int j = 0; j < NUMBER_OF_LEVELS; j++)
+			{
+				if (temp == arr[j])
+				{
+					i--;
+					flag = false;
+				}
+			}
+			if (flag)
+			{
+				arr[i] = temp;
+			}
+		}
+	}
+
+	template <typename T> T generatingRandomLevelNumber(queue::Queue<T> *begin)
+	{
+		int *arr = new int[NUMBER_OF_LEVELS];
+		if (!begin->head)
+		{
+			queue::initializeArrayWithDifferentData(arr);
+			queue::addQueue(begin, arr, NUMBER_OF_LEVELS);
+		}
+		else
+		{
+			std::cout << " ";
+		}	
+		return queue::pullElement(begin);
+	}
+
 	template <typename T> void pushInQueue(queue::Queue<T> *begin, T newData)
 	{
 		queue::Node<T> *node = new queue::Node<T>;
@@ -51,11 +87,18 @@ namespace queue
 		}
 	}
 
-	/*template <typename T> T pullElement(queue::Queue<T> *begin)
+	template <typename T> T pullElement(queue::Queue<T> *begin)
 	{
-	if (begin->head)
-	T element = begin->head->data;
+		T element = NULL;
+		queue::Node<T> *clean = begin->head;
+		if (begin->head)
+		{
+			element = begin->head->data;
+		}
+		clean = begin->head;
+		begin->head = begin->head->next;
+		delete clean;
 
-	return element;
-	}*/
+		return element;
+	}
 }
