@@ -1,14 +1,15 @@
 #include "Definitions.h"
 #include "Map.h"
 #include "Instruments.h"
+#include "Menu.h"
 
-void game::drawFrame(game::MapCell** map)		// отрисовка карты, функция принимает в качетсве аргумета двумерный массив структур
+void game::drawFrame(game::MapCell** map, game::GameInfo* gameInfo)		// отрисовка карты, функция принимает в качетсве аргумета двумерный массив структур
 {
 	for (int i = 0; i < MAP_HEIGHT; i++)
 	{
 		for (int j = 0; j < MAP_WIDTH; j++)
 		{
-			switch (map[i][j].type)			// выражением служит тип текущего элемента массива (персонаж, блок и тд)
+			switch (peek(map[i][j].types))			// выражением служит тип текущего элемента массива (персонаж, блок и тд)
 			{
 			case HERO:						// если встречен тип "герой", то отрисовывается герой
 				std::cout << HERO;
@@ -35,11 +36,17 @@ void game::drawFrame(game::MapCell** map)		// отрисовка карты, функция принимает
 				break;
 
 			case RED_PORTAL:			// если встречен тип "красный портал", то отрисовывается красный портал
+				system("color 1");
+				system("color 4");
 				std::cout << RED_PORTAL;
 				break;
 
-			case BLUE_PORTAL:			// если встречен тип "синий портал", то отрисовывается синий портал
+			case BLUE_PORTAL:			// если встречен тип "синий портал", то отрисовывается синий портал 
 				std::cout << BLUE_PORTAL;
+				break;
+
+			case BUTTON:
+				std::cout << BUTTON;
 				break;
 
 			default:
@@ -48,6 +55,7 @@ void game::drawFrame(game::MapCell** map)		// отрисовка карты, функция принимает
 		}
 		std::cout << std::endl;
 	}
+	std::cout << std::endl << "HP: " << gameInfo->hero.healthPoints << "\t\t\tTIME: " << gameInfo->hero.score;
 }
 
 void game::clearScreen()		// функция очистки консоли (без мерцания)

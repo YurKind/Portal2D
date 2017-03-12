@@ -1,25 +1,20 @@
 #pragma once
 
 #include <iostream>
+#include <iomanip>
 
 #include <Windows.h>
 #include <conio.h>
 
 #include "Definitions.h"
+#include "Map.h"
+#include "Gameplay.h"
 
 namespace game
 {
+	struct GameInfo;
 	struct MapCell;
 
-	struct StackOfTypes
-	{
-		char type;
-		StackOfTypes* next;
-	};
-
-	//void push(char type, MapCell* &next);
-	//char pop(MapCell* &next);
-
-	void drawFrame(MapCell** map);			// отрисовка карты, функция принимает в качетсве аргумета двумерный массив структур
+	void drawFrame(MapCell** map, GameInfo* gameInfo);			// отрисовка карты, функция принимает в качетсве аргумета двумерный массив структур
 	void clearScreen();					// функция очистки консоли (без мерцания) !(надо разобраться)!
 }

@@ -2,7 +2,7 @@
 #include "Map.h"
 
 // функция считывающая карту из файла в двумерный массив структур, функция принимает в качетсве аргумета имя уровня
-game::MapCell** game::createMap(char* levelName, Hero* hero, Aim* aim, RedPortal* redPortal, BluePotal* bluePortal)
+game::MapCell** game::createMap(char* levelName, GameInfo* gameInfo)
 {
 	game::MapCell** map = new game::MapCell*[MAP_HEIGHT];	//создание динамического массива
 	for (int i = 0; i < MAP_HEIGHT; i++)
@@ -21,62 +21,78 @@ game::MapCell** game::createMap(char* levelName, Hero* hero, Aim* aim, RedPortal
 			if (currentSymbol == NEW_LINE)	// если символ равен '\n', то происходит считывание следующего символа
 				currentSymbol = fin.get();
 
-			switch (currentSymbol)			// 
+			switch (currentSymbol)			 
 			{
-			case HERO_SYMBOL:				// если текущий символ равен "H", то
-				map[i][j].type = HERO;		// тип текущей клетки становится "Герой"
-				hero->xCoordinate = j;	// запоминаются его координаты
-				hero->yCoordinate = i;
+			case HERO_SYMBOL:					// если текущий символ равен "H", то
+				map[i][j].types = new Stack<char>;
+				push(EMPTY_SPACE, map[i][j].types);			// тип текущей клетки становится "Герой"
+				push(HERO, map[i][j].types);
+				gameInfo->hero.xCoordinate = j;	// запоминаются его координаты
+				gameInfo->hero.yCoordinate = i;
 				map[i][j].passable = true;
 				break;
 
 			case BLOCK_SHARP:				// если текущий символ равен "решётка", то
-				map[i][j].type = BLOCK;		// тип текущей клетки становится "Блок"
-				map[i][j].xCoordinate = j;	// запоминаются его координаты
-				map[i][j].yCoordinate = i;
+				map[i][j].types = new Stack<char>;
+				push(BLOCK, map[i][j].types);		// тип текущей клетки становится "Блок"
 				map[i][j].passable = false;	//клетка становится непроходимой
 				break;
 
 			case EMPTY_SPACE:				// если текущий символ равен "_", то
-				map[i][j].type = EMPTY_SPACE;	// тип текущей клетки становится "пустое пространство"
-				map[i][j].xCoordinate = j;		// запоминаются её координаты
-				map[i][j].yCoordinate = i;
+				map[i][j].types = new Stack<char>;
+				push(EMPTY_SPACE, map[i][j].types);	// тип текущей клетки становится "пустое пространство"
 				map[i][j].passable = true;	// клетка становится проходимой
 				break;
 
 			case AIM_DOT:					// если текущий символ равен "точке", то
-				map[i][j].type = AIM_DOT;	// тип текущей клетки становится "прицел"
-				aim->xCoordinate = j;	// запоминаются его координаты
-				aim->yCoordinate = i;
+				map[i][j].types = new Stack<char>;
+				push(EMPTY_SPACE, map[i][j].types);
+				push(AIM_DOT, map[i][j].types);	// тип текущей клетки становится "прицел"
+				gameInfo->aim.xCoordinate = j;	// запоминаются его координаты
+				gameInfo->aim.yCoordinate = i;
 				map[i][j].passable = true;	// клетка становится проходимой
 				break;
 
 			case BLACK_WALL_S:				// если текущий символ равен "X", то
-				map[i][j].type = BLACK_WALL;	// тип текущей клетки становится "непроходимая стена"
-				map[i][j].xCoordinate = j;	// запоминаются его координаты
-				map[i][j].yCoordinate = i;
+				map[i][j].types = new Stack<char>;
+				push(EMPTY_SPACE, map[i][j].types);
+				push(BLACK_WALL, map[i][j].types);	// тип текущей клетки становится "непроходимая стена"
+				gameInfo->blackWall.xCoordinate = j;
+				gameInfo->blackWall.yCoordinate = i;
 				map[i][j].passable = false;	// клетка становится непроходимой
 				break;
 
 			case EXIT_S:					// если текущий символ равен "X", то
-				map[i][j].type = EXIT;		// тип текущей клетки становится "выход"
-				map[i][j].xCoordinate = j;	// запоминаются его координаты
-				map[i][j].yCoordinate = i;
+				map[i][j].types = new Stack<char>;
+				push(EMPTY_SPACE, map[i][j].types);
+				push(EXIT, map[i][j].types);		// тип текущей клетки становится "выход"
+				gameInfo->exitFromLevel.xCoordinate = j;
+				gameInfo->exitFromLevel.yCoordinate = i;
 				map[i][j].passable = true;	// клетка становится проходимой
 				break;
 
 			case RED_PORTAL:				  // если текущий символ равен "O", то
-				map[i][j].type = RED_PORTAL;  // тип текущей клетки становится "красный портал"
-				map[i][j].xCoordinate = j;	  
-				map[i][j].yCoordinate = i;	  // запоминаются его координаты
+				map[i][j].types = new Stack<char>;
+				push(RED_PORTAL, map[i][j].types);  // тип текущей клетки становится "красный портал"
+				gameInfo->redPortal.xCoordinate = j;
+				gameInfo->redPortal.yCoordinate = i;   // запоминаются его координаты
 				map[i][j].passable = true;    // клетка становится проходимой
 				break;
 
 			case BLUE_PORTAL:
-				map[i][j].type = BLUE_PORTAL; // если текущий символ равен "O", то
-				map[i][j].xCoordinate = j;    // тип текущей клетки становится "красный портал"
-				map[i][j].yCoordinate = i;	  // запоминаются его координаты
-				map[i][j].passable = true;    // клетка становится проходимой
+				map[i][j].types = new Stack<char>;
+				push(BLUE_PORTAL, map[i][j].types);   // если текущий символ равен "O", то
+				gameInfo->bluePortal.xCoordinate = j;    // тип текущей клетки становится "красный портал"
+				gameInfo->bluePortal.yCoordinate = i;	// запоминаются его координаты
+				map[i][j].passable = true;      // клетка становится проходимой
+				break;
+
+			case BUTTON_S:
+				map[i][j].types = new Stack<char>;
+				push(BUTTON, map[i][j].types);
+				gameInfo->button.xCoordinate = j;
+				gameInfo->button.yCoordinate = i;
+				map[i][j].passable = true;
 				break;
 
 			default:

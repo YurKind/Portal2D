@@ -1,5 +1,15 @@
 #pragma once
+
 #include <iostream>
+
+namespace game
+{
+	template <typename T> struct Stack
+	{
+		T element;
+		Stack<T> *next;
+	};
+}
 
 namespace records
 {

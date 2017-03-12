@@ -295,12 +295,11 @@ void UserSelection2(int Cur)
 void UserSelection3(int Cur)
 {
 	system("cls");
+	list::List<records::DataAboutTheChampion> *list = NULL;
+	list::List<records::DataAboutTheChampion> *list2 = NULL;
 	tree::BranchForNumber<records::DataAboutTheChampion> *tree = NULL;
 	records::DataAboutTheChampion empty;
 	std::ifstream fin(FILE_NAME_RECORDS);
-	tree::BranchForNumber<records::DataAboutTheChampion> **s = &tree;
-	tree::BranchForNumber<records::DataAboutTheChampion> *search;
-	int counter = 0;
 	switch (Cur)
 	{
 	case 1:
@@ -312,26 +311,32 @@ void UserSelection3(int Cur)
 		cout << "10 Records";
 		records::addInRecordsOrShowRecords(empty, "show10");
 		system("cls");
-
 		tree::addTree(&tree, FILE_NAME_RECORDS);
 		std::cout << "\nmin = " << tree::getMinimum(tree).score << std::endl;
 		std::cout << "max = " << tree::getMaximum(tree).score << std::endl;
 
-		search = *s;
+		list = tree::searchByScoreAllElements(tree, 43.23);
+		while (list)
+		{
+			std::cout << list->value.name << " -> " << list->value.level << std::endl;
+			list = list->next;
+		}
+		list::freeMemory(list);
+		list::freeMemory(list2);
+		tree::freeMemory(tree);
+		break;
+        /*search = *s;
 		while (search)
 		{
 			if (counter)
-				*s = tree::searchByScore(search->right, 43.23);
+				*s = tree::searchByScoreBeforeFirstResult(search->right, 43.23);
 			else
-				*s = tree::searchByScore(search, 43.23);
+				*s = tree::searchByScoreBeforeFirstResult(search, 43.23);
 			search = *s; 
 			if (search)
 				std::cout << search->data.name << " -> " << search->data.level << std::endl;
 			counter++;
-		}
-		tree::freeMemory(tree);
-		break;
-
+		}*/
 		/*case 3:
 			Point();
 			MoveToMenuPoint();

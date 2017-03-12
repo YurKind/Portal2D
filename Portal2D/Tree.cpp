@@ -1,23 +1,94 @@
 #include "Tree.h"
 #include "Records.h"
+#include "List.h"
 
 namespace tree
 {
-	BranchForNumber<records::DataAboutTheChampion> *searchByScore(BranchForNumber<records::DataAboutTheChampion> *begin, double subjectOfSearch)
+	BranchForNumber<records::DataAboutTheChampion> *searchByScoreOfOneResult(BranchForNumber<records::DataAboutTheChampion> *begin, double score)
 	{
-		if (!begin || subjectOfSearch == begin->data.score)
+		if (!begin || score == begin->data.score)
 		{
 			return begin;
 		}
-		else if (subjectOfSearch < begin->data.score)
+
+		if (score < begin->data.score)
 		{
-			tree::searchByScore(begin->left, subjectOfSearch);
+			tree::searchByScoreOfOneResult(begin->left, score);
 		}
 		else
 		{
-			tree::searchByScore(begin->right, subjectOfSearch);
+			tree::searchByScoreOfOneResult(begin->right, score);
 		}
 	}
+
+	list::List<records::DataAboutTheChampion> *searchByScoreAllElements(BranchForNumber<records::DataAboutTheChampion> *begin, double score)
+	{
+		int counterOfLoop = 0;
+		list::List<records::DataAboutTheChampion> *list = NULL;
+		tree::BranchForNumber<records::DataAboutTheChampion> **s = &begin;
+		tree::BranchForNumber<records::DataAboutTheChampion> *search = *s;
+		while (search)
+		{
+			if (counterOfLoop)
+			{
+				*s = tree::searchByScoreOfOneResult(search->right, score);
+			}
+			else
+			{
+				*s = tree::searchByScoreOfOneResult(search, score);
+			}
+			search = *s;
+			if (search)
+			{
+				list::addBegin(&list, search->data);
+			}
+			counterOfLoop++;
+		}
+		return list;
+	}
+
+	/*BranchForNumber<records::DataAboutTheChampion> *searchByLevelOfOneResult(BranchForNumber<records::DataAboutTheChampion> *begin, double level)
+	{
+		if (!begin || level == begin->data.level)
+		{
+			return begin;
+		}
+
+		if (level < begin->data.level)
+		{
+			tree::searchByScoreOfOneResult(begin->left, level);
+		}
+		else
+		{
+			tree::searchByScoreOfOneResult(begin->right, level);
+		}
+	}
+
+	list::List<records::DataAboutTheChampion> *searchByLevelAllElements(BranchForNumber<records::DataAboutTheChampion> *begin, int level)
+	{
+		int counterOfLoop = 0;
+		list::List<records::DataAboutTheChampion> *list = NULL;
+		tree::BranchForNumber<records::DataAboutTheChampion> **s = &begin;
+		tree::BranchForNumber<records::DataAboutTheChampion> *search = *s;
+		while (search)
+		{
+			if (counterOfLoop)
+			{
+				*s = tree::searchByLevelOfOneResult(search->right, level);
+			}
+			else
+			{
+				*s = tree::searchByLevelOfOneResult(search, level);
+			}
+			search = *s;
+			if (search)
+			{
+				list::addBegin(&list, search->data);
+			}
+			counterOfLoop++;
+		}
+		return list;
+	}*/
 
 	void addTree(BranchForNumber<records::DataAboutTheChampion> **begin, char *fileName)
 	{

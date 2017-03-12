@@ -2,47 +2,38 @@
 
 #include "Definitions.h"
 #include "Instruments.h"
+#include "Stack.h"
 
 namespace game
 {
 	struct Hero							// Хранит данные о герое (координаты, очки здоровья)
 	{
-		//char type = HERO;
 		int xCoordinate;
 		int yCoordinate;
 		int healthPoints = 100;
+		double score = 10000;
 	};
 
-	struct Aim							// Хранит данные о прицеле (его координаты)
+	struct Objects                  // Хранит данные об объектах на карте (прицел, порталы)
 	{
-		//char type = AIM_DOT;
-		int xCoordinate;
-		int yCoordinate;
+		int xCoordinate = 0;
+		int yCoordinate = 0;
 	};
 
-	struct RedPortal                   // Хранит данные о красном портале (его координаты)
+	struct GameInfo
 	{
-		//char type = RED_PORTAL;
-		int xCoordinate;
-		int yCoordinate;
+		Hero hero;
+		Objects redPortal, bluePortal, aim, blackWall, exitFromLevel, button;
 	};
 
-	struct BluePotal				  // Хранит данные о синем портале (его координаты)
-	{
-		//char type = BLUE_PORTAL;
-		int xCoordinate;
-		int yCoordinate;
-	};
+
 
 	struct MapCell					// структура MapCell хранит всебе данные о клетке карты
 	{
-		char type;					// переменная для хранения текстуры (персонажа, блоков и тд)
-		int xCoordinate;			// координаты по x ?(оно пригодится в будущем)?
-		int yCoordinate;			// координаты по y ???
+		Stack<char>* types;			// переменная для хранения текстуры (персонажа, блоков и тд)
 		bool passable;				// переменная хранит в себе данные о возможности пройти сквозь неё
-		//int healthPoints = 100;		// здоровье персонажей
 	};
 
 	// функция считывающая карту из файла в двумерный массив структур, функция принимает в качетсве аргумета имя уровня
-	MapCell** createMap(char* levelName, Hero* hero, Aim* aim, RedPortal* redPortal, BluePotal* bluePortal);
+	MapCell** createMap(char* levelName, GameInfo* gameInfo);
 }

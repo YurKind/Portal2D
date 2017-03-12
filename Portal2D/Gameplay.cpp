@@ -3,9 +3,11 @@
 #include "Instruments.h"
 
 //------Moving_Functions------//
-void game::performAnAction(game::MapCell** map, Hero* hero, Aim* aim, RedPortal* redPortal, BluePotal* bluePortal)
+void game::performAnAction(MapCell** map, GameInfo* gameInfo)
 {
 	bool gameIsRunning = true; // Временно
+
+	double timeBeforeGame = clock();
 
 	while (gameIsRunning)
 	{
@@ -15,198 +17,278 @@ void game::performAnAction(game::MapCell** map, Hero* hero, Aim* aim, RedPortal*
 			switch (_getch()) // Читаем клавишу
 			{
 			case A_LOWER_CASE:
-				moveLeft(HERO, hero, map);
+				moveLeft(HERO, gameInfo, map);
 				break;
 
 			case D_LOWER_CASE:
-				moveRight(HERO, hero, map);
+				moveRight(HERO, gameInfo, map);
 				break;
 
 			case LEFT_ARROW:
-				moveLeft(AIM_DOT, aim, map);
+				moveLeft(AIM_DOT, gameInfo, map);
 				break;
 
 			case RIGHT_ARROW:
-				moveRight(AIM_DOT, aim, map);
+				moveRight(AIM_DOT, gameInfo, map);
 				break;
 
 			case UP_ARROW:
 				//условие ниже вызывает неприязнь и желание его уничтожить, но это временно, пока не появится стек
-				moveUp(AIM_DOT, aim, map);
+				moveUp(AIM_DOT, gameInfo, map);
 				break;
 
 			case DOWN_ARROW:
 				//условие ниже вызывает неприязнь и желание его уничтожить, но это временно, пока не появится стек
-				moveDown(AIM_DOT, aim, map);
+				moveDown(AIM_DOT, gameInfo, map);
 				break;
 
 			case SPACE_JUMP:
-				jump(hero, map); // Прыжок
+				jump(gameInfo, map); // Прыжок
 				break;
 
 			case E_LOWER_CASE:
-				setPortal(RED_PORTAL, redPortal, aim, map);
+				setPortal(RED_PORTAL, gameInfo, map);
 				break;
 
 			case Q_LOWER_CASE:
-				setPortal(BLUE_PORTAL, bluePortal, aim, map);
+				setPortal(BLUE_PORTAL, gameInfo, map);
 				break;
 
-			/*case ENTER:
-				
-				break;*/
+			case ENTER:
+				enterThePortal(HERO, gameInfo, map);
+				activateTheButton(gameInfo, map);
+				break;
 
 			default:
 				break;
 			}
 		}
+		winLevel(gameInfo, map, gameIsRunning);
+
 		game::clearScreen(); // Очищаем экран
-		game::drawFrame(map);
-		game::gravity(map, hero); // Имитируем гравитацию
+		game::drawFrame(map, gameInfo);
+		game::gravity(map, gameInfo); // Имитируем гравитацию
 		Sleep(50);
 		game::clearScreen(); // Очищаем экран
+
+		double timeAfterAction = clock();
+
+		gameInfo->hero.score = (timeAfterAction - timeBeforeGame) / 1000.0;
 	}
+
+	double timeAfterGame = clock();
+
+	double requiredTime = (timeAfterGame - timeBeforeGame) / 1000.0;
+
 }
 
-void game::jump(Hero* hero, game::MapCell** map)
+void game::jump(GameInfo* gameInfo, game::MapCell** map)
 {
-	if (map[hero->yCoordinate + 1][hero->xCoordinate].passable == false)
+	if (map[gameInfo->hero.yCoordinate + 1][gameInfo->hero.xCoordinate].passable == false)
 	{
-		if ((map[hero->yCoordinate - 1][hero->xCoordinate].passable == true) && // Если обе клетки над героем свободны
-			(map[hero->yCoordinate - 2][hero->xCoordinate].passable == true))
+		if ((map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].passable == true) && // Если обе клетки над героем свободны
+			(map[gameInfo->hero.yCoordinate - 2][gameInfo->hero.xCoordinate].passable == true))
 		{
-			map[hero->yCoordinate][hero->xCoordinate].type = EMPTY_SPACE; // В клетку, где был герой заносим пробел, в клетку
-			map[hero->yCoordinate - 1][hero->xCoordinate].type = HERO;	  // выше заносим символ героя, а так же переносим инфу о HP
-			hero->yCoordinate = hero->yCoordinate - 1;
+			push(pop(map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types),
+				map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].types);
 
-			game::drawFrame(map);
+			gameInfo->hero.yCoordinate = gameInfo->hero.yCoordinate - 1;
 
-			map[hero->yCoordinate][hero->xCoordinate].type = EMPTY_SPACE;
-			map[hero->yCoordinate - 1][hero->xCoordinate].type = HERO;
-			hero->yCoordinate = hero->yCoordinate - 1;
+			game::drawFrame(map, gameInfo);
+
+			push(pop(map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types),
+				map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].types);
+
+			gameInfo->hero.yCoordinate = gameInfo->hero.yCoordinate - 1;
 		}
 
-		else if ((map[hero->yCoordinate - 1][hero->xCoordinate].passable == true) && // Если свободна только одна
-			(map[hero->yCoordinate - 2][hero->xCoordinate].passable == false))
+		else if ((map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].passable == true) && // Если свободна только одна
+			(map[gameInfo->hero.yCoordinate - 2][gameInfo->hero.xCoordinate].passable == false))
 		{
-			map[hero->yCoordinate][hero->xCoordinate].type = EMPTY_SPACE;
-			map[hero->yCoordinate - 1][hero->xCoordinate].type = HERO;
-			hero->yCoordinate = hero->yCoordinate - 1;
+			push(pop(map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types),
+				map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].types);
+
+			gameInfo->hero.yCoordinate = gameInfo->hero.yCoordinate - 1;
 		}
 	}
 }
 
-template <class T>
-void game::moveLeft(char type, T* object, game::MapCell** map)
+void game::moveLeft(char type, GameInfo* gameInfo, game::MapCell** map)
 {
-	if (map[object->yCoordinate][object->xCoordinate - 1].passable == true) // Если клетка слева проходима 
+	switch (type)
 	{
-		map[object->yCoordinate][object->xCoordinate].type = EMPTY_SPACE; // В клетку, где был объект заносим пробел, в клетку
-		map[object->yCoordinate][object->xCoordinate - 1].type = type;	  // слева заносим символ объекта, а так же переносим инфу о HP
-		object->xCoordinate = object->xCoordinate - 1;
+	case AIM_DOT:
+		if (map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate - 1].passable == true &&
+			peek(map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate - 1].types) != HERO) // Если клетка слева проходима 
+		{
+			push(pop(map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types),
+				map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate - 1].types);
+
+			gameInfo->aim.xCoordinate = gameInfo->aim.xCoordinate - 1;
+
+		}
+		break;
+
+	case HERO:
+		if (map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate - 1].passable == true &&
+			peek(map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate - 1].types) != AIM_DOT)
+		{
+			push(pop(map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types),
+				map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate - 1].types);
+
+			gameInfo->hero.xCoordinate = gameInfo->hero.xCoordinate - 1;
+		}
+		break;
 	}
 }
 
-template <class T>
-void game::moveRight(char type, T* object, game::MapCell** map)
+void game::moveRight(char type, GameInfo* gameInfo, game::MapCell** map)
 {
-	if (map[object->yCoordinate][object->xCoordinate + 1].passable == true) // Если клетка слева проходима 
+	switch (type)
 	{
-		map[object->yCoordinate][object->xCoordinate].type = EMPTY_SPACE; // В клетку, где был объект заносим пробел, в клетку
-		map[object->yCoordinate][object->xCoordinate + 1].type = type;	  // слева заносим символ объекта, а так же переносим инфу о HP
-		object->xCoordinate = object->xCoordinate + 1;
+	case AIM_DOT:
+		if (map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate + 1].passable == true &&
+			peek(map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate + 1].types) != HERO) // Если клетка слева проходима 
+		{
+			push(pop(map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types),
+				map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate + 1].types);
+
+			gameInfo->aim.xCoordinate = gameInfo->aim.xCoordinate + 1;
+
+		}
+		break;
+
+	case HERO:
+		if (map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate + 1].passable == true &&
+			peek(map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate + 1].types) != AIM_DOT)
+		{
+			push(pop(map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types),
+				map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate + 1].types);
+
+			gameInfo->hero.xCoordinate = gameInfo->hero.xCoordinate + 1;
+		}
+		break;
 	}
 }
 
-template <class T>
-void game::moveUp(char type, T* object, game::MapCell** map)
+void game::moveUp(char type, GameInfo* gameInfo, game::MapCell** map)
 {
-	if (map[object->yCoordinate - 1][object->xCoordinate].passable == true) // Если клетка сверху проходима
+	if (map[gameInfo->aim.yCoordinate - 1][gameInfo->aim.xCoordinate].passable == true &&
+		peek(map[gameInfo->aim.yCoordinate - 1][gameInfo->aim.xCoordinate].types) != HERO) // Если клетка слева проходима 
 	{
-		map[object->yCoordinate][object->xCoordinate].type = EMPTY_SPACE; // В клетку, где был объект заносим пробел, в клетку
-		map[object->yCoordinate - 1][object->xCoordinate].type = type;    // справа заносим символ объекта, а так же переносим инфу о HP
-		object->yCoordinate = object->yCoordinate - 1;
+		push(pop(map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types),
+			map[gameInfo->aim.yCoordinate - 1][gameInfo->aim.xCoordinate].types);
+
+		gameInfo->aim.yCoordinate = gameInfo->aim.yCoordinate - 1;
+
 	}
 }
 
-template <class T>
-void game::moveDown(char type, T* object, game::MapCell** map)
+void game::moveDown(char type, GameInfo* gameInfo, game::MapCell** map)
 {
-	if (map[object->yCoordinate + 1][object->xCoordinate].passable == true) // Если клетка снизу проходима 
+	if (map[gameInfo->aim.yCoordinate + 1][gameInfo->aim.xCoordinate].passable == true &&
+		peek(map[gameInfo->aim.yCoordinate + 1][gameInfo->aim.xCoordinate].types) != HERO) // Если клетка слева проходима 
 	{
-		map[object->yCoordinate][object->xCoordinate].type = EMPTY_SPACE; // В клетку, где был объект заносим пробел, в клетку
-		map[object->yCoordinate + 1][object->xCoordinate].type = type;    // справа заносим символ объекта, а так же переносим инфу о HP
-		object->yCoordinate = object->yCoordinate + 1;
+		push(pop(map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types),
+			map[gameInfo->aim.yCoordinate + 1][gameInfo->aim.xCoordinate].types);
+
+		gameInfo->aim.yCoordinate = gameInfo->aim.yCoordinate + 1;
+
 	}
 }
 
 //------Gravitation_Functions------//
-template <class T>
-void game::gravity(game::MapCell** map, T *object)
+void game::gravity(game::MapCell** map, GameInfo* gameInfo)
 {
-	if (map[object->yCoordinate][object->xCoordinate].type == HERO && map[object->yCoordinate + 1][object->xCoordinate].passable == true)
+	if (game::peek(map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types) == HERO && map[gameInfo->hero.yCoordinate + 1][gameInfo->hero.xCoordinate].passable == true)
 	{
-		map[object->yCoordinate][object->xCoordinate].type = EMPTY_SPACE;
-		map[object->yCoordinate + 1][object->xCoordinate].type = HERO;
-		object->yCoordinate = object->yCoordinate + 1;
+		push(pop(map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types),
+			map[gameInfo->hero.yCoordinate + 1][gameInfo->hero.xCoordinate].types);
+
+		gameInfo->hero.yCoordinate = gameInfo->hero.yCoordinate + 1;
 	}
 }
-
-//void game::gravity(game::MapCell** map)
-//{
-//	for (int i = 0; i < MAP_HEIGHT; i++)
-//	{
-//		for (int j = 0; j < MAP_WIDTH; j++)
-//		{
-//			//Если в клетке герой и клетка под ним - проходима
-//			if(map[i][j].type == HERO && map[i + 1][j].passable == true) 
-//			{
-//					map[i][j].type = EMPTY_SPACE; // В клетку, где был объект заносим пробел, в клетку
-//					map[i + 1][j].type = HERO;    // внизу заносим символ объекта, а так же переносим инфу о HP
-//					map[i + 1][j].healthPoints =
-//						map[i][j].healthPoints;
-//					return;
-//			}
-//		}
-//	}
-//}
 
 void game::levelOne()
 {
-	game::Hero* hero = new Hero;
-	game::Aim* aim = new Aim;
-	game::RedPortal* redPortal = new RedPortal;
-	game::BluePotal* bluePortal = new BluePotal;
+	game::GameInfo* gameInfo = new GameInfo;
 
 	game::clearScreen(); // Чистим экран
 
-	game::MapCell** map = game::createMap("Lvl_1.txt", hero, aim, redPortal, bluePortal); // Создаем двумерный массив структур, используя текстовый документ
+	game::MapCell** map = game::createMap("Lvl_1.txt", gameInfo); // Создаем двумерный массив структур, используя текстовый документ
 
-	game::drawFrame(map); // Рисуем первый кадр
+	game::drawFrame(map, gameInfo); // Рисуем первый кадр
 
-	game::performAnAction(map, hero, aim, redPortal, bluePortal); // Выполняем далее в зависимости от действий игрока
+	game::performAnAction(map, gameInfo); // Выполняем далее в зависимости от действий игрока
 }
 
 //-----Portals_Functions------//
-template <class T>
-void game::setPortal(char type, T* object, Aim* aim, game::MapCell** map)
+void game::setPortal(char type, GameInfo* gameInfo, game::MapCell** map)	 // !БАГ! если поставить портал на героя, то героем становится портал
 {
 	if (type == RED_PORTAL)
 	{
-		map[aim->yCoordinate][aim->xCoordinate].type = type;
-		object->xCoordinate = aim->xCoordinate;
-		object->yCoordinate = aim->yCoordinate;
-	}
+		if (gameInfo->redPortal.yCoordinate != 0)
+			pop(map[gameInfo->redPortal.yCoordinate][gameInfo->redPortal.xCoordinate].types);
 
+		gameInfo->redPortal.xCoordinate = gameInfo->aim.xCoordinate;
+		gameInfo->redPortal.yCoordinate = gameInfo->aim.yCoordinate;
+
+		pop(map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types);
+		push(RED_PORTAL, map[gameInfo->redPortal.yCoordinate][gameInfo->redPortal.xCoordinate].types);
+		push(AIM_DOT, map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types);
+	}
 	else if (type == BLUE_PORTAL)
 	{
-		map[aim->yCoordinate][aim->xCoordinate].type = type;
-		object->xCoordinate = aim->xCoordinate;
-		object->yCoordinate = aim->yCoordinate;
+		if (gameInfo->bluePortal.yCoordinate != 0)
+			pop(map[gameInfo->bluePortal.yCoordinate][gameInfo->bluePortal.xCoordinate].types);
+
+		gameInfo->bluePortal.xCoordinate = gameInfo->aim.xCoordinate;
+		gameInfo->bluePortal.yCoordinate = gameInfo->aim.yCoordinate;
+
+		pop(map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types);
+		push(BLUE_PORTAL, map[gameInfo->bluePortal.yCoordinate][gameInfo->bluePortal.xCoordinate].types);
+		push(AIM_DOT, map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types);
 	}
 }
 
-//void game::enterThePortal(char type, MapCell** map)
-//{
-//	
-//}
+void game::enterThePortal(char type, GameInfo* gameInfo, MapCell** map)
+{
+	if (gameInfo->hero.xCoordinate == gameInfo->redPortal.xCoordinate &&	// надо переработать
+		gameInfo->hero.yCoordinate == gameInfo->redPortal.yCoordinate &&
+		gameInfo->bluePortal.yCoordinate != 0 && gameInfo->bluePortal.xCoordinate != 0) 		// если координаты игрока и красного портала совпадают
+	{
+		push(pop(map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types), map[gameInfo->bluePortal.yCoordinate][gameInfo->bluePortal.xCoordinate].types);
+		gameInfo->hero.xCoordinate = gameInfo->bluePortal.xCoordinate;
+		gameInfo->hero.yCoordinate = gameInfo->bluePortal.yCoordinate;
+	}
+
+	else if (gameInfo->hero.xCoordinate == gameInfo->bluePortal.xCoordinate &&
+		gameInfo->hero.yCoordinate == gameInfo->bluePortal.yCoordinate &&
+		gameInfo->bluePortal.yCoordinate != 0 && gameInfo->bluePortal.xCoordinate != 0)
+	{
+		push(pop(map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types), map[gameInfo->redPortal.yCoordinate][gameInfo->redPortal.xCoordinate].types);
+		gameInfo->hero.xCoordinate = gameInfo->redPortal.xCoordinate;
+		gameInfo->hero.yCoordinate = gameInfo->redPortal.yCoordinate;
+	}
+}
+
+//------Button_Functions------//
+void game::activateTheButton(GameInfo* gameInfo, MapCell** map)
+{
+	if (gameInfo->hero.xCoordinate == gameInfo->button.xCoordinate &&
+		gameInfo->hero.yCoordinate == gameInfo->button.yCoordinate)
+	{
+		map[gameInfo->blackWall.yCoordinate][gameInfo->blackWall.xCoordinate].passable = true;
+		pop(map[gameInfo->blackWall.yCoordinate][gameInfo->blackWall.xCoordinate].types);
+	}
+}
+
+bool game::winLevel(GameInfo* gameInfo, MapCell** map, bool& gameIsRunning)
+{
+	if (gameInfo->hero.xCoordinate == gameInfo->exitFromLevel.xCoordinate &&
+		gameInfo->hero.yCoordinate == gameInfo->exitFromLevel.yCoordinate)
+	{
+		gameIsRunning = false;
+	}
+	return gameIsRunning;
+}
