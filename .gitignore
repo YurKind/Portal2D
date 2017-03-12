@@ -33,6 +33,7 @@
 *.swp
 Thumbs.db
 ethumbs.db
+*.tmp
 
 # Intellij IDEA #
 

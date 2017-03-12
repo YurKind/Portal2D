@@ -254,6 +254,8 @@ double game::startLevel(char* levelName)
 
 	game::freeMemory(map, gameInfo); // Очищаем занятую память
 
+	game::clearScreen(); // Чистим экран
+
 	std::cout << score;
 	return score;
 }
