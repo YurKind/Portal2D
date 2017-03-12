@@ -370,8 +370,8 @@ void userSelection2(int Cur)
 	switch (Cur)
 	{
 
-	case 1: cout << "Instruction";
-		cout << "smth_0";
+	case 1:
+		game::showInstruction();
 		_getch();
 		system("cls");
 		pointToMenu2();

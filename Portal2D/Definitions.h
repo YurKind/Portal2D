@@ -7,7 +7,7 @@
 #define BLOCK static_cast<char>(219) // looks like █
 #define EMPTY_SPACE ' '
 //#define TURRET ''
-#define BUTTON_S 'b'
+#define BUTTON_S '`'
 #define BUTTON static_cast<char>(127)
 //#define TIMER_BUTTON ''
 //#define STAY_ON_BUTTON ''

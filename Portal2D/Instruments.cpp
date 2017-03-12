@@ -1,3 +1,5 @@
+#include <fstream>
+#include <Windows.h>
 #include "Definitions.h"
 #include "Map.h"
 #include "Instruments.h"
@@ -112,4 +114,47 @@ double game::computeTheScore(GameInfo* gameInfo)
 {
 	double score = 1000 / gameInfo->hero.time;
 	return score;
+}
+
+void game::showInstruction()
+{
+	char currentSymbol;
+	ifstream fout("Instruction.txt", std::ios_base::in);
+	while (!fout.eof())
+	{
+		currentSymbol = fout.get();
+
+		switch (currentSymbol)
+		{
+		case HERO_SYMBOL:
+			cout << HERO;
+			break;
+
+		case AIM_DOT:
+			std::cout << AIM;
+			break;
+
+		case BLACK_WALL_S:
+			std::cout << BLACK_WALL;
+			break;
+
+		case EXIT_S:
+			std::cout << EXIT;
+			break;
+
+		case RED_PORTAL:
+			cout << RED_PORTAL;
+			break;
+
+		case BUTTON_S:
+			cout << BUTTON;
+			break;
+
+		default:
+			cout << currentSymbol;
+			break;
+		}
+
+	}
+	fout.close();
 }
