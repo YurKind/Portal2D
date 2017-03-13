@@ -3,9 +3,10 @@
 #include "Instruments.h"
 
 //------Moving_Functions------//
+// принимает структуру с информацией об объекте на карте и двумерный массив структур
 void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 {
-	bool gameIsRunning = true; // Временно
+	bool gameIsRunning = true;	// условие выполнение цикла
 
 	double timeBeforeGame = clock();
 
@@ -62,6 +63,7 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 			}
 		}
 		
+		// если координаты героя равны координатам выхода, то переменной gameIsRunning присваивается значение false
 		gameIsRunning = checkGameOverConditions(gameInfo, map);
 
 		game::clearScreen(); // Очищаем экран
@@ -73,7 +75,7 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 
 		gameInfo->hero.time = (timeAfterAction - timeBeforeGame) / 1000.0;
 
-		if (gameInfo->hero.score > 0)
+		if (gameInfo->hero.score > 0)	// если количество очков больше 0, то вычетается одно очко
 		{
 			gameInfo->hero.score -= 1;
 		}
@@ -85,7 +87,7 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 }
 
 //------Moving_Functions------//
-
+// принимает структуру с информацией об объекте на карте и двумерный массив структур
 void game::jump(GameInfo* gameInfo, game::MapCell** map)
 {
 	if (map[gameInfo->hero.yCoordinate + 1][gameInfo->hero.xCoordinate].passable == false)	// если под персонажем есть непроходимый блок
@@ -118,7 +120,7 @@ void game::jump(GameInfo* gameInfo, game::MapCell** map)
 }
 
 // функция перемещения влево
-// принимает символ персонажа или прицела, структуру с информацией об объекте на карте и массив ячеек карты
+// принимает символ персонажа или прицела, структуру с информацией об объекте на карте и двумерный массив структур
 void game::moveLeft(char type, GameInfo* gameInfo, game::MapCell** map)
 {
 	switch (type)
@@ -151,7 +153,7 @@ void game::moveLeft(char type, GameInfo* gameInfo, game::MapCell** map)
 }
 
 // функция перемещения вниз
-// принимает символ персонажа или прицела, структуру с информацией об объекте на карте и массив ячеек карты
+// принимает символ персонажа или прицела, структуру с информацией об объекте на карте и двумерный массив структур
 void game::moveRight(char type, GameInfo* gameInfo, game::MapCell** map)
 {
 	switch (type)
@@ -184,7 +186,7 @@ void game::moveRight(char type, GameInfo* gameInfo, game::MapCell** map)
 }
 
 // функция перемещения вниз
-// структуру с информацией об объекте на карте и массив ячеек карты
+// структуру с информацией об объекте на карте и двумерный массив структур
 void game::moveUp(GameInfo* gameInfo, game::MapCell** map)
 {
 	// если сверху ячека карты проходима и в ней не герой
@@ -199,7 +201,7 @@ void game::moveUp(GameInfo* gameInfo, game::MapCell** map)
 }
 
 // функция перемещения вниз
-// структуру с информацией об объекте на карте и массив ячеек карты
+// структуру с информацией об объекте на карте и двумерный массив структур
 void game::moveDown(GameInfo* gameInfo, game::MapCell** map)
 {
 	// если снизу ячека карты проходима и в ней не герой
@@ -215,7 +217,7 @@ void game::moveDown(GameInfo* gameInfo, game::MapCell** map)
 }
 
 // функция перестановки прицела
-// принимает структуру с информацией об объекте на карте и массив ячеек карты
+// принимает структуру с информацией об объекте на карте и двумерный массив структур
 void game::replaceTheAim(GameInfo* gameInfo, game::MapCell** map)
 {
 	// если ячека карты сверху пуста
@@ -244,7 +246,7 @@ void game::replaceTheAim(GameInfo* gameInfo, game::MapCell** map)
 }
 
 //------Gravitation_Functions------//
-// функция гравитации, принимает структуру с информацией об объекте на карте и массив ячеек карты
+// функция гравитации, принимает структуру с информацией об объекте на карте и двумерный массив структур
 void game::gravity(game::MapCell** map, GameInfo* gameInfo)
 {
 	// если под персонажем нет непроходимого блока/объекта
@@ -291,7 +293,7 @@ double game::startLevel(char* levelName)
 
 //-----Portals_Functions------//
 // функция установки второго портала
-// принимает на вход символ портала, структуру с информацией об объекте на карте и массив ячеек карты
+// принимает на вход символ портала, структуру с информацией об объекте на карте и двумерный массив структур
 void game::setPortal(char type, GameInfo* gameInfo, game::MapCell** map)
 {
 	if (type == RED_PORTAL)	// если устанавливется красный портал
@@ -302,7 +304,7 @@ void game::setPortal(char type, GameInfo* gameInfo, game::MapCell** map)
 			if (gameInfo->redPortal.yCoordinate != 0)	// если красный портал уже есть, то существующий красный портал исчезает
 				pop(map[gameInfo->redPortal.yCoordinate][gameInfo->redPortal.xCoordinate].types);
 
-			gameInfo->redPortal.xCoordinate = gameInfo->aim.xCoordinate; // координаты нового порталы приравниваются координатам прицела
+			gameInfo->redPortal.xCoordinate = gameInfo->aim.xCoordinate; // координаты нового портала приравниваются координатам прицела
 			gameInfo->redPortal.yCoordinate = gameInfo->aim.yCoordinate;
 
 			pop(map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types);
@@ -320,7 +322,7 @@ void game::setPortal(char type, GameInfo* gameInfo, game::MapCell** map)
 			if (gameInfo->bluePortal.yCoordinate != 0)	// если синий портал уже есть, то существующий синий портал исчезает
 				pop(map[gameInfo->bluePortal.yCoordinate][gameInfo->bluePortal.xCoordinate].types);
 
-			gameInfo->bluePortal.xCoordinate = gameInfo->aim.xCoordinate;	// координаты нового порталы приравниваются координатам прицела
+			gameInfo->bluePortal.xCoordinate = gameInfo->aim.xCoordinate;	// координаты нового портала приравниваются координатам прицела
 			gameInfo->bluePortal.yCoordinate = gameInfo->aim.yCoordinate;
 
 			pop(map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types);
@@ -331,7 +333,7 @@ void game::setPortal(char type, GameInfo* gameInfo, game::MapCell** map)
 	}
 }
 
-// функция перехода по порталам, принимает структуру с информацией об объекте на карте и массив ячеек карты
+// функция перехода по порталам, принимает структуру с информацией об объекте на карте и двумерный массив структур
 void game::enterThePortal(char type, GameInfo* gameInfo, MapCell** map)
 {
 	if (gameInfo->hero.xCoordinate == gameInfo->redPortal.xCoordinate &&	// если персонаж и красный портал в одной клетке
@@ -356,7 +358,7 @@ void game::enterThePortal(char type, GameInfo* gameInfo, MapCell** map)
 }
 
 //------Button_Functions------//
-// функция активации клавиши, принимает структуру с информацией об объекте на карте и массив ячеек карты
+// функция активации клавиши, принимает структуру с информацией об объекте на карте и двумерный массив структур
 void game::activateTheButton(GameInfo* gameInfo, MapCell** map)
 {
 	if (gameInfo->hero.xCoordinate == gameInfo->button.xCoordinate &&	// если персонаж и кнопка находятся в одной клетке

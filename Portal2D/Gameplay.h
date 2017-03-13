@@ -21,7 +21,6 @@ namespace game
 	void performAnAction(GameInfo* gameInfo, MapCell** map);
 	
 	// Функции для перемещения объектов влево-вправо-вверх-вниз
-
 	void moveLeft(char type, GameInfo* gameInfo, MapCell** map);
 	void moveRight(char type, GameInfo* gameInfo, MapCell** map);
 	void moveUp(GameInfo* gameInfo, MapCell** map);
@@ -33,10 +32,11 @@ namespace game
 	// Выполняя необходимые проверки, имитирует гравитацию
 	void gravity(MapCell** map, GameInfo* gameInfo);
 
-	void setPortal(char type, GameInfo* gameInfo, game::MapCell** map);
-	void enterThePortal(char type, GameInfo* gameInfo, MapCell** map);
 
-	void activateTheButton(GameInfo* gameInfo, game::MapCell** map);
+	void setPortal(char type, GameInfo* gameInfo, game::MapCell** map);	// функуция установки портала
+	void enterThePortal(char type, GameInfo* gameInfo, MapCell** map);	// функуция перехода по порталам
+
+	void activateTheButton(GameInfo* gameInfo, game::MapCell** map);	// функция активации кнопки
 
 	bool checkGameOverConditions(GameInfo* gameInfo, MapCell** map);
 }
