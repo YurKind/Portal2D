@@ -1,5 +1,6 @@
 #include "Menu.h"
 #include "Tree.h"
+#include "Search.h"
 
 HANDLE H = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -409,7 +410,7 @@ void userSelection3(int Cur)
 		cout << "\tenter 1 - if you want to search by score parameter, 2 - level parameter, 3 - name parameter " << std::endl;
 		symbol[0] = _getch();
 		parametr = atoi(symbol);
-		tree::setSearchParametr(parametr);
+		search::setSearchParametr(parametr);
 		system("cls");
 		pointToMenu3();
 		moveToMenuPoint3();
