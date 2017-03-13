@@ -7,9 +7,9 @@ void list::addList(list::List<records::DataAboutTheChampion> **begin, std::ifstr
 	char *buf = NULL;
 	while (!fin.eof())
 	{
-		int lengthLine = records::countLengthLine(finForSize);
+		int lengthLine = records::countLengthLine(finForSize);     // узнаем длинну строки дл€ объ€влени€ массива-буфера
 		buf = new char[lengthLine];
-		fin.getline(buf, lengthLine);
+		fin.getline(buf, lengthLine);        
 		add->next = new list::List<records::DataAboutTheChampion>;
 		add->value = records::initializationDataAboutTheChampion(buf);
 		add = add->next;

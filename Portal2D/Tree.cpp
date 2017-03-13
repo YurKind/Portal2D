@@ -1,9 +1,63 @@
 #include "Tree.h"
 #include "Records.h"
 #include "List.h"
+#include <conio.h>
 
 namespace tree
 {
+	void setSearchParametr(int parametr)
+	{
+		list::List<records::DataAboutTheChampion> *list = NULL;
+		BranchForNumber<records::DataAboutTheChampion> *tree = NULL;
+		double numberOfScore = 0.0;
+		int numberOfLevel = 0;
+		switch (parametr)
+		{
+		case SCORE:
+			addTree(&tree, FILE_NAME_RECORDS, SCORE);
+			std::cout << "\tenter the number of score: ";
+			std::cin >> numberOfScore;
+			std::cout << "\n";
+			list = searchByScoreAllElements(tree, numberOfScore);
+			break;
+
+		case LEVEL:
+			addTree(&tree, FILE_NAME_RECORDS, LEVEL);
+			std::cout << "\tenter the number of level: ";
+			std::cin >> numberOfLevel;
+			std::cout << "\n";
+			list = searchByLevelAllElements(tree, numberOfLevel);
+			break;
+
+		case STRING:
+			break;
+		}
+		printFoundChampions(list);
+		list::freeMemory(list);
+		tree::freeMemory(tree);
+		_getch();
+	}
+
+	void printFoundChampions(list::List<records::DataAboutTheChampion> *list)
+	{
+		if (!list)
+		{
+			std::cout << "\t\tNoone here, be the first!" << std::endl;
+		}
+		else
+		{
+			while (list)
+			{
+				std::cout << "\t\t\tname: " << list->value.name
+					<< " level: " << list->value.level
+					<< " score: " << list->value.score
+					<< std::endl;
+
+				list = list->next;
+			}
+		}
+	}
+
 	BranchForNumber<records::DataAboutTheChampion> *searchByScoreOfOneResult(BranchForNumber<records::DataAboutTheChampion> *begin, double score)
 	{
 		if (!begin || score == begin->data.score)
@@ -47,7 +101,7 @@ namespace tree
 		return list;
 	}
 
-	/*BranchForNumber<records::DataAboutTheChampion> *searchByLevelOfOneResult(BranchForNumber<records::DataAboutTheChampion> *begin, double level)
+	BranchForNumber<records::DataAboutTheChampion> *searchByLevelOfOneResult(BranchForNumber<records::DataAboutTheChampion> *begin, int level)
 	{
 		if (!begin || level == begin->data.level)
 		{
@@ -56,11 +110,11 @@ namespace tree
 
 		if (level < begin->data.level)
 		{
-			tree::searchByScoreOfOneResult(begin->left, level);
+			tree::searchByLevelOfOneResult(begin->left, level);
 		}
 		else
 		{
-			tree::searchByScoreOfOneResult(begin->right, level);
+			tree::searchByLevelOfOneResult(begin->right, level);
 		}
 	}
 
@@ -88,9 +142,9 @@ namespace tree
 			counterOfLoop++;
 		}
 		return list;
-	}*/
+	}
 
-	void addTree(BranchForNumber<records::DataAboutTheChampion> **begin, char *fileName)
+	void addTree(BranchForNumber<records::DataAboutTheChampion> **begin, char *fileName, int variant)
 	{
 		std::ifstream fin(FILE_NAME_RECORDS);
 		tree::BranchForNumber<records::DataAboutTheChampion> *add = *begin;
@@ -99,13 +153,22 @@ namespace tree
 			char *buf = new char[1024];
 			fin.getline(buf, 1024);
 			records::DataAboutTheChampion *data = new records::DataAboutTheChampion(records::initializationDataAboutTheChampion(buf));
-			pushInTree(*data, add);
+			if (variant == SCORE)
+			{
+				pushInTreeByScore(*data, add);
+			}
+			else if (variant == LEVEL)
+			{
+				pushInTreeByLevel(*data, add);
+			}
 			delete data;
+			delete[] buf;
 		}
 		*begin = add;
+		fin.close();
 	}
 
-	void pushInTree(records::DataAboutTheChampion newData, BranchForNumber<records::DataAboutTheChampion> *&begin)
+	void pushInTreeByScore(records::DataAboutTheChampion newData, BranchForNumber<records::DataAboutTheChampion> *&begin)
 	{
 		if (!begin)
 		{
@@ -116,11 +179,31 @@ namespace tree
 		{
 			if (begin->data.score > newData.score)
 			{
-				tree::pushInTree(newData, begin->left);
+				tree::pushInTreeByScore(newData, begin->left);
 			}
 			else
 			{
-				tree::pushInTree(newData, begin->right);
+				tree::pushInTreeByScore(newData, begin->right);
+			}
+		}
+	}
+
+	void pushInTreeByLevel(records::DataAboutTheChampion newData, BranchForNumber<records::DataAboutTheChampion> *&begin)
+	{
+		if (!begin)
+		{
+			begin = new tree::BranchForNumber<records::DataAboutTheChampion>;
+			begin->data = newData;
+		}
+		else
+		{
+			if (begin->data.level > newData.level)
+			{
+				tree::pushInTreeByLevel(newData, begin->left);
+			}
+			else
+			{
+				tree::pushInTreeByLevel(newData, begin->right);
 			}
 		}
 	}

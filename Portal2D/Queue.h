@@ -6,7 +6,10 @@
 
 namespace queue
 {
-	void inline initializeArrayWithDifferentData(int *arr)
+	/**
+	  Заполнение массива разными числами
+	  */
+	void inline initializeArrayWithDifferentNumbers(int *arr)
 	{
 		for (int i = 0; i < NUMBER_OF_LEVELS; i++)
 		{
@@ -27,10 +30,10 @@ namespace queue
 		}
 	}
 
-	template <typename T> int checkCurrentSizeOfQueue(queue::Queue<T> *begin)
+	template <typename T> int checkCurrentSizeOfQueue(queue::Queue<T> *queue)
 	{
 		int resultOfCount = 0;
-		queue::Queue<T> *counter = begin;
+		queue::Queue<T> *counter = queue;
 		while (counter->head)
 		{
 			resultOfCount++;
@@ -39,79 +42,82 @@ namespace queue
 		return resultOfCount;
 	}
 
-	template <typename T> T generatingRandomLevelNumber(queue::Queue<T> *begin)
+	/**
+	  *Инициализирует очередь из массива со случайными числами и возвращает элемент очереди
+	  */
+	template <typename T> T generatingRandomLevelNumber(queue::Queue<T> *queue)   
 	{
 		int *arr = new int[NUMBER_OF_LEVELS];
-		if (!begin->head)
+		if (!queue->head)
 		{
-			queue::initializeArrayWithDifferentData(arr);
-			queue::addQueue(begin, arr, NUMBER_OF_LEVELS);
+			queue::initializeArrayWithDifferentNumbers(arr);
+			queue::addQueue(queue, arr, NUMBER_OF_LEVELS);
 		}
 		else
 		{
 			std::cout << " ";
 		}	
-		return queue::pullElement(begin);
+		return queue::pullElement(queue);
 	}
 
-	template <typename T> void pushInQueue(queue::Queue<T> *begin, T newData)
+	template <typename T> void pushInQueue(queue::Queue<T> *queue, T newData)
 	{
 		queue::Node<T> *node = new queue::Node<T>;
 		node->data = newData;
 		node->next = NULL;
 
-		if (begin->head != NULL)
+		if (queue->head != NULL)
 		{
-			node->previous = begin->tail;
-			begin->tail->next = node;
-			begin->tail = node;
+			node->previous = queue->tail;   // "задний" указатель узла на хвост очереди
+			queue->tail->next = node;        
+			queue->tail = node;             // хвост приравниваем узлу
 		}
-		else
+		else   // если очередь пустая, то инициализируем 
 		{
 			node->previous = NULL;
-			begin->tail = begin->head = node;
+			queue->tail = queue->head = node;
 		}
 	}
 
-	template <typename T> void freeMemory(queue::Queue<T> *begin)
+	template <typename T> void freeMemory(queue::Queue<T> *queue)
 	{
 		queue::Node<T> *cleaner;
-		while (begin->head)
+		while (queue->head)            // пока есть голова удаляем элемента с хвоста
 		{
-			cleaner = begin->tail;
-			begin->tail = begin->tail->previous;
-			if (begin->head->next)
+			cleaner = queue->tail;
+			queue->tail = queue->tail->previous;
+			if (queue->head->next)
 			{
-				begin->tail->next = NULL;
+				queue->tail->next = NULL;
 			}
 			else
 			{
-				begin->head = NULL;
+				queue->head = NULL;
 			}
 			delete cleaner;
 		}
 	}
 
-	template <typename T> void addQueue(queue::Queue<T> *begin, T *dataArray, int numberOfElements)
+	template <typename T> void addQueue(queue::Queue<T> *queue, T *dataArray, int numberOfElements)
 	{
 		for (int i = 0; i < numberOfElements; i++)
 		{
-			pushInQueue(begin, dataArray[i]);
+			pushInQueue(queue, dataArray[i]);
 		}
 	}
 
-	template <typename T> T pullElement(queue::Queue<T> *begin)
+	template <typename T> T pullElement(queue::Queue<T> *queue)
 	{
-		T element = NULL;
-		queue::Node<T> *clean = begin->head;
-		if (begin->head)
+		T result = NULL;
+		queue::Node<T> *clean = queue->head;
+		if (queue->head)
 		{
-			element = begin->head->data;
+			result = queue->head->data;    // результат приравниваем голове очереди
 		}
-		clean = begin->head;
-		begin->head = begin->head->next;
-		delete clean;
+		clean = queue->head;              
+		queue->head = queue->head->next;
+		delete clean;        // удаляем голову
 
-		return element;
+		return result;       // возвращаем значение удаленной головы
 	}
 }
