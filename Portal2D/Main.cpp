@@ -7,14 +7,9 @@ using namespace std;
 
 int main()
 {
+	system("mode con cols=100 lines=30");
 	srand(time(NULL));
-	pointToMenu();
-	moveToMenuPoint();
-	/*game::startLevel("Lvl_1.txt");*/
-	//Point();
-	//MoveToMenuPoint();
-	system("pause");
-
+	menu::menu();
 	return 0;
 }
 
