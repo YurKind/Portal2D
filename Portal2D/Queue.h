@@ -6,14 +6,13 @@
 namespace queue
 {
 	/*  «аполнение массива разными числами  */
-	template <typename T> int checkCurrentSizeOfQueue(queue::Queue<T> *queue)
+	template <typename T> int checkCurrentSizeOfQueue(queue::Queue<T> queue)
 	{
 		int resultOfCount = 0;
-		queue::Queue<T> *counter = queue;
-		while (counter->head)
+		while (queue.head)
 		{
 			resultOfCount++;
-			counter->head = counter->head->next;
+			queue.head = queue.head->next;
 		}
 		return resultOfCount;
 	}

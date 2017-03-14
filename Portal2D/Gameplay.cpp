@@ -78,7 +78,7 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 
 		if (gameInfo->hero.score > 0)	// если количество очков больше 0, то вычетается одно очко
 		{
-			gameInfo->hero.score -= 1;
+			gameInfo->hero.score -= 1.02354;
 		}
 	}
 

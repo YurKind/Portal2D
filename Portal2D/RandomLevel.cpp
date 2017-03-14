@@ -2,7 +2,7 @@
 
 namespace random
 {
-	void inline initializeArrayWithDifferentNumbers(int *arr)
+	void initializeArrayWithDifferentNumbers(int *arr)
 	{
 		for (int i = 0; i < NUMBER_OF_LEVELS; i++)
 		{

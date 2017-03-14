@@ -36,7 +36,8 @@ namespace game
 	template <typename T>
 	T peek(Stack<T>* &topNode)
 	{
-		T top = topNode->element;
+
+ 		T top = topNode->element;
 		return top;
 	}
 }
