@@ -1,5 +1,6 @@
 #include "Menu.h"
 #include "Tree.h"
+#include "Instruments.h"
 
 HANDLE H = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -361,7 +362,7 @@ void userSelection2(int Cur)
 	{
 
 	case 1:
-		//game::showInstruction();
+		game::showInstruction();
 		_getch();
 		system("cls");
 		pointToMenu2();

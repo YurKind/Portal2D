@@ -1,5 +1,7 @@
 #include "Gameplay.h"
 #include "Map.h"
+#include "Definitions.h"
+#include "Instruments.h"
 
 // функция считывающая карту из файла в двумерный массив структур, функция принимает в качетсве аргумета имя уровня
 game::MapCell** game::createMap(char* levelName, GameInfo* gameInfo)

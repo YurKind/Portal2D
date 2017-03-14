@@ -155,11 +155,15 @@ namespace tree
 			records::DataAboutTheChampion *data = new records::DataAboutTheChampion(records::initializationDataAboutTheChampion(buf));
 			if (variant == SCORE)
 			{
-				pushInTreeByScore(*data, add);
+				pushInTree(*data, add, SCORE);
 			}
 			else if (variant == LEVEL)
 			{
-				pushInTreeByLevel(*data, add);
+				pushInTree(*data, add, LEVEL);
+			}
+			else if (variant == STRING)
+			{
+				
 			}
 			delete data;
 			delete[] buf;
@@ -168,7 +172,7 @@ namespace tree
 		fin.close();
 	}
 
-	void pushInTreeByScore(records::DataAboutTheChampion newData, BranchForNumber<records::DataAboutTheChampion> *&begin)
+	/*void pushInTreeByScore(records::DataAboutTheChampion newData, BranchForNumber<records::DataAboutTheChampion> *&begin)
 	{
 		if (!begin)
 		{
@@ -204,6 +208,44 @@ namespace tree
 			else
 			{
 				tree::pushInTreeByLevel(newData, begin->right);
+			}
+		}
+	}*/
+
+	void pushInTree(records::DataAboutTheChampion newData, BranchForNumber<records::DataAboutTheChampion> *&begin, int variant)
+	{
+		if (!begin)
+		{
+			begin = new tree::BranchForNumber<records::DataAboutTheChampion>;
+			begin->data = newData;
+		}
+		else 
+		{
+			if (variant == SCORE)
+			{
+				if (begin->data.score > newData.score)
+				{
+					tree::pushInTree(newData, begin->left, SCORE);
+				}
+				else
+				{
+					tree::pushInTree(newData, begin->right, SCORE);
+				}
+			}
+			else if (variant == LEVEL)
+			{
+				if (begin->data.level > newData.level)
+				{
+					tree::pushInTree(newData, begin->left, LEVEL);
+				}
+				else
+				{
+					tree::pushInTree(newData, begin->right, LEVEL);
+				}
+			}
+			else if (variant == STRING)
+			{
+				
 			}
 		}
 	}
