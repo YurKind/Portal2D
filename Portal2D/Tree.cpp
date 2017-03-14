@@ -16,11 +16,15 @@ namespace tree
 			records::DataAboutTheChampion *data = new records::DataAboutTheChampion(records::initializationDataAboutTheChampion(buf));
 			if (variant == SCORE)
 			{
-				pushInTreeByScore(*data, add);
+				pushInTree(*data, add, SCORE);
 			}
 			else if (variant == LEVEL)
 			{
-				pushInTreeByLevel(*data, add);
+				pushInTree(*data, add, LEVEL);
+			}
+			else if (variant == STRING)
+			{
+				
 			}
 			else if (variant == STRING)
 			{
@@ -33,7 +37,73 @@ namespace tree
 		fin.close();
 	}
 
-	void pushInTreeByScore(records::DataAboutTheChampion newData, BranchForNumber<records::DataAboutTheChampion> *&begin)
+	void pushInTree(records::DataAboutTheChampion newData, BranchForNumber<records::DataAboutTheChampion> *&begin, int variant)
+	{
+		if (!begin)
+		{
+			begin = new tree::BranchForNumber<records::DataAboutTheChampion>;
+			begin->data = newData;
+		}
+		else 
+		{
+			if (variant == SCORE)
+			{
+				if (begin->data.score > newData.score)
+				{
+					tree::pushInTree(newData, begin->left, SCORE);
+				}
+				else
+				{
+					tree::pushInTree(newData, begin->right, SCORE);
+				}
+			}
+			else if (variant == LEVEL)
+			{
+				if (begin->data.level > newData.level)
+				{
+					tree::pushInTree(newData, begin->left, LEVEL);
+				}
+				else
+				{
+					tree::pushInTree(newData, begin->right, LEVEL);
+				}
+			}
+			else if (variant == STRING)
+			{
+				
+			}
+		}
+	}
+
+	records::DataAboutTheChampion getMinimum(BranchForNumber<records::DataAboutTheChampion> *begin)
+	{
+		while (begin->left)
+		{
+			begin = begin->left;
+		}
+		return begin->data;
+	}
+
+	records::DataAboutTheChampion getMaximum(BranchForNumber<records::DataAboutTheChampion> *begin)
+	{
+		while (begin->right)
+		{
+			begin = begin->right;
+		}
+		return begin->data;
+	}
+
+	void freeMemory(BranchForNumber<records::DataAboutTheChampion> *begin)
+	{
+		if (begin)
+		{
+			tree::freeMemory(begin->left);
+			tree::freeMemory(begin->right);
+			delete begin;
+		}
+	}
+}
+/*void pushInTreeByScore(records::DataAboutTheChampion newData, BranchForNumber<records::DataAboutTheChampion> *&begin)
 	{
 		if (!begin)
 		{
@@ -71,33 +141,4 @@ namespace tree
 				tree::pushInTreeByLevel(newData, begin->right);
 			}
 		}
-	}
-
-	records::DataAboutTheChampion getMinimum(BranchForNumber<records::DataAboutTheChampion> *begin)
-	{
-		while (begin->left)
-		{
-			begin = begin->left;
-		}
-		return begin->data;
-	}
-
-	records::DataAboutTheChampion getMaximum(BranchForNumber<records::DataAboutTheChampion> *begin)
-	{
-		while (begin->right)
-		{
-			begin = begin->right;
-		}
-		return begin->data;
-	}
-
-	void freeMemory(BranchForNumber<records::DataAboutTheChampion> *begin)
-	{
-		if (begin)
-		{
-			tree::freeMemory(begin->left);
-			tree::freeMemory(begin->right);
-			delete begin;
-		}
-	}
-}
+	}*/

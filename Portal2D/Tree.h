@@ -8,9 +8,7 @@ enum Parametr
 
 namespace tree
 {
-	void pushInTreeByLevel(records::DataAboutTheChampion newData, BranchForNumber<records::DataAboutTheChampion> *&begin);
-
-	void pushInTreeByScore(records::DataAboutTheChampion newData, BranchForNumber<records::DataAboutTheChampion> *&begin);
+	void pushInTree(records::DataAboutTheChampion newData, BranchForNumber<records::DataAboutTheChampion> *&begin, int variant);
 
 	records::DataAboutTheChampion getMinimum(BranchForNumber<records::DataAboutTheChampion> *begin);
 

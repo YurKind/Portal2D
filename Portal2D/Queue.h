@@ -5,6 +5,7 @@
 
 namespace queue
 {
+	/*  «аполнение массива разными числами  */
 	template <typename T> int checkCurrentSizeOfQueue(queue::Queue<T> *queue)
 	{
 		int resultOfCount = 0;
