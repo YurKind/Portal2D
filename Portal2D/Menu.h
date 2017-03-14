@@ -17,11 +17,12 @@
 
 using namespace std;
 
+/*ѕараметры меню от которых зависит его вывод*/
 struct ParametersForMenu
 {
-	int upBorder;
-	int lowerBorder;
-	void(*print)(int);
+	int upBorder;																// Ќомер верхней границы меню	
+	int lowerBorder;															// Ќомер нижней границы меню
+	void(*print)(int);															// ¬ыводит меню на экран
 };
 
 enum Colors
@@ -65,19 +66,33 @@ enum GameRecords
 	Search = 1,
 	ShowAllRecords,
 	Show10Records,
-	BestOfTheBest,
 	BackRecords
 };
 
 
 namespace menu
 {
+	//–исует логотип
 	void drawLogo();
+
+	//¬ыводит вариант главного меню, на котором остановилс€ пользователь
 	void printMenu(int key);
+
+	//¬ыводит вариант меню, на котором остановилс€ пользователь в пункте Start
 	void printPointStart(int key);
+
+	//¬ыводит вариант меню, на котором остановилс€ пользователь в пункте Records
 	void printPointRecord(int key);
+
+	//¬оспроизводит выбранный пользователем пункт в разделе Start
 	void doPointStart();
+
+	//¬оспроизводит выбранный пользователем пункт в разделе Records
 	void doPointRecords();
+
+	//–еализует управление меню и его вывод на экран
 	int controlMenu(ParametersForMenu borders);
+
+	//¬оспроизводит выбранный пользователем пункт в главном меню
 	void menu();
 }
