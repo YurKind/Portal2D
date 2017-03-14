@@ -1,6 +1,7 @@
 #include "Gameplay.h"
 #include "Map.h"
 #include "Instruments.h"
+#include "Structures.h"
 
 //------Moving_Functions------//
 // принимает структуру с информацией об объекте на карте и двумерный массив структур
@@ -262,11 +263,13 @@ void game::gravity(game::MapCell** map, GameInfo* gameInfo)
 
 // функция запуска уровня, принимает на вход название файла с уровнем
 // возвращает количество очков, набранное игроком
-double game::startLevel(char* levelName)
+records::DataAboutTheChampion* game::startLevel(char* levelName)
 {
 	game::GameInfo* gameInfo = new GameInfo;
 
 	game::MapCell** map = game::createMap(levelName, gameInfo); // Создаем двумерный массив структур, используя текстовый документ
+
+	records::DataAboutTheChampion* player = new records::DataAboutTheChampion;
 
 	game::clearScreen(); // Чистим экран
 
@@ -275,6 +278,14 @@ double game::startLevel(char* levelName)
 	game::performAnAction(gameInfo, map); // Выполняем далее в зависимости от действий игрока
 
 	system("cls");
+
+	std::cout << "Please enter your name" << std::endl;
+
+	std::cin >> player->name;
+
+	player->score = gameInfo->hero.score;
+
+	player->level = atoi(&levelName[4]);
 	
 	double score = gameInfo->hero.score;
 
@@ -288,7 +299,7 @@ double game::startLevel(char* levelName)
 
 	game::clearScreen(); // Чистим экран
 
-	return score;
+	return player;
 }
 
 //-----Portals_Functions------//

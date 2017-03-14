@@ -3,9 +3,12 @@
 #include <iostream>
 #include <iomanip>
 #include <fstream>
+
+#include <string>
 #include <conio.h>
 
 #include "Definitions.h"
+#include "Structures.h"
 #include "Map.h"
 #include "Stack.h"
 
@@ -27,7 +30,7 @@ namespace game
 	void moveDown(GameInfo* gameInfo, MapCell** map);
 	void replaceTheAim(GameInfo* gameInfo, game::MapCell** map);
 	// Временная функция для запуска первого уровня
-	double startLevel(char* levelName); 
+	records::DataAboutTheChampion* startLevel(char* levelName); 
 
 	// Выполняя необходимые проверки, имитирует гравитацию
 	void gravity(MapCell** map, GameInfo* gameInfo);
