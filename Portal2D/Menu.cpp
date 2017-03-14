@@ -18,15 +18,16 @@ void menu::drawLogo()
 //Выводит вариант меню, на котором остановился пользователь в пункте Records
 void menu::printPointRecord(int key)
 {
-	drawLogo();
+	drawLogo();																			// Рисуем лого
 
+	/* В зависимости от того, на каком пункте остановился пользователь,
+	рисуем меню*/
 	switch (key)
 	{
 	case Search:
 		cout << "\t\t\t\t\t<<     Search         >>" << endl;
 		cout << "\t\t\t\t\t    Show All Records    " << endl;
 		cout << "\t\t\t\t\t    Show 10 Records     " << endl;
-		cout << "\t\t\t\t\t    Best Of The Best    " << endl;
 		cout << "\t\t\t\t\t       Back             " << endl;
 		break;
 
@@ -56,8 +57,10 @@ void menu::printPointRecord(int key)
 //Выводит вариант главного меню, на котором остановился пользователь
 void menu::printMenu(int key)
 {
-	drawLogo();
+	drawLogo();																			// Рисуем лого
 
+	/* В зависимости от того, на каком пункте остановился пользователь,
+	рисуем меню*/
 	switch (key)
 	{
 	case Start:
@@ -81,9 +84,12 @@ void menu::printMenu(int key)
 //Выводит вариант меню, на котором остановился пользователь в пункте Start
 void menu::printPointStart(int key)
 {
+	//game::clearScreen();
 	system("cls");
-	drawLogo();
+	drawLogo();																			// Рисуем лого
 
+	/*В зависимости от того, на каком пункте остановился пользователь,
+		рисуем меню*/
 	switch (key)
 	{
 	case Instruction:
@@ -133,15 +139,23 @@ void menu::printPointStart(int key)
 //Воспроизводит выбранный пользователем пункт в разделе Records
 void menu::doPointRecords()
 {
-	int key;
-	ParametersForMenu parametersForMenu = { Search, BackRecords, &printPointRecord };
+	int key = Search;																	// Пункт на котором остановился пользователь
 
+	/*Верхняя граница равна Search, нижняя равна BackRecords,
+	вывод данного подпункта меню осуществляет printPointRecord*/
+	ParametersForMenu parametersForMenu = { Search, BackRecords, &printPointRecord };	
+
+	/*Пока пользователь не захочет выйти из этого подпункта меню,
+	осуществляется перемещения по меню*/
 	do
 	{
-		key = controlMenu(parametersForMenu);
-		game::clearScreen();
+		key = controlMenu(parametersForMenu);											// key получает значение пункта на котором остановился пользователь и нажал Enter
+		system("cls");
+
+		/*Заходим в раздел который выбрал пользователь*/
 		switch (key)
 		{
+
 		case Search:
 			break;
 
@@ -149,9 +163,6 @@ void menu::doPointRecords()
 			break;
 
 		case Show10Records:
-			break;
-
-		case BestOfTheBest:
 			break;
 
 		default:
@@ -165,13 +176,20 @@ void menu::doPointRecords()
 //Воспроизводит выбранный пользователем пункт в разделе Start
 void menu::doPointStart()
 {
-	int key;
-	ParametersForMenu name = { Instruction, BackLevel, &printPointStart };
+	int key = Instruction;																// Пункт на котором остановился пользователь
 
+	/*Верхняя граница равна Instruction, нижняя равна BackLevel,
+	вывод данного подпункта меню осуществляет printPointStart*/
+	ParametersForMenu parametersForMenu = { Instruction, BackLevel, &printPointStart };
+
+	/*Пока пользователь не захочет выйти из этого подпункта меню,
+	осуществляется перемещения по меню*/
 	do
 	{
-		key = controlMenu(name);//!!!!!!!!!
+		key = controlMenu(parametersForMenu);											// key получает значение пункта на котором остановился пользователь и нажал Enter
 		system("cls");
+
+		/*Заходим в раздел который выбрал пользователь*/
 		switch (key)
 		{
 
@@ -200,48 +218,63 @@ void menu::doPointStart()
 }
 
 //Реализует управление меню и его вывод на экран
-int menu::controlMenu(ParametersForMenu borders)
+int menu::controlMenu(ParametersForMenu parametersForMenu)
 {
-	int key = borders.upBorder;
-	int press;
+	int key = parametersForMenu.upBorder;													// key равен самому верхнему пункту меню
+	int press;																				// Нажатие пользователя
 	game::clearScreen();
-	borders.print(key);
-	//printFunc(key);
-	press = _getch();
+	parametersForMenu.print(key);															// Выводит нужный вариант меню
+	press = _getch();																		// Принимает значение нажатой клавиши
+
+	/*Если нажата стрелочка, то проверяем какая*/
 	if (press == ARROWS)
 	{
+		/*Пока не нажат Enter перемещаемся по меню*/
 		while (press != ENTER)
 		{
-			press = _getch();
+			press = _getch();																// Примаем значение стрелочки
 
+			/*Если нажата стрелочка вниз, то спускаемся на пункт ниже
+			  Если нажата стрелочка вверх, то поднимаемся на пункт вверх*/
 			switch (press)
 			{
 			case UP_ARROW:
-				if (key != borders.upBorder)
+
+				/*Если пользователь не достиг верхнего пункта меню,
+				то поднимаемся на пункт выше*/
+				if (key != parametersForMenu.upBorder)
 					key -= 1;
 				break;
 
 			case DOWN_ARROW:
-				if (key != borders.lowerBorder)
+
+				/*Если пользователь не достиг нижнего пункта меню,
+					то спускаемся на пункт ниже*/
+				if (key != parametersForMenu.lowerBorder)
 					key += 1;
 				break;
 			}
 			game::clearScreen();
-			borders.print(key);
+			parametersForMenu.print(key);													// Выводит нужный вариант меню
 		}
 	}
 	game::clearScreen();
-	return key;
+	return key;																				// Возвращаем выбор пользователя
 }
 
 //Воспроизводит выбранный пользователем пункт в главном меню
 void menu::menu()
 {
 	int key;
+	/*Верхняя граница равна Start, нижняя равна Exit,
+	вывод данного подпункта меню осуществляет printMenu*/
 	ParametersForMenu borders = { Start, Exit, &printMenu };
+
+	/*Пока пользователь не захочет выйти из этого подпункта меню,
+	осуществляется перемещения по меню*/
 	do
 	{
-		key = controlMenu(borders);
+		key = controlMenu(borders);															// key получает значение пункта на котором остановился пользователь и нажал Enter
 
 		/*После нажатия кнопки Enter, заходим в пункт который был выбран*/
 		switch (key)
