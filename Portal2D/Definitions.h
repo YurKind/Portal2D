@@ -49,6 +49,7 @@
 #define SPACE_JUMP 32
 
 //------AIM_KEYS------//
+#define ARROWS 224
 #define UP_ARROW 72
 #define LEFT_ARROW 75
 #define DOWN_ARROW 80

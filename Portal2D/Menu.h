@@ -6,6 +6,7 @@
 #include <conio.h>
 #include <stdio.h> 
 
+#include "Instruments.h"
 #include "Records.h"
 #include "Gameplay.h"
 #include "Definitions.h"
@@ -16,14 +17,21 @@
 
 using namespace std;
 
+struct ParametersForMenu
+{
+	int upBorder;
+	int lowerBorder;
+	void(*print)(int);
+};
+
 enum Colors
 {
 	Black = 0,
-	DarkBlue = 1, 
+	DarkBlue = 1,
 	DarkGreen = 2,
-	DarkCyan = 3, //сине-зеленый (цвет "морской волны") темный оттенок
+	DarkCyan = 3,
 	DarkRed = 4,
-	DarkMagenta = 5, // розовый (темный оттенок)
+	DarkMagenta = 5,
 	Brown = 6,
 	LightGrey = 7,
 	DarkGrey = 8,
@@ -36,36 +44,40 @@ enum Colors
 	White = 15
 };
 
-
-enum PlayerChoice
+enum MenuPoints
 {
-	StartGame = 49,
-	Instruction = 50,
-	HighScores = 51,
-	Exit = 52
+	Start = 1,
+	Records,
+	Exit,
 };
 
-void moveToMenuPoint3();
-void moveToMenuPoint2();
-void moveToMenuPoint();
-void userSelection3(int Cur);
-void userSelection2(int Cur);
-void userSelection(int Cur);
-void rewriterCaseUpPoint3(int a);
-void rewriterCaseUpPoint2(int a);
-void rewriterCaseUpPoint(int a);
-void rewriterCaseDownPoint3(int a);
-void rewriterCaseDownPoint2(int a);
-void rewriterCaseDownPoint(int a);
-void pointToMenu3();
-void pointToMenu2();
-void pointToMenu();
-void hat();
-void stand(int X_COORD, int Y_COORD, int TEXT_COLOR, char*str);
-void printRecords(int Y_COORD, int TEXT_COLOR, char*str);
+enum GameLevel
+{
+	Instruction = 1,
+	RandomLevel,
+	Level1,
+	Level2,
+	BackLevel,
+};
 
-//namespace menu
-//{
-//	int menu();
-//	void functionCaller(int playerChoice);
-//}
+enum GameRecords
+{
+	Search = 1,
+	ShowAllRecords,
+	Show10Records,
+	BestOfTheBest,
+	BackRecords
+};
+
+
+namespace menu
+{
+	void drawLogo();
+	void printMenu(int key);
+	void printPointStart(int key);
+	void printPointRecord(int key);
+	void doPointStart();
+	void doPointRecords();
+	int controlMenu(ParametersForMenu borders);
+	void menu();
+}
