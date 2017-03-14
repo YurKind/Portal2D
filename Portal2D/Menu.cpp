@@ -1,10 +1,10 @@
-п»ї#include "Menu.h"
-#include "Tree.h"
 #include "Menu.h"
 #include "Tree.h"
 
 HANDLE H = GetStdHandle(STD_OUTPUT_HANDLE);
 
+//------Print Functions------//
+//Рисует логотип
 void menu::drawLogo()
 {
 	cout << "\t\t\t\t***   **** ***  ***  *   *     ***  ***   " << endl;
@@ -15,6 +15,7 @@ void menu::drawLogo()
 	cout << "\n\n\n";
 }
 
+//Выводит вариант меню, на котором остановился пользователь в пункте Records
 void menu::printPointRecord(int key)
 {
 	drawLogo();																			// Рисуем лого
@@ -53,6 +54,7 @@ void menu::printPointRecord(int key)
 	}
 }
 
+//Выводит вариант главного меню, на котором остановился пользователь
 void menu::printMenu(int key)
 {
 	drawLogo();																			// Рисуем лого
@@ -79,6 +81,7 @@ void menu::printMenu(int key)
 	}
 }
 
+//Выводит вариант меню, на котором остановился пользователь в пункте Start
 void menu::printPointStart(int key)
 {
 	//game::clearScreen();
@@ -132,6 +135,8 @@ void menu::printPointStart(int key)
 
 }
 
+//------Control Functions------//
+//Воспроизводит выбранный пользователем пункт в разделе Records
 void menu::doPointRecords()
 {
 	int key = Search;																	// Пункт на котором остановился пользователь
@@ -168,6 +173,7 @@ void menu::doPointRecords()
 	system("cls");
 }
 
+//Воспроизводит выбранный пользователем пункт в разделе Start
 void menu::doPointStart()
 {
 	int key = Instruction;																// Пункт на котором остановился пользователь
@@ -211,12 +217,8 @@ void menu::doPointStart()
 	system("cls");
 }
 
-<<<<<<< HEAD
-int menu::controlMenu(ParametersForMenu borders)
-=======
 //Реализует управление меню и его вывод на экран
 int menu::controlMenu(ParametersForMenu parametersForMenu)
->>>>>>> 1da2863863ecd120dfcaebc3a5fa0f3936d461b9
 {
 	int key = parametersForMenu.upBorder;													// key равен самому верхнему пункту меню
 	int press;																				// Нажатие пользователя
@@ -260,6 +262,7 @@ int menu::controlMenu(ParametersForMenu parametersForMenu)
 	return key;																				// Возвращаем выбор пользователя
 }
 
+//Воспроизводит выбранный пользователем пункт в главном меню
 void menu::menu()
 {
 	int key;
@@ -273,7 +276,7 @@ void menu::menu()
 	{
 		key = controlMenu(borders);															// key получает значение пункта на котором остановился пользователь и нажал Enter
 
-		/*ГЏГ®Г±Г«ГҐ Г­Г Г¦Г ГІГЁГї ГЄГ­Г®ГЇГЄГЁ Enter, Г§Г ГµГ®Г¤ГЁГ¬ Гў ГЇГіГ­ГЄГІ ГЄГ®ГІГ®Г°Г»Г© ГЎГ»Г« ГўГ»ГЎГ°Г Г­*/
+		/*После нажатия кнопки Enter, заходим в пункт который был выбран*/
 		switch (key)
 		{
 		case Start:
