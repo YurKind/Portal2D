@@ -28,6 +28,7 @@ void menu::printPointRecord(int key)
 		cout << "\t\t\t\t\t<<     Search         >>" << endl;
 		cout << "\t\t\t\t\t    Show All Records    " << endl;
 		cout << "\t\t\t\t\t    Show 10 Records     " << endl;
+		cout << "\t\t\t\t\t    Best Of The Best    " << endl;
 		cout << "\t\t\t\t\t       Back             " << endl;
 		break;
 
@@ -35,6 +36,7 @@ void menu::printPointRecord(int key)
 		cout << "\t\t\t\t\t       Search           " << endl;
 		cout << "\t\t\t\t\t<<  Show All Records  >>" << endl;
 		cout << "\t\t\t\t\t    Show 10 Records     " << endl;
+		cout << "\t\t\t\t\t    Best Of The Best    " << endl;
 		cout << "\t\t\t\t\t       Back             " << endl;
 		break;
 
@@ -42,6 +44,15 @@ void menu::printPointRecord(int key)
 		cout << "\t\t\t\t\t       Search           " << endl;
 		cout << "\t\t\t\t\t    Show All Records    " << endl;
 		cout << "\t\t\t\t\t<<  Show 10 Records   >>" << endl;
+		cout << "\t\t\t\t\t    Best Of The Best    " << endl;
+		cout << "\t\t\t\t\t       Back             " << endl;
+		break;
+
+	case BestOfTheBest:
+		cout << "\t\t\t\t\t       Search           " << endl;
+		cout << "\t\t\t\t\t    Show All Records    " << endl;
+		cout << "\t\t\t\t\t    Show 10 Records     " << endl;
+		cout << "\t\t\t\t\t<<  Best Of The Best  >>" << endl;
 		cout << "\t\t\t\t\t       Back             " << endl;
 		break;
 
@@ -49,6 +60,7 @@ void menu::printPointRecord(int key)
 		cout << "\t\t\t\t\t       Search           " << endl;
 		cout << "\t\t\t\t\t    Show All Records    " << endl;
 		cout << "\t\t\t\t\t    Show 10 Records     " << endl;
+		cout << "\t\t\t\t\t    Best Of The Best    " << endl;
 		cout << "\t\t\t\t\t<<     Back           >>" << endl;
 		break;
 	}
@@ -84,7 +96,6 @@ void menu::printMenu(int key)
 //Выводит вариант меню, на котором остановился пользователь в пункте Start
 void menu::printPointStart(int key)
 {
-	//game::clearScreen();
 	system("cls");
 	drawLogo();																			// Рисуем лого
 
@@ -143,14 +154,14 @@ void menu::doPointRecords()
 
 	/*Верхняя граница равна Search, нижняя равна BackRecords,
 	вывод данного подпункта меню осуществляет printPointRecord*/
-	ParametersForMenu parametersForMenu = { Search, BackRecords, &printPointRecord };	
+	ParametersForMenu parametersForMenu = { Search, BackRecords, &printPointRecord };
 
 	/*Пока пользователь не захочет выйти из этого подпункта меню,
 	осуществляется перемещения по меню*/
 	do
 	{
 		key = controlMenu(parametersForMenu);											// key получает значение пункта на котором остановился пользователь и нажал Enter
-		system("cls");
+		//system("cls");
 
 		/*Заходим в раздел который выбрал пользователь*/
 		switch (key)
@@ -165,6 +176,9 @@ void menu::doPointRecords()
 		case Show10Records:
 			break;
 
+		case BestOfTheBest:
+			break;
+
 		default:
 			break;
 		}
@@ -176,6 +190,9 @@ void menu::doPointRecords()
 //Воспроизводит выбранный пользователем пункт в разделе Start
 void menu::doPointStart()
 {
+	//PlaySound("mainMenu.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
+
+
 	int key = Instruction;																// Пункт на котором остановился пользователь
 
 	/*Верхняя граница равна Instruction, нижняя равна BackLevel,
@@ -188,7 +205,6 @@ void menu::doPointStart()
 	{
 		key = controlMenu(parametersForMenu);											// key получает значение пункта на котором остановился пользователь и нажал Enter
 		system("cls");
-
 		/*Заходим в раздел который выбрал пользователь*/
 		switch (key)
 		{
@@ -258,7 +274,6 @@ int menu::controlMenu(ParametersForMenu parametersForMenu)
 			parametersForMenu.print(key);													// Выводит нужный вариант меню
 		}
 	}
-	game::clearScreen();
 	return key;																				// Возвращаем выбор пользователя
 }
 
