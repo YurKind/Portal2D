@@ -9,11 +9,13 @@ int main()
 {
 	system("mode con cols=100 lines=30");
 	srand(time(NULL));
-	menu::menu();
+	queue::Queue<int> *queue = new queue::Queue<int>;
+	menu::menu(queue);
+	queue::freeMemory(queue);
 	return 0;
 }
 
-/*
+/* кто не выполн€ет правила - того ≈Ѕ≈ћ в очко
 1)	»мена, представл€ющие типы, должны быть об€зательно написаны в смешанном регистре, начина€ с верхнего.
 Line, SavingsAccount
 

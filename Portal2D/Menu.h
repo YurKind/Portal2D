@@ -25,6 +25,33 @@ struct ParametersForMenu
 	void(*print)(int);															// ¬ыводит меню на экран
 };
 
+namespace menu
+{
+	//–исует логотип
+	void drawLogo();
+
+	//¬ыводит вариант главного меню, на котором остановилс€ пользователь
+	void printMenu(int key);
+
+	//¬ыводит вариант меню, на котором остановилс€ пользователь в пункте Start
+	void printPointStart(int key);
+
+	//¬ыводит вариант меню, на котором остановилс€ пользователь в пункте Records
+	void printPointRecord(int key);
+
+	//¬оспроизводит выбранный пользователем пункт в разделе Start
+	void doPointStart(queue::Queue<int> *queue);
+
+	//¬оспроизводит выбранный пользователем пункт в разделе Records
+	void doPointRecords();
+
+	//–еализует управление меню и его вывод на экран
+	int controlMenu(ParametersForMenu borders);
+
+	//¬оспроизводит выбранный пользователем пункт в главном меню
+	void menu(queue::Queue<int> *queue);
+}
+
 enum Colors
 {
 	Black = 0,
@@ -70,29 +97,3 @@ enum GameRecords
 };
 
 
-namespace menu
-{
-	//–исует логотип
-	void drawLogo();
-
-	//¬ыводит вариант главного меню, на котором остановилс€ пользователь
-	void printMenu(int key);
-
-	//¬ыводит вариант меню, на котором остановилс€ пользователь в пункте Start
-	void printPointStart(int key);
-
-	//¬ыводит вариант меню, на котором остановилс€ пользователь в пункте Records
-	void printPointRecord(int key);
-
-	//¬оспроизводит выбранный пользователем пункт в разделе Start
-	void doPointStart();
-
-	//¬оспроизводит выбранный пользователем пункт в разделе Records
-	void doPointRecords();
-
-	//–еализует управление меню и его вывод на экран
-	int controlMenu(ParametersForMenu borders);
-
-	//¬оспроизводит выбранный пользователем пункт в главном меню
-	void menu();
-}

@@ -1,5 +1,7 @@
 #include "Menu.h"
+#include "Gameplay.h"
 #include "Tree.h"
+#include "RandomLevel.h"
 
 HANDLE H = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -174,10 +176,10 @@ void menu::doPointRecords()
 }
 
 //Воспроизводит выбранный пользователем пункт в разделе Start
-void menu::doPointStart()
+void menu::doPointStart(queue::Queue<int> *queue)
 {
 	int key = Instruction;																// Пункт на котором остановился пользователь
-
+	records::DataAboutTheChampion *newChampion = NULL;
 	/*Верхняя граница равна Instruction, нижняя равна BackLevel,
 	вывод данного подпункта меню осуществляет printPointStart*/
 	ParametersForMenu parametersForMenu = { Instruction, BackLevel, &printPointStart };
@@ -188,7 +190,7 @@ void menu::doPointStart()
 	{
 		key = controlMenu(parametersForMenu);											// key получает значение пункта на котором остановился пользователь и нажал Enter
 		system("cls");
-
+		int x = 0;
 		/*Заходим в раздел который выбрал пользователь*/
 		switch (key)
 		{
@@ -198,11 +200,14 @@ void menu::doPointStart()
 			break;
 
 		case RandomLevel:
-			system("pause");
+			x = random::initializeQueueAndReturnHead(queue);
+			newChampion = game::startLevel("Lvl_1.txt");
+			records::addInRecordsOrShowRecords(*newChampion, "add");
 			break;
 
 		case Level1:
-			game::startLevel("Lvl_1.txt");
+			newChampion = game::startLevel("Lvl_1.txt");
+			records::addInRecordsOrShowRecords(*newChampion, "add");
 			break;
 
 		case Level2:
@@ -263,7 +268,7 @@ int menu::controlMenu(ParametersForMenu parametersForMenu)
 }
 
 //Воспроизводит выбранный пользователем пункт в главном меню
-void menu::menu()
+void menu::menu(queue::Queue<int> *queue)
 {
 	int key;
 	/*Верхняя граница равна Start, нижняя равна Exit,
@@ -280,7 +285,7 @@ void menu::menu()
 		switch (key)
 		{
 		case Start:
-			doPointStart();
+			doPointStart(queue);
 			break;
 
 		case Records:
