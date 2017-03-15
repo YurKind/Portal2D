@@ -299,7 +299,7 @@ records::DataAboutTheChampion* game::startLevel(char* levelName)
 
 	game::clearScreen(); // Чистим экран
 
-	return player;
+	return player; 
 }
 
 //-----Portals_Functions------//
