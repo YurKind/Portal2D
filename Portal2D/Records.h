@@ -12,7 +12,7 @@ namespace records
 
 	int findingTheLocationInOrder(list::List<DataAboutTheChampion> *list, DataAboutTheChampion newChampion);
 
-	void addInRecordsOrShowRecords(DataAboutTheChampion newChampion, char *variant);
+	void addInRecordsOrShowRecords(DataAboutTheChampion *newChampion, char *variant);
 
 	DataAboutTheChampion initializationDataAboutTheChampion(char *buf);
 

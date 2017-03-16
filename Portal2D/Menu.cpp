@@ -1,6 +1,7 @@
 #include "Menu.h"
 #include "Gameplay.h"
 #include "Tree.h"
+#include "Search.h"
 #include "RandomLevel.h"
 
 HANDLE H = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -145,7 +146,7 @@ void menu::doPointRecords()
 
 	/*Верхняя граница равна Search, нижняя равна BackRecords,
 	вывод данного подпункта меню осуществляет printPointRecord*/
-	ParametersForMenu parametersForMenu = { Search, BackRecords, &printPointRecord };	
+	ParametersForMenu parametersForMenu = { Search, BackRecords, &printPointRecord };
 
 	/*Пока пользователь не захочет выйти из этого подпункта меню,
 	осуществляется перемещения по меню*/
@@ -153,25 +154,30 @@ void menu::doPointRecords()
 	{
 		key = controlMenu(parametersForMenu);											// key получает значение пункта на котором остановился пользователь и нажал Enter
 		system("cls");
-
+		char *selectOfPlayer = new char[5];
 		/*Заходим в раздел который выбрал пользователь*/
 		switch (key)
 		{
-
 		case Search:
+			std::cout << "\t\t\t\t 1 - search by score\n\t\t\t\t 2 - search by level\n\t\t\t\t 3 - search by name\n" << std::endl;
+			*selectOfPlayer = _getch();
+			search::setSearchParametr<int>(atoi(selectOfPlayer));
 			break;
 
 		case ShowAllRecords:
+			records::addInRecordsOrShowRecords(NULL, "show");
 			break;
 
 		case Show10Records:
+			records::addInRecordsOrShowRecords(NULL, "show10");
 			break;
 
 		default:
 			break;
 		}
-	} while (key != BackRecords);
+		delete[] selectOfPlayer;
 
+	} while (key != BackRecords);
 	system("cls");
 }
 
@@ -190,7 +196,7 @@ void menu::doPointStart(queue::Queue<int> *queue)
 	{
 		key = controlMenu(parametersForMenu);											// key получает значение пункта на котором остановился пользователь и нажал Enter
 		system("cls");
-		int x = 0;
+		int numberOfLevel = 0;
 		/*Заходим в раздел который выбрал пользователь*/
 		switch (key)
 		{
@@ -200,14 +206,14 @@ void menu::doPointStart(queue::Queue<int> *queue)
 			break;
 
 		case RandomLevel:
-			x = random::initializeQueueAndReturnHead(queue);
+			numberOfLevel = random::initializeQueueAndReturnHead(queue);
 			newChampion = game::startLevel("Lvl_1.txt");
-			records::addInRecordsOrShowRecords(*newChampion, "add");
+			records::addInRecordsOrShowRecords(newChampion, "add");
 			break;
 
 		case Level1:
 			newChampion = game::startLevel("Lvl_1.txt");
-			records::addInRecordsOrShowRecords(*newChampion, "add");
+			records::addInRecordsOrShowRecords(newChampion, "add");
 			break;
 
 		case Level2:

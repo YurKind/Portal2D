@@ -5,10 +5,10 @@
 
 namespace tree
 {
-	void addTree(BranchForNumber<records::DataAboutTheChampion> **begin, char *fileName, int variant)
+	void addTree(BranchForNumber<records::DataAboutTheChampion> **tree, char *fileName, int variant)
 	{
 		std::ifstream fin(FILE_NAME_RECORDS);
-		tree::BranchForNumber<records::DataAboutTheChampion> *add = *begin;
+		tree::BranchForNumber<records::DataAboutTheChampion> *add = *tree;
 		while (!fin.eof())
 		{
 			char *buf = new char[1024];
@@ -24,121 +24,91 @@ namespace tree
 			}
 			else if (variant == STRING)
 			{
-				
-			}
-			else if (variant == STRING)
-			{
-
+				pushInTree(*data, add, STRING);
 			}
 			delete data;
 			delete[] buf;
 		}
-		*begin = add;
+		*tree = add;
 		fin.close();
 	}
 
-	void pushInTree(records::DataAboutTheChampion newData, BranchForNumber<records::DataAboutTheChampion> *&begin, int variant)
+	void pushInTree(records::DataAboutTheChampion newData, BranchForNumber<records::DataAboutTheChampion> *&tree, int variant)
 	{
-		if (!begin)
+		if (!tree)
 		{
-			begin = new tree::BranchForNumber<records::DataAboutTheChampion>;
-			begin->data = newData;
+			tree = new tree::BranchForNumber<records::DataAboutTheChampion>;
+			tree->data = newData;
 		}
 		else 
 		{
 			if (variant == SCORE)
 			{
-				if (begin->data.score > newData.score)
+				if (tree->data.score > newData.score)
 				{
-					tree::pushInTree(newData, begin->left, SCORE);
+					tree::pushInTree(newData, tree->left, SCORE);
 				}
 				else
 				{
-					tree::pushInTree(newData, begin->right, SCORE);
+					tree::pushInTree(newData, tree->right, SCORE);
 				}
 			}
 			else if (variant == LEVEL)
 			{
-				if (begin->data.level > newData.level)
+				if (tree->data.level > newData.level)
 				{
-					tree::pushInTree(newData, begin->left, LEVEL);
+					tree::pushInTree(newData, tree->left, LEVEL);
 				}
 				else
 				{
-					tree::pushInTree(newData, begin->right, LEVEL);
+					tree::pushInTree(newData, tree->right, LEVEL);
 				}
 			}
 			else if (variant == STRING)
 			{
-				
+				int size1 = tree->data.name.length() + 1, size2 = newData.name.length() + 1;
+				char *str1 = new char[size1], *str2 = new char[size2];
+				strcpy_s(str1, size1, tree->data.name.c_str());
+				strcpy_s(str2, size2, newData.name.c_str());
+				if (strcmp(str1, str2) > 0)
+				{
+					tree::pushInTree(newData, tree->left, STRING);
+				}
+				else
+				{
+					tree::pushInTree(newData, tree->right, STRING);
+				}
+				delete[] str1;
+				delete[] str2;
 			}
 		}
 	}
 
-	records::DataAboutTheChampion getMinimum(BranchForNumber<records::DataAboutTheChampion> *begin)
+	records::DataAboutTheChampion getMinimum(BranchForNumber<records::DataAboutTheChampion> *tree)
 	{
-		while (begin->left)
+		while (tree->left)
 		{
-			begin = begin->left;
+			tree = tree->left;
 		}
-		return begin->data;
+		return tree->data;
 	}
 
-	records::DataAboutTheChampion getMaximum(BranchForNumber<records::DataAboutTheChampion> *begin)
+	records::DataAboutTheChampion getMaximum(BranchForNumber<records::DataAboutTheChampion> *tree)
 	{
-		while (begin->right)
+		while (tree->right)
 		{
-			begin = begin->right;
+			tree = tree->right;
 		}
-		return begin->data;
+		return tree->data;
 	}
 
-	void freeMemory(BranchForNumber<records::DataAboutTheChampion> *begin)
+	void freeMemory(BranchForNumber<records::DataAboutTheChampion> *tree)
 	{
-		if (begin)
+		if (tree)
 		{
-			tree::freeMemory(begin->left);
-			tree::freeMemory(begin->right);
-			delete begin;
+			tree::freeMemory(tree->left);
+			tree::freeMemory(tree->right);
+			delete tree;
 		}
 	}
 }
-/*void pushInTreeByScore(records::DataAboutTheChampion newData, BranchForNumber<records::DataAboutTheChampion> *&begin)
-	{
-		if (!begin)
-		{
-			begin = new tree::BranchForNumber<records::DataAboutTheChampion>;
-			begin->data = newData;
-		}
-		else
-		{
-			if (begin->data.score > newData.score)
-			{
-				tree::pushInTreeByScore(newData, begin->left);
-			}
-			else
-			{
-				tree::pushInTreeByScore(newData, begin->right);
-			}
-		}
-	}
-
-	void pushInTreeByLevel(records::DataAboutTheChampion newData, BranchForNumber<records::DataAboutTheChampion> *&begin)
-	{
-		if (!begin)
-		{
-			begin = new tree::BranchForNumber<records::DataAboutTheChampion>;
-			begin->data = newData;
-		}
-		else
-		{
-			if (begin->data.level > newData.level)
-			{
-				tree::pushInTreeByLevel(newData, begin->left);
-			}
-			else
-			{
-				tree::pushInTreeByLevel(newData, begin->right);
-			}
-		}
-	}*/

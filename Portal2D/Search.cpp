@@ -2,39 +2,6 @@
 
 namespace search
 {
-	void setSearchParametr(int parametr)
-	{
-		list::List<records::DataAboutTheChampion> *list = NULL;
-		tree::BranchForNumber<records::DataAboutTheChampion> *tree = NULL;
-		double numberOfScore = 0.0;
-		int numberOfLevel = 0;
-		switch (parametr)
-		{
-		case SCORE:
-			addTree(&tree, FILE_NAME_RECORDS, SCORE);
-			std::cout << "\tenter the number of score: ";
-			std::cin >> numberOfScore;
-			std::cout << "\n";
-			list = searchByScoreAllElements(tree, numberOfScore);
-			break;
-
-		case LEVEL:
-			addTree(&tree, FILE_NAME_RECORDS, LEVEL);
-			std::cout << "\tenter the number of level: ";
-			std::cin >> numberOfLevel;
-			std::cout << "\n";
-			list = searchByLevelAllElements(tree, numberOfLevel);
-			break;
-
-		case STRING:
-			break;
-		}
-		printFoundChampions(list);
-		list::freeMemory(list);
-		tree::freeMemory(tree);
-		_getch();
-	}
-
 	void printFoundChampions(list::List<records::DataAboutTheChampion> *list)
 	{
 		if (!list)
@@ -66,13 +33,78 @@ namespace search
 		{
 			search::searchByScoreOfOneResult(begin->left, score);
 		}
-		else
+		else 
 		{
 			search::searchByScoreOfOneResult(begin->right, score);
 		}
 	}
 
-	list::List<records::DataAboutTheChampion> *searchByScoreAllElements(tree::BranchForNumber<records::DataAboutTheChampion> *begin, double score)
+	tree::BranchForNumber<records::DataAboutTheChampion> *searchByLevelOfOneResult(tree::BranchForNumber<records::DataAboutTheChampion> *begin, int level)
+	{
+		if (!begin || level == begin->data.level)
+		{
+			return begin;
+		}
+
+		if (level < begin->data.level)
+		{
+			search::searchByLevelOfOneResult(begin->left, level);
+		}
+		else
+		{
+			search::searchByLevelOfOneResult(begin->right, level);
+		}
+	}
+
+	bool fuction(char *name, std::string str)
+	{
+		bool flag = false;
+		char *checking = new char[str.length() + 1];
+		strcpy_s(checking, str.length() + 1, str.c_str());
+		if (!_stricmp(name, checking))
+		{
+			flag = true;
+		}
+		else
+		{
+			/*int i = 0, countTrue = 0;
+			while (1)
+			{
+				if (name[i] == checking[i])
+				{
+					i++;
+					countTrue++;
+				}
+				else
+				{
+					i++;
+				}
+			}*/
+		}		
+		return flag;
+	}
+
+	tree::BranchForNumber<records::DataAboutTheChampion> *searchByStringOfOneResult(tree::BranchForNumber<records::DataAboutTheChampion> *begin, char *name)
+	{
+		/*int size1 = begin->data.name.length() + 1;
+		char *str1 = new char[size1];
+		strcpy_s(str1, size1, begin->data.name.c_str());*/
+		if (!begin || fuction(name, begin->data.name))
+		{
+			return begin;
+		}
+
+		if (name < begin->data.name)
+		{
+			search::searchByStringOfOneResult(begin->left, name);
+		}
+		else
+		{
+			search::searchByStringOfOneResult(begin->right, name);
+		}
+	}
+}
+/*list::List<records::DataAboutTheChampion> *searchByScoreAllElements(tree::BranchForNumber<records::DataAboutTheChampion> *begin, double score)
 	{
 		int counterOfLoop = 0;
 		list::List<records::DataAboutTheChampion> *list = NULL;
@@ -96,25 +128,8 @@ namespace search
 			counterOfLoop++;
 		}
 		return list;
-	}
-
-	tree::BranchForNumber<records::DataAboutTheChampion> *searchByLevelOfOneResult(tree::BranchForNumber<records::DataAboutTheChampion> *begin, int level)
-	{
-		if (!begin || level == begin->data.level)
-		{
-			return begin;
-		}
-
-		if (level < begin->data.level)
-		{
-			search::searchByLevelOfOneResult(begin->left, level);
-		}
-		else
-		{
-			search::searchByLevelOfOneResult(begin->right, level);
-		}
-	}
-
+	}*/
+/*
 	list::List<records::DataAboutTheChampion> *searchByLevelAllElements(tree::BranchForNumber<records::DataAboutTheChampion> *begin, int level)
 	{
 		int counterOfLoop = 0;
@@ -139,5 +154,4 @@ namespace search
 			counterOfLoop++;
 		}
 		return list;
-	}
-}
+	}*/

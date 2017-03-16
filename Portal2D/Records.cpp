@@ -1,7 +1,8 @@
 #include "List.h"
 #include "SortingMethods.h"
 
-void records::addInRecordsOrShowRecords(records::DataAboutTheChampion newChampion, char *variant)
+/*Команды: add - добавить в рекорды / show - показать все рекорды (не больше 10к) / show10 - показать 10 рекордов*/
+void records::addInRecordsOrShowRecords(records::DataAboutTheChampion *newChampion, char *variant)
 {
 	int counterOfPrintedChampions = 0;
 	list::List<records::DataAboutTheChampion> *begin = new list::List<records::DataAboutTheChampion>;
@@ -10,31 +11,37 @@ void records::addInRecordsOrShowRecords(records::DataAboutTheChampion newChampio
 
 	if (!strcmp(variant, "show"))     // показать все рекорды
 	{
+		std::cout << "\n\t\t\t\t\t\tALL RECORDS" << std::endl;
 		std::cout << "\n";
 		while (begin->next)
 		{
 			counterOfPrintedChampions++;
-			std::cout << "\n" << counterOfPrintedChampions << "." << "name: " << begin->value.name << " level: " << begin->value.level << " score: " << begin->value.score << std::endl;
+			std::cout << "\n\t\t\t  " << counterOfPrintedChampions << "." << "name: " << begin->value.name << " level: " << begin->value.level << " score: " << begin->value.score << std::endl;
 			begin = begin->next;
 		}
 		std::cout << "\n";
+		_getch();
+		system("cls");
 	}
 	else if (!strcmp(variant, "add"))     // добавить в рекорды
 	{
-		int placeInRank = records::findingTheLocationInOrder(begin, newChampion);    // узнаем потенциальное место в списке
-		list::addInCertainPlace(&begin, placeInRank, newChampion);          // вставляем в найденное место
+		int placeInRank = records::findingTheLocationInOrder(begin, *newChampion);    // узнаем потенциальное место в списке
+		list::addInCertainPlace(&begin, placeInRank, *newChampion);          // вставляем в найденное место
 		records::overwriteFile(begin);               // перезапись файла 
 	}
 	else if (!strcmp(variant, "show10"))     // показать 10 лучших рекордов
 	{
+		std::cout << "\n\t\t\t\t\t TOP 10 RECORDS" << std::endl;
 		std::cout << "\n";
 		while (begin->next && counterOfPrintedChampions < 10)
 		{
 			counterOfPrintedChampions++;
-			std::cout << "\n" << counterOfPrintedChampions << "." << "name: " << begin->value.name << " level: " << begin->value.level << " score: " << begin->value.score << std::endl;
+			std::cout << "\n\t\t\t  " << counterOfPrintedChampions << "." << "name: " << begin->value.name << " level: " << begin->value.level << " score: " << begin->value.score << std::endl;
 			begin = begin->next;	
 		}
 		std::cout << "\n";
+		_getch();
+		system("cls");
 	}
 	fin.close();
 	list::freeMemory(begin);
