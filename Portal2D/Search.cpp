@@ -56,45 +56,14 @@ namespace search
 		}
 	}
 
-	bool fuction(char *name, std::string str)
-	{
-		bool flag = false;
-		char *checking = new char[str.length() + 1];
-		strcpy_s(checking, str.length() + 1, str.c_str());
-		if (!_stricmp(name, checking))
-		{
-			flag = true;
-		}
-		else
-		{
-			/*int i = 0, countTrue = 0;
-			while (1)
-			{
-				if (name[i] == checking[i])
-				{
-					i++;
-					countTrue++;
-				}
-				else
-				{
-					i++;
-				}
-			}*/
-		}		
-		return flag;
-	}
-
 	tree::BranchForNumber<records::DataAboutTheChampion> *searchByStringOfOneResult(tree::BranchForNumber<records::DataAboutTheChampion> *begin, char *name)
 	{
-		/*int size1 = begin->data.name.length() + 1;
-		char *str1 = new char[size1];
-		strcpy_s(str1, size1, begin->data.name.c_str());*/
-		if (!begin || fuction(name, begin->data.name))
+		if (!begin || xyi(name, begin->data.name) == 0)
 		{
 			return begin;
 		}
 
-		if (name < begin->data.name)
+		if (comparison(name, begin->data.name) < 0)
 		{
 			search::searchByStringOfOneResult(begin->left, name);
 		}
@@ -102,6 +71,21 @@ namespace search
 		{
 			search::searchByStringOfOneResult(begin->right, name);
 		}
+	}
+
+	int comparison(char *name, std::string str)
+	{
+		char *checking = new char[str.length() + 1];
+		strcpy_s(checking, str.length() + 1, str.c_str());
+		return _stricmp(name, checking);
+	}
+
+	int xyi(char *substring, std::string str)
+	{
+		char *checking = new char[str.length() + 1];
+		strcpy_s(checking, str.length() + 1, str.c_str());
+		
+		return 0;
 	}
 }
 /*list::List<records::DataAboutTheChampion> *searchByScoreAllElements(tree::BranchForNumber<records::DataAboutTheChampion> *begin, double score)

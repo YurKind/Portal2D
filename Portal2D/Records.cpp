@@ -13,7 +13,7 @@ void records::addInRecordsOrShowRecords(records::DataAboutTheChampion *newChampi
 	{
 		std::cout << "\n\t\t\t\t\t\tALL RECORDS" << std::endl;
 		std::cout << "\n";
-		while (begin->next)
+		while (begin->next && counterOfPrintedChampions < 1000)
 		{
 			counterOfPrintedChampions++;
 			std::cout << "\n\t\t\t  " << counterOfPrintedChampions << "." << "name: " << begin->value.name << " level: " << begin->value.level << " score: " << begin->value.score << std::endl;
