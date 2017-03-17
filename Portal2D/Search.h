@@ -13,7 +13,7 @@ namespace search
 		tree::BranchForNumber<records::DataAboutTheChampion> *tree = NULL;
 		double numberOfScore = 0.0;
 		int numberOfLevel = 0;
-		char *name = new char[100];
+		char *name = new char[1000];
 		switch (parametr)
 		{
 		case SCORE:
@@ -49,6 +49,8 @@ namespace search
 
 	void printFoundChampions(list::List<records::DataAboutTheChampion> *list);
 
+	int comparison(char *name, std::string str);
+
 	tree::BranchForNumber<records::DataAboutTheChampion> *searchByLevelOfOneResult(tree::BranchForNumber<records::DataAboutTheChampion> *begin, int level);
 
 	tree::BranchForNumber<records::DataAboutTheChampion> *searchByScoreOfOneResult(tree::BranchForNumber<records::DataAboutTheChampion> *begin, double score);
@@ -58,7 +60,7 @@ namespace search
 	template<typename T> list::List<records::DataAboutTheChampion> *searchAllElements(
 		tree::BranchForNumber<records::DataAboutTheChampion> *tree,
 		T data,
-		tree::BranchForNumber<records::DataAboutTheChampion>*(*func)(tree::BranchForNumber<records::DataAboutTheChampion> *, T)
+		tree::BranchForNumber<records::DataAboutTheChampion>*(*searchFunc)(tree::BranchForNumber<records::DataAboutTheChampion> *, T)
 	)
 	{
 		int counterOfLoop = 0;
@@ -69,11 +71,11 @@ namespace search
 		{
 			if (counterOfLoop)
 			{
-				*s = func(search->right, data);
+				*s = searchFunc(search->right, data);
 			}
 			else
 			{
-				*s = func(search, data);
+				*s = searchFunc(search, data);
 			}
 			search = *s;
 			if (search)
