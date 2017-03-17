@@ -56,6 +56,8 @@ namespace search
 		}
 	}
 
+	
+
 	bool fuction(char *name, std::string str)
 	{
 		bool flag = false;
