@@ -67,6 +67,7 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 		// если координаты геро€ равны координатам выхода, то переменной gameIsRunning присваиваетс€ значение false
 		gameIsRunning = checkGameOverConditions(gameInfo, map);
 
+		
 		game::clearScreen(); // ќчищаем экран
 		game::drawFrame(map, gameInfo);
 		game::gravity(map, gameInfo); // »митируем гравитацию
@@ -93,6 +94,8 @@ void game::jump(GameInfo* gameInfo, game::MapCell** map)
 {
 	if (map[gameInfo->hero.yCoordinate + 1][gameInfo->hero.xCoordinate].passable == false)	// если под персонажем есть непроходимый блок
 	{
+		replaceTheAimMovement(gameInfo, map);
+
 		if ((map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].passable == true) && // ≈сли обе клетки над героем свободны
 			(map[gameInfo->hero.yCoordinate - 2][gameInfo->hero.xCoordinate].passable == true))
 		{
@@ -217,12 +220,24 @@ void game::moveDown(GameInfo* gameInfo, game::MapCell** map)
 	}
 }
 
-// функци€ перестановки прицела
+// функци€ переставл€ет прицел, при установке портала
 // принимает структуру с информацией об объекте на карте и двумерный массив структур
 void game::replaceTheAim(GameInfo* gameInfo, game::MapCell** map)
 {
+	// если €чека карты справа пуста
+	if (peek(map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate + 1].types) == EMPTY_SPACE)
+	{
+		moveRight(AIM_DOT, gameInfo, map);	// прицел перемеща€етс€ влево на одну €чейку карты
+	}
+
+	// если €чека карты слева пуста
+	else if (peek(map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate - 1].types) == EMPTY_SPACE)
+	{
+		moveLeft(AIM_DOT, gameInfo, map);	// прицел перемеща€етс€ вправо на одну €чейку карты
+	}
+
 	// если €чека карты сверху пуста
-	if (peek(map[gameInfo->aim.yCoordinate - 1][gameInfo->aim.xCoordinate].types) == EMPTY_SPACE)
+	else if (peek(map[gameInfo->aim.yCoordinate - 1][gameInfo->aim.xCoordinate].types) == EMPTY_SPACE)
 	{
 		moveUp(gameInfo, map);	// прицел перемеща€етс€ вверх на одну €чейку карты
 	}
@@ -232,17 +247,20 @@ void game::replaceTheAim(GameInfo* gameInfo, game::MapCell** map)
 	{
 		moveDown(gameInfo, map);	// прицел перемеща€етс€ вниз на одну €чейку карты
 	}
+}
 
-	// если €чека карты слева пуста
-	else if (peek(map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate - 1].types) == EMPTY_SPACE)
+// функци€ переставл€ет прицел, если герой падает на прицел
+// принимает структуру с информацией об объекте на карте и двумерный массив структур
+void game::replaceTheAimMovement(GameInfo* gameInfo, game::MapCell** map)
+{
+	if (peek(map[gameInfo->hero.yCoordinate + 1][gameInfo->hero.xCoordinate].types) == AIM_DOT)
 	{
-		moveLeft(AIM_DOT, gameInfo, map);	// прицел перемеща€етс€ влево на одну €чейку карты
+		replaceTheAim(gameInfo, map);
 	}
 
-	// если €чека карты справа пуста
-	else if (peek(map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate + 1].types) == EMPTY_SPACE)
+	else if (peek(map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].types) == AIM_DOT)
 	{
-		moveRight(AIM_DOT, gameInfo, map);	// прицел перемеща€етс€ вправо на одну €чейку карты
+		replaceTheAim(gameInfo, map);
 	}
 }
 
@@ -254,6 +272,8 @@ void game::gravity(game::MapCell** map, GameInfo* gameInfo)
 	if (game::peek(map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types) == HERO &&
 		map[gameInfo->hero.yCoordinate + 1][gameInfo->hero.xCoordinate].passable == true)
 	{
+		replaceTheAimMovement(gameInfo, map);
+
 		push(pop(map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types),
 			map[gameInfo->hero.yCoordinate + 1][gameInfo->hero.xCoordinate].types);	// перемещение игрока вниз на одну €чейку карты
 

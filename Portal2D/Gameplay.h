@@ -28,7 +28,11 @@ namespace game
 	void moveRight(char type, GameInfo* gameInfo, MapCell** map);
 	void moveUp(GameInfo* gameInfo, MapCell** map);
 	void moveDown(GameInfo* gameInfo, MapCell** map);
+
+	// функция переставляет прицел, при установке портала
 	void replaceTheAim(GameInfo* gameInfo, game::MapCell** map);
+	void replaceTheAimMovement(GameInfo* gameInfo, game::MapCell** map);
+
 	// Временная функция для запуска первого уровня
 	records::DataAboutTheChampion* startLevel(char* levelName); 
 
