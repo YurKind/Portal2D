@@ -14,9 +14,9 @@ void list::addList(list::List<records::DataAboutTheChampion> **begin, std::ifstr
 		add->value = records::initializationDataAboutTheChampion(buf);
 		add = add->next;
 		add->next = NULL;
+		delete[] buf;
 	}
 	finForSize.close();
-	delete[] buf;
 }
 
 template<class T1, class T2>
@@ -32,7 +32,7 @@ void list::addInCertainPlace(list::List<records::DataAboutTheChampion> **begin, 
 {
 	if (placeNumber == 0)
 	{
-		list::addBegin(begin, newChampion);           // всавка в начало списка
+		list::addBegin(begin, newChampion);           // вставка в начало списка
 	}
 	else
 	{
