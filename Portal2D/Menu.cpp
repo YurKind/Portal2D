@@ -190,9 +190,6 @@ void menu::doPointRecords()
 //¬оспроизводит выбранный пользователем пункт в разделе Start
 void menu::doPointStart()
 {
-	//PlaySound("mainMenu.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
-
-
 	int key = Instruction;																// ѕункт на котором остановилс€ пользователь
 
 	/*¬ерхн€€ граница равна Instruction, нижн€€ равна BackLevel,

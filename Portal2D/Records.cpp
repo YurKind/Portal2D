@@ -50,7 +50,7 @@ void records::giveBestPlayerInLevel(int levelNumber)
 	records::DataAboutTheChampion bestResult = records::removeItemsExcessLevels(begin, levelNumber);
 	if (bestResult.name == "_errorEmptyListOfRecords")      // если никого не нашли на данном уровне
 	{
-		std::cout << "Be the first at this level! " << std::endl;
+		std::cout << " -> Be the first at this level! " << std::endl;
 	}
 	else
 	{

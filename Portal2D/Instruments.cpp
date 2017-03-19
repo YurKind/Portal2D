@@ -154,4 +154,5 @@ void game::showInstruction()
 
 	}
 	fout.close();
+	_getch();
 }
