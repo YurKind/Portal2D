@@ -40,7 +40,7 @@ namespace menu
 	void printPointRecord(int key);
 
 	//Воспроизводит выбранный пользователем пункт в разделе Start
-	void doPointStart(queue::Queue<int> *queue);
+	void doPointStart(queue::Queue<int> *queue, bool flag);
 
 	//Воспроизводит выбранный пользователем пункт в разделе Records
 	void doPointRecords();
@@ -49,7 +49,7 @@ namespace menu
 	int controlMenu(ParametersForMenu borders);
 
 	//Воспроизводит выбранный пользователем пункт в главном меню
-	void menu(queue::Queue<int> *queue);
+	void menu(queue::Queue<int> *queue, bool flag);
 }
 
 enum Colors

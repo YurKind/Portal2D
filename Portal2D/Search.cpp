@@ -2,6 +2,7 @@
 
 namespace search
 {
+	/* Выводит список на печать */
 	void printFoundChampions(list::List<records::DataAboutTheChampion> *list)
 	{
 		if (!list)
@@ -22,57 +23,61 @@ namespace search
 		}
 	}
 
-	tree::BranchForNumber<records::DataAboutTheChampion> *searchByScoreOfOneResult(tree::BranchForNumber<records::DataAboutTheChampion> *begin, double score)
+	/* Поиск по очкам до первого результата */
+	tree::BranchForNumber<records::DataAboutTheChampion> *searchByScoreOfOneResult(tree::BranchForNumber<records::DataAboutTheChampion> *tree, double score)
 	{
-		if (!begin || score == begin->data.score)
+		if (!tree || score == tree->data.score)     // если конец дерева или совпало кол-во очков
 		{
-			return begin;
+			return tree;
 		}
 
-		if (score < begin->data.score)
+		if (score < tree->data.score)         // если параметр меньше чем кол-во очков текущего рекордсмена, то влево по дереву, иначе вправо
 		{
-			search::searchByScoreOfOneResult(begin->left, score);
+			search::searchByScoreOfOneResult(tree->left, score);
 		}
 		else 
 		{
-			search::searchByScoreOfOneResult(begin->right, score);
+			search::searchByScoreOfOneResult(tree->right, score);
 		}
 	}
 
-	tree::BranchForNumber<records::DataAboutTheChampion> *searchByLevelOfOneResult(tree::BranchForNumber<records::DataAboutTheChampion> *begin, int level)
+	/* Поиск по уровню до первого результата */
+	tree::BranchForNumber<records::DataAboutTheChampion> *searchByLevelOfOneResult(tree::BranchForNumber<records::DataAboutTheChampion> *tree, int level)
 	{
-		if (!begin || level == begin->data.level)
+		if (!tree || level == tree->data.level)     // если конец дерева или совпало кол-во очков
 		{
-			return begin;
+			return tree;
 		}
 
-		if (level < begin->data.level)
+		if (level < tree->data.level)         // если параметр меньше чем уровень текущего рекордсмена, то влево по дереву, иначе вправо
 		{
-			search::searchByLevelOfOneResult(begin->left, level);
+			search::searchByLevelOfOneResult(tree->left, level);
 		}
 		else
 		{
-			search::searchByLevelOfOneResult(begin->right, level);
+			search::searchByLevelOfOneResult(tree->right, level);
 		}
 	}
 
-	tree::BranchForNumber<records::DataAboutTheChampion> *searchByStringOfOneResult(tree::BranchForNumber<records::DataAboutTheChampion> *begin, char *name)
+	/* Поиск по имени до первого результата */
+	tree::BranchForNumber<records::DataAboutTheChampion> *searchByStringOfOneResult(tree::BranchForNumber<records::DataAboutTheChampion> *tree, char *name)
 	{
-		if (!begin || comparison(name, begin->data.name) == 0)
+		if (!tree || comparison(name, tree->data.name) == 0)     // если конец дерева или совпало кол-во очков
 		{
-			return begin;
+			return tree;
 		}
 
-		if (comparison(name, begin->data.name) < 0)
+		if (comparison(name, tree->data.name) < 0)         // если параметр меньше чем имя текущего рекордсмена, то влево по дереву, иначе вправо
 		{
-			search::searchByStringOfOneResult(begin->left, name);
+			search::searchByStringOfOneResult(tree->left, name);
 		}
 		else
 		{
-			search::searchByStringOfOneResult(begin->right, name);
+			search::searchByStringOfOneResult(tree->right, name);
 		}
 	}
 
+	/* Сравнивает строки вне зависимости от регистра */
 	int comparison(char *name, std::string str)
 	{
 		char *checking = new char[str.length() + 1];
@@ -80,54 +85,3 @@ namespace search
 		return _stricmp(name, checking);
 	}
 }
-/*list::List<records::DataAboutTheChampion> *searchByScoreAllElements(tree::BranchForNumber<records::DataAboutTheChampion> *begin, double score)
-	{
-		int counterOfLoop = 0;
-		list::List<records::DataAboutTheChampion> *list = NULL;
-		tree::BranchForNumber<records::DataAboutTheChampion> **s = &begin;
-		tree::BranchForNumber<records::DataAboutTheChampion> *search = *s;
-		while (search)
-		{
-			if (counterOfLoop)
-			{
-				*s = search::searchByScoreOfOneResult(search->right, score);
-			}
-			else
-			{
-				*s = search::searchByScoreOfOneResult(search, score);
-			}
-			search = *s;
-			if (search)
-			{
-				list::addBegin(&list, search->data);
-			}
-			counterOfLoop++;
-		}
-		return list;
-	}*/
-/*
-	list::List<records::DataAboutTheChampion> *searchByLevelAllElements(tree::BranchForNumber<records::DataAboutTheChampion> *begin, int level)
-	{
-		int counterOfLoop = 0;
-		list::List<records::DataAboutTheChampion> *list = NULL;
-		tree::BranchForNumber<records::DataAboutTheChampion> **s = &begin;
-		tree::BranchForNumber<records::DataAboutTheChampion> *search = *s;
-		while (search)
-		{
-			if (counterOfLoop)
-			{
-				*s = search::searchByLevelOfOneResult(search->right, level);
-			}
-			else
-			{
-				*s = search::searchByLevelOfOneResult(search, level);
-			}
-			search = *s;
-			if (search)
-			{
-				list::addBegin(&list, search->data);
-			}
-			counterOfLoop++;
-		}
-		return list;
-	}*/

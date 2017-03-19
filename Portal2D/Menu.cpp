@@ -186,6 +186,13 @@ void menu::doPointRecords()
 			break;
 
 		case BestOfTheBest:
+			std::cout << "\n\n\t\t\t\t\t Best of the best" << std::endl;
+			for (int i = NUMBER_OF_LEVELS; i >= 1; i--)
+			{
+				std::cout << "\n\t\t\t\t" << (11 - i) << " lvl"; records::giveBestPlayerInLevel(i);
+			}
+			_getch();
+			system("cls");
 			break;
 
 		default:
@@ -198,10 +205,9 @@ void menu::doPointRecords()
 }
 
 //¬оспроизводит выбранный пользователем пункт в разделе Start
-void menu::doPointStart(queue::Queue<int> *queue)
+void menu::doPointStart(queue::Queue<int> *queue, bool flag)
 {
 	//PlaySound("mainMenu.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
-
 
 	int key = Instruction;																// ѕункт на котором остановилс€ пользователь
 	records::DataAboutTheChampion *newChampion = NULL;
@@ -226,7 +232,16 @@ void menu::doPointStart(queue::Queue<int> *queue)
 			break;
 
 		case RandomLevel:
-			numberOfLevel = random::initializeQueueAndReturnHead(queue);
+			if (queue::checkCurrentSizeOfQueue<int>(*queue) <= 2 && flag)
+			{
+				queue::freeMemory(queue);
+				numberOfLevel = random::initializeQueueAndReturnHead(queue);
+			}
+			else
+			{
+				flag = true;
+				numberOfLevel = random::initializeQueueAndReturnHead(queue);
+			}
 			newChampion = game::startLevel("Lvl_1.txt");
 			records::addInRecordsOrShowRecords(newChampion, "add");
 			break;
@@ -293,7 +308,7 @@ int menu::controlMenu(ParametersForMenu parametersForMenu)
 }
 
 //¬оспроизводит выбранный пользователем пункт в главном меню
-void menu::menu(queue::Queue<int> *queue)
+void menu::menu(queue::Queue<int> *queue, bool flag)
 {
 	int key;
 	/*¬ерхн€€ граница равна Start, нижн€€ равна Exit,
@@ -310,7 +325,7 @@ void menu::menu(queue::Queue<int> *queue)
 		switch (key)
 		{
 		case Start:
-			doPointStart(queue);
+			doPointStart(queue, flag);
 			break;
 
 		case Records:

@@ -8,13 +8,13 @@ enum Parametr
 
 namespace tree
 {
-	void pushInTree(records::DataAboutTheChampion newData, BranchForNumber<records::DataAboutTheChampion> *&begin, int variant);
+	void addInTree(records::DataAboutTheChampion newData, BranchForNumber<records::DataAboutTheChampion> *&tree, int variant);
 
-	records::DataAboutTheChampion getMinimum(BranchForNumber<records::DataAboutTheChampion> *begin);
+	records::DataAboutTheChampion getMinimum(BranchForNumber<records::DataAboutTheChampion> *tree);
 
-	records::DataAboutTheChampion getMaximum(BranchForNumber<records::DataAboutTheChampion> *begin);
+	records::DataAboutTheChampion getMaximum(BranchForNumber<records::DataAboutTheChampion> *tree);
 
-	void freeMemory(tree::BranchForNumber<records::DataAboutTheChampion> *begin);
+	void freeMemory(tree::BranchForNumber<records::DataAboutTheChampion> *tree);
 
-	void addTree(BranchForNumber<records::DataAboutTheChampion> **begin, char *fileName, int variant);
+	void createTree(BranchForNumber<records::DataAboutTheChampion> **tree, char *fileName, int variant);
 }

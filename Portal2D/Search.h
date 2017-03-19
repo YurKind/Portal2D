@@ -7,42 +7,44 @@
 
 namespace search
 {
+	/* В зависимости от введенных параметров руководит процессом поиска */
 	template<typename T> void setSearchParametr(int parametr)
 	{
-		list::List<records::DataAboutTheChampion> *list = NULL;
-		tree::BranchForNumber<records::DataAboutTheChampion> *tree = NULL;
+		list::List<records::DataAboutTheChampion> *list = NULL;       // список с найденными рекорсдменами 
+		tree::BranchForNumber<records::DataAboutTheChampion> *tree = NULL;        // дерево со всеми рекордсменами 
 		double numberOfScore = 0.0;
 		int numberOfLevel = 0;
 		char *name = new char[1000];
 		switch (parametr)
 		{
 		case SCORE:
-			addTree(&tree, FILE_NAME_RECORDS, SCORE);
+			createTree(&tree, FILE_NAME_RECORDS, SCORE);     // создаем и инициализируем список по очкам
 			std::cout << "\tenter the number of score: ";
 			std::cin >> numberOfScore;
 			std::cout << "\n";
-			list = searchAllElements<double>(tree, numberOfScore, searchByScoreOfOneResult);
+			list = searchAllElements<double>(tree, numberOfScore, searchByScoreOfOneResult);       // указатель на список с найденными рекорсдменами 
 			break;
 
 		case LEVEL:
-			addTree(&tree, FILE_NAME_RECORDS, LEVEL);
+			createTree(&tree, FILE_NAME_RECORDS, LEVEL);     // создаем и инициализируем список по уровням
 			std::cout << "\tenter the number of level: ";
 			std::cin >> numberOfLevel;
 			std::cout << "\n";
-			list = searchAllElements<int>(tree, numberOfLevel, searchByLevelOfOneResult);
+			list = searchAllElements<int>(tree, numberOfLevel, searchByLevelOfOneResult);       // указатель на список с найденными рекорсдменами 
 			break;
 
 		case STRING:
-			addTree(&tree, FILE_NAME_RECORDS, STRING);
+			createTree(&tree, FILE_NAME_RECORDS, STRING);     // создаем и инициализируем список по именам
 			std::cout << "\tenter the string: ";
 			std::cin >> name;
 			std::cout << "\n";
-			list = searchAllElements<char *>(tree, name, searchByStringOfOneResult);
+			list = searchAllElements<char*>(tree, name, searchByStringOfOneResult);       // указатель на список с найденными рекорсдменами 
 			break;
 		}
-		printFoundChampions(list);
+		printFoundChampions(list);        // печатаем список с найденными рекордсменами
 		list::freeMemory(list);
 		tree::freeMemory(tree);
+		delete[] name;
 		_getch();
 		system("cls");
 	}
@@ -51,12 +53,13 @@ namespace search
 
 	int comparison(char *name, std::string str);
 
-	tree::BranchForNumber<records::DataAboutTheChampion> *searchByLevelOfOneResult(tree::BranchForNumber<records::DataAboutTheChampion> *begin, int level);
+	tree::BranchForNumber<records::DataAboutTheChampion> *searchByLevelOfOneResult(tree::BranchForNumber<records::DataAboutTheChampion> *tree, int level);
 
-	tree::BranchForNumber<records::DataAboutTheChampion> *searchByScoreOfOneResult(tree::BranchForNumber<records::DataAboutTheChampion> *begin, double score);
+	tree::BranchForNumber<records::DataAboutTheChampion> *searchByScoreOfOneResult(tree::BranchForNumber<records::DataAboutTheChampion> *tree, double score);
 
-	tree::BranchForNumber<records::DataAboutTheChampion> *searchByStringOfOneResult(tree::BranchForNumber<records::DataAboutTheChampion> *begin, char *name);
+	tree::BranchForNumber<records::DataAboutTheChampion> *searchByStringOfOneResult(tree::BranchForNumber<records::DataAboutTheChampion> *tree, char *name);
 
+	/* Заполняет список найденными рекордсменами и возвращает указатель на этот список*/
 	template<typename T> list::List<records::DataAboutTheChampion> *searchAllElements(
 		tree::BranchForNumber<records::DataAboutTheChampion> *tree,
 		T data,
@@ -64,25 +67,26 @@ namespace search
 	)
 	{
 		int counterOfLoop = 0;
-		list::List<records::DataAboutTheChampion> *list = NULL;
-		tree::BranchForNumber<records::DataAboutTheChampion> **s = &tree;
-		tree::BranchForNumber<records::DataAboutTheChampion> *search = *s;
-		while (search)
+		list::List<records::DataAboutTheChampion> *list = NULL;       // список с найденными рекорсдменами 
+		tree::BranchForNumber<records::DataAboutTheChampion> **search = &tree;      // основной указатель на указатель для поиска
+		tree::BranchForNumber<records::DataAboutTheChampion> *temp = *search;       // указатель, для инициализации списка
+		while (temp)
 		{
-			if (counterOfLoop)
+			if (counterOfLoop)     // не первая итерация 
 			{
-				*s = searchFunc(search->right, data);
+				*search = searchFunc(temp->right, data);    // вызываем функцию, соответствующую параметру заполнения дерева, 
+				                                      // от правой ветки текущего положения указателя (чтобы не найти уже найденного рекордсмена)
 			}
-			else
+			else    // первая итерация 
 			{
-				*s = searchFunc(search, data);
+				*search = searchFunc(temp, data);       // вызываем функцию, соответствующую параметру заполнения дерева, от начала дерева
 			}
-			search = *s;
-			if (search)
+			temp = *search;      // инициализируем указатель 
+			if (temp)
 			{
-				list::addBegin(&list, search->data);
+				list::addBegin(&list, temp->data);      // если есть что, то добавляем в список найденного рекордсмена
 			}
-			counterOfLoop++;
+			counterOfLoop++;     // счетчик итераций++
 		}
 		return list;
 	}

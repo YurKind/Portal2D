@@ -1,4 +1,4 @@
-Alexander|851.123|10>
+Alexander|2851.12|10>
 Andrey|499.234|10>
 Urik|48.345|10>
 Maxim|46.123|10>
@@ -18,4 +18,6 @@ Alexander|3640.74|1>
 Sanek|3610.03|1>
 Svetlana|3596.73|1>
 Alexander|3539.41|1>
+etyaaaa|3048.11|1>
+Andrey|2569.09|1>
 Jonnyyyy|21.8734|1>
