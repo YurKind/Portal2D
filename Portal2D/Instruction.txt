@@ -1,7 +1,5 @@
  Welcome to Portal 2D!
 
- /*Need more instructions*/
-
  "H" - hero
  "." - aim
  "O" - portal
@@ -11,6 +9,7 @@
 
  Controls:
  moving - a, d
+ jump - spacebar
  aiming - arrows "up, down, left, right"
  set blue portal - e
  set red portal - q
