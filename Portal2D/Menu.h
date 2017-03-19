@@ -93,6 +93,7 @@ enum GameRecords
 	Search = 1,
 	ShowAllRecords,
 	Show10Records,
+	BestOfTheBest,
 	BackRecords
 };
 

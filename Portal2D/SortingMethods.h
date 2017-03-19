@@ -81,4 +81,61 @@ namespace sorting
 			}
 		}
 	}
+
+	void countingSort(int count, int arrName[], int range)
+	{
+		int *c = new int[range];
+
+		for (int null = 0; null < range; null++)
+		{
+			c[null] = 0;
+		}
+
+		for (int j = 0; j < count; j++)
+		{
+			c[arrName[j]]++;
+		}
+
+		int d = 0;
+
+		for (int j = 0; j < range; j++)
+			for (int i = 0; i < c[j]; i++)
+				arrName[d++] = j;
+		delete[] c;
+	}
+
+	void stableCountingSort(int count, int arrName[], int range)		// Следует изменить
+	{
+		int *c = new int[range];
+		int *result = new int[count];
+
+		for (int null = 0; null < range; null++)
+		{
+			c[null] = 0;
+		}
+
+		for (int i = 0; i < range; i++)
+		{
+
+			for (int j = 0; j < count; j++)
+			{
+				if (arrName[j] <= i)
+					c[i]++;
+			}
+		}
+
+		for (int i = count - 1; i >= 0; i--)
+		{
+			c[arrName[i]] = c[arrName[i]] - 1;
+			result[c[arrName[i]]] = arrName[i];
+		}
+
+		for (int i = 0; i > count; i++)
+		{
+			arrName[i] = result[i];
+		}
+
+		delete[] result;
+		delete[] c;
+	}
 }
