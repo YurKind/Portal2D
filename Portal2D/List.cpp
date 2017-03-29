@@ -1,8 +1,8 @@
 #include "List.h"
 
-void list::addList(list::List<records::DataAboutTheChampion> **begin, std::ifstream &fin)          // создание и инициализация списка
+void list::addList(list::List<records::DataAboutTheChampion> **list, std::ifstream &fin)          // создание и инициализация списка
 {
-	list::List<records::DataAboutTheChampion> *add = *begin;
+	list::List<records::DataAboutTheChampion> *add = *list;
 	std::ifstream finForSize(FILE_NAME_RECORDS);
 	char *buf = NULL;
 	while (!fin.eof())

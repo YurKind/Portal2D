@@ -12,9 +12,13 @@ namespace search
 	{
 		list::List<records::DataAboutTheChampion> *list = NULL;       // список с найденными рекорсдменами 
 		tree::BranchForNumber<records::DataAboutTheChampion> *tree = NULL;        // дерево со всеми рекордсменами 
+
 		double numberOfScore = 0.0;
 		int numberOfLevel = 0;
 		char *name = new char[1000];
+		char *substring = new char[1000];
+		bool print = true;
+
 		switch (parametr)
 		{
 		case SCORE:
@@ -40,11 +44,26 @@ namespace search
 			std::cout << "\n";
 			list = searchAllElements<char*>(tree, name, searchByStringOfOneResult);       // указатель на список с найденными рекорсдменами 
 			break;
+
+		case SUBSTRING:
+			std::cout << "\tenter the string: ";
+			std::cin >> name;
+			std::cout << "\n";
+			list = search::searchBySubstringAllResults(list, name);
+			break;
+
+		default:
+			std::cout << "Here nothing to search";
+			print = false;
+			break;
 		}
-		printFoundChampions(list);        // печатаем список с найденными рекордсменами
+
+		if (print)
+			printFoundChampions(list);        // печатаем список с найденными рекордсменами	
+
 		list::freeMemory(list);
 		tree::freeMemory(tree);
-		delete[] name;
+		delete[] name, substring;
 		_getch();
 		system("cls");
 	}
@@ -59,7 +78,7 @@ namespace search
 
 	tree::BranchForNumber<records::DataAboutTheChampion> *searchByStringOfOneResult(tree::BranchForNumber<records::DataAboutTheChampion> *tree, char *name);
 
-	/* Заполняет список найденными рекордсменами и возвращает указатель на этот список*/
+	/* Заполняет список найденными рекордсменами и возвращает указатель на этот список */
 	template<typename T> list::List<records::DataAboutTheChampion> *searchAllElements(
 		tree::BranchForNumber<records::DataAboutTheChampion> *tree,
 		T data,
@@ -70,14 +89,15 @@ namespace search
 		list::List<records::DataAboutTheChampion> *list = NULL;       // список с найденными рекорсдменами 
 		tree::BranchForNumber<records::DataAboutTheChampion> **search = &tree;      // основной указатель на указатель для поиска
 		tree::BranchForNumber<records::DataAboutTheChampion> *temp = *search;       // указатель, для инициализации списка
+
 		while (temp)
 		{
 			if (counterOfLoop)     // не первая итерация 
 			{
 				*search = searchFunc(temp->right, data);    // вызываем функцию, соответствующую параметру заполнения дерева, 
-				                                      // от правой ветки текущего положения указателя (чтобы не найти уже найденного рекордсмена)
+														   //  от правой ветки текущего положения указателя (чтобы не найти уже найденного рекордсмена)
 			}
-			else    // первая итерация 
+			else     // первая итерация 
 			{
 				*search = searchFunc(temp, data);       // вызываем функцию, соответствующую параметру заполнения дерева, от начала дерева
 			}
@@ -90,4 +110,8 @@ namespace search
 		}
 		return list;
 	}
+
+	records::DataAboutTheChampion searchBySubstringOfOneResult(records::DataAboutTheChampion subjectOfSearch, char *substring);
+
+	list::List<records::DataAboutTheChampion> *searchBySubstringAllResults(list::List<records::DataAboutTheChampion> *result, char *substring);
 }
