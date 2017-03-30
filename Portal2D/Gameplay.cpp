@@ -273,7 +273,7 @@ void game::gravity(game::MapCell** map, GameInfo* gameInfo)
 		map[gameInfo->hero.yCoordinate + 1][gameInfo->hero.xCoordinate].passable == true)
 	{
 		replaceTheAimMovement(gameInfo, map);
-
+		Sleep(50);
 		push(pop(map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types),
 			map[gameInfo->hero.yCoordinate + 1][gameInfo->hero.xCoordinate].types);	// перемещение игрока вниз на одну €чейку карты
 
