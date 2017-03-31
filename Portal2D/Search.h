@@ -10,7 +10,7 @@ namespace search
 	/* В зависимости от введенных параметров руководит процессом поиска */
 	template<typename T> void setSearchParametr(int parametr)
 	{
-		list::List<records::DataAboutTheChampion> *list = NULL;       // список с найденными рекорсдменами 
+		list::List<records::DataAboutTheChampion> *list = NULL, *printList = NULL, *begin = NULL;       // список с найденными рекорсдменами 
 		tree::BranchForNumber<records::DataAboutTheChampion> *tree = NULL;        // дерево со всеми рекордсменами 
 
 		double numberOfScore = 0.0;

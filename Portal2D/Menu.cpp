@@ -172,7 +172,7 @@ void menu::doPointRecords()
 		switch (key)
 		{
 		case Search:
-			std::cout << "\t\t\t\t 1 - search by score\n\t\t\t\t 2 - search by level\n\t\t\t\t 3 - search by name\n" << std::endl;
+			std::cout << "\t\t\t\t 1 - search by score\n\t\t\t\t 2 - search by level\n\t\t\t\t 3 - search by name\n\t\t\t\t 4 - search by substring" << std::endl;
 			*selectOfPlayer = _getch();
 			search::setSearchParametr<int>(atoi(selectOfPlayer));
 			break;

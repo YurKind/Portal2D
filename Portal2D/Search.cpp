@@ -90,7 +90,7 @@ namespace search
 	{
 		bool flag = false;
 		int lengthOfSubstring = 0;
-		records::DataAboutTheChampion result;
+		records::DataAboutTheChampion result = subjectOfSearch; 
 		char *stringForSearch = new char[subjectOfSearch.name.length() + 1];
 		strcpy_s(stringForSearch, subjectOfSearch.name.length() + 1, subjectOfSearch.name.c_str());
 
@@ -98,23 +98,23 @@ namespace search
 
 		if (subjectOfSearch.name.length() < lengthOfSubstring) 
 		{
-			result.level = -1;
+			result.level = -1;      // результат поиска отрицательный
 		}
 		else
 		{
 			for (int i = 0, j = 0; i <= subjectOfSearch.name.length() && j <= lengthOfSubstring && !flag; i++, j++)
 			{
 				if (j == lengthOfSubstring)
-					flag = true;
+					flag = true;         // результат поиска положительный
 
 				if (!(stringForSearch[i] == substring[j]))
-					j--;			
+					j = -1;			
 			}
 		}
 		if (!flag)
 			result.level = -1;
 
-		return subjectOfSearch;
+		return result;
 	}
 
 	/* Поиск по подстроке всех элементов из файла мс рекордами */
@@ -123,8 +123,6 @@ namespace search
 		list::List<records::DataAboutTheChampion> *list = new list::List<records::DataAboutTheChampion>;
 		std::ifstream fin(FILE_NAME_RECORDS);
 		records::DataAboutTheChampion temp;
-
-		result = new list::List<records::DataAboutTheChampion>;
 		list::addList(&list, fin);
 
 		while (list)
@@ -133,9 +131,7 @@ namespace search
 
 			if (temp.level != -1)
 			{
-				result->value = temp;
-				result->next = new list::List<records::DataAboutTheChampion>;
-				result = result->next;
+				list::addBegin(&result, temp);
 			}
 			list = list->next;
 		}
