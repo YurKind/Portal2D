@@ -56,6 +56,8 @@ void game::drawFrame(game::MapCell** map, game::GameInfo* gameInfo)		// отрисовк
 				game::printSpecialSymbol(consoleHandler, i, j, Yellow, BUTTON);
 				/*std::cout << BUTTON;*/
 				break;
+			case TURRET:
+				game::printSpecialSymbol(consoleHandler, i, j, DarkGreen, TURRET);
 
 			default:
 				break;

@@ -2,6 +2,7 @@
 #include "Map.h"
 #include "Instruments.h"
 #include "Structures.h"
+#include "TurretAI.h"
 
 //------Moving_Functions------//
 // принимает структуру с информацией об объекте на карте и двумерный массив структур
@@ -69,6 +70,7 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 
 		
 		game::clearScreen(); // Очищаем экран
+		game::turretAI(map, gameInfo);
 		game::drawFrame(map, gameInfo);
 		game::gravity(map, gameInfo); // Имитируем гравитацию
 		game::clearScreen(); // Очищаем экран

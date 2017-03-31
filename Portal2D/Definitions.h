@@ -6,7 +6,7 @@
 #define BLOCK_SHARP '#'
 #define BLOCK char(219) // looks like █
 #define EMPTY_SPACE ' '
-//#define TURRET ''
+#define TURRET 'T'
 #define BUTTON_S '`'
 #define BUTTON char(127)
 //#define TIMER_BUTTON ''
