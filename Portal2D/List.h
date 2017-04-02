@@ -12,4 +12,10 @@ namespace list
 	void addBegin(T1 **begin, T2 newChampion);
 
 	void addInCertainPlace(List<records::DataAboutTheChampion> **begin, int placeNumber, records::DataAboutTheChampion newChampion);
+
+	template <class T1, class T2>
+	void deleteCurrentElement(list::List<T1> *types, T2 element);
+
+	template <typename T>
+	T peek(List<T>* types);
 }

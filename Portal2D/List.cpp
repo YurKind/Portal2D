@@ -59,3 +59,29 @@ void list::freeMemory(list::List<records::DataAboutTheChampion> *begin)       //
 		delete cleaner;
 	}
 }
+
+template <class T1, class T2>
+void list::deleteCurrentElement(list::List<T1> *types, T2 element)
+{
+	T1 *del = types;
+	T1 *delNext = del->next;
+
+	while (delNext->next != EMPTY_SPACE)
+	{
+		if (delNext == element)
+		{
+			del->next = delNext->next;
+		}
+
+		del = delNext;
+		delNext = delNext->next;
+	}
+}
+
+template <typename T>
+T list::peek(List<T>* types)
+{
+
+	T top = types->element;
+	return top;
+}
