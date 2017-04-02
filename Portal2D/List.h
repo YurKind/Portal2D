@@ -21,24 +21,5 @@ namespace list
 
 	void addInCertainPlace(List<records::DataAboutTheChampion> **begin, int placeNumber, records::DataAboutTheChampion newChampion);
 
-	template <class T1, class T2>
-	void deleteCurrentElement(list::List<T1> *types, T2 element)
-	{
-		list::List<T1> *del = types;
-		list::List<T1> *begin = types;
-
-		while (del->next->value != EMPTY_SPACE)
-		{
-			if (del->next->value == element)
-			{
-				begin = del;
-				begin->next = begin->next->next;
-				delete del;
-			}
-			else
-			{
-				del = del->next;
-			}
-		}
-	}
+	void deleteCurrentElement(list::List<char> **types, char element);
 }

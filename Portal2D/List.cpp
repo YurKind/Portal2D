@@ -1,4 +1,5 @@
 #include "List.h"
+#include "Definitions.h"
 
 void list::addList(list::List<records::DataAboutTheChampion> **begin, std::ifstream &fin)          // создание и инициализация списка
 {
@@ -49,4 +50,27 @@ void list::freeMemory(list::List<records::DataAboutTheChampion> *begin)       //
 		begin = begin->next;
 		delete cleaner;
 	}
+}
+
+void list::deleteCurrentElement(list::List<char> **types, char element)
+{
+	bool flag = true;
+	list::List<char> *del = *types;
+	list::List<char> *begin = *types;
+
+	while ((*types)->value != EMPTY_SPACE && flag && del)
+	{
+		if ((*types)->value == element)
+		{
+			begin = begin->next;
+			del = (*types);
+			delete del;
+			flag = false;
+		}
+		else
+		{
+			*types = (*types)->next;
+		}
+	}
+	*types = begin;
 }

@@ -33,12 +33,12 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 
 			case RIGHT_ARROW:
 				moveRight(AIM_DOT, gameInfo, map);
-				break;
+				break;*/
 
 			case UP_ARROW:
 				moveUp(gameInfo, map);
 				break;
-*/
+
 			case DOWN_ARROW:
 				moveDown(gameInfo, map);
 				break;
@@ -192,18 +192,18 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 //
 //// функци€ перемещени€ вниз
 //// структуру с информацией об объекте на карте и двумерный массив структур
-//void game::moveUp(GameInfo* gameInfo, game::MapCell** map)
-//{
-//	// если сверху €чека карты проходима и в ней не герой
-//	if (map[gameInfo->aim.yCoordinate - 1][gameInfo->aim.xCoordinate].passable == true &&
-//		peek(map[gameInfo->aim.yCoordinate - 1][gameInfo->aim.xCoordinate].types) != HERO)
-//	{
-//		push(pop(map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types),	// прицел перемещаетс€ вверх
-//			map[gameInfo->aim.yCoordinate - 1][gameInfo->aim.xCoordinate].types);
-//
-//		gameInfo->aim.yCoordinate = gameInfo->aim.yCoordinate - 1;
-//	}
-//}
+void game::moveUp(GameInfo* gameInfo, game::MapCell** map)
+{
+	// если сверху €чека карты проходима и в ней не герой
+	if (map[gameInfo->aim.yCoordinate - 1][gameInfo->aim.xCoordinate].passable == true &&
+		map[gameInfo->aim.yCoordinate - 1][gameInfo->aim.xCoordinate].types->value != HERO)
+	{
+		list::addBegin(&map[gameInfo->aim.yCoordinate - 1][gameInfo->aim.xCoordinate].types, AIM_DOT);
+		list::deleteCurrentElement(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types, AIM_DOT);
+
+		gameInfo->aim.yCoordinate = gameInfo->aim.yCoordinate - 1;
+	}
+}
 
 // функци€ перемещени€ вниз
 // принимает структуру с информацией об объекте на карте и двумерный массив структур
@@ -217,7 +217,7 @@ void game::moveDown(GameInfo* gameInfo, game::MapCell** map)
 		//	map[gameInfo->aim.yCoordinate + 1][gameInfo->aim.xCoordinate].types);
 
 		list::addBegin(&map[gameInfo->aim.yCoordinate + 1][gameInfo->aim.xCoordinate].types, AIM_DOT);
-		list::deleteCurrentElement(map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types, AIM_DOT);
+		list::deleteCurrentElement(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types, AIM_DOT);
 
 		gameInfo->aim.yCoordinate = gameInfo->aim.yCoordinate + 1;
 

@@ -26,7 +26,7 @@ namespace game
 	// Функции для перемещения объектов влево-вправо-вверх-вниз
 	//void moveLeft(char type, GameInfo* gameInfo, MapCell** map);
 	//void moveRight(char type, GameInfo* gameInfo, MapCell** map);
-	//void moveUp(GameInfo* gameInfo, MapCell** map);
+	void moveUp(GameInfo* gameInfo, MapCell** map);
 	void moveDown(GameInfo* gameInfo, MapCell** map);
 
 	// функция переставляет прицел, при установке портала
