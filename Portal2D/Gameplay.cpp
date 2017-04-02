@@ -71,7 +71,7 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 		
 		game::clearScreen(); // ќчищаем экран
 		game::drawFrame(map, gameInfo);
-		game::gravity(map, gameInfo); // »митируем гравитацию
+		//game::gravity(map, gameInfo); // »митируем гравитацию
 		game::clearScreen(); // ќчищаем экран
 
 		double timeAfterAction = clock();
@@ -211,7 +211,7 @@ void game::moveDown(GameInfo* gameInfo, game::MapCell** map)
 {
 	// если снизу €чейка карты проходима и в ней не герой
 	if (map[gameInfo->aim.yCoordinate + 1][gameInfo->aim.xCoordinate].passable == true &&
-		peek(map[gameInfo->aim.yCoordinate + 1][gameInfo->aim.xCoordinate].types) != HERO)
+		map[gameInfo->aim.yCoordinate + 1][gameInfo->aim.xCoordinate].types->value != HERO)
 	{
 		//push(pop(map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types),	// прицел перемещаетс€ вниз
 		//	map[gameInfo->aim.yCoordinate + 1][gameInfo->aim.xCoordinate].types);

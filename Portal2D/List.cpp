@@ -19,15 +19,6 @@ void list::addList(list::List<records::DataAboutTheChampion> **begin, std::ifstr
 	finForSize.close();
 }
 
-template<class T1, class T2>
-void list::addBegin(T1 **begin, T2 insertable)        // вставка в начало списка
-{
-	T1 *add = new T1;
-	add->value = insertable;
-	add->next = *begin;
-	*begin = add;
-}
-
 void list::addInCertainPlace(list::List<records::DataAboutTheChampion> **begin, int placeNumber, records::DataAboutTheChampion newChampion)       // вставка элемента списка с новым рекордсменом на соответствующее место 
 {
 	if (placeNumber == 0)
@@ -58,30 +49,4 @@ void list::freeMemory(list::List<records::DataAboutTheChampion> *begin)       //
 		begin = begin->next;
 		delete cleaner;
 	}
-}
-
-template <class T1, class T2>
-void list::deleteCurrentElement(list::List<T1> *types, T2 element)
-{
-	T1 *del = types;
-	T1 *delNext = del->next;
-
-	while (delNext->next != EMPTY_SPACE)
-	{
-		if (delNext == element)
-		{
-			del->next = delNext->next;
-		}
-
-		del = delNext;
-		delNext = delNext->next;
-	}
-}
-
-template <typename T>
-T list::peek(List<T>* types)
-{
-
-	T top = types->element;
-	return top;
 }
