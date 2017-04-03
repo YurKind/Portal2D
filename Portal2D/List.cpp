@@ -52,34 +52,6 @@ void list::freeMemory(list::List<records::DataAboutTheChampion> *begin)       //
 	}
 }
 
-//void list::deleteCurrentElement(list::List<char> **types, char element)
-//{
-//	bool flag = true;
-//	list::List<char> *del = *types;
-//	list::List<char> *temp = *types;
-//
-//	if ((*types)->value == element)
-//	{
-//		*types = (*types)->next;
-//		delete del;
-//	}
-//	else
-//	{
-//		temp = temp->next;
-//		while (flag)
-//		{
-//			if (temp->value == element)
-//			{
-//				del = temp;
-//				temp = temp->next;
-//				(*types)->next = temp;
-//				delete del;
-//				flag = false;
-//			}
-//		}
-//	}
-//}
-
 void list::deleteCurrentElement(list::List<char> **types, char element)
 {
 	bool flag = true;
