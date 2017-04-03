@@ -10,7 +10,7 @@ void list::addList(list::List<records::DataAboutTheChampion> **list, std::ifstre
 	{
 		int lengthLine = records::countLengthLine(finForSize);     // узнаем длинну строки дл€ объ€влени€ массива-буфера
 		buf = new char[lengthLine];
-		fin.getline(buf, lengthLine);        
+		fin.getline(buf, lengthLine);
 		add->next = new list::List<records::DataAboutTheChampion>;
 		add->value = records::initializationDataAboutTheChampion(buf);
 		add = add->next;
@@ -56,21 +56,26 @@ void list::deleteCurrentElement(list::List<char> **types, char element)
 {
 	bool flag = true;
 	list::List<char> *del = *types;
-	list::List<char> *begin = *types;
+	list::List<char> *temp = *types;
 
-	while ((*types)->value != EMPTY_SPACE && flag && del)
+	if ((*types)->value == element)
 	{
-		if ((*types)->value == element)
+		*types = (*types)->next;
+		delete del;
+	}
+	else
+	{
+		temp = temp->next;
+		while (flag)
 		{
-			begin = begin->next;
-			del = (*types);
-			delete del;
-			flag = false;
-		}
-		else
-		{
-			*types = (*types)->next;
+			if (temp->value == element)
+			{
+				del = temp;
+				temp = temp->next;
+				(*types)->next = temp;
+				delete del;
+				flag = false;
+			}
 		}
 	}
-	*types = begin;
 }
