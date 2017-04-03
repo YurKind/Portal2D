@@ -18,7 +18,7 @@ namespace game
 	struct MapCell;
 
 	// Выполняя необходимые проверки, совершает прыжок, если он возможен
-	//void jump(GameInfo* gameInfo, game::MapCell** map);
+	void jump(GameInfo* gameInfo, game::MapCell** map);
 
 	// Совершает определенное действие в зависимости от нажатой игроком клавиши
 	void performAnAction(GameInfo* gameInfo, MapCell** map);
@@ -40,10 +40,10 @@ namespace game
 	void gravity(MapCell** map, GameInfo* gameInfo);
 
 
-	//void setPortal(char type, GameInfo* gameInfo, game::MapCell** map);	// функуция установки портала
-	//void enterThePortal(char type, GameInfo* gameInfo, MapCell** map);	// функуция перехода по порталам
+	void setPortal(char type, GameInfo* gameInfo, game::MapCell** map);	// функуция установки портала
+	void enterThePortal(char type, GameInfo* gameInfo, MapCell** map);	// функуция перехода по порталам
 
-	//void activateTheButton(GameInfo* gameInfo, game::MapCell** map);	// функция активации кнопки
+	void activateTheButton(GameInfo* gameInfo, game::MapCell** map);	// функция активации кнопки
 
 	bool checkGameOverConditions(GameInfo* gameInfo, MapCell** map);
 }
