@@ -1,4 +1,5 @@
 #include "List.h"
+#include "Definitions.h"
 
 void list::addList(list::List<records::DataAboutTheChampion> **list, std::ifstream &fin)          // создание и инициализация списка
 {
@@ -17,15 +18,6 @@ void list::addList(list::List<records::DataAboutTheChampion> **list, std::ifstre
 		delete[] buf;
 	}
 	finForSize.close();
-}
-
-template<class T1, class T2>
-void list::addBegin(T1 **begin, T2 insertable)        // вставка в начало списка
-{
-	T1 *add = new T1;
-	add->value = insertable;
-	add->next = *begin;
-	*begin = add;
 }
 
 void list::addInCertainPlace(list::List<records::DataAboutTheChampion> **begin, int placeNumber, records::DataAboutTheChampion newChampion)       // вставка элемента списка с новым рекордсменом на соответствующее место 
@@ -58,4 +50,27 @@ void list::freeMemory(list::List<records::DataAboutTheChampion> *begin)       //
 		begin = begin->next;
 		delete cleaner;
 	}
+}
+
+void list::deleteCurrentElement(list::List<char> **types, char element)
+{
+	bool flag = true;
+	list::List<char> *del = *types;
+	list::List<char> *begin = *types;
+
+	while ((*types)->value != EMPTY_SPACE && flag && del)
+	{
+		if ((*types)->value == element)
+		{
+			begin = begin->next;
+			del = (*types);
+			delete del;
+			flag = false;
+		}
+		else
+		{
+			*types = (*types)->next;
+		}
+	}
+	*types = begin;
 }

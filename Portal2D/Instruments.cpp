@@ -10,7 +10,7 @@ void game::drawFrame(game::MapCell** map, game::GameInfo* gameInfo)		// отрисовк
 	{
 		for (int j = 0; j < MAP_WIDTH; j++)
 		{
-			switch (peek(map[i][j].types))			// выражением служит тип текущего элемента массива (персонаж, блок и тд)
+			switch (map[i][j].types->value)			// выражением служит тип текущего элемента массива (персонаж, блок и тд)
 			{
 			case HERO:						// если встречен тип "герой", то отрисовывается герой
 				game::printSpecialSymbol(consoleHandler, i, j, LightGrey, HERO);
