@@ -19,7 +19,7 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 		{
 			switch (_getch()) // Читаем клавишу
 			{
-			/*case A_LOWER_CASE:
+			case A_LOWER_CASE:
 				moveLeft(HERO, gameInfo, map);
 				break;
 
@@ -33,7 +33,7 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 
 			case RIGHT_ARROW:
 				moveRight(AIM_DOT, gameInfo, map);
-				break;*/
+				break;
 
 			case UP_ARROW:
 				moveUp(gameInfo, map);
@@ -43,32 +43,32 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 				moveDown(gameInfo, map);
 				break;
 
-			//case SPACE_JUMP:
-			//	jump(gameInfo, map);
-			//	break;
+				//case SPACE_JUMP:
+				//	jump(gameInfo, map);
+				//	break;
 
-			//case E_LOWER_CASE:
-			//	setPortal(RED_PORTAL, gameInfo, map);
-			//	break;
+				//case E_LOWER_CASE:
+				//	setPortal(RED_PORTAL, gameInfo, map);
+				//	break;
 
-			//case Q_LOWER_CASE:
-			//	setPortal(BLUE_PORTAL, gameInfo, map);
-			//	break;
+				//case Q_LOWER_CASE:
+				//	setPortal(BLUE_PORTAL, gameInfo, map);
+				//	break;
 
-			//case ENTER:
-			//	enterThePortal(HERO, gameInfo, map);
-			//	activateTheButton(gameInfo, map);
-			//	break;
+				//case ENTER:
+				//	enterThePortal(HERO, gameInfo, map);
+				//	activateTheButton(gameInfo, map);
+				//	break;
 
 			default:
 				break;
 			}
 		}
-		
+
 		// если координаты героя равны координатам выхода, то переменной gameIsRunning присваивается значение false
 		gameIsRunning = checkGameOverConditions(gameInfo, map);
 
-		
+
 		game::clearScreen(); // Очищаем экран
 		game::drawFrame(map, gameInfo);
 		//game::gravity(map, gameInfo); // Имитируем гравитацию
@@ -125,78 +125,57 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 //}
 //
 //// функция перемещения влево
-//// принимает символ персонажа или прицела, структуру с информацией об объекте на карте и двумерный массив структур
-//void game::moveLeft(char type, GameInfo* gameInfo, game::MapCell** map)
-//{
-//	switch (type)
-//	{
-//	case AIM_DOT:
-//		// если слева ячека карты проходима и в ней не герой
-//		if (map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate - 1].passable == true &&
-//			peek(map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate - 1].types) != HERO)
-//		{
-//			push(pop(map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types),	// пересонаж перемещается влево
-//				map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate - 1].types);
-//
-//			gameInfo->aim.xCoordinate = gameInfo->aim.xCoordinate - 1;
-//
-//		}
-//		break;
-//
-//	case HERO:
-//		// если слева ячека карты проходима и в ней не прицел
-//		if (map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate - 1].passable == true &&
-//			peek(map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate - 1].types) != AIM_DOT)
-//		{
-//			push(pop(map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types),	// прицел перемещается влево
-//				map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate - 1].types);
-//
-//			gameInfo->hero.xCoordinate = gameInfo->hero.xCoordinate - 1;
-//		}
-//		break;
-//	}
-//}
-//
-//// функция перемещения вниз
-//// принимает символ персонажа или прицела, структуру с информацией об объекте на карте и двумерный массив структур
-//void game::moveRight(char type, GameInfo* gameInfo, game::MapCell** map)
-//{
-//	switch (type)
-//	{
-//	case AIM_DOT:
-//		// если справа ячека карты проходима и в ней не герой
-//		if (map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate + 1].passable == true &&
-//			peek(map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate + 1].types) != HERO)
-//		{
-//			push(pop(map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types),	// прицел перемещается вправо
-//				map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate + 1].types);
-//
-//			gameInfo->aim.xCoordinate = gameInfo->aim.xCoordinate + 1;
-//
-//		}
-//		break;
-//
-//	case HERO:
-//		// если справа ячека карты проходима и в ней не прицел
-//		if (map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate + 1].passable == true &&
-//			peek(map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate + 1].types) != AIM_DOT)
-//		{
-//			push(pop(map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types),	// персонаж перемещается вправо
-//				map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate + 1].types);
-//
-//			gameInfo->hero.xCoordinate = gameInfo->hero.xCoordinate + 1;
-//		}
-//		break;
-//	}
-//}
-//
-//// функция перемещения вниз
-//// структуру с информацией об объекте на карте и двумерный массив структур
+// принимает символ персонажа или прицела, структуру с информацией об объекте на карте и двумерный массив структур
+void game::moveLeft(char type, GameInfo* gameInfo, game::MapCell** map)
+{
+	if (map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate - 1].passable == true)
+	{
+		switch (type)
+		{
+		case AIM_DOT:
+			list::addBegin(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate - 1].types, AIM_DOT);
+			list::deleteCurrentElement(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types, AIM_DOT);
+			gameInfo->aim.xCoordinate = gameInfo->aim.xCoordinate - 1;
+			break;
+
+		case HERO:
+			list::addBegin(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate - 1].types, HERO);
+			list::deleteCurrentElement(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types, HERO);
+			gameInfo->hero.xCoordinate = gameInfo->hero.xCoordinate - 1;
+			break;
+		}
+	}
+}
+
+// функция перемещения вниз
+// принимает символ персонажа или прицела, структуру с информацией об объекте на карте и двумерный массив структур
+void game::moveRight(char type, GameInfo* gameInfo, game::MapCell** map)
+{
+	if (map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate + 1].passable == true)
+	{
+		switch (type)
+		{
+		case AIM_DOT:
+			list::addBegin(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate + 1].types, AIM_DOT);
+			list::deleteCurrentElement(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types, AIM_DOT);
+			gameInfo->aim.xCoordinate = gameInfo->aim.xCoordinate + 1;
+			break;
+
+		case HERO:
+			list::addBegin(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate + 1].types, HERO);
+			list::deleteCurrentElement(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types, HERO);
+			gameInfo->hero.xCoordinate = gameInfo->hero.xCoordinate + 1;
+			break;
+		}
+	}
+}
+
+// функция перемещения вниз
+// структуру с информацией об объекте на карте и двумерный массив структур
 void game::moveUp(GameInfo* gameInfo, game::MapCell** map)
 {
 	// если сверху ячека карты проходима и в ней не герой
-	if (map[gameInfo->aim.yCoordinate - 1][gameInfo->aim.xCoordinate].passable == true &&
-		map[gameInfo->aim.yCoordinate - 1][gameInfo->aim.xCoordinate].types->value != HERO)
+	if (map[gameInfo->aim.yCoordinate - 1][gameInfo->aim.xCoordinate].passable == true)
 	{
 		list::addBegin(&map[gameInfo->aim.yCoordinate - 1][gameInfo->aim.xCoordinate].types, AIM_DOT);
 		list::deleteCurrentElement(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types, AIM_DOT);
@@ -210,17 +189,12 @@ void game::moveUp(GameInfo* gameInfo, game::MapCell** map)
 void game::moveDown(GameInfo* gameInfo, game::MapCell** map)
 {
 	// если снизу ячейка карты проходима и в ней не герой
-	if (map[gameInfo->aim.yCoordinate + 1][gameInfo->aim.xCoordinate].passable == true &&
-		map[gameInfo->aim.yCoordinate + 1][gameInfo->aim.xCoordinate].types->value != HERO)
+	if (map[gameInfo->aim.yCoordinate + 1][gameInfo->aim.xCoordinate].passable == true)
 	{
-		//push(pop(map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types),	// прицел перемещается вниз
-		//	map[gameInfo->aim.yCoordinate + 1][gameInfo->aim.xCoordinate].types);
-
 		list::addBegin(&map[gameInfo->aim.yCoordinate + 1][gameInfo->aim.xCoordinate].types, AIM_DOT);
 		list::deleteCurrentElement(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types, AIM_DOT);
 
 		gameInfo->aim.yCoordinate = gameInfo->aim.yCoordinate + 1;
-
 	}
 }
 
@@ -270,20 +244,21 @@ void game::moveDown(GameInfo* gameInfo, game::MapCell** map)
 //
 ////------Gravitation_Functions------//
 //// функция гравитации, принимает структуру с информацией об объекте на карте и двумерный массив структур
-//void game::gravity(game::MapCell** map, GameInfo* gameInfo)
-//{
-//	// если под персонажем нет непроходимого блока/объекта
-//	if (game::peek(map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types) == HERO &&
-//		map[gameInfo->hero.yCoordinate + 1][gameInfo->hero.xCoordinate].passable == true)
-//	{
-//		replaceTheAimMovement(gameInfo, map);
-//		Sleep(50);
-//		push(pop(map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types),
-//			map[gameInfo->hero.yCoordinate + 1][gameInfo->hero.xCoordinate].types);	// перемещение игрока вниз на одну ячейку карты
-//
-//		gameInfo->hero.yCoordinate = gameInfo->hero.yCoordinate + 1;
-//	}
-//}
+void game::gravity(game::MapCell** map, GameInfo* gameInfo)
+{
+	// если под персонажем нет непроходимого блока/объекта
+	if (map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types->value == HERO &&
+		map[gameInfo->hero.yCoordinate + 1][gameInfo->hero.xCoordinate].passable == true)
+	{
+		//replaceTheAimMovement(gameInfo, map);
+		Sleep(50);
+		// перемещение игрока вниз на одну ячейку карты
+		list::addBegin(&map[gameInfo->aim.yCoordinate + 1][gameInfo->aim.xCoordinate].types, HERO);
+		list::deleteCurrentElement(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types, HERO);
+
+		gameInfo->hero.yCoordinate = gameInfo->hero.yCoordinate + 1;
+	}
+}
 
 // функция запуска уровня, принимает на вход название файла с уровнем
 // возвращает количество очков, набранное игроком
@@ -310,7 +285,7 @@ records::DataAboutTheChampion* game::startLevel(char* levelName)
 	player->score = gameInfo->hero.score;
 
 	player->level = atoi(&levelName[4]);
-	
+
 	double score = gameInfo->hero.score;
 
 	std::cout << "\n\n\t\t\tSCORE: " << score << std::endl;
@@ -323,7 +298,7 @@ records::DataAboutTheChampion* game::startLevel(char* levelName)
 
 	game::clearScreen(); // Чистим экран
 
-	return player; 
+	return player;
 }
 
 //-----Portals_Functions------//
