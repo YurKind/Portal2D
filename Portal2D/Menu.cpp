@@ -319,8 +319,6 @@ void menu::doPointRecordSearch()
 //¬оспроизводит выбранный пользователем пункт в разделе Start
 void menu::doPointStart(queue::Queue<int> *queue, bool flag)
 {
-	//PlaySound("mainMenu.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
-
 	int key = Instruction;																// ѕункт на котором остановилс€ пользователь
 	records::DataAboutTheChampion *newChampion = NULL;
 
