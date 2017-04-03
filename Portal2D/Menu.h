@@ -39,11 +39,15 @@ namespace menu
 	//¬ыводит вариант меню, на котором остановилс€ пользователь в пункте Records
 	void printPointRecord(int key);
 
+	void printPointRecordSearch(int key);
+
 	//¬оспроизводит выбранный пользователем пункт в разделе Start
 	void doPointStart(queue::Queue<int> *queue, bool flag);
 
 	//¬оспроизводит выбранный пользователем пункт в разделе Records
 	void doPointRecords();
+
+	void doPointRecordSearch();
 
 	//–еализует управление меню и его вывод на экран
 	int controlMenu(ParametersForMenu borders);
@@ -79,7 +83,7 @@ enum MenuPoints
 	Exit,
 };
 
-enum GameLevel
+enum PointStart
 {
 	Instruction = 1,
 	RandomLevel,
@@ -88,13 +92,22 @@ enum GameLevel
 	BackLevel,
 };
 
-enum GameRecords
+enum PointRecords
 {
 	Search = 1,
 	ShowAllRecords,
 	Show10Records,
 	BestOfTheBest,
 	BackRecords
+};
+
+enum PointRecordsSearch
+{
+	ByScore = 1,
+	ByLevel,
+	ByName,
+	BySubstring,
+	BackRecordsSearch
 };
 
 
