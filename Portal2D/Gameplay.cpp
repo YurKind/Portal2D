@@ -2,6 +2,7 @@
 #include "Map.h"
 #include "Instruments.h"
 #include "Structures.h"
+#include "Save.h"
 
 //------Moving_Functions------//
 // принимает структуру с информацией об объекте на карте и двумерный массив структур
@@ -18,6 +19,10 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 		{
 			switch (_getch()) // Читаем клавишу
 			{
+			case SAVE:
+				save::saveTheGame(gameInfo, map);
+				break;
+
 			case A_LOWER_CASE:
 				moveLeft(HERO, gameInfo, map);
 				break;
