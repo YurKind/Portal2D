@@ -346,7 +346,7 @@ void game::setPortal(char type, GameInfo* gameInfo, game::MapCell** map)
 			gameInfo->redPortal.yCoordinate = gameInfo->aim.yCoordinate;
 
 			list::addBegin(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types, RED_PORTAL);
-			replaceTheAim(gameInfo, map);	// прицел смещается с портала
+			//replaceTheAim(gameInfo, map);	// прицел смещается с портала
 		}
 	}
 
@@ -362,7 +362,7 @@ void game::setPortal(char type, GameInfo* gameInfo, game::MapCell** map)
 			gameInfo->bluePortal.yCoordinate = gameInfo->aim.yCoordinate;
 
 			list::addBegin(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types, BLUE_PORTAL);
-			replaceTheAim(gameInfo, map);	// прицел смещается с портала
+			//replaceTheAim(gameInfo, map);	// прицел смещается с портала
 		}
 	}
 }
