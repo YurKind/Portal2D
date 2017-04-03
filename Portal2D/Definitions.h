@@ -67,3 +67,6 @@
 
 //------ACTION_KEYS------//
 #define ENTER 13
+
+/* SAVE THE GAME */
+#define SAVE 'k'

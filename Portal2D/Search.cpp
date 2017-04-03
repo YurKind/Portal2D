@@ -91,10 +91,10 @@ namespace search
 		bool flag = false;
 		int lengthOfSubstring = 0;
 		records::DataAboutTheChampion result = subjectOfSearch; 
-		char *stringForSearch = new char[subjectOfSearch.name.length() + 1];
+		char *stringForSearch = new char[subjectOfSearch.name.length() + 1];     
 		strcpy_s(stringForSearch, subjectOfSearch.name.length() + 1, subjectOfSearch.name.c_str());
 
-		for (lengthOfSubstring = 0; substring[lengthOfSubstring]; lengthOfSubstring++);
+		for (lengthOfSubstring = 0; substring[lengthOfSubstring]; lengthOfSubstring++);      // вычисление размера подстроки
 
 		if (subjectOfSearch.name.length() < lengthOfSubstring) 
 		{
@@ -111,9 +111,11 @@ namespace search
 					j = -1;			
 			}
 		}
+
 		if (!flag)
 			result.level = -1;
 
+		delete[] stringForSearch;
 		return result;
 	}
 
