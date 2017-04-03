@@ -262,15 +262,16 @@ void menu::doPointRecordSearch()
 	do
 	{
 		key = controlMenu(parametersForMenu);											// key получает значение пункта на котором остановился пользователь и нажал Enter
-
 		system("cls");
 
 		list::List<records::DataAboutTheChampion> *list = NULL;       // список с найденными рекорсдменами 
 		tree::BranchForNumber<records::DataAboutTheChampion> *tree = NULL;        // дерево со всеми рекордсменами
+
 		double numberOfScore = 0.0;
 		int numberOfLevel = 0;
 		char *name = new char[1000];
 		bool print = true;
+
 		switch (key)
 		{
 		case ByScore:
@@ -298,6 +299,10 @@ void menu::doPointRecordSearch()
 			break;
 
 		case BySubstring:
+			std::cout << "\tenter the string: ";
+			std::cin >> name;
+			std::cout << "\n";
+			list = search::searchBySubstringAllResults(list, name);
 			break;
 
 		default:
@@ -313,6 +318,7 @@ void menu::doPointRecordSearch()
 		tree::freeMemory(tree);
 		delete[] name;
 		system("cls");
+
 	} while (key != BackRecordsSearch);
 }
 

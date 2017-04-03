@@ -3,27 +3,20 @@
 #include "Instruments.h"
 #include "Structures.h"
 #include "List.h"
-#include "Save.h"
-
 
 //------Moving_Functions------//
 // принимает структуру с информацией об объекте на карте и двумерный массив структур
 void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 {
 	bool gameIsRunning = true;	// условие выполнение цикла
-
 	double timeBeforeGame = clock();
 
 	while (gameIsRunning)
 	{
-
 		if (_kbhit()) // Если нажата клавиша
 		{
 			switch (_getch()) // Читаем клавишу
 			{
-			case SAVE:
-				/*save::saveTheGame(gameInfo, map);*/
-				break;
 
 			case A_LOWER_CASE:
 				moveLeft(HERO, gameInfo, map);
@@ -73,7 +66,6 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 
 		// если координаты героя равны координатам выхода, то переменной gameIsRunning присваивается значение false
 		gameIsRunning = checkGameOverConditions(gameInfo, map);
-
 
 		game::clearScreen(); // Очищаем экран
 		game::drawFrame(map, gameInfo);
@@ -299,25 +291,18 @@ void game::gravity(game::MapCell** map, GameInfo* gameInfo)
 records::DataAboutTheChampion* game::startLevel(char* levelName)
 {
 	game::GameInfo* gameInfo = new GameInfo;
-
 	game::MapCell** map = game::createMap(levelName, gameInfo); // Создаем двумерный массив структур, используя текстовый документ
-
 	records::DataAboutTheChampion* player = new records::DataAboutTheChampion;
 
 	game::clearScreen(); // Чистим экран
-
 	game::drawFrame(map, gameInfo); // Рисуем первый кадр
-
 	game::performAnAction(gameInfo, map); // Выполняем далее в зависимости от действий игрока
 
 	system("cls");
-
 	std::cout << "Please enter your name" << std::endl;
-
 	std::cin >> player->name;
 
 	player->score = gameInfo->hero.score;
-
 	player->level = atoi(&levelName[4]);
 
 	double score = gameInfo->hero.score;

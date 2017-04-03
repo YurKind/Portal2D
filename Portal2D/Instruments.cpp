@@ -88,7 +88,6 @@ void game::freeMemory(game::MapCell** map, game::GameInfo* gameInfo)
 	{
 		delete map[i];
 	}
-	
 	delete map;
 }
 
