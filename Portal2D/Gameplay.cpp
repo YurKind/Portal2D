@@ -21,10 +21,6 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 		{
 			switch (_getch()) // Читаем клавишу
 			{
-			case SAVE:
-				/*save::saveTheGame(gameInfo, map);*/
-				break;
-
 			case A_LOWER_CASE:
 				moveLeft(HERO, gameInfo, map);
 				break;
