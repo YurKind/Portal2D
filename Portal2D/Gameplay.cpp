@@ -380,10 +380,9 @@ void game::enterThePortal(char type, GameInfo* gameInfo, MapCell** map)
 		gameInfo->hero.xCoordinate = gameInfo->bluePortal.xCoordinate;
 		gameInfo->hero.yCoordinate = gameInfo->bluePortal.yCoordinate;
 	}
-
 	else if (gameInfo->hero.xCoordinate == gameInfo->bluePortal.xCoordinate && // если персонаж и синий портал в одной клетке
 		gameInfo->hero.yCoordinate == gameInfo->bluePortal.yCoordinate &&
-		gameInfo->bluePortal.yCoordinate != 0 && gameInfo->bluePortal.xCoordinate != 0)	// и второй портал существует
+		gameInfo->redPortal.yCoordinate != 0 && gameInfo->redPortal.xCoordinate != 0)	// и второй портал существует
 	{
 		list::addBegin(&map[gameInfo->redPortal.yCoordinate][gameInfo->redPortal.xCoordinate].types, HERO);
 		list::deleteCurrentElement(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types, HERO);	// герой перемещается по координатам второго портала
