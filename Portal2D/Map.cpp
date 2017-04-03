@@ -32,7 +32,6 @@ game::MapCell** game::createMap(char* levelName, GameInfo* gameInfo)
 				list::addBegin(&map[i][j].types, HERO);
 				gameInfo->hero.xCoordinate = j;	// запоминаются его координаты
 				gameInfo->hero.yCoordinate = i;
-				map[i][j].passable = true;
 				break;
 
 			case BLOCK_SHARP:				// если текущий символ равен "решётка", то
@@ -44,7 +43,6 @@ game::MapCell** game::createMap(char* levelName, GameInfo* gameInfo)
 			case EMPTY_SPACE:				// если текущий символ равен "_", то
 				map[i][j].types = new list::List<char>;
 				list::addBegin(&map[i][j].types, EMPTY_SPACE);
-				map[i][j].passable = true;	// клетка становится проходимой
 				break;
 
 			case AIM_DOT:					// если текущий символ равен "точке", то
@@ -53,7 +51,6 @@ game::MapCell** game::createMap(char* levelName, GameInfo* gameInfo)
 				list::addBegin(&map[i][j].types, AIM_DOT);
 				gameInfo->aim.xCoordinate = j;	// запоминаются его координаты
 				gameInfo->aim.yCoordinate = i;
-				map[i][j].passable = true;	// клетка становится проходимой
 				break;
 
 			case BLACK_WALL_S:				// если текущий символ равен "X", то
@@ -71,7 +68,6 @@ game::MapCell** game::createMap(char* levelName, GameInfo* gameInfo)
 				list::addBegin(&map[i][j].types, EXIT);
 				gameInfo->exitFromLevel.xCoordinate = j;
 				gameInfo->exitFromLevel.yCoordinate = i;
-				map[i][j].passable = true;	// клетка становится проходимой
 				break;
 
 			case BUTTON_S:
@@ -79,9 +75,14 @@ game::MapCell** game::createMap(char* levelName, GameInfo* gameInfo)
 				list::addBegin(&map[i][j].types, BUTTON);
 				gameInfo->button.xCoordinate = j;
 				gameInfo->button.yCoordinate = i;
-				map[i][j].passable = true;
 				break;
 
+			case TURRET_S:
+				map[i][j].types = new list::List<char>;
+				list::addBegin(&map[i][j].types, EMPTY_SPACE);
+				list::addBegin(&map[i][j].types, TURRET);
+				gameInfo->turret.xCoordinate = j;
+				gameInfo->turret.yCoordinate = i;
 			default:
 				break;
 			}

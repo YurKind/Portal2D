@@ -46,7 +46,7 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 				break;
 
 			case DOWN_ARROW:
-				moveDown(gameInfo, map);
+				moveDown(AIM_DOT, gameInfo, map);
 				break;
 
 			case SPACE_JUMP:
@@ -73,7 +73,6 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 
 		// если координаты геро€ равны координатам выхода, то переменной gameIsRunning присваиваетс€ значение false
 		gameIsRunning = checkGameOverConditions(gameInfo, map);
-
 
 		game::clearScreen(); // ќчищаем экран
 		game::drawFrame(map, gameInfo);
@@ -165,6 +164,15 @@ void game::moveLeft(char type, GameInfo* gameInfo, game::MapCell** map)
 			gameInfo->hero.xCoordinate = gameInfo->hero.xCoordinate - 1;
 		}
 		break;
+
+	case TURRET:
+		if (map[gameInfo->turret.yCoordinate][gameInfo->turret.xCoordinate - 1].passable == true)
+		{
+			list::deleteCurrentElement(&map[gameInfo->turret.yCoordinate][gameInfo->turret.xCoordinate].types, TURRET);
+			list::addBegin(&map[gameInfo->turret.yCoordinate][gameInfo->turret.xCoordinate - 1].types, TURRET);
+			gameInfo->turret.xCoordinate = gameInfo->turret.xCoordinate - 1;
+		}
+		break;
 	}
 }
 
@@ -197,6 +205,15 @@ void game::moveRight(char type, GameInfo* gameInfo, game::MapCell** map)
 			gameInfo->hero.xCoordinate = gameInfo->hero.xCoordinate + 1;
 		}
 		break;
+
+	case TURRET:
+		if (map[gameInfo->turret.yCoordinate][gameInfo->turret.xCoordinate + 1].passable == true)
+		{
+			list::deleteCurrentElement(&map[gameInfo->turret.yCoordinate][gameInfo->turret.xCoordinate].types, TURRET);
+			list::addBegin(&map[gameInfo->turret.yCoordinate][gameInfo->turret.xCoordinate + 1].types, TURRET);
+			gameInfo->turret.xCoordinate = gameInfo->turret.xCoordinate + 1;
+		}
+		break;
 	}
 }
 
@@ -218,17 +235,46 @@ void game::moveUp(GameInfo* gameInfo, game::MapCell** map)
 
 // функци€ перемещени€ вниз
 // принимает структуру с информацией об объекте на карте и двумерный массив структур
-void game::moveDown(GameInfo* gameInfo, game::MapCell** map)
+void game::moveDown(char type, GameInfo* gameInfo, game::MapCell** map)
 {
-	// если снизу €чейка карты проходима и в ней не герой
-	if (map[gameInfo->aim.yCoordinate + 1][gameInfo->aim.xCoordinate].passable == true)
+	switch (type)
 	{
-		//удал€ем символ прицела из текущей €чейки карты
-		list::deleteCurrentElement(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types, AIM_DOT);
-		//добавл€ем в €чейку карты ниже символ прицела
-		list::addBegin(&map[gameInfo->aim.yCoordinate + 1][gameInfo->aim.xCoordinate].types, AIM_DOT);
+	case AIM_DOT:
+		// если снизу €чейка карты проходима и в ней не герой
+		if (map[gameInfo->aim.yCoordinate + 1][gameInfo->aim.xCoordinate].passable == true)
+		{
+			//удал€ем символ прицела из текущей €чейки карты
+			list::deleteCurrentElement(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types, AIM_DOT);
+			//добавл€ем в €чейку карты ниже символ прицела
+			list::addBegin(&map[gameInfo->aim.yCoordinate + 1][gameInfo->aim.xCoordinate].types, AIM_DOT);
 
-		gameInfo->aim.yCoordinate = gameInfo->aim.yCoordinate + 1;
+			gameInfo->aim.yCoordinate = gameInfo->aim.yCoordinate + 1;
+		}
+		break;
+
+	case HERO:
+		if (map[gameInfo->hero.yCoordinate + 1][gameInfo->hero.xCoordinate].passable == true)
+		{
+			//удал€ем символ геро€ из текущей €чейки карты
+			list::deleteCurrentElement(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types, HERO);
+			//добавл€ем в €чейку карты ниже символ геро€
+			list::addBegin(&map[gameInfo->hero.yCoordinate + 1][gameInfo->hero.xCoordinate].types, HERO);
+
+			gameInfo->hero.yCoordinate = gameInfo->hero.yCoordinate + 1;
+		}
+		break;
+
+	case TURRET:
+		if (map[gameInfo->turret.yCoordinate + 1][gameInfo->turret.xCoordinate].passable == true)
+		{
+			//удал€ем символ турели из текущей €чейки карты
+			list::deleteCurrentElement(&map[gameInfo->turret.yCoordinate][gameInfo->turret.xCoordinate].types, TURRET);
+			//добавл€ем в €чейку карты ниже символ турели
+			list::addBegin(&map[gameInfo->turret.yCoordinate + 1][gameInfo->turret.xCoordinate].types, TURRET);
+
+			gameInfo->turret.yCoordinate = gameInfo->turret.yCoordinate + 1;
+		}
+		break;
 	}
 }
 
@@ -257,7 +303,7 @@ void game::replaceTheAim(GameInfo* gameInfo, game::MapCell** map)
 	// если €чека карты снизу пуста
 	else if (map[gameInfo->aim.yCoordinate + 1][gameInfo->aim.xCoordinate].types->value == EMPTY_SPACE)
 	{
-		moveDown(gameInfo, map);	// прицел перемеща€етс€ вниз на одну €чейку карты
+		moveDown(AIM_DOT, gameInfo, map);	// прицел перемеща€етс€ вниз на одну €чейку карты
 	}
 }
 
@@ -278,6 +324,33 @@ void game::replaceTheAim(GameInfo* gameInfo, game::MapCell** map)
 //
 //------Gravitation_Functions------//
 // функци€ гравитации, принимает структуру с информацией об объекте на карте и двумерный массив структур
+//void game::gravity(game::MapCell** map, GameInfo* gameInfo)
+//{
+//	// если под персонажем нет непроходимого блока/объекта
+//	if (map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types->value == HERO &&
+//		map[gameInfo->hero.yCoordinate + 1][gameInfo->hero.xCoordinate].passable == true)
+//	{
+//		//replaceTheAimMovement(gameInfo, map);
+//		Sleep(50);
+//		// перемещение геро€ вниз на одну €чейку карты
+//		list::addBegin(&map[gameInfo->hero.yCoordinate + 1][gameInfo->hero.xCoordinate].types, HERO);
+//		list::deleteCurrentElement(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types, HERO);
+//
+//		gameInfo->hero.yCoordinate = gameInfo->hero.yCoordinate + 1;
+//	}
+//
+//	if (map[gameInfo->turret.yCoordinate][gameInfo->turret.xCoordinate].types->value == TURRET &&
+//		map[gameInfo->turret.yCoordinate + 1][gameInfo->turret.xCoordinate].passable == true)
+//	{
+//		Sleep(50);
+//		// перемещение турели вниз на одну €чейку карты
+//		list::addBegin(&map[gameInfo->turret.yCoordinate + 1][gameInfo->turret.xCoordinate].types, TURRET);
+//		list::deleteCurrentElement(&map[gameInfo->turret.yCoordinate][gameInfo->turret.xCoordinate].types, TURRET);
+//
+//		gameInfo->turret.yCoordinate = gameInfo->turret.yCoordinate + 1;
+//	}
+//}
+
 void game::gravity(game::MapCell** map, GameInfo* gameInfo)
 {
 	// если под персонажем нет непроходимого блока/объекта
@@ -286,11 +359,16 @@ void game::gravity(game::MapCell** map, GameInfo* gameInfo)
 	{
 		//replaceTheAimMovement(gameInfo, map);
 		Sleep(50);
-		// перемещение игрока вниз на одну €чейку карты
-		list::addBegin(&map[gameInfo->hero.yCoordinate + 1][gameInfo->hero.xCoordinate].types, HERO);
-		list::deleteCurrentElement(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types, HERO);
+		// перемещение геро€ вниз на одну €чейку карты
+		moveDown(HERO, gameInfo, map);
+	}
 
-		gameInfo->hero.yCoordinate = gameInfo->hero.yCoordinate + 1;
+	if (map[gameInfo->turret.yCoordinate][gameInfo->turret.xCoordinate].types->value == TURRET &&
+		map[gameInfo->turret.yCoordinate + 1][gameInfo->turret.xCoordinate].passable == true)
+	{
+		Sleep(50);
+		// перемещение турели вниз на одну €чейку карты
+		moveDown(TURRET, gameInfo, map);
 	}
 }
 
