@@ -97,18 +97,23 @@ void game::jump(GameInfo* gameInfo, game::MapCell** map)
 	{
 		//replaceTheAimMovement(gameInfo, map);
 
-		if ((map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].passable == true) && // ≈сли обе клетки над героем свободны
+		// ≈сли обе клетки над героем свободны
+		if ((map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].passable == true) && 
 			(map[gameInfo->hero.yCoordinate - 2][gameInfo->hero.xCoordinate].passable == true))
 		{
-			list::addBegin(&map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].types, HERO);
+			//удал€ем символ геро€ из текущей €чейки
 			list::deleteCurrentElement(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types, HERO);
+			//добавл€ем в €чейку выше символ геро€
+			list::addBegin(&map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].types, HERO);
 
 			gameInfo->hero.yCoordinate = gameInfo->hero.yCoordinate - 1;
 
 			game::drawFrame(map, gameInfo);	// отрисоваваетс€ кадр
 
-			list::addBegin(&map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].types, HERO);
+			//удал€ем символ геро€ из текущей €чейки
 			list::deleteCurrentElement(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types, HERO);
+			//добавл€ем в €чейку выше символ геро€
+			list::addBegin(&map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].types, HERO);
 
 			gameInfo->hero.yCoordinate = gameInfo->hero.yCoordinate - 1;
 		}
@@ -116,8 +121,10 @@ void game::jump(GameInfo* gameInfo, game::MapCell** map)
 		else if ((map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].passable == true) && // ≈сли свободна только одна
 			(map[gameInfo->hero.yCoordinate - 2][gameInfo->hero.xCoordinate].passable == false))
 		{
-			list::addBegin(&map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].types, HERO);
+			//удал€ем символ геро€ из текущей €чейки
 			list::deleteCurrentElement(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types, HERO);
+			//добавл€ем в €чейку выше символ геро€
+			list::addBegin(&map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].types, HERO);
 
 			gameInfo->hero.yCoordinate = gameInfo->hero.yCoordinate - 1;
 		}
@@ -134,8 +141,10 @@ void game::moveLeft(char type, GameInfo* gameInfo, game::MapCell** map)
 	case AIM_DOT:
 		if (map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate - 1].passable == true)
 		{
-			list::addBegin(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate - 1].types, AIM_DOT);
+			//удал€ем символ прицела из текущей €чейки карты
 			list::deleteCurrentElement(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types, AIM_DOT);
+			//добавл€ем в €чейку карты слева символ прицела
+			list::addBegin(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate - 1].types, AIM_DOT);
 			gameInfo->aim.xCoordinate = gameInfo->aim.xCoordinate - 1;
 		}
 		break;
@@ -143,8 +152,10 @@ void game::moveLeft(char type, GameInfo* gameInfo, game::MapCell** map)
 	case HERO:
 		if (map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate - 1].passable == true)
 		{
-			list::addBegin(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate - 1].types, HERO);
+			//удал€ем символ геро€ из текущей €чейки карты
 			list::deleteCurrentElement(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types, HERO);
+			//добавл€ем в €чейку карты слева символ геро€
+			list::addBegin(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate - 1].types, HERO);
 			gameInfo->hero.xCoordinate = gameInfo->hero.xCoordinate - 1;
 		}
 		break;
@@ -162,8 +173,10 @@ void game::moveRight(char type, GameInfo* gameInfo, game::MapCell** map)
 	case AIM_DOT:
 		if (map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate + 1].passable == true)
 		{
-			list::addBegin(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate + 1].types, AIM_DOT);
+			//удал€ем символ прицела из текущей €чейки карты
 			list::deleteCurrentElement(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types, AIM_DOT);
+			//добавл€ем в €чейку карты справа символ прицела
+			list::addBegin(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate + 1].types, AIM_DOT);
 			gameInfo->aim.xCoordinate = gameInfo->aim.xCoordinate + 1;
 		}
 		break;
@@ -171,8 +184,10 @@ void game::moveRight(char type, GameInfo* gameInfo, game::MapCell** map)
 	case HERO:
 		if (map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate + 1].passable == true)
 		{
-			list::addBegin(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate + 1].types, HERO);
+			//удал€ем символ геро€ из текущей €чейки карты
 			list::deleteCurrentElement(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types, HERO);
+			//добавл€ем в €чейку карты справа символ геро€
+			list::addBegin(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate + 1].types, HERO);
 			gameInfo->hero.xCoordinate = gameInfo->hero.xCoordinate + 1;
 		}
 		break;
@@ -186,8 +201,10 @@ void game::moveUp(GameInfo* gameInfo, game::MapCell** map)
 	// если сверху €чека карты проходима и в ней не герой
 	if (map[gameInfo->aim.yCoordinate - 1][gameInfo->aim.xCoordinate].passable == true)
 	{
-		list::addBegin(&map[gameInfo->aim.yCoordinate - 1][gameInfo->aim.xCoordinate].types, AIM_DOT);
+		//удал€ем символ прицела из текущей €чейки карты
 		list::deleteCurrentElement(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types, AIM_DOT);
+		//добавл€ем в €чейку карты выше символ прицела
+		list::addBegin(&map[gameInfo->aim.yCoordinate - 1][gameInfo->aim.xCoordinate].types, AIM_DOT);
 
 		gameInfo->aim.yCoordinate = gameInfo->aim.yCoordinate - 1;
 	}
@@ -200,8 +217,10 @@ void game::moveDown(GameInfo* gameInfo, game::MapCell** map)
 	// если снизу €чейка карты проходима и в ней не герой
 	if (map[gameInfo->aim.yCoordinate + 1][gameInfo->aim.xCoordinate].passable == true)
 	{
-		list::addBegin(&map[gameInfo->aim.yCoordinate + 1][gameInfo->aim.xCoordinate].types, AIM_DOT);
+		//удал€ем символ прицела из текущей €чейки карты
 		list::deleteCurrentElement(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types, AIM_DOT);
+		//добавл€ем в €чейку карты ниже символ прицела
+		list::addBegin(&map[gameInfo->aim.yCoordinate + 1][gameInfo->aim.xCoordinate].types, AIM_DOT);
 
 		gameInfo->aim.yCoordinate = gameInfo->aim.yCoordinate + 1;
 	}
