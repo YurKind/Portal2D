@@ -142,7 +142,7 @@ void game::moveLeft(char type, GameInfo* gameInfo, game::MapCell** map)
 	case AIM_DOT:
 		if (map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate - 1].passable == true)
 		{
-			//удал€ем символ прицела из текущей €чейки карты
+			// удал€ем символ прицела из текущей €чейки карты
 			list::deleteCurrentElement(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types, AIM_DOT);
 			//добавл€ем в €чейку карты слева символ прицела
 			list::addBegin(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate - 1].types, AIM_DOT);
