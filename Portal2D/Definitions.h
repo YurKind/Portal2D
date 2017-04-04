@@ -14,12 +14,13 @@
 //#define STAY_ON_BUTTON ''
 #define RED_PORTAL 'O'
 #define BLUE_PORTAL '0'
-#define AIM (char)250
+#define AIM '+'
 #define AIM_DOT '.'
 #define BLACK_WALL (char)176
 #define BLACK_WALL_S 'X'
 #define EXIT (char)178
 #define EXIT_S 'E'
+#define BULLET char(250)
 
 //------MAP------//
 #define NEW_LINE '\n'

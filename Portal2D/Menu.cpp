@@ -363,7 +363,8 @@ void menu::doPointStart(queue::Queue<int> *queue, bool flag)
 			break;
 
 		case Level2:
-			system("pause");
+			newChampion = game::startLevel("TestLevel.txt");
+			records::addInRecordsOrShowRecords(newChampion, "add");
 			break;
 
 		default:

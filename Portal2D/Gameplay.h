@@ -18,7 +18,7 @@ namespace game
 	struct MapCell;
 
 	// Выполняя необходимые проверки, совершает прыжок, если он возможен
-	void jump(GameInfo* gameInfo, MapCell** map);
+	void jump(char type, GameInfo* gameInfo, MapCell** map);
 
 	// Совершает определенное действие в зависимости от нажатой игроком клавиши
 	void performAnAction(GameInfo* gameInfo, MapCell** map);

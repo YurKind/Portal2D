@@ -9,7 +9,7 @@ namespace game
 	{
 		int xCoordinate;
 		int yCoordinate;
-		int healthPoints = 100;
+		int healthPoints = 99;
 		double score = 4000.0;
 		double time = 10000.0;
 	};
@@ -23,7 +23,7 @@ namespace game
 	struct GameInfo
 	{
 		Hero hero;
-		Objects redPortal, bluePortal, aim, blackWall, exitFromLevel, button, turret;
+		Objects redPortal, bluePortal, aim, blackWall, exitFromLevel, button, turret, bullet;
 	};
 
 	struct MapCell					// структура MapCell хранит всебе данные о клетке карты

@@ -59,6 +59,9 @@ void game::drawFrame(game::MapCell** map, game::GameInfo* gameInfo)		// отрисовк
 			case TURRET:
 				game::printSpecialSymbol(consoleHandler, i, j, LightGrey, TURRET);
 				break;
+			case BULLET:
+				game::printSpecialSymbol(consoleHandler, i, j, LightRed, BULLET);
+				break;
 
 			default:
 				break;

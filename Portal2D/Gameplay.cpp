@@ -4,6 +4,7 @@
 #include "Structures.h"
 #include "List.h"
 #include "Save.h"
+#include "TurretAI.h"
 
 
 //------Moving_Functions------//
@@ -46,7 +47,7 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 				break;
 
 			case SPACE_JUMP:
-				jump(gameInfo, map);
+				jump(HERO, gameInfo, map);
 				break;
 
 			case E_LOWER_CASE:
@@ -67,11 +68,12 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 			}
 		}
 
+		game::turretAI(gameInfo, map);
+
 		// если координаты геро€ равны координатам выхода, то переменной gameIsRunning присваиваетс€ значение false
 		gameIsRunning = checkGameOverConditions(gameInfo, map);
 
 		game::clearScreen(); // ќчищаем экран
-		/*game::turretAI(map, gameInfo);*/
 		game::drawFrame(map, gameInfo);
 		game::gravity(map, gameInfo); // »митируем гравитацию
 		game::clearScreen(); // ќчищаем экран
@@ -93,43 +95,87 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 
 //------Moving_Functions------//
 // принимает структуру с информацией об объекте на карте и двумерный массив структур
-void game::jump(GameInfo* gameInfo, game::MapCell** map)
+void game::jump(char type, GameInfo* gameInfo, game::MapCell** map)
 {
-	if (map[gameInfo->hero.yCoordinate + 1][gameInfo->hero.xCoordinate].passable == false)	// если под персонажем есть непроходимый блок
+	switch (type)
 	{
-		//replaceTheAimMovement(gameInfo, map);
-
-		// ≈сли обе клетки над героем свободны
-		if ((map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].passable == true) && 
-			(map[gameInfo->hero.yCoordinate - 2][gameInfo->hero.xCoordinate].passable == true))
+	case HERO:
+		if (map[gameInfo->hero.yCoordinate + 1][gameInfo->hero.xCoordinate].passable == false)	// если под персонажем есть непроходимый блок
 		{
-			//удал€ем символ геро€ из текущей €чейки
-			list::deleteCurrentElement(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types, HERO);
-			//добавл€ем в €чейку выше символ геро€
-			list::addBegin(&map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].types, HERO);
+			//replaceTheAimMovement(gameInfo, map);
 
-			gameInfo->hero.yCoordinate = gameInfo->hero.yCoordinate - 1;
+			// ≈сли обе клетки над героем свободны
+			if ((map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].passable == true) &&
+				(map[gameInfo->hero.yCoordinate - 2][gameInfo->hero.xCoordinate].passable == true))
+			{
+				//удал€ем символ геро€ из текущей €чейки
+				list::deleteCurrentElement(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types, HERO);
+				//добавл€ем в €чейку выше символ геро€
+				list::addBegin(&map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].types, HERO);
 
-			game::drawFrame(map, gameInfo);	// отрисоваваетс€ кадр
+				gameInfo->hero.yCoordinate = gameInfo->hero.yCoordinate - 1;
 
-			//удал€ем символ геро€ из текущей €чейки
-			list::deleteCurrentElement(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types, HERO);
-			//добавл€ем в €чейку выше символ геро€
-			list::addBegin(&map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].types, HERO);
+				game::drawFrame(map, gameInfo);	// отрисоваваетс€ кадр
 
-			gameInfo->hero.yCoordinate = gameInfo->hero.yCoordinate - 1;
+				//удал€ем символ геро€ из текущей €чейки
+				list::deleteCurrentElement(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types, HERO);
+				//добавл€ем в €чейку выше символ геро€
+				list::addBegin(&map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].types, HERO);
+
+				gameInfo->hero.yCoordinate = gameInfo->hero.yCoordinate - 1;
+			}
+
+			else if ((map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].passable == true) && // ≈сли свободна только одна
+				(map[gameInfo->hero.yCoordinate - 2][gameInfo->hero.xCoordinate].passable == false))
+			{
+				//удал€ем символ геро€ из текущей €чейки
+				list::deleteCurrentElement(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types, HERO);
+				//добавл€ем в €чейку выше символ геро€
+				list::addBegin(&map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].types, HERO);
+
+				gameInfo->hero.yCoordinate = gameInfo->hero.yCoordinate - 1;
+			}
 		}
+		break;
 
-		else if ((map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].passable == true) && // ≈сли свободна только одна
-			(map[gameInfo->hero.yCoordinate - 2][gameInfo->hero.xCoordinate].passable == false))
+	case TURRET:
+		if (map[gameInfo->turret.yCoordinate + 1][gameInfo->turret.xCoordinate].passable == false)	// если под персонажем есть непроходимый блок
 		{
-			//удал€ем символ геро€ из текущей €чейки
-			list::deleteCurrentElement(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types, HERO);
-			//добавл€ем в €чейку выше символ геро€
-			list::addBegin(&map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].types, HERO);
+			//replaceTheAimMovement(gameInfo, map);
 
-			gameInfo->hero.yCoordinate = gameInfo->hero.yCoordinate - 1;
+			// ≈сли обе клетки над героем свободны
+			if ((map[gameInfo->turret.yCoordinate - 1][gameInfo->turret.xCoordinate].passable == true) &&
+				(map[gameInfo->turret.yCoordinate - 2][gameInfo->turret.xCoordinate].passable == true))
+			{
+				//удал€ем символ геро€ из текущей €чейки
+				list::deleteCurrentElement(&map[gameInfo->turret.yCoordinate][gameInfo->turret.xCoordinate].types, TURRET);
+				//добавл€ем в €чейку выше символ геро€
+				list::addBegin(&map[gameInfo->turret.yCoordinate - 1][gameInfo->turret.xCoordinate].types, TURRET);
+
+				gameInfo->turret.yCoordinate = gameInfo->turret.yCoordinate - 1;
+
+				game::drawFrame(map, gameInfo);	// отрисоваваетс€ кадр
+
+												//удал€ем символ геро€ из текущей €чейки
+				list::deleteCurrentElement(&map[gameInfo->turret.yCoordinate][gameInfo->turret.xCoordinate].types, TURRET);
+				//добавл€ем в €чейку выше символ геро€
+				list::addBegin(&map[gameInfo->turret.yCoordinate - 1][gameInfo->turret.xCoordinate].types, TURRET);
+
+				gameInfo->turret.yCoordinate = gameInfo->turret.yCoordinate - 1;
+			}
+
+			else if ((map[gameInfo->turret.yCoordinate - 1][gameInfo->turret.xCoordinate].passable == true) && // ≈сли свободна только одна
+				(map[gameInfo->turret.yCoordinate - 2][gameInfo->turret.xCoordinate].passable == false))
+			{
+				//удал€ем символ геро€ из текущей €чейки
+				list::deleteCurrentElement(&map[gameInfo->turret.yCoordinate][gameInfo->turret.xCoordinate].types, TURRET);
+				//добавл€ем в €чейку выше символ геро€
+				list::addBegin(&map[gameInfo->turret.yCoordinate - 1][gameInfo->turret.xCoordinate].types, TURRET);
+
+				gameInfo->turret.yCoordinate = gameInfo->turret.yCoordinate - 1;
+			}
 		}
+		break;
 	}
 }
 
@@ -170,6 +216,15 @@ void game::moveLeft(char type, GameInfo* gameInfo, game::MapCell** map)
 			gameInfo->turret.xCoordinate = gameInfo->turret.xCoordinate - 1;
 		}
 		break;
+
+	case BULLET:
+		if (map[gameInfo->bullet.yCoordinate][gameInfo->bullet.xCoordinate - 1].passable == true)
+		{
+			list::addBegin(&map[gameInfo->bullet.yCoordinate][gameInfo->bullet.xCoordinate - 1].types, BULLET);
+			list::deleteCurrentElement(&map[gameInfo->bullet.yCoordinate][gameInfo->bullet.xCoordinate].types, BULLET);
+			gameInfo->bullet.xCoordinate = gameInfo->bullet.xCoordinate - 1;
+		}
+		break;
 	}
 }
 
@@ -180,7 +235,6 @@ void game::moveRight(char type, GameInfo* gameInfo, game::MapCell** map)
 
 	switch (type)
 	{
-
 	case AIM_DOT:
 		if (map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate + 1].passable == true)
 		{
@@ -209,6 +263,15 @@ void game::moveRight(char type, GameInfo* gameInfo, game::MapCell** map)
 			list::deleteCurrentElement(&map[gameInfo->turret.yCoordinate][gameInfo->turret.xCoordinate].types, TURRET);
 			list::addBegin(&map[gameInfo->turret.yCoordinate][gameInfo->turret.xCoordinate + 1].types, TURRET);
 			gameInfo->turret.xCoordinate = gameInfo->turret.xCoordinate + 1;
+		}
+		break;
+
+	case BULLET:
+		if (map[gameInfo->bullet.yCoordinate][gameInfo->bullet.xCoordinate + 1].passable == true)
+		{
+			list::addBegin(&map[gameInfo->bullet.yCoordinate][gameInfo->bullet.xCoordinate + 1].types, BULLET);
+			list::deleteCurrentElement(&map[gameInfo->bullet.yCoordinate][gameInfo->bullet.xCoordinate].types, BULLET);
+			gameInfo->bullet.xCoordinate = gameInfo->bullet.xCoordinate + 1;
 		}
 		break;
 	}
@@ -486,8 +549,9 @@ void game::activateTheButton(GameInfo* gameInfo, MapCell** map)
 
 bool game::checkGameOverConditions(GameInfo* gameInfo, MapCell** map)
 {
-	if (gameInfo->hero.xCoordinate == gameInfo->exitFromLevel.xCoordinate &&	// если персонаж находитс€ в одной клетке с выходом
-		gameInfo->hero.yCoordinate == gameInfo->exitFromLevel.yCoordinate)
+	if ((gameInfo->hero.xCoordinate == gameInfo->exitFromLevel.xCoordinate &&	// если персонаж находитс€ в одной клетке с выходом
+		gameInfo->hero.yCoordinate == gameInfo->exitFromLevel.yCoordinate) ||
+		(gameInfo->hero.healthPoints <= 0))
 	{
 		return false;
 	}
