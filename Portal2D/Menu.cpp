@@ -1,6 +1,5 @@
 #include "Menu.h"
 #include "Gameplay.h"
-#include "Tree.h"
 #include "Search.h"
 #include "RandomLevel.h"
 
@@ -65,6 +64,54 @@ void menu::printPointRecord(int key)
 		cout << "\t\t\t\t\t    Show 10 Records     " << endl;
 		cout << "\t\t\t\t\t    Best Of The Best    " << endl;
 		cout << "\t\t\t\t\t<<     Back           >>" << endl;
+		break;
+	}
+}
+
+void menu::printPointRecordSearch(int key)
+{
+	drawLogo();
+
+	switch (key)
+	{
+	case ByScore:
+		cout << "\t\t\t\t\t<<   Search By Score   >>" << endl;
+		cout << "\t\t\t\t\t     Search By Level     " << endl;
+		cout << "\t\t\t\t\t     Search By Name      " << endl;
+		cout << "\t\t\t\t\t   Search By Substring   " << endl;
+		cout << "\t\t\t\t\t          Back           " << endl;
+		break;
+
+	case ByLevel:
+		cout << "\t\t\t\t\t     Search By Score     " << endl;
+		cout << "\t\t\t\t\t<<   Search By Level   >>" << endl;
+		cout << "\t\t\t\t\t     Search By Name      " << endl;
+		cout << "\t\t\t\t\t   Search By Substring   " << endl;
+		cout << "\t\t\t\t\t          Back           " << endl;
+		break;
+
+	case ByName:
+		cout << "\t\t\t\t\t     Search By Score     " << endl;
+		cout << "\t\t\t\t\t     Search By Level     " << endl;
+		cout << "\t\t\t\t\t<<   Search By Name    >>" << endl;
+		cout << "\t\t\t\t\t   Search By Substring   " << endl;
+		cout << "\t\t\t\t\t          Back           " << endl;
+		break;
+
+	case BySubstring:
+		cout << "\t\t\t\t\t     Search By Score     " << endl;
+		cout << "\t\t\t\t\t     Search By Level     " << endl;
+		cout << "\t\t\t\t\t     Search By Name      " << endl;
+		cout << "\t\t\t\t\t<< Search By Substring >>" << endl;
+		cout << "\t\t\t\t\t          Back           " << endl;
+		break;
+
+	case BackRecordsSearch:
+		cout << "\t\t\t\t\t     Search By Score     " << endl;
+		cout << "\t\t\t\t\t     Search By Level     " << endl;
+		cout << "\t\t\t\t\t     Search By Name      " << endl;
+		cout << "\t\t\t\t\t   Search By Substring   " << endl;
+		cout << "\t\t\t\t\t<<        Back         >>" << endl;
 		break;
 	}
 }
@@ -166,15 +213,12 @@ void menu::doPointRecords()
 		key = controlMenu(parametersForMenu);											// key получает значение пункта на котором остановился пользователь и нажал Enter
 
 		system("cls");
-		char *selectOfPlayer = new char[5];
 
 		/*Заходим в раздел который выбрал пользователь*/
 		switch (key)
 		{
 		case Search:
-			std::cout << "\t\t\t\t 1 - search by score\n\t\t\t\t 2 - search by level\n\t\t\t\t 3 - search by name\n" << std::endl;
-			*selectOfPlayer = _getch();
-			search::setSearchParametr<int>(atoi(selectOfPlayer));
+			menu::doPointRecordSearch();
 			break;
 
 		case ShowAllRecords:
@@ -198,19 +242,86 @@ void menu::doPointRecords()
 		default:
 			break;
 		}
-		delete[] selectOfPlayer;
+
 
 	} while (key != BackRecords);
 	system("cls");
 }
 
+//Воспроизводит выбранный пользователем пункт в разделе Records->Search
+void menu::doPointRecordSearch()
+{
+	int key = ByScore;																	// Пункт на котором остановился пользователь
+
+	/*Верхняя граница равна Search, нижняя равна BackRecords,
+	вывод данного подпункта меню осуществляет printPointRecord*/
+	ParametersForMenu parametersForMenu = { ByScore, BackRecordsSearch, &printPointRecordSearch };
+
+	/*Пока пользователь не захочет выйти из этого подпункта меню,
+	осуществляется перемещения по меню*/
+	do
+	{
+		key = controlMenu(parametersForMenu);											// key получает значение пункта на котором остановился пользователь и нажал Enter
+
+		system("cls");
+
+		list::List<records::DataAboutTheChampion> *list = NULL;       // список с найденными рекорсдменами 
+		tree::BranchForNumber<records::DataAboutTheChampion> *tree = NULL;        // дерево со всеми рекордсменами
+		double numberOfScore = 0.0;
+		int numberOfLevel = 0;
+		char *name = new char[1000];
+		bool print = true;
+		switch (key)
+		{
+		case ByScore:
+			createTree(&tree, FILE_NAME_RECORDS, ByScore);     // создаем и инициализируем список по очкам
+			std::cout << "\Enter the number of score: ";
+			std::cin >> numberOfScore;
+			std::cout << "\n";
+			list = search::searchAllElements<double>(tree, numberOfScore, search::searchByScoreOfOneResult);       // указатель на список с найденными рекорсдменами 
+			break;
+
+		case ByLevel:
+			createTree(&tree, FILE_NAME_RECORDS, ByLevel);     // создаем и инициализируем список по уровням
+			std::cout << "\Enter the number of level: ";
+			std::cin >> numberOfLevel;
+			std::cout << "\n";
+			list = search::searchAllElements<int>(tree, numberOfLevel, search::searchByLevelOfOneResult);       // указатель на список с найденными рекорсдменами 
+			break;
+
+		case ByName:
+			createTree(&tree, FILE_NAME_RECORDS, ByName);     // создаем и инициализируем список по именам
+			std::cout << "\tEnter the string: ";
+			std::cin >> name;
+			std::cout << "\n";
+			list = search::searchAllElements<char*>(tree, name, search::searchByStringOfOneResult);       // указатель на список с найденными рекорсдменами 
+			break;
+
+		case BySubstring:
+			break;
+
+		default:
+			print = false;
+			break;
+		}
+		if (print)
+		{
+			search::printFoundChampions(list);
+			_getch();
+		}
+		list::freeMemory(list);
+		tree::freeMemory(tree);
+		delete[] name;
+		system("cls");
+	} while (key != BackRecordsSearch);
+}
+
 //Воспроизводит выбранный пользователем пункт в разделе Start
 void menu::doPointStart(queue::Queue<int> *queue, bool flag)
 {
-	//PlaySound("mainMenu.wav", NULL, SND_FILENAME | SND_LOOP | SND_ASYNC);
-
 	int key = Instruction;																// Пункт на котором остановился пользователь
 	records::DataAboutTheChampion *newChampion = NULL;
+
 	/*Верхняя граница равна Instruction, нижняя равна BackLevel,
 	вывод данного подпункта меню осуществляет printPointStart*/
 	ParametersForMenu parametersForMenu = { Instruction, BackLevel, &printPointStart };
@@ -313,13 +424,13 @@ void menu::menu(queue::Queue<int> *queue, bool flag)
 	int key;
 	/*Верхняя граница равна Start, нижняя равна Exit,
 	вывод данного подпункта меню осуществляет printMenu*/
-	ParametersForMenu borders = { Start, Exit, &printMenu };
+	ParametersForMenu parametersForMenu = { Start, Exit, &printMenu };
 
 	/*Пока пользователь не захочет выйти из этого подпункта меню,
 	осуществляется перемещения по меню*/
 	do
 	{
-		key = controlMenu(borders);															// key получает значение пункта на котором остановился пользователь и нажал Enter
+		key = controlMenu(parametersForMenu);															// key получает значение пункта на котором остановился пользователь и нажал Enter
 
 		/*После нажатия кнопки Enter, заходим в пункт который был выбран*/
 		switch (key)

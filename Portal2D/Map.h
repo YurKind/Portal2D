@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Stack.h"
+#include "List.h"
 
 namespace game
 {
@@ -22,13 +23,13 @@ namespace game
 	struct GameInfo
 	{
 		Hero hero;
-		Objects redPortal, bluePortal, aim, blackWall, exitFromLevel, button;
+		Objects redPortal, bluePortal, aim, blackWall, exitFromLevel, button, turret;
 	};
 
 	struct MapCell					// структура MapCell хранит всебе данные о клетке карты
 	{
-		Stack<char>* types;			// переменная для хранения текстуры (персонажа, блоков и тд)
-		bool passable;				// переменная хранит в себе данные о возможности пройти сквозь неё
+		list::List<char>* types;	// переменная для хранения текстуры (персонажа, блоков и тд)
+		bool passable = true;				// переменная хранит в себе данные о возможности пройти сквозь неё
 	};
 
 	// функция считывающая карту из файла в двумерный массив структур, функция принимает в качетсве аргумета имя уровня

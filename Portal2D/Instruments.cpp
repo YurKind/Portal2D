@@ -10,7 +10,7 @@ void game::drawFrame(game::MapCell** map, game::GameInfo* gameInfo)		// отрисовк
 	{
 		for (int j = 0; j < MAP_WIDTH; j++)
 		{
-			switch (peek(map[i][j].types))			// выражением служит тип текущего элемента массива (персонаж, блок и тд)
+			switch (map[i][j].types->value)			// выражением служит тип текущего элемента массива (персонаж, блок и тд)
 			{
 			case HERO:						// если встречен тип "герой", то отрисовывается герой
 				game::printSpecialSymbol(consoleHandler, i, j, LightGrey, HERO);
@@ -57,7 +57,8 @@ void game::drawFrame(game::MapCell** map, game::GameInfo* gameInfo)		// отрисовк
 				/*std::cout << BUTTON;*/
 				break;
 			case TURRET:
-				game::printSpecialSymbol(consoleHandler, i, j, DarkGreen, TURRET);
+				game::printSpecialSymbol(consoleHandler, i, j, LightGrey, TURRET);
+				break;
 
 			default:
 				break;
@@ -158,6 +159,5 @@ void game::showInstruction()
 	fout.close();
 
 	cout << endl << " PRESS ANY KEY TO CONTINUE" << endl;
-
 	_getch();
 }

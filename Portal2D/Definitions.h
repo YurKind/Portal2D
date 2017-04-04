@@ -6,7 +6,8 @@
 #define BLOCK_SHARP '#'
 #define BLOCK char(219) // looks like █
 #define EMPTY_SPACE ' '
-#define TURRET 'T'
+#define TURRET_S '+'
+#define TURRET char(209)
 #define BUTTON_S '`'
 #define BUTTON char(127)
 //#define TIMER_BUTTON ''
@@ -67,3 +68,6 @@
 
 //------ACTION_KEYS------//
 #define ENTER 13
+
+/* SAVE THE GAME */
+#define SAVE 'k'

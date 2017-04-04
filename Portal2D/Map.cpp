@@ -2,6 +2,7 @@
 #include "Map.h"
 #include "Definitions.h"
 #include "Instruments.h"
+#include "List.h"
 
 // функция считывающая карту из файла в двумерный массив структур, функция принимает в качетсве аргумета имя уровня
 game::MapCell** game::createMap(char* levelName, GameInfo* gameInfo)
@@ -26,77 +27,62 @@ game::MapCell** game::createMap(char* levelName, GameInfo* gameInfo)
 			switch (currentSymbol)			 
 			{
 			case HERO_SYMBOL:					// если текущий символ равен "H", то
-				map[i][j].types = new Stack<char>;
-				push(EMPTY_SPACE, map[i][j].types);			// тип текущей клетки становится "Герой"
-				push(HERO, map[i][j].types);
+				map[i][j].types = new list::List<char>;
+				list::addBegin(&map[i][j].types, EMPTY_SPACE);
+				list::addBegin(&map[i][j].types, HERO);
 				gameInfo->hero.xCoordinate = j;	// запоминаются его координаты
 				gameInfo->hero.yCoordinate = i;
-				map[i][j].passable = true;
 				break;
 
 			case BLOCK_SHARP:				// если текущий символ равен "решётка", то
-				map[i][j].types = new Stack<char>;
-				push(BLOCK, map[i][j].types);		// тип текущей клетки становится "Блок"
+				map[i][j].types = new list::List<char>;
+				list::addBegin(&map[i][j].types, BLOCK);
 				map[i][j].passable = false;	//клетка становится непроходимой
 				break;
 
 			case EMPTY_SPACE:				// если текущий символ равен "_", то
-				map[i][j].types = new Stack<char>;
-				push(EMPTY_SPACE, map[i][j].types);	// тип текущей клетки становится "пустое пространство"
-				map[i][j].passable = true;	// клетка становится проходимой
+				map[i][j].types = new list::List<char>;
+				list::addBegin(&map[i][j].types, EMPTY_SPACE);
 				break;
 
 			case AIM_DOT:					// если текущий символ равен "точке", то
-				map[i][j].types = new Stack<char>;
-				push(EMPTY_SPACE, map[i][j].types);
-				push(AIM_DOT, map[i][j].types);	// тип текущей клетки становится "прицел"
+				map[i][j].types = new list::List<char>;
+				list::addBegin(&map[i][j].types, EMPTY_SPACE);
+				list::addBegin(&map[i][j].types, AIM_DOT);
 				gameInfo->aim.xCoordinate = j;	// запоминаются его координаты
 				gameInfo->aim.yCoordinate = i;
-				map[i][j].passable = true;	// клетка становится проходимой
 				break;
 
 			case BLACK_WALL_S:				// если текущий символ равен "X", то
-				map[i][j].types = new Stack<char>;
-				push(EMPTY_SPACE, map[i][j].types);
-				push(BLACK_WALL, map[i][j].types);	// тип текущей клетки становится "непроходимая стена"
+				map[i][j].types = new list::List<char>;
+				list::addBegin(&map[i][j].types, EMPTY_SPACE);
+				list::addBegin(&map[i][j].types, BLACK_WALL);
 				gameInfo->blackWall.xCoordinate = j;
 				gameInfo->blackWall.yCoordinate = i;
 				map[i][j].passable = false;	// клетка становится непроходимой
 				break;
 
 			case EXIT_S:					// если текущий символ равен "X", то
-				map[i][j].types = new Stack<char>;
-				push(EMPTY_SPACE, map[i][j].types);
-				push(EXIT, map[i][j].types);		// тип текущей клетки становится "выход"
+				map[i][j].types = new list::List<char>;
+				list::addBegin(&map[i][j].types, EMPTY_SPACE);
+				list::addBegin(&map[i][j].types, EXIT);
 				gameInfo->exitFromLevel.xCoordinate = j;
 				gameInfo->exitFromLevel.yCoordinate = i;
-				map[i][j].passable = true;	// клетка становится проходимой
-				break;
-
-			case RED_PORTAL:				  // если текущий символ равен "O", то
-				map[i][j].types = new Stack<char>;
-				push(RED_PORTAL, map[i][j].types);  // тип текущей клетки становится "красный портал"
-				gameInfo->redPortal.xCoordinate = j;
-				gameInfo->redPortal.yCoordinate = i;   // запоминаются его координаты
-				map[i][j].passable = true;    // клетка становится проходимой
-				break;
-
-			case BLUE_PORTAL:
-				map[i][j].types = new Stack<char>;
-				push(BLUE_PORTAL, map[i][j].types);   // если текущий символ равен "O", то
-				gameInfo->bluePortal.xCoordinate = j;    // тип текущей клетки становится "красный портал"
-				gameInfo->bluePortal.yCoordinate = i;	// запоминаются его координаты
-				map[i][j].passable = true;      // клетка становится проходимой
 				break;
 
 			case BUTTON_S:
-				map[i][j].types = new Stack<char>;
-				push(BUTTON, map[i][j].types);
+				map[i][j].types = new list::List<char>;
+				list::addBegin(&map[i][j].types, BUTTON);
 				gameInfo->button.xCoordinate = j;
 				gameInfo->button.yCoordinate = i;
-				map[i][j].passable = true;
 				break;
 
+			case TURRET_S:
+				map[i][j].types = new list::List<char>;
+				list::addBegin(&map[i][j].types, EMPTY_SPACE);
+				list::addBegin(&map[i][j].types, TURRET);
+				gameInfo->turret.xCoordinate = j;
+				gameInfo->turret.yCoordinate = i;
 			default:
 				break;
 			}

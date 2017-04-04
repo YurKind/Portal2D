@@ -1,9 +1,7 @@
 #pragma once
-#include <iostream>
-#include "Map.h"
+#include "Gameplay.h"
 
 namespace game
 {
-	void turretAI(MapCell** map, GameInfo* gameInfo);
-	bool heroIsNear(MapCell** map);
+	
 }

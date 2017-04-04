@@ -1,15 +1,16 @@
 #include "List.h"
+#include "Definitions.h"
 
-void list::addList(list::List<records::DataAboutTheChampion> **begin, std::ifstream &fin)          // создание и инициализация списка
+void list::addList(list::List<records::DataAboutTheChampion> **list, std::ifstream &fin)          // создание и инициализация списка
 {
-	list::List<records::DataAboutTheChampion> *add = *begin;
+	list::List<records::DataAboutTheChampion> *add = *list;
 	std::ifstream finForSize(FILE_NAME_RECORDS);
 	char *buf = NULL;
 	while (!fin.eof())
 	{
 		int lengthLine = records::countLengthLine(finForSize);     // узнаем длинну строки для объявления массива-буфера
 		buf = new char[lengthLine];
-		fin.getline(buf, lengthLine);        
+		fin.getline(buf, lengthLine);
 		add->next = new list::List<records::DataAboutTheChampion>;
 		add->value = records::initializationDataAboutTheChampion(buf);
 		add = add->next;
@@ -17,15 +18,6 @@ void list::addList(list::List<records::DataAboutTheChampion> **begin, std::ifstr
 		delete[] buf;
 	}
 	finForSize.close();
-}
-
-template<class T1, class T2>
-void list::addBegin(T1 **begin, T2 insertable)        // вставка в начало списка
-{
-	T1 *add = new T1;
-	add->value = insertable;
-	add->next = *begin;
-	*begin = add;
 }
 
 void list::addInCertainPlace(list::List<records::DataAboutTheChampion> **begin, int placeNumber, records::DataAboutTheChampion newChampion)       // вставка элемента списка с новым рекордсменом на соответствующее место 
@@ -57,5 +49,32 @@ void list::freeMemory(list::List<records::DataAboutTheChampion> *begin)       //
 		cleaner = begin;
 		begin = begin->next;
 		delete cleaner;
+	}
+}
+
+void list::deleteCurrentElement(list::List<char> **types, char element)
+{
+	bool flag = true;
+	list::List<char> *del = *types;
+	list::List<char> *temp = del->next;
+
+	if ((*types)->value == element)
+	{
+		*types = (*types)->next;
+		delete del;
+	}
+	else
+	{
+		while (flag)
+		{
+			temp = del;
+			del = del->next;
+			if (del->value == element)
+			{
+				temp->next = del->next;
+				delete del;
+				flag = false;
+			}
+		}
 	}
 }
