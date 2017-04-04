@@ -1,6 +1,7 @@
 #pragma once
 
 #include "List.h"
+#include <string.h>
 
 namespace sorting
 {
@@ -66,7 +67,7 @@ namespace sorting
 		}
 	}
 
-	void countingSort(int count, int arrName[], int range);
+	void countingSort(int count, int *array, int range);
 
-	void stableCountingSort(int count, int arrName[], int range);
+	void stableCountingSort(int count, int *array, int range);
 }

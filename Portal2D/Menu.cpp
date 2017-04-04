@@ -2,6 +2,7 @@
 #include "Gameplay.h"
 #include "Search.h"
 #include "RandomLevel.h"
+#include "SortingMethods.h"
 
 HANDLE H = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -27,43 +28,31 @@ void menu::printPointRecord(int key)
 	switch (key)
 	{
 	case Search:
-		cout << "\t\t\t\t\t<<     Search         >>" << endl;
+		cout << "\t\t\t\t\t<<      Search        >>" << endl;
 		cout << "\t\t\t\t\t    Show All Records    " << endl;
-		cout << "\t\t\t\t\t    Show 10 Records     " << endl;
 		cout << "\t\t\t\t\t    Best Of The Best    " << endl;
-		cout << "\t\t\t\t\t       Back             " << endl;
+		cout << "\t\t\t\t\t         Back           " << endl;
 		break;
 
 	case ShowAllRecords:
-		cout << "\t\t\t\t\t       Search           " << endl;
+		cout << "\t\t\t\t\t        Search          " << endl;
 		cout << "\t\t\t\t\t<<  Show All Records  >>" << endl;
-		cout << "\t\t\t\t\t    Show 10 Records     " << endl;
 		cout << "\t\t\t\t\t    Best Of The Best    " << endl;
-		cout << "\t\t\t\t\t       Back             " << endl;
-		break;
-
-	case Show10Records:
-		cout << "\t\t\t\t\t       Search           " << endl;
-		cout << "\t\t\t\t\t    Show All Records    " << endl;
-		cout << "\t\t\t\t\t<<  Show 10 Records   >>" << endl;
-		cout << "\t\t\t\t\t    Best Of The Best    " << endl;
-		cout << "\t\t\t\t\t       Back             " << endl;
+		cout << "\t\t\t\t\t         Back           " << endl;
 		break;
 
 	case BestOfTheBest:
-		cout << "\t\t\t\t\t       Search           " << endl;
+		cout << "\t\t\t\t\t        Search          " << endl;
 		cout << "\t\t\t\t\t    Show All Records    " << endl;
-		cout << "\t\t\t\t\t    Show 10 Records     " << endl;
 		cout << "\t\t\t\t\t<<  Best Of The Best  >>" << endl;
-		cout << "\t\t\t\t\t       Back             " << endl;
+		cout << "\t\t\t\t\t         Back           " << endl;
 		break;
 
 	case BackRecords:
-		cout << "\t\t\t\t\t       Search           " << endl;
+		cout << "\t\t\t\t\t        Search          " << endl;
 		cout << "\t\t\t\t\t    Show All Records    " << endl;
-		cout << "\t\t\t\t\t    Show 10 Records     " << endl;
 		cout << "\t\t\t\t\t    Best Of The Best    " << endl;
-		cout << "\t\t\t\t\t<<     Back           >>" << endl;
+		cout << "\t\t\t\t\t<<       Back         >>" << endl;
 		break;
 	}
 }
@@ -225,10 +214,6 @@ void menu::doPointRecords()
 			records::addInRecordsOrShowRecords(NULL, "show");
 			break;
 
-		case Show10Records:
-			records::addInRecordsOrShowRecords(NULL, "show10");
-			break;
-
 		case BestOfTheBest:
 			std::cout << "\n\n\t\t\t\t\t Best of the best" << std::endl;
 			for (int i = NUMBER_OF_LEVELS; i >= 1; i--)
@@ -363,7 +348,6 @@ void menu::doPointStart(queue::Queue<int> *queue, bool flag)
 			break;
 
 		case Level2:
-			system("pause");
 			break;
 
 		default:
