@@ -71,6 +71,7 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 		gameIsRunning = checkGameOverConditions(gameInfo, map);
 
 		game::clearScreen(); // Очищаем экран
+		/*game::turretAI(map, gameInfo);*/
 		game::drawFrame(map, gameInfo);
 		game::gravity(map, gameInfo); // Имитируем гравитацию
 		game::clearScreen(); // Очищаем экран
