@@ -4,19 +4,31 @@
 #include "Structures.h"
 #include "List.h"
 
+double pause()
+{
+	double startTime = clock();
+	std::cout << "\t\t\t\t\tPause :)" << std::endl;
+	_getch();
+	double endTime = clock();
+	return endTime - startTime;
+}
+
 //------Moving_Functions------//
 // принимает структуру с информацией об объекте на карте и двумерный массив структур
 void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 {
 	bool gameIsRunning = true;	// условие выполнение цикла
 	double timeBeforeGame = clock();
-
+	double time = 0.0;
 	while (gameIsRunning)
 	{
 		if (_kbhit()) // Если нажата клавиша
 		{
 			switch (_getch()) // Читаем клавишу
 			{
+			case 'p':
+				time = pause();
+				break;
 
 			case A_LOWER_CASE:
 				moveLeft(HERO, gameInfo, map);
@@ -72,7 +84,7 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 		game::gravity(map, gameInfo); // Имитируем гравитацию
 		game::clearScreen(); // Очищаем экран
 
-		double timeAfterAction = clock();
+		double timeAfterAction = clock() - time;
 
 		gameInfo->hero.time = (timeAfterAction - timeBeforeGame) / 1000.0;
 
@@ -83,7 +95,6 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 	}
 
 	double timeAfterGame = clock();
-
 	double requiredTime = (timeAfterGame - timeBeforeGame) / 1000.0;
 }
 
@@ -96,7 +107,7 @@ void game::jump(GameInfo* gameInfo, game::MapCell** map)
 		//replaceTheAimMovement(gameInfo, map);
 
 		// Если обе клетки над героем свободны
-		if ((map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].passable == true) && 
+		if ((map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].passable == true) &&
 			(map[gameInfo->hero.yCoordinate - 2][gameInfo->hero.xCoordinate].passable == true))
 		{
 			//удаляем символ героя из текущей ячейки
