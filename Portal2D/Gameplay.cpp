@@ -367,50 +367,6 @@ void game::replaceTheAim(GameInfo* gameInfo, game::MapCell** map)
 	}
 }
 
-//// функция переставляет прицел, если герой падает на прицел
-//// принимает структуру с информацией об объекте на карте и двумерный массив структур
-//void game::replaceTheAimMovement(GameInfo* gameInfo, game::MapCell** map)
-//{
-//	if (peek(map[gameInfo->hero.yCoordinate + 1][gameInfo->hero.xCoordinate].types) == AIM_DOT)
-//	{
-//		replaceTheAim(gameInfo, map);
-//	}
-//
-//	else if (peek(map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].types) == AIM_DOT)
-//	{
-//		replaceTheAim(gameInfo, map);
-//	}
-//}
-//
-//------Gravitation_Functions------//
-// функция гравитации, принимает структуру с информацией об объекте на карте и двумерный массив структур
-//void game::gravity(game::MapCell** map, GameInfo* gameInfo)
-//{
-//	// если под персонажем нет непроходимого блока/объекта
-//	if (map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types->value == HERO &&
-//		map[gameInfo->hero.yCoordinate + 1][gameInfo->hero.xCoordinate].passable == true)
-//	{
-//		//replaceTheAimMovement(gameInfo, map);
-//		Sleep(50);
-//		// перемещение героя вниз на одну ячейку карты
-//		list::addBegin(&map[gameInfo->hero.yCoordinate + 1][gameInfo->hero.xCoordinate].types, HERO);
-//		list::deleteCurrentElement(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types, HERO);
-//
-//		gameInfo->hero.yCoordinate = gameInfo->hero.yCoordinate + 1;
-//	}
-//
-//	if (map[gameInfo->turret.yCoordinate][gameInfo->turret.xCoordinate].types->value == TURRET &&
-//		map[gameInfo->turret.yCoordinate + 1][gameInfo->turret.xCoordinate].passable == true)
-//	{
-//		Sleep(50);
-//		// перемещение турели вниз на одну ячейку карты
-//		list::addBegin(&map[gameInfo->turret.yCoordinate + 1][gameInfo->turret.xCoordinate].types, TURRET);
-//		list::deleteCurrentElement(&map[gameInfo->turret.yCoordinate][gameInfo->turret.xCoordinate].types, TURRET);
-//
-//		gameInfo->turret.yCoordinate = gameInfo->turret.yCoordinate + 1;
-//	}
-//}
-
 void game::gravity(game::MapCell** map, GameInfo* gameInfo)
 {
 	// если под персонажем нет непроходимого блока/объекта
