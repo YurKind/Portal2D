@@ -67,3 +67,4 @@
 
 //------ACTION_KEYS------//
 #define ENTER 13
+#define ESCAPE 27

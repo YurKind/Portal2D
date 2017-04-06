@@ -416,8 +416,10 @@ int menu::controlMenu(ParametersForMenu parametersForMenu)
 			}
 			game::clearScreen();
 			parametersForMenu.print(key);													// Выводит нужный вариант меню
-		}
+		} 
 	}
+	else if (press == ESCAPE)
+		key = parametersForMenu.lowerBorder;
 	return key;																				// Возвращаем выбор пользователя
 }
 
