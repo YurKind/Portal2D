@@ -20,7 +20,7 @@ void records::addInRecordsOrShowRecords(records::DataAboutTheChampion *newChampi
 			begin = begin->next;
 		}
 		std::cout << "\n";
-		_getch();
+		system("pause");
 		system("cls");
 	}
 	else if (!strcmp(variant, "add"))     // добавить в рекорды
@@ -40,7 +40,6 @@ void records::addInRecordsOrShowRecords(records::DataAboutTheChampion *newChampi
 			begin = begin->next;	
 		}
 		std::cout << "\n";
-		_getch();
 		system("cls");
 	}
 	fin.close();

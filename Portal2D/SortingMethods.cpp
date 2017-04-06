@@ -1,35 +1,35 @@
 #include "SortingMethods.h"
 
-void sorting::countingSort(int count, int arrName[], int range)
+void sorting::countingSort(int count, int *array, int range)
 {
 	int *c = new int[range];
 
-	for (int null = 0; null < range; null++)
+	for (int i = 0; i < range; i++)
 	{
-		c[null] = 0;
+		c[i] = 0;
 	}
 
 	for (int j = 0; j < count; j++)
 	{
-		c[arrName[j]]++;
+		c[array[j]]++;
 	}
 
 	int d = 0;
 
 	for (int j = 0; j < range; j++)
 		for (int i = 0; i < c[j]; i++)
-			arrName[d++] = j;
+			array[d++] = j;
 	delete[] c;
 }
 
-void sorting::stableCountingSort(int count, int arrName[], int range)		// Следует изменить
+void sorting::stableCountingSort(int count, int *array, int range)		// Следует изменить
 {
 	int *c = new int[range];
 	int *result = new int[count];
 
-	for (int null = 0; null < range; null++)
+	for (int i = 0; i < range; i++)
 	{
-		c[null] = 0;
+		c[i] = 0;
 	}
 
 	for (int i = 0; i < range; i++)
@@ -37,21 +37,22 @@ void sorting::stableCountingSort(int count, int arrName[], int range)		// Следуе
 
 		for (int j = 0; j < count; j++)
 		{
-			if (arrName[j] <= i)
+			if (array[j] <= i)
 				c[i]++;
 		}
 	}
 
 	for (int i = count - 1; i >= 0; i--)
 	{
-		c[arrName[i]] = c[arrName[i]] - 1;
-		result[c[arrName[i]]] = arrName[i];
+		c[array[i]]--;
+		result[c[array[i]]] = array[i];
 	}
 
-	for (int i = 0; i > count; i++)
+	for (int i = 0; i < count; i++)
 	{
-		arrName[i] = result[i];
+		array[i] = result[i];
 	}
+	
 
 	delete[] result;
 	delete[] c;
