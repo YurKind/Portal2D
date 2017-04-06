@@ -17,6 +17,9 @@ namespace game
 	struct GameInfo;
 	struct MapCell;
 
+	/* Останавливает процесс игры и возвращает кол-во миллисекунд, проведенных на паузе*/
+	double pause(GameInfo* gameInfo, MapCell** map);
+
 	// Выполняя необходимые проверки, совершает прыжок, если он возможен
 	void jump(GameInfo* gameInfo, game::MapCell** map);
 

@@ -2,6 +2,7 @@
 #include "Gameplay.h"
 #include "Search.h"
 #include "RandomLevel.h"
+#include "List.h"
 
 HANDLE H = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -68,7 +69,7 @@ void menu::printPointRecord(int key)
 	}
 }
 
-void menu::printPointRecordSearch(int key)
+void menu::printPointSearch(int key)
 {
 	drawLogo();
 
@@ -255,7 +256,7 @@ void menu::doPointRecordSearch()
 
 	/*Верхняя граница равна Search, нижняя равна BackRecords,
 	вывод данного подпункта меню осуществляет printPointRecord*/
-	ParametersForMenu parametersForMenu = { ByScore, BackRecordsSearch, &printPointRecordSearch };
+	ParametersForMenu parametersForMenu = { ByScore, BackRecordsSearch, &printPointSearch };
 
 	/*Пока пользователь не захочет выйти из этого подпункта меню,
 	осуществляется перемещения по меню*/
@@ -264,7 +265,7 @@ void menu::doPointRecordSearch()
 		key = controlMenu(parametersForMenu);											// key получает значение пункта на котором остановился пользователь и нажал Enter
 		system("cls");
 
-		list::List<records::DataAboutTheChampion> *list = NULL;       // список с найденными рекорсдменами 
+		list::List<records::DataAboutTheChampion> *list = NULL, *printList = NULL;       // список с найденными рекорсдменами 
 		tree::BranchForNumber<records::DataAboutTheChampion> *tree = NULL;        // дерево со всеми рекордсменами
 
 		double numberOfScore = 0.0;
@@ -276,42 +277,61 @@ void menu::doPointRecordSearch()
 		{
 		case ByScore:
 			createTree(&tree, FILE_NAME_RECORDS, ByScore);     // создаем и инициализируем список по очкам
-			std::cout << "\Enter the number of score: ";
+			std::cout << "\n\n\n\t\t\t\tEnter the number of score: ";
 			std::cin >> numberOfScore;
 			std::cout << "\n";
 			list = search::searchAllElements<double>(tree, numberOfScore, search::searchByScoreOfOneResult);       // указатель на список с найденными рекорсдменами 
+
+			while (list)
+			{
+				list::addBegin(&printList, list->value);
+				list = list->next;
+			}
 			break;
 
 		case ByLevel:
 			createTree(&tree, FILE_NAME_RECORDS, ByLevel);     // создаем и инициализируем список по уровням
-			std::cout << "\Enter the number of level: ";
+			std::cout << "\n\n\n\t\t\t\tEnter the number of level: ";
 			std::cin >> numberOfLevel;
 			std::cout << "\n";
 			list = search::searchAllElements<int>(tree, numberOfLevel, search::searchByLevelOfOneResult);       // указатель на список с найденными рекорсдменами 
+
+			while (list)
+			{
+				list::addBegin(&printList, list->value);
+				list = list->next;
+			}
 			break;
 
 		case ByName:
 			createTree(&tree, FILE_NAME_RECORDS, ByName);     // создаем и инициализируем список по именам
-			std::cout << "\tEnter the string: ";
+			std::cout << "\n\n\n\t\t\t\tEnter the string: ";
 			std::cin >> name;
 			std::cout << "\n";
 			list = search::searchAllElements<char*>(tree, name, search::searchByStringOfOneResult);       // указатель на список с найденными рекорсдменами 
+
+			while (list)
+			{
+				list::addBegin(&printList, list->value);
+				list = list->next;
+			}
 			break;
 
 		case BySubstring:
-			std::cout << "\tenter the string: ";
+			std::cout << "\n\n\n\t\t\t\tEnter the substring: ";
 			std::cin >> name;
 			std::cout << "\n";
-			list = search::searchBySubstringAllResults(list, name);
+			printList = search::searchBySubstringAllResults(list, name);
 			break;
 
 		default:
 			print = false;
 			break;
 		}
+
 		if (print)
 		{
-			search::printFoundChampions(list);
+			search::printFoundChampions(printList, key);
 			_getch();
 		}
 		list::freeMemory(list);

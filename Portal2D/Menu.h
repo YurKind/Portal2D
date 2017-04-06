@@ -39,7 +39,7 @@ namespace menu
 	//Выводит вариант меню, на котором остановился пользователь в пункте Records
 	void printPointRecord(int key);
 
-	void printPointRecordSearch(int key);
+	void printPointSearch(int key);
 
 	//Воспроизводит выбранный пользователем пункт в разделе Start
 	void doPointStart(queue::Queue<int> *queue, bool flag);

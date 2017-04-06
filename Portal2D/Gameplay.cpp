@@ -4,11 +4,12 @@
 #include "Structures.h"
 #include "List.h"
 
-double pause()
+double game::pause(GameInfo* gameInfo, MapCell** map)
 {
 	double startTime = clock();
-	std::cout << "\t\t\t\t\tPause :)" << std::endl;
+	std::cout << "\n\n\n\n\n\n\n\n\t       Pause\n\n\t   Press any key" << std::endl;
 	_getch();
+	system("cls");
 	double endTime = clock();
 	return endTime - startTime;
 }
@@ -19,7 +20,7 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 {
 	bool gameIsRunning = true;	// условие выполнение цикла
 	double timeBeforeGame = clock();
-	double time = 0.0;
+	double timeOnPause = 0.0;
 	while (gameIsRunning)
 	{
 		if (_kbhit()) // Если нажата клавиша
@@ -27,7 +28,7 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 			switch (_getch()) // Читаем клавишу
 			{
 			case 'p':
-				time = pause();
+				timeOnPause += pause(gameInfo, map);
 				break;
 
 			case A_LOWER_CASE:
@@ -84,7 +85,7 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 		game::gravity(map, gameInfo); // Имитируем гравитацию
 		game::clearScreen(); // Очищаем экран
 
-		double timeAfterAction = clock() - time;
+		double timeAfterAction = clock() - timeOnPause;
 
 		gameInfo->hero.time = (timeAfterAction - timeBeforeGame) / 1000.0;
 
