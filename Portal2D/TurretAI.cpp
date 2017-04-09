@@ -3,20 +3,31 @@
 #include "Definitions.h"
 
 
-void game::turretAI(GameInfo* gameInfo, MapCell** map)
+void game::turretAI(char type, GameInfo* gameInfo, MapCell** map)
+
 {
-	bool heroIsSpotted = false;
-	heroIsSpotted = spottingHero(gameInfo, map);
-	turretMoving(gameInfo, map, heroIsSpotted);
-	shootingToHero(gameInfo, map, heroIsSpotted);
+	if (type == TURRET)
+	{
+		bool heroIsSpotted = false;
+		heroIsSpotted = spottingHero(gameInfo, map);
+		turretMoving(gameInfo, map, heroIsSpotted);
+		shootingToHero(gameInfo, map, heroIsSpotted);
+	}
+
+	else if (type == TURRET_EASY)
+	{
+		bool heroIsSpotted = false;
+		//heroIsSpotted = spottingHero(gameInfo, map);
+		turretPatrol(gameInfo, map, heroIsSpotted);
+	}
 }
 
 bool game::spottingHero(GameInfo* gameInfo, MapCell** map)
 {
 	bool heroIsSpotted = false;
-	for (int i = gameInfo->turret.xCoordinate - 10; i < gameInfo->turret.xCoordinate + 10; i++)
+	for (int i = gameInfo->turret.xCoordinate - HERO_SPOTTING_RANGE_X; i < gameInfo->turret.xCoordinate + HERO_SPOTTING_RANGE_X; i++)
 	{
-		for (int j = gameInfo->turret.yCoordinate + 5; j > gameInfo->turret.yCoordinate - 10; j--)
+		for (int j = gameInfo->turret.yCoordinate + HERO_SPOTTING_RANGE_Y; j > gameInfo->turret.yCoordinate - HERO_SPOTTING_RANGE_Y; j--)
 		{
 			if ((gameInfo->hero.xCoordinate == i) && (gameInfo->hero.yCoordinate == j))
 			{
@@ -79,7 +90,7 @@ void game::shootingToHero(GameInfo* gameInfo, MapCell** map, bool heroIsSpotted)
 		{
 			if ((gameInfo->bullet.yCoordinate == gameInfo->hero.yCoordinate) && (gameInfo->bullet.xCoordinate == gameInfo->hero.xCoordinate))
 			{
-				gameInfo->hero.healthPoints = gameInfo->hero.healthPoints - 33;
+				gameInfo->hero.healthPoints -= DAMAGE_TO_HERO;
 				list::deleteCurrentElement(&map[gameInfo->bullet.yCoordinate][gameInfo->bullet.xCoordinate].types, BULLET);
 				gameInfo->bullet.xCoordinate = 0;
 			}
@@ -117,7 +128,7 @@ void game::shootingToHero(GameInfo* gameInfo, MapCell** map, bool heroIsSpotted)
 		{
 			if ((gameInfo->bullet.yCoordinate == gameInfo->hero.yCoordinate) && (gameInfo->bullet.xCoordinate == gameInfo->hero.xCoordinate))
 			{
-				gameInfo->hero.healthPoints = gameInfo->hero.healthPoints - 33;
+				gameInfo->hero.healthPoints -= DAMAGE_TO_HERO;
 				list::deleteCurrentElement(&map[gameInfo->bullet.yCoordinate][gameInfo->bullet.xCoordinate].types, BULLET);
 				gameInfo->bullet.xCoordinate = 0;
 			}
@@ -134,6 +145,22 @@ void game::shootingToHero(GameInfo* gameInfo, MapCell** map, bool heroIsSpotted)
 	}
 	else if ((gameInfo->hero.xCoordinate == gameInfo->turret.xCoordinate) && (gameInfo->hero.yCoordinate == gameInfo->turret.yCoordinate))
 	{
-		gameInfo->hero.healthPoints = gameInfo->hero.healthPoints - 33;
+		gameInfo->hero.healthPoints -= DAMAGE_TO_HERO;
+	}
+}
+
+void game::turretPatrol(GameInfo* gameInfo, MapCell** map, bool heroIsSpotted)
+{
+	if (heroIsSpotted == false)
+	{
+		if (map[gameInfo->turret_patrol.yCoordinate][gameInfo->turret_patrol.xCoordinate + 1].passable == true)
+		{
+			moveRight(TURRET_EASY, gameInfo, map);
+		}
+
+		else if (map[gameInfo->turret_patrol.yCoordinate][gameInfo->turret_patrol.xCoordinate - 1].passable == true)
+		{
+			moveLeft(TURRET_EASY, gameInfo, map);
+		}
 	}
 }

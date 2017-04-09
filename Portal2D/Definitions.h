@@ -6,8 +6,6 @@
 #define BLOCK_SHARP '#'
 #define BLOCK char(219) // looks like █
 #define EMPTY_SPACE ' '
-#define TURRET_S '+'
-#define TURRET char(209)
 #define BUTTON_S '`'
 #define BUTTON char(127)
 //#define TIMER_BUTTON ''
@@ -72,3 +70,12 @@
 
 /* SAVE THE GAME */
 #define SAVE 'k'
+
+/* TURRET */
+#define DAMAGE_TO_HERO 11
+#define HERO_SPOTTING_RANGE_X 10
+#define HERO_SPOTTING_RANGE_Y 5
+#define TURRET_S '+'
+#define TURRET char(209)
+#define TURRET_EASY_S '-'
+#define TURRET_EASY char(193)

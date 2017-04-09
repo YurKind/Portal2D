@@ -14,53 +14,50 @@ void game::drawFrame(game::MapCell** map, game::GameInfo* gameInfo)		// отрисовк
 			{
 			case HERO:						// если встречен тип "герой", то отрисовывается герой
 				game::printSpecialSymbol(consoleHandler, i, j, LightGrey, HERO);
-				/*std::cout << HERO;*/
 				break;
 
 			case BLOCK:						// если встречен тип "блок", то отрисовывается блок
 				game::printSpecialSymbol(consoleHandler, i, j, LightGrey, BLOCK);
-				/*std::cout << BLOCK;*/
 				break;
 
 			case EMPTY_SPACE:				// если встречен тип "_", то отрисовывается пустое пространство
 				game::printSpecialSymbol(consoleHandler, i, j, Black, EMPTY_SPACE);
-				/*std::cout << EMPTY_SPACE;*/
 				break;
 
 			case AIM_DOT:					// если встречен тип "прицел_точка", то отрисовывается прицел
 				game::printSpecialSymbol(consoleHandler, i, j, LightGrey, AIM);
-				/*std::cout << AIM;*/
 				break;
 
 			case BLACK_WALL:				// если встречен тип "непроходимая стена", то отрисовывается непроходимая стена
 				game::printSpecialSymbol(consoleHandler, i, j, Yellow, BLACK_WALL);
-				/*std::cout << BLACK_WALL;*/
 				break;
 
 			case EXIT:					// если встречен тип "выход", то отрисовывается выход
 				game::printSpecialSymbol(consoleHandler, i, j, LightGrey, EXIT);
-				/*std::cout << EXIT;*/
 				break;
 
 			case RED_PORTAL:			// если встречен тип "красный портал", то отрисовывается красный портал
 				game::printSpecialSymbol(consoleHandler, i, j, LightRed, RED_PORTAL);
-				/*std::cout << RED_PORTAL;*/
 				break;
 
 			case BLUE_PORTAL:			// если встречен тип "синий портал", то отрисовывается синий портал 
 				game::printSpecialSymbol(consoleHandler, i, j, LightBlue, BLUE_PORTAL);
-				/*std::cout << BLUE_PORTAL;*/
 				break;
 
 			case BUTTON:
 				game::printSpecialSymbol(consoleHandler, i, j, Yellow, BUTTON);
-				/*std::cout << BUTTON;*/
 				break;
+
 			case TURRET:
 				game::printSpecialSymbol(consoleHandler, i, j, LightGrey, TURRET);
 				break;
+
 			case BULLET:
 				game::printSpecialSymbol(consoleHandler, i, j, LightRed, BULLET);
+				break;
+
+			case TURRET_EASY:
+				game::printSpecialSymbol(consoleHandler, i, j, LightGrey, TURRET_EASY);
 				break;
 
 			default:
