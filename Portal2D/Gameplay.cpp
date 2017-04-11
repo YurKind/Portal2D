@@ -12,6 +12,7 @@
 void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 {
 	bool gameIsRunning = true;	// условие выполнение цикла
+	bool isMovingRight = true;
 	double timeBeforeGame = clock();
 
 	while (gameIsRunning)
@@ -67,8 +68,8 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 			}
 		}
 
-		game::turretAI(TURRET, gameInfo, map);
-		game::turretAI(TURRET_EASY, gameInfo, map);
+		//game::turretAI(gameInfo, map);
+		game::turretPatrolAI(gameInfo, map, &isMovingRight);
 
 		// если координаты героя равны координатам выхода, то переменной gameIsRunning присваивается значение false
 		gameIsRunning = checkGameOverConditions(gameInfo, map);
@@ -404,7 +405,6 @@ void game::gravity(game::MapCell** map, GameInfo* gameInfo)
 		map[gameInfo->hero.yCoordinate + 1][gameInfo->hero.xCoordinate].passable == true)
 	{
 		//replaceTheAimMovement(gameInfo, map);
-		Sleep(50);
 		// перемещение героя вниз на одну ячейку карты
 		moveDown(HERO, gameInfo, map);
 	}
@@ -412,7 +412,6 @@ void game::gravity(game::MapCell** map, GameInfo* gameInfo)
 	if (map[gameInfo->turret.yCoordinate][gameInfo->turret.xCoordinate].types->value == TURRET &&
 		map[gameInfo->turret.yCoordinate + 1][gameInfo->turret.xCoordinate].passable == true)
 	{
-		Sleep(50);
 		// перемещение турели вниз на одну ячейку карты
 		moveDown(TURRET, gameInfo, map);
 	}
@@ -420,7 +419,6 @@ void game::gravity(game::MapCell** map, GameInfo* gameInfo)
 	if (map[gameInfo->turret_patrol.yCoordinate][gameInfo->turret_patrol.xCoordinate].types->value == TURRET_EASY &&
 		map[gameInfo->turret_patrol.yCoordinate + 1][gameInfo->turret_patrol.xCoordinate].passable == true)
 	{
-		Sleep(50);
 		// перемещение турели вниз на одну ячейку карты
 		moveDown(TURRET_EASY, gameInfo, map);
 	}
