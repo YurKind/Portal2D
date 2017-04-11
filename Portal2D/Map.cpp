@@ -85,12 +85,12 @@ game::MapCell** game::createMap(char* levelName, GameInfo* gameInfo)
 				gameInfo->turret.yCoordinate = i;
 				break;
 
-			case TURRET_EASY_S:
+			case PLATFORM_TURRET_S:
 				map[i][j].types = new list::List<char>;
 				list::addBegin(&map[i][j].types, EMPTY_SPACE);
-				list::addBegin(&map[i][j].types, TURRET_EASY);
-				gameInfo->turret_patrol.xCoordinate = j;
-				gameInfo->turret_patrol.yCoordinate = i;
+				list::addBegin(&map[i][j].types, PLATFORM_TURRET);
+				gameInfo->platform_turret.xCoordinate = j;
+				gameInfo->platform_turret.yCoordinate = i;
 				break;
 
 			default:

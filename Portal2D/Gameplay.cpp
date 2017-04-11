@@ -218,12 +218,12 @@ void game::moveLeft(char type, GameInfo* gameInfo, game::MapCell** map)
 		}
 		break;
 
-	case TURRET_EASY:
-		if (map[gameInfo->turret_patrol.yCoordinate][gameInfo->turret_patrol.xCoordinate - 1].passable == true)
+	case PLATFORM_TURRET:
+		if (map[gameInfo->platform_turret.yCoordinate][gameInfo->platform_turret.xCoordinate - 1].passable == true)
 		{
-			list::deleteCurrentElement(&map[gameInfo->turret_patrol.yCoordinate][gameInfo->turret_patrol.xCoordinate].types, TURRET_EASY);
-			list::addBegin(&map[gameInfo->turret_patrol.yCoordinate][gameInfo->turret_patrol.xCoordinate - 1].types, TURRET_EASY);
-			gameInfo->turret_patrol.xCoordinate = gameInfo->turret_patrol.xCoordinate - 1;
+			list::deleteCurrentElement(&map[gameInfo->platform_turret.yCoordinate][gameInfo->platform_turret.xCoordinate].types, PLATFORM_TURRET);
+			list::addBegin(&map[gameInfo->platform_turret.yCoordinate][gameInfo->platform_turret.xCoordinate - 1].types, PLATFORM_TURRET);
+			gameInfo->platform_turret.xCoordinate = gameInfo->platform_turret.xCoordinate - 1;
 		}
 		break;
 
@@ -276,12 +276,12 @@ void game::moveRight(char type, GameInfo* gameInfo, game::MapCell** map)
 		}
 		break;
 
-	case TURRET_EASY:
-		if (map[gameInfo->turret_patrol.yCoordinate][gameInfo->turret_patrol.xCoordinate + 1].passable == true)
+	case PLATFORM_TURRET:
+		if (map[gameInfo->platform_turret.yCoordinate][gameInfo->platform_turret.xCoordinate + 1].passable == true)
 		{
-			list::deleteCurrentElement(&map[gameInfo->turret_patrol.yCoordinate][gameInfo->turret_patrol.xCoordinate].types, TURRET_EASY);
-			list::addBegin(&map[gameInfo->turret_patrol.yCoordinate][gameInfo->turret_patrol.xCoordinate + 1].types, TURRET_EASY);
-			gameInfo->turret_patrol.xCoordinate = gameInfo->turret_patrol.xCoordinate + 1;
+			list::deleteCurrentElement(&map[gameInfo->platform_turret.yCoordinate][gameInfo->platform_turret.xCoordinate].types, PLATFORM_TURRET);
+			list::addBegin(&map[gameInfo->platform_turret.yCoordinate][gameInfo->platform_turret.xCoordinate + 1].types, PLATFORM_TURRET);
+			gameInfo->platform_turret.xCoordinate = gameInfo->platform_turret.xCoordinate + 1;
 		}
 		break;
 
@@ -355,15 +355,15 @@ void game::moveDown(char type, GameInfo* gameInfo, game::MapCell** map)
 		}
 		break;
 
-	case TURRET_EASY:
-		if (map[gameInfo->turret_patrol.yCoordinate + 1][gameInfo->turret_patrol.xCoordinate].passable == true)
+	case PLATFORM_TURRET:
+		if (map[gameInfo->platform_turret.yCoordinate + 1][gameInfo->platform_turret.xCoordinate].passable == true)
 		{
 			//удал€ем символ турели из текущей €чейки карты
-			list::deleteCurrentElement(&map[gameInfo->turret_patrol.yCoordinate][gameInfo->turret_patrol.xCoordinate].types, TURRET_EASY);
+			list::deleteCurrentElement(&map[gameInfo->platform_turret.yCoordinate][gameInfo->platform_turret.xCoordinate].types, PLATFORM_TURRET);
 			//добавл€ем в €чейку карты ниже символ турели
-			list::addBegin(&map[gameInfo->turret_patrol.yCoordinate + 1][gameInfo->turret_patrol.xCoordinate].types, TURRET_EASY);
+			list::addBegin(&map[gameInfo->platform_turret.yCoordinate + 1][gameInfo->platform_turret.xCoordinate].types, PLATFORM_TURRET);
 
-			gameInfo->turret_patrol.yCoordinate = gameInfo->turret_patrol.yCoordinate + 1;
+			gameInfo->platform_turret.yCoordinate = gameInfo->platform_turret.yCoordinate + 1;
 		}
 		break;
 	}
@@ -416,11 +416,11 @@ void game::gravity(game::MapCell** map, GameInfo* gameInfo)
 		moveDown(TURRET, gameInfo, map);
 	}
 
-	if (map[gameInfo->turret_patrol.yCoordinate][gameInfo->turret_patrol.xCoordinate].types->value == TURRET_EASY &&
-		map[gameInfo->turret_patrol.yCoordinate + 1][gameInfo->turret_patrol.xCoordinate].passable == true)
+	if (map[gameInfo->platform_turret.yCoordinate][gameInfo->platform_turret.xCoordinate].types->value == PLATFORM_TURRET &&
+		map[gameInfo->platform_turret.yCoordinate + 1][gameInfo->platform_turret.xCoordinate].passable == true)
 	{
 		// перемещение турели вниз на одну €чейку карты
-		moveDown(TURRET_EASY, gameInfo, map);
+		moveDown(PLATFORM_TURRET, gameInfo, map);
 	}
 }
 

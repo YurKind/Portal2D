@@ -56,8 +56,8 @@ void game::drawFrame(game::MapCell** map, game::GameInfo* gameInfo)		// отрисовк
 				game::printSpecialSymbol(consoleHandler, i, j, LightRed, BULLET);
 				break;
 
-			case TURRET_EASY:
-				game::printSpecialSymbol(consoleHandler, i, j, LightGrey, TURRET_EASY);
+			case PLATFORM_TURRET:
+				game::printSpecialSymbol(consoleHandler, i, j, LightGrey, PLATFORM_TURRET);
 				break;
 
 			default:

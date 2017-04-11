@@ -77,8 +77,5 @@
 #define HERO_SPOTTING_RANGE_Y 5
 #define TURRET_S '+'
 #define TURRET char(209)
-#define TURRET_EASY_S '-'
-#define TURRET_EASY char(193)
-#define NEUTRAL 1
-#define LEFT 2
-#define RIGHT 3
+#define PLATFORM_TURRET_S '-'
+#define PLATFORM_TURRET char(193)
