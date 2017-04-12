@@ -72,7 +72,7 @@
 #define SAVE 'k'
 
 /* TURRET */
-#define DAMAGE_TO_HERO 11
+#define DAMAGE_TO_HERO 33
 #define HERO_SPOTTING_RANGE_X 10
 #define HERO_SPOTTING_RANGE_Y 5
 #define TURRET_S '+'
