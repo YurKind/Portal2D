@@ -33,7 +33,7 @@ namespace game
 	void moveDown(char type, GameInfo* gameInfo, MapCell** map);
 
 	// функция переставляет прицел, при установке портала
-	void replaceTheAim(GameInfo* gameInfo, MapCell** map);
+	//void replaceTheAim(GameInfo* gameInfo, MapCell** map);
 	//void replaceTheAimMovement(GameInfo* gameInfo, MapCell** map);
 
 	// Временная функция для запуска первого уровня
