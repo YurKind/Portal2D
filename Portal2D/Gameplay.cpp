@@ -564,7 +564,8 @@ void game::enterThePortal(char type, GameInfo* gameInfo, MapCell** map)
 void game::activateTheButton(GameInfo* gameInfo, MapCell** map)
 {
 	if (gameInfo->hero.xCoordinate == gameInfo->button.xCoordinate &&	// если персонаж и кнопка находятся в одной клетке
-		gameInfo->hero.yCoordinate == gameInfo->button.yCoordinate)
+		gameInfo->hero.yCoordinate == gameInfo->button.yCoordinate &&	// и существует непроходимая стена
+		map[gameInfo->blackWall.yCoordinate][gameInfo->blackWall.xCoordinate].types->value == BLACK_WALL)
 	{
 		// ячейка карты, в которой была непроходимая стена, становится проходимой
 		map[gameInfo->blackWall.yCoordinate][gameInfo->blackWall.xCoordinate].passable = true;
