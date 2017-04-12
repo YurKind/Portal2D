@@ -6,6 +6,8 @@
  "E" - exit
  "X" - impassable wall
  "`" - button to turn off impassable wall
+ "=" - patrol_turret
+ "+" - turret_hunter
 
  Controls:
  moving - a, d

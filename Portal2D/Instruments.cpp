@@ -89,11 +89,11 @@ void game::clearScreen()
 void game::freeMemory(game::MapCell** map, game::GameInfo* gameInfo)
 {
 	delete gameInfo; // Очищаем память, занятую информацией об игре
-	
+
 	// Очищаем память, занятую картой игры
-	for(int i = 0; i < MAP_HEIGHT; i++)
+	for (int i = 0; i < MAP_HEIGHT; i++)
 	{
-		delete map[i]; 
+		delete map[i];
 	}
 	delete map;
 }
@@ -137,11 +137,11 @@ void game::showInstruction()
 			break;
 
 		case AIM_DOT:
-			std::cout << AIM;
+			cout << AIM_DOT;
 			break;
 
 		case BLACK_WALL_S:
-			std::cout << BLACK_WALL;
+			cout << BLACK_WALL;
 			break;
 
 		case EXIT_S:
@@ -154,6 +154,18 @@ void game::showInstruction()
 
 		case BUTTON_S:
 			cout << BUTTON;
+			break;
+
+		case TURRET_S:
+			cout << TURRET;
+			break;
+
+		case PLATFORM_TURRET_S:
+			cout << PLATFORM_TURRET;
+			break;
+
+		case BULLET:
+			cout << BULLET;
 			break;
 
 		default:
