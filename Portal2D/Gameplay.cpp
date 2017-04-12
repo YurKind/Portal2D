@@ -3,9 +3,18 @@
 #include "Instruments.h"
 #include "Structures.h"
 #include "List.h"
-#include "Save.h"
+//#include "Save.h"
 #include "TurretAI.h"
 
+double game::pause(GameInfo* gameInfo, MapCell** map)
+{
+	double startTime = clock();
+	std::cout << "\n\n\n\n\n\n\n\n\t       Pause\n\n\t   Press any key" << std::endl;
+	_getch();
+	system("cls");
+	double endTime = clock();
+	return endTime - startTime;
+}
 
 //------Moving_Functions------//
 // принимает структуру с информацией об объекте на карте и двумерный массив структур
@@ -14,14 +23,17 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 	bool gameIsRunning = true;	// условие выполнение цикла
 	bool isMovingRight = true;  // переменна€ дл€ патрулирующей турели (отвечает за направление движени€)
 	double timeBeforeGame = clock(); // переменна€ дл€ отображени€ времени, затраченного на прохождение уровн€
-
+	double timeOnPause = 0.0;
 	while (gameIsRunning)
 	{
-
 		if (_kbhit()) // ≈сли нажата клавиша
 		{
 			switch (_getch()) // „итаем клавишу
 			{
+			case 'p':
+				timeOnPause += pause(gameInfo, map);
+				break;
+
 			case A_LOWER_CASE:
 				moveLeft(HERO, gameInfo, map);
 				break;
@@ -80,7 +92,7 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 		game::clearScreen(); // ќчищаем экран
 
 		// ѕеременна€ необходима€ дл€ отображени€ времени, затраченного на прохождение уровн€
-		double timeAfterAction = clock();
+		double timeAfterAction = clock() - timeOnPause;
 
 		// ¬носим информаци€ о затраченном на прохождение уровн€ времени (в секундах)
 		gameInfo->hero.time = (timeAfterAction - timeBeforeGame) / 1000.0;
@@ -91,9 +103,8 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 		}
 	}
 
-	//double timeAfterGame = clock();
-
-	/*double requiredTime = (timeAfterGame - timeBeforeGame) / 1000.0;*/
+	/*double timeAfterGame = clock();
+	double requiredTime = (timeAfterGame - timeBeforeGame) / 1000.0;*/
 }
 
 //------Moving_Functions------//
@@ -103,7 +114,13 @@ void game::jump(char type, GameInfo* gameInfo, game::MapCell** map)
 	switch (type)
 	{
 	case HERO:
-		if (map[gameInfo->hero.yCoordinate + 1][gameInfo->hero.xCoordinate].passable == false)	// если под персонажем есть непроходимый блок
+		// если под персонажем есть непроходимый блок
+		if (map[gameInfo->hero.yCoordinate + 1][gameInfo->hero.xCoordinate].passable == false)
+		//replaceTheAimMovement(gameInfo, map);
+
+		// ≈сли обе клетки над героем свободны
+		if ((map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].passable == true) &&
+			(map[gameInfo->hero.yCoordinate - 2][gameInfo->hero.xCoordinate].passable == true))
 		{
 			//replaceTheAimMovement(gameInfo, map);
 
@@ -428,15 +445,11 @@ void game::gravity(game::MapCell** map, GameInfo* gameInfo)
 records::DataAboutTheChampion* game::startLevel(char* levelName)
 {
 	game::GameInfo* gameInfo = new GameInfo;
-
 	game::MapCell** map = game::createMap(levelName, gameInfo); // —оздаем двумерный массив структур, использу€ текстовый документ
-
 	records::DataAboutTheChampion* player = new records::DataAboutTheChampion;
 
 	game::clearScreen(); // „истим экран
-
 	game::drawFrame(map, gameInfo); // –исуем первый кадр
-
 	game::performAnAction(gameInfo, map); // ¬ыполн€ем далее в зависимости от действий игрока
 
 	system("cls");

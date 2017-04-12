@@ -6,6 +6,7 @@ void list::addList(list::List<records::DataAboutTheChampion> **list, std::ifstre
 	list::List<records::DataAboutTheChampion> *add = *list;
 	std::ifstream finForSize(FILE_NAME_RECORDS);
 	char *buf = NULL;
+
 	while (!fin.eof())
 	{
 		int lengthLine = records::countLengthLine(finForSize);     // узнаем длинну строки для объявления массива-буфера
@@ -29,6 +30,7 @@ void list::addInCertainPlace(list::List<records::DataAboutTheChampion> **begin, 
 	else
 	{
 		list::List<records::DataAboutTheChampion> *insert = *begin;         // новый указатель на начало списка
+
 		for (int i = 0; i < placeNumber - 1; i++)
 		{
 			insert = insert->next;      // передвигаемся до нужного места
@@ -44,6 +46,7 @@ void list::addInCertainPlace(list::List<records::DataAboutTheChampion> **begin, 
 void list::freeMemory(list::List<records::DataAboutTheChampion> *begin)       // освобождение памяти от списка 
 {
 	list::List<records::DataAboutTheChampion> *cleaner = begin;        // новый указатель на начало списка
+
 	while (begin)
 	{
 		cleaner = begin;
