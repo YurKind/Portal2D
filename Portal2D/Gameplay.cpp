@@ -12,8 +12,8 @@
 void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 {
 	bool gameIsRunning = true;	// условие выполнение цикла
-	bool isMovingRight = true;
-	double timeBeforeGame = clock();
+	bool isMovingRight = true;  // переменная для патрулирующей турели (отвечает за направление движения)
+	double timeBeforeGame = clock(); // переменная для отображения времени, затраченного на прохождение уровня
 
 	while (gameIsRunning)
 	{
@@ -69,18 +69,20 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 		}
 
 		//game::turretAI(gameInfo, map);
+		// Запускает ИИ патрулирующей турели
 		game::turretPatrolAI(gameInfo, map, &isMovingRight);
-
-		// если координаты героя равны координатам выхода, то переменной gameIsRunning присваивается значение false
+		// Проверяет условия конца игры (кончилось ли здоровье, нашел ли игрок выход)
 		gameIsRunning = checkGameOverConditions(gameInfo, map);
 
 		game::clearScreen(); // Очищаем экран
-		game::drawFrame(map, gameInfo);
+		game::drawFrame(map, gameInfo); // Отрисовываем кадр
 		game::gravity(map, gameInfo); // Имитируем гравитацию
 		game::clearScreen(); // Очищаем экран
 
+		// Переменная необходимая для отображения времени, затраченного на прохождение уровня
 		double timeAfterAction = clock();
 
+		// Вносим информация о затраченном на прохождение уровня времени (в секундах)
 		gameInfo->hero.time = (timeAfterAction - timeBeforeGame) / 1000.0;
 
 		if (gameInfo->hero.score > 0)	// если количество очков больше 0, то вычетается одно очко
@@ -89,9 +91,9 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 		}
 	}
 
-	double timeAfterGame = clock();
+	//double timeAfterGame = clock();
 
-	double requiredTime = (timeAfterGame - timeBeforeGame) / 1000.0;
+	/*double requiredTime = (timeAfterGame - timeBeforeGame) / 1000.0;*/
 }
 
 //------Moving_Functions------//
@@ -186,7 +188,6 @@ void game::moveLeft(char type, GameInfo* gameInfo, game::MapCell** map)
 {
 	switch (type)
 	{
-
 	case AIM_DOT:
 		if (map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate - 1].passable == true)
 		{
@@ -238,11 +239,10 @@ void game::moveLeft(char type, GameInfo* gameInfo, game::MapCell** map)
 	}
 }
 
-// функция перемещения вниз
-// принимает символ персонажа или прицела, структуру с информацией об объекте на карте и двумерный массив структур
+// функция перемещения вправо
+// использует информацию обо всех объектах на карте, символ, подаваемый на вход отвечает за то, какой именно символ нужно переместить
 void game::moveRight(char type, GameInfo* gameInfo, game::MapCell** map)
 {
-
 	switch (type)
 	{
 	case AIM_DOT:
@@ -296,8 +296,8 @@ void game::moveRight(char type, GameInfo* gameInfo, game::MapCell** map)
 	}
 }
 
-// функция перемещения вниз
-// структуру с информацией об объекте на карте и двумерный массив структур
+// функция перемещения вверх
+// использует информацию обо всех объектах на карте, символ, подаваемый на вход отвечает за то, какой именно символ нужно переместить
 void game::moveUp(GameInfo* gameInfo, game::MapCell** map)
 {
 	// если сверху ячека карты проходима и в ней не герой
@@ -313,7 +313,7 @@ void game::moveUp(GameInfo* gameInfo, game::MapCell** map)
 }
 
 // функция перемещения вниз
-// принимает структуру с информацией об объекте на карте и двумерный массив структур
+// использует информацию обо всех объектах на карте, символ, подаваемый на вход отвечает за то, какой именно символ нужно переместить
 void game::moveDown(char type, GameInfo* gameInfo, game::MapCell** map)
 {
 	switch (type)
@@ -404,7 +404,6 @@ void game::gravity(game::MapCell** map, GameInfo* gameInfo)
 	if (map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types->value == HERO &&
 		map[gameInfo->hero.yCoordinate + 1][gameInfo->hero.xCoordinate].passable == true)
 	{
-		//replaceTheAimMovement(gameInfo, map);
 		// перемещение героя вниз на одну ячейку карты
 		moveDown(HERO, gameInfo, map);
 	}
@@ -424,8 +423,8 @@ void game::gravity(game::MapCell** map, GameInfo* gameInfo)
 	}
 }
 
-// функция запуска уровня, принимает на вход название файла с уровнем
-// возвращает количество очков, набранное игроком
+// функция запуска уровня, отвчает за работу всей игры, принимает на вход название файла с уровнем
+// возвращает структуру с данными о уровне, количестве очков и времени, затраченном на прохождение
 records::DataAboutTheChampion* game::startLevel(char* levelName)
 {
 	game::GameInfo* gameInfo = new GameInfo;
@@ -442,13 +441,13 @@ records::DataAboutTheChampion* game::startLevel(char* levelName)
 
 	system("cls");
 
-	std::cout << "Please enter your name" << std::endl;
+	std::cout << "Please enter your name" << std::endl; 
 
 	std::cin >> player->name;
 
 	player->score = gameInfo->hero.score;
 
-	player->level = atoi(&levelName[4]);
+	player->level = atoi(&levelName[4]); // Номер уровня находится в названии на пятом месте
 
 	double score = gameInfo->hero.score;
 
@@ -534,16 +533,22 @@ void game::activateTheButton(GameInfo* gameInfo, MapCell** map)
 	if (gameInfo->hero.xCoordinate == gameInfo->button.xCoordinate &&	// если персонаж и кнопка находятся в одной клетке
 		gameInfo->hero.yCoordinate == gameInfo->button.yCoordinate)
 	{
-		map[gameInfo->blackWall.yCoordinate][gameInfo->blackWall.xCoordinate].passable = true;// непроходимая стена становится проходимой
-		list::deleteCurrentElement(&map[gameInfo->blackWall.yCoordinate][gameInfo->blackWall.xCoordinate].types, BLACK_WALL);	// на месте непроходимой стены отображается проходимая
+		// ячейка карты становится проходимой
+		map[gameInfo->blackWall.yCoordinate][gameInfo->blackWall.xCoordinate].passable = true;
+		// на месте непроходимой стены отображается проходимая
+		list::deleteCurrentElement(&map[gameInfo->blackWall.yCoordinate][gameInfo->blackWall.xCoordinate].types, BLACK_WALL);	
 	}
 }
 
+// Функция проверяет, наступило ли событие, при котором игра должна закончиться
 bool game::checkGameOverConditions(GameInfo* gameInfo, MapCell** map)
 {
 	if ((gameInfo->hero.xCoordinate == gameInfo->exitFromLevel.xCoordinate &&	// если персонаж находится в одной клетке с выходом
-		gameInfo->hero.yCoordinate == gameInfo->exitFromLevel.yCoordinate) ||
-		(gameInfo->hero.healthPoints <= 0))
+		gameInfo->hero.yCoordinate == gameInfo->exitFromLevel.yCoordinate))
+	{
+		return false;
+	}
+	else if (gameInfo->hero.healthPoints <= 0) // если здоровье игрока ниже или равно 0
 	{
 		return false;
 	}

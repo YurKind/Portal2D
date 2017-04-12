@@ -45,7 +45,6 @@ namespace game
 
 	void activateTheButton(GameInfo* gameInfo, MapCell** map);	// функция активации кнопки
 
-	void turretAI(GameInfo* gameInfo, MapCell** map);
-
+	// Функция проверяет, не настали ли условия, приводящие к концу игры (нашел ли игрок выход, кончилось ли у игрока здоровье)
 	bool checkGameOverConditions(GameInfo* gameInfo, MapCell** map);
 }

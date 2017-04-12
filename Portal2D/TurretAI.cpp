@@ -10,14 +10,16 @@
 //	shootingToHero(gameInfo, map, heroIsSpotted);
 //}
 
+// Фукнция отвечает за работу ИИ турели
 void game::turretPatrolAI(GameInfo* gameInfo, MapCell** map, bool *isMovingRight)
 {
 	bool heroIsSpotted = spottingHeroPatrol(gameInfo, map);
-	bool isWallHere = checkTheWall(gameInfo, map);
-	turretPatrol(gameInfo, map, heroIsSpotted, isMovingRight, &isWallHere);
-	shootingToHeroPatrol(gameInfo, map, heroIsSpotted, &isWallHere);
+	bool wallIsHere = checkTheWall(gameInfo, map);
+	turretPatrol(gameInfo, map, heroIsSpotted, isMovingRight, &wallIsHere);
+	shootingToHeroPatrol(gameInfo, map, heroIsSpotted, &wallIsHere);
 }
 
+// Функция проверяет, находится ли герой в зоне видимости турели
 bool game::spottingHeroPatrol(GameInfo* gameInfo, MapCell** map)
 {
 	bool heroIsSpotted = false;
@@ -28,6 +30,7 @@ bool game::spottingHeroPatrol(GameInfo* gameInfo, MapCell** map)
 	return false;
 }
 
+// Функция проверяет, есть ли между героем и турелью стены
 bool game::checkTheWall(GameInfo* gameInfo, MapCell** map)
 {
 	if (gameInfo->hero.yCoordinate == gameInfo->platform_turret.yCoordinate &&
@@ -55,9 +58,11 @@ bool game::checkTheWall(GameInfo* gameInfo, MapCell** map)
 	return false;
 }
 
-void game::shootingToHeroPatrol(GameInfo* gameInfo, MapCell** map, bool heroIsSpotted, bool *isWallHere)
+// Фукнция отвечает за стрельбу по герою
+void game::shootingToHeroPatrol(GameInfo* gameInfo, MapCell** map, bool heroIsSpotted, bool *wallIsHere)
 {
-	if (*isWallHere == false)
+	// Начинает стрельбу только если между героем и турелью отсутствуют стены
+	if (*wallIsHere == false)
 	{
 		if (gameInfo->hero.xCoordinate > gameInfo->platform_turret.xCoordinate)
 		{
@@ -85,18 +90,21 @@ void game::shootingToHeroPatrol(GameInfo* gameInfo, MapCell** map, bool heroIsSp
 			gameInfo->hero.healthPoints -= DAMAGE_TO_HERO;
 		}
 	}
+	// Если герой находится справа
 	if (gameInfo->hero.xCoordinate > gameInfo->platform_turret.xCoordinate)
 	{
-		shootingToRight(gameInfo, map);
+		shootingRight(gameInfo, map);
 	}
+
+	// Если герой находится слева
 	else if (gameInfo->hero.xCoordinate < gameInfo->platform_turret.xCoordinate)
 	{
-		shootingToLeft(gameInfo, map);
+		shootingLeft(gameInfo, map);
 	}
 }
 
-
-void game::shootingToRight(GameInfo* gameInfo, MapCell** map)
+// Отвечает за стрельбу вправо
+void game::shootingRight(GameInfo* gameInfo, MapCell** map)
 {
 	if (gameInfo->bullet.xCoordinate != 0)
 	{
@@ -118,7 +126,8 @@ void game::shootingToRight(GameInfo* gameInfo, MapCell** map)
 	}
 }
 
-void game::shootingToLeft(GameInfo* gameInfo, MapCell** map)
+// Отвечает за стрельбу влево
+void game::shootingLeft(GameInfo* gameInfo, MapCell** map)
 {
 	if (gameInfo->bullet.xCoordinate != 0)
 	{
@@ -169,6 +178,7 @@ void game::shootingToLeft(GameInfo* gameInfo, MapCell** map)
 //	}
 //}
 
+// Отвечает за патрулирование местности турелью
 void game::turretPatrol(GameInfo* gameInfo, MapCell** map, bool heroIsSpotted, bool *isMovingRight, bool *isWallHere)
 {
 	if (heroIsSpotted == false || *isWallHere == true)
