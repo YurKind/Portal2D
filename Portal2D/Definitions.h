@@ -65,6 +65,8 @@
 
 //------ACTION_KEYS------//
 #define ENTER 13	// клавиша 'Enter'
+#define BACKSPACE 8	// клавиша 'backspace'
+#define PAUSE 'p'	// клавиша 'p'
 
 /* SAVE THE GAME */
 #define SAVE 'k'

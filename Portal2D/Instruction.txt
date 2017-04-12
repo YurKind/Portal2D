@@ -16,3 +16,5 @@
  set blue portal - e
  set red portal - q
  action - enter
+ pause - p
+ quit the level - backspace

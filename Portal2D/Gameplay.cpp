@@ -5,17 +5,6 @@
 #include "List.h"
 #include "TurretAI.h"
 
-// функция паузы
-double game::pause(GameInfo* gameInfo, MapCell** map)
-{
-	double startTime = clock();
-	std::cout << "\n\n\n\n\n\n\n\n\t       Pause\n\n\t   Press any key" << std::endl;
-	_getch();
-	system("cls");
-	double endTime = clock();
-	return endTime - startTime;
-}
-
 //------Moving_Functions------//
 // принимает структуру с информацией об объекте на карте и двумерный массив структур
 void game::performAnAction(GameInfo* gameInfo, MapCell** map)
@@ -24,16 +13,12 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 	bool isMovingRight = true;  // переменная для патрулирующей турели (отвечает за направление движения)
 	double timeBeforeGame = clock(); // переменная для отображения времени, затраченного на прохождение уровня
 	double timeOnPause = 0.0; // переменная для хранения времени на паузе
-	while (gameIsRunning)
+	while (gameIsRunning == true)
 	{
 		if (_kbhit()) // Если нажата клавиша
 		{
 			switch (_getch()) // Читаем клавишу
 			{
-			case 'p':
-				timeOnPause += pause(gameInfo, map);
-				break;
-
 			case A_LOWER_CASE:
 				moveLeft(HERO, gameInfo, map);
 				break;
@@ -75,6 +60,14 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 				activateTheButton(gameInfo, map);
 				break;
 
+			case PAUSE:
+				timeOnPause += pause(gameInfo, map);
+				break;
+
+			case BACKSPACE:
+				gameIsRunning = quitTheLevel(gameInfo, map);
+				break;
+
 			default:
 				break;
 			}
@@ -84,7 +77,7 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 		// Запускает ИИ патрулирующей турели
 		game::turretPatrolAI(gameInfo, map, &isMovingRight);
 		// Проверяет условия конца игры (кончилось ли здоровье, нашел ли игрок выход)
-		gameIsRunning = checkGameOverConditions(gameInfo, map);
+		gameIsRunning = checkGameOverConditions(gameInfo, map, gameIsRunning);
 
 		game::clearScreen(); // Очищаем экран
 		game::drawFrame(map, gameInfo); // Отрисовываем кадр
@@ -575,7 +568,7 @@ void game::activateTheButton(GameInfo* gameInfo, MapCell** map)
 }
 
 // Функция проверяет, наступило ли событие, при котором игра должна закончиться
-bool game::checkGameOverConditions(GameInfo* gameInfo, MapCell** map)
+bool game::checkGameOverConditions(GameInfo* gameInfo, MapCell** map, bool gameIsRunning)
 {
 	if ((gameInfo->hero.xCoordinate == gameInfo->exitFromLevel.xCoordinate &&	// если персонаж находится в одной клетке с выходом
 		gameInfo->hero.yCoordinate == gameInfo->exitFromLevel.yCoordinate))
@@ -586,8 +579,42 @@ bool game::checkGameOverConditions(GameInfo* gameInfo, MapCell** map)
 	{
 		return false;
 	}
+	else if (gameIsRunning == false)
+	{
+		return false;
+	}
 	else
 	{
 		return true;
 	}
+}
+
+bool game::quitTheLevel(GameInfo* gameInfo, MapCell** map)
+{
+	std::cout << "\n\n\n\n\n\n\n\n\t   Quit the level?\n\n\t   Press 'y' or 'n'" << std::endl;
+	
+	switch (_getch())
+	{
+	case 'y':
+		gameInfo->hero.score == 0;
+		gameInfo->hero.time == 0.0;
+		return false;
+		break;
+
+	case 'n':
+		drawFrame(map, gameInfo);
+		return true;
+		break;
+	}
+}
+
+// функция паузы
+double game::pause(GameInfo* gameInfo, MapCell** map)
+{
+	double startTime = clock();
+	std::cout << "\n\n\n\n\n\n\n\n\t       Pause\n\n\t   Press any key" << std::endl;
+	_getch();
+	system("cls");
+	double endTime = clock();
+	return endTime - startTime;
 }
