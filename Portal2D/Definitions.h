@@ -67,6 +67,8 @@
 #define ENTER 13	// клавиша 'Enter'
 #define BACKSPACE 8	// клавиша 'backspace'
 #define PAUSE 'p'	// клавиша 'p'
+#define YES 'y'		// клавиша 'y'
+#define NO 'n'		// клавиша 'n'
 
 /* SAVE THE GAME */
 #define SAVE 'k'

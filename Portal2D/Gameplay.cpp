@@ -595,13 +595,13 @@ bool game::quitTheLevel(GameInfo* gameInfo, MapCell** map)
 	
 	switch (_getch())
 	{
-	case 'y':
-		gameInfo->hero.score == 0;
-		gameInfo->hero.time == 0.0;
+	case YES:
+		gameInfo->hero.score = 0;
+		gameInfo->hero.time = 100000.0;
 		return false;
 		break;
 
-	case 'n':
+	case NO:
 		drawFrame(map, gameInfo);
 		return true;
 		break;
