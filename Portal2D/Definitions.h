@@ -79,5 +79,5 @@
 #define HERO_SPOTTING_RANGE_Y 5		// дистанция обнаружения героя турелью по оси Оу
 #define TURRET_S '+'				// символ турели в текстовом файле
 #define TURRET char(209)			// символ турели в игре '╤'
-#define PLATFORM_TURRET_S '='		// символ патрулирующей турели в текстовом файле
-#define PLATFORM_TURRET char(193)	// символ патрулирующей турели в игре '┴'
+#define STATIONARY_TURRET_S '='		// символ патрулирующей турели в текстовом файле
+#define STATIONARY_TURRET char(193)	// символ патрулирующей турели в игре '┴'

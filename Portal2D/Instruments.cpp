@@ -56,8 +56,8 @@ void game::drawFrame(game::MapCell** map, game::GameInfo* gameInfo)		// отрисовк
 				game::printSpecialSymbol(consoleHandler, i, j, LightRed, BULLET);
 				break;
 
-			case PLATFORM_TURRET:		// если встречен тип "турель на платформе", то отрисовывается турель на платформе 
-				game::printSpecialSymbol(consoleHandler, i, j, LightGrey, PLATFORM_TURRET);
+			case STATIONARY_TURRET:		// если встречен тип "турель на платформе", то отрисовывается турель на платформе 
+				game::printSpecialSymbol(consoleHandler, i, j, LightGrey, STATIONARY_TURRET);
 				break;
 
 			default:
@@ -160,8 +160,8 @@ void game::showInstruction()
 			cout << TURRET;
 			break;
 
-		case PLATFORM_TURRET_S:
-			cout << PLATFORM_TURRET;
+		case STATIONARY_TURRET_S:
+			cout << STATIONARY_TURRET;
 			break;
 
 		case BULLET:
