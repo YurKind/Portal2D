@@ -16,7 +16,8 @@
 #define BLACK_WALL_S 'X'	// символ непроходимой стены в текстовом файле
 #define EXIT (char)178		// символ выхода в игре '▓'
 #define EXIT_S 'E'			// символ выхода в текстовом файле
-#define BULLET char(250)	// символ пули в игре '·'
+#define BULLET_OF_STATIONARY_TURRET char(250)	// символ пули в игре '·'
+#define BULLET_OF_PLATFORM_TURRET char(249)		// символ пули в игре '∙'
 
 //------MAP------//
 #define NEW_LINE '\n'		// символ новой строки (для считывания из файла)
@@ -77,7 +78,9 @@
 #define DAMAGE_TO_HERO 33			// урон по герою
 #define HERO_SPOTTING_RANGE_X 10	// дистанция обнаружения героя турелью по оси Ох
 #define HERO_SPOTTING_RANGE_Y 5		// дистанция обнаружения героя турелью по оси Оу
-#define TURRET_S '+'				// символ турели в текстовом файле
-#define TURRET char(209)			// символ турели в игре '╤'
+#define TURRET_HUNTER_S '+'			// символ турели-охотника в текстовом файле
+#define TURRET_HUNTER char(209)		// символ турели-охотника в игре '╤'
 #define STATIONARY_TURRET_S '='		// символ патрулирующей турели в текстовом файле
 #define STATIONARY_TURRET char(193)	// символ патрулирующей турели в игре '┴'
+#define PLATFORM_TURRET_S '*'		// символ патрулирующей турели в текстовом файле
+#define PLATFORM_TURRET char(207)	// символ патрулирующей турели в игре '╧'

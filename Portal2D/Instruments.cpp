@@ -48,16 +48,24 @@ void game::drawFrame(game::MapCell** map, game::GameInfo* gameInfo)		// отрисовк
 				game::printSpecialSymbol(consoleHandler, i, j, Yellow, BUTTON);
 				break;
 
-			case TURRET:				// если встречен тип "турель", то отрисовывается обычная турель 
-				game::printSpecialSymbol(consoleHandler, i, j, LightGrey, TURRET);
+			case TURRET_HUNTER:				// если встречен тип "турель", то отрисовывается обычная турель 
+				game::printSpecialSymbol(consoleHandler, i, j, LightGrey, TURRET_HUNTER);
 				break;
 
-			case BULLET:				// если встречен тип "пуля", то отрисовывается пуля 
-				game::printSpecialSymbol(consoleHandler, i, j, LightRed, BULLET);
+			case BULLET_OF_STATIONARY_TURRET:				// если встречен тип "пуля", то отрисовывается пуля 
+				game::printSpecialSymbol(consoleHandler, i, j, LightRed, BULLET_OF_STATIONARY_TURRET);
 				break;
 
-			case STATIONARY_TURRET:		// если встречен тип "турель на платформе", то отрисовывается турель на платформе 
+			case BULLET_OF_PLATFORM_TURRET:				// если встречен тип "пуля", то отрисовывается пуля 
+				game::printSpecialSymbol(consoleHandler, i, j, LightRed, BULLET_OF_STATIONARY_TURRET);
+				break;
+
+			case STATIONARY_TURRET:		// если встречен тип "стационарная турель", то отрисовывается стационарная турель турель
 				game::printSpecialSymbol(consoleHandler, i, j, LightGrey, STATIONARY_TURRET);
+				break;
+
+			case PLATFORM_TURRET:		// если встречен тип "турель на платформе", то отрисовывается турель на платформе 
+				game::printSpecialSymbol(consoleHandler, i, j, LightGrey, PLATFORM_TURRET);
 				break;
 
 			default:
@@ -156,16 +164,24 @@ void game::showInstruction()
 			cout << BUTTON;
 			break;
 
-		case TURRET_S:
-			cout << TURRET;
+		case TURRET_HUNTER_S:
+			cout << TURRET_HUNTER;
 			break;
 
 		case STATIONARY_TURRET_S:
 			cout << STATIONARY_TURRET;
 			break;
 
-		case BULLET:
-			cout << BULLET;
+		case PLATFORM_TURRET_S:
+			cout << PLATFORM_TURRET;
+			break;
+
+		case BULLET_OF_STATIONARY_TURRET:
+			cout << BULLET_OF_STATIONARY_TURRET;
+			break;
+
+		case BULLET_OF_PLATFORM_TURRET:
+			cout << BULLET_OF_PLATFORM_TURRET;
 			break;
 
 		default:

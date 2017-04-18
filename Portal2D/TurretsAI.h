@@ -4,14 +4,12 @@
 
 namespace game
 {
-
-	void stationaryTurret(GameInfo* gameInfo, MapCell** map);
-	int determinePositionOfHero(GameInfo* gameInfo, MapCell** map);
-	bool checkTurretShotConditions(GameInfo* gameInfo, MapCell** map, int step);
-	void shootingToHero(GameInfo* gameInfo, MapCell** map, bool turretCanShootingToHero, int step);
-	void moveBullet(GameInfo* gameInfo, MapCell** map, int step);
-	//void platformTurretPatrol(GameInfo* gameInfo, MapCell** map, int step);
-
+	void TurretAI(char type, GameInfo* gameInfo, MapCell** map);
+	int determinePositionOfHero(char type, GameInfo* gameInfo, MapCell** map);
+	bool checkTurretShotConditions(char type, GameInfo* gameInfo, MapCell** map, int step);
+	void shootingToHero(char type, GameInfo* gameInfo, MapCell** map, bool turretCanShootingToHero, int step);
+	void moveBullet(char type, GameInfo* gameInfo, MapCell** map, int step);
+	void platformTurretPatrol(GameInfo* gameInfo, MapCell** map, bool turretCanShootingToHero, int step);
 
 
 	//// Фукнция отвечает за работу ИИ турели
