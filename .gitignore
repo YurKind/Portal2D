@@ -61,3 +61,7 @@ gradlew*
 **/.vs/
 **/Debug/
 *.VC*
+
+# Temporary MS Office files #
+
+~$*.*
