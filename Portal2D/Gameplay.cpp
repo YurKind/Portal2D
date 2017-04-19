@@ -336,153 +336,36 @@ void game::moveOy(int sideOfMovingOy, char type, GameInfo* gameInfo, game::MapCe
 	}
 }
 
-// функция перемещения вверх
-// использует информацию обо всех объектах на карте, символ, подаваемый на вход отвечает за то, какой именно символ нужно переместить
-void game::moveUp(GameInfo* gameInfo, game::MapCell** map)
-{
-	// если сверху ячека карты проходима
-	if (map[gameInfo->aim.yCoordinate - 1][gameInfo->aim.xCoordinate].passable == true)
-	{
-		//удаляем символ прицела из текущей ячейки карты
-		list::deleteCurrentElement(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types, AIM_DOT);
-		//добавляем в ячейку карты выше символ прицела
-		list::addBegin(&map[gameInfo->aim.yCoordinate - 1][gameInfo->aim.xCoordinate].types, AIM_DOT);
-
-		gameInfo->aim.yCoordinate = gameInfo->aim.yCoordinate - 1;
-	}
-}
-
-// функция перемещения вниз
-// использует информацию обо всех объектах на карте, символ, подаваемый на вход отвечает за то, какой именно символ нужно переместить
-void game::moveDown(char type, GameInfo* gameInfo, game::MapCell** map)
-{
-	switch (type)
-	{
-	case AIM_DOT:
-		// если ячейка карты ниже героя проходима
-		if (map[gameInfo->aim.yCoordinate + 1][gameInfo->aim.xCoordinate].passable == true)
-		{
-			//удаляем символ прицела из текущей ячейки карты
-			list::deleteCurrentElement(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types, AIM_DOT);
-			//добавляем в ячейку карты ниже символ прицела
-			list::addBegin(&map[gameInfo->aim.yCoordinate + 1][gameInfo->aim.xCoordinate].types, AIM_DOT);
-
-			gameInfo->aim.yCoordinate = gameInfo->aim.yCoordinate + 1;
-		}
-		break;
-
-	case HERO:
-		// если ячейка карты ниже героя проходима
-		if (map[gameInfo->hero.yCoordinate + 1][gameInfo->hero.xCoordinate].passable == true)
-		{
-			//удаляем символ героя из текущей ячейки карты
-			list::deleteCurrentElement(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types, HERO);
-			//добавляем в ячейку карты ниже символ героя
-			list::addBegin(&map[gameInfo->hero.yCoordinate + 1][gameInfo->hero.xCoordinate].types, HERO);
-
-			gameInfo->hero.yCoordinate = gameInfo->hero.yCoordinate + 1;
-		}
-		break;
-
-	case TURRET_HUNTER:
-		// если ячейка карты ниже турели проходима
-		if (map[gameInfo->hunter_turret.yCoordinate + 1][gameInfo->hunter_turret.xCoordinate].passable == true)
-		{
-			//удаляем символ турели из текущей ячейки карты
-			list::deleteCurrentElement(&map[gameInfo->hunter_turret.yCoordinate][gameInfo->hunter_turret.xCoordinate].types, TURRET_HUNTER);
-			//добавляем в ячейку карты ниже символ турели
-			list::addBegin(&map[gameInfo->hunter_turret.yCoordinate + 1][gameInfo->hunter_turret.xCoordinate].types, TURRET_HUNTER);
-
-			gameInfo->hunter_turret.yCoordinate = gameInfo->hunter_turret.yCoordinate + 1;
-		}
-		break;
-
-	case STATIONARY_TURRET:
-		// если ячейка карты ниже турели проходима
-		if (map[gameInfo->stationary_turret.yCoordinate + 1][gameInfo->stationary_turret.xCoordinate].passable == true)
-		{
-			//удаляем символ турели из текущей ячейки карты
-			list::deleteCurrentElement(&map[gameInfo->stationary_turret.yCoordinate][gameInfo->stationary_turret.xCoordinate].types, STATIONARY_TURRET);
-			//добавляем в ячейку карты ниже символ турели
-			list::addBegin(&map[gameInfo->stationary_turret.yCoordinate + 1][gameInfo->stationary_turret.xCoordinate].types, STATIONARY_TURRET);
-
-			gameInfo->stationary_turret.yCoordinate = gameInfo->stationary_turret.yCoordinate + 1;
-		}
-		break;
-
-	case PLATFORM_TURRET:
-		// если ячейка карты ниже турели проходима
-		if (map[gameInfo->platform_turret.yCoordinate + 1][gameInfo->platform_turret.xCoordinate].passable == true)
-		{
-			//удаляем символ турели из текущей ячейки карты
-			list::deleteCurrentElement(&map[gameInfo->platform_turret.yCoordinate][gameInfo->platform_turret.xCoordinate].types, PLATFORM_TURRET);
-			//добавляем в ячейку карты ниже символ турели
-			list::addBegin(&map[gameInfo->platform_turret.yCoordinate + 1][gameInfo->platform_turret.xCoordinate].types, PLATFORM_TURRET);
-
-			gameInfo->platform_turret.yCoordinate = gameInfo->platform_turret.yCoordinate + 1;
-		}
-		break;
-	}
-}
-
-//// функция переставляет прицел, при установке портала
-//// принимает структуру с информацией об объекте на карте и двумерный массив структур
-//void game::replaceTheAim(GameInfo* gameInfo, game::MapCell** map)
-//{
-//	// если ячека карты справа пуста
-//	if (map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate + 1].types->value == EMPTY_SPACE)
-//	{
-//		moveRight(AIM_DOT, gameInfo, map);	// прицел перемещаяется влево на одну ячейку карты
-//	}
-//
-//	// если ячека карты слева пуста
-//	else if (map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate - 1].types->value == EMPTY_SPACE)
-//	{
-//		moveLeft(AIM_DOT, gameInfo, map);	// прицел перемещаяется вправо на одну ячейку карты
-//	}
-//
-//	// если ячека карты сверху пуста
-//	else if (map[gameInfo->aim.yCoordinate - 1][gameInfo->aim.xCoordinate].types->value == EMPTY_SPACE)
-//	{
-//		moveUp(gameInfo, map);	// прицел перемещаяется вверх на одну ячейку карты
-//	}
-//
-//	// если ячека карты снизу пуста
-//	else if (map[gameInfo->aim.yCoordinate + 1][gameInfo->aim.xCoordinate].types->value == EMPTY_SPACE)
-//	{
-//		moveDown(AIM_DOT, gameInfo, map);	// прицел перемещаяется вниз на одну ячейку карты
-//	}
-//}
-
 void game::gravity(game::MapCell** map, GameInfo* gameInfo)
 {
+	int step = 1;
 	// если в ячейке карты ниже героя проходимое пространство
 	if (map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types->value == HERO &&
 		map[gameInfo->hero.yCoordinate + 1][gameInfo->hero.xCoordinate].passable == true)
 	{
 		// перемещение героя вниз на одну ячейку карты
-		moveDown(HERO, gameInfo, map);
+		moveOy(step, HERO, gameInfo, map);
 	}
 	// если в ячейке карты ниже турели проходимое пространство
 	if (map[gameInfo->hunter_turret.yCoordinate][gameInfo->hunter_turret.xCoordinate].types->value == TURRET_HUNTER &&
 		map[gameInfo->hunter_turret.yCoordinate + 1][gameInfo->hunter_turret.xCoordinate].passable == true)
 	{
 		// перемещение турели вниз на одну ячейку карты
-		moveDown(TURRET_HUNTER, gameInfo, map);
+		moveOy(step, TURRET_HUNTER, gameInfo, map);
 	}
 	// если в ячейке карты ниже турели проходимое пространство
 	if (map[gameInfo->stationary_turret.yCoordinate][gameInfo->stationary_turret.xCoordinate].types->value == STATIONARY_TURRET &&
 		map[gameInfo->stationary_turret.yCoordinate + 1][gameInfo->stationary_turret.xCoordinate].passable == true)
 	{
 		// перемещение турели вниз на одну ячейку карты
-		moveDown(STATIONARY_TURRET, gameInfo, map);
+		moveOy(step, STATIONARY_TURRET, gameInfo, map);
 	}
 
 	if (map[gameInfo->platform_turret.yCoordinate][gameInfo->platform_turret.xCoordinate].types->value == PLATFORM_TURRET &&
 		map[gameInfo->platform_turret.yCoordinate + 1][gameInfo->platform_turret.xCoordinate].passable == true)
 	{
 		// перемещение турели вниз на одну ячейку карты
-		moveDown(PLATFORM_TURRET, gameInfo, map);
+		moveOy(step, PLATFORM_TURRET, gameInfo, map);
 	}
 }
 
