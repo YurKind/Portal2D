@@ -85,3 +85,6 @@
 #define STATIONARY_TURRET char(193)	// символ патрулирующей турели в игре '┴'
 #define PLATFORM_TURRET_S '*'		// символ патрулирующей турели в текстовом файле
 #define PLATFORM_TURRET char(207)	// символ патрулирующей турели в игре '╧'
+#define STEP_RIGHT 1
+#define STEP_LEFT -1
+#define NO_STEP 0

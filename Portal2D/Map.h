@@ -20,12 +20,19 @@ namespace game
 		int yCoordinate = 0;
 	};
 
+	struct Turret
+	{
+		int xCoordinate = 0;
+		int yCoordinate = 0;
+		bool isMovingRight = true;
+	};
+
 	struct GameInfo
 	{
 		Hero hero;
 		Objects redPortal, bluePortal, aim, blackWall, exitFromLevel, button,
-			hunter_turret, stationary_turret, platform_turret,
 			bulletOfStationaryTurret, bulletOfPlatformTurret, bulletOfHunterTurret;
+		Turret hunter_turret, stationary_turret, platform_turret;
 	};
 
 	struct MapCell					// структура MapCell хранит всебе данные о клетке карты
