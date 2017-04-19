@@ -3,7 +3,7 @@
 #include "Definitions.h"
 
 // Главная функция ИИ турелей, запускает их работу
-void game::TurretAI(char type, GameInfo* gameInfo, MapCell** map)
+void game::turretAI(char type, GameInfo* gameInfo, MapCell** map)
 {
 	if (type == STATIONARY_TURRET && gameInfo->stationary_turret.xCoordinate != 0)
 	{

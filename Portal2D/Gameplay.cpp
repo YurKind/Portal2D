@@ -85,11 +85,11 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 
 		//game::turretAI(gameInfo, map);
 		// Запускает ИИ стационарной турели
-		game::TurretAI(STATIONARY_TURRET, gameInfo, map);
+		game::turretAI(STATIONARY_TURRET, gameInfo, map);
 		// Запускает ИИ патрулирующей турели
-		game::TurretAI(PLATFORM_TURRET, gameInfo, map);
+		game::turretAI(PLATFORM_TURRET, gameInfo, map);
 		// Запускает ИИ турели охотника
-		game::TurretAI(TURRET_HUNTER, gameInfo, map);
+		game::turretAI(TURRET_HUNTER, gameInfo, map);
 		// Проверяет условия конца игры (кончилось ли здоровье, нашел ли игрок выход)
 		gameIsRunning = checkGameOverConditions(gameInfo, map, gameIsRunning);
 
