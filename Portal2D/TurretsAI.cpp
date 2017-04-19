@@ -14,8 +14,15 @@ void game::TurretAI(char type, GameInfo* gameInfo, MapCell** map)
 	{
 		int step = determinePositionOfHero(PLATFORM_TURRET, gameInfo, map);
 		bool turretCanShootingToHero = checkTurretShotConditions(PLATFORM_TURRET, gameInfo, map, step);
-		shootingToHero(PLATFORM_TURRET, gameInfo, map, turretCanShootingToHero, step);
 		platformTurretPatrol(gameInfo, map, turretCanShootingToHero, step);
+		shootingToHero(PLATFORM_TURRET, gameInfo, map, turretCanShootingToHero, step);
+	}
+	else if (type == TURRET_HUNTER)
+	{
+		int step = determinePositionOfHero(TURRET_HUNTER, gameInfo, map);
+		bool turretCanShootingToHero = checkTurretShotConditions(TURRET_HUNTER, gameInfo, map, step);
+		turretHunterMoving(gameInfo, map, turretCanShootingToHero, step);
+		shootingToHero(TURRET_HUNTER, gameInfo, map, turretCanShootingToHero, step);
 	}
 }
 
@@ -49,6 +56,22 @@ int game::determinePositionOfHero(char type, GameInfo* gameInfo, MapCell** map)
 		}
 		else
 		{
+			return 1;
+		}
+	}
+
+	else if (type == TURRET_HUNTER)
+	{
+		if (gameInfo->hero.xCoordinate > gameInfo->hunter_turret.xCoordinate)
+		{
+			return 1;
+		}
+		else if (gameInfo->hero.xCoordinate < gameInfo->hunter_turret.xCoordinate)
+		{
+			return -1;
+		}
+		else
+		{
 			return 0;
 		}
 	}
@@ -58,7 +81,7 @@ bool game::checkTurretShotConditions(char type, GameInfo* gameInfo, MapCell** ma
 {
 	if (type == STATIONARY_TURRET)
 	{
-		int wallIsHere = false;
+		bool wallIsHere = false;
 		int searcher = gameInfo->stationary_turret.xCoordinate;
 		if (step != 0 &&
 			gameInfo->hero.yCoordinate == gameInfo->stationary_turret.yCoordinate)
@@ -87,12 +110,12 @@ bool game::checkTurretShotConditions(char type, GameInfo* gameInfo, MapCell** ma
 		}
 		else
 		{
-			return !wallIsHere;
+			return wallIsHere;
 		}
 	}
 	else if (type == PLATFORM_TURRET)
 	{
-		int wallIsHere = false;
+		bool wallIsHere = false;
 		int searcher = gameInfo->platform_turret.xCoordinate;
 		if (step != 0 &&
 			gameInfo->hero.yCoordinate == gameInfo->platform_turret.yCoordinate)
@@ -121,7 +144,41 @@ bool game::checkTurretShotConditions(char type, GameInfo* gameInfo, MapCell** ma
 		}
 		else
 		{
+			return wallIsHere;
+		}
+	}
+	else if (type == TURRET_HUNTER)
+	{
+		bool wallIsHere = false;
+		int searcher = gameInfo->hunter_turret.xCoordinate;
+		if (step != 0 &&
+			gameInfo->hero.yCoordinate == gameInfo->hunter_turret.yCoordinate)
+		{
+			while (gameInfo->hero.xCoordinate != searcher && wallIsHere == false)
+			{
+				if (map[gameInfo->hunter_turret.yCoordinate][searcher + step].types->value == HERO)
+				{
+					wallIsHere = false;
+					searcher = searcher + step;
+				}
+				else if (map[gameInfo->hunter_turret.yCoordinate][searcher + step].types->value != BLOCK)
+				{
+					searcher = searcher + step;
+				}
+				else if (map[gameInfo->hunter_turret.yCoordinate][searcher + step].types->value == BLOCK)
+				{
+					wallIsHere = true;
+				}
+			}
 			return !wallIsHere;
+		}
+		else if (step == 0)
+		{
+			return wallIsHere;
+		}
+		else
+		{
+			return wallIsHere;
 		}
 	}
 }
@@ -130,43 +187,40 @@ void game::shootingToHero(char type, GameInfo* gameInfo, MapCell** map, bool tur
 {
 	if (type == STATIONARY_TURRET)
 	{
-		if (turretCanShootingToHero == true && (gameInfo->bulletOfStationaryTurret.xCoordinate != 0 ||
-			gameInfo->hero.yCoordinate == gameInfo->stationary_turret.yCoordinate))
+		if (map[gameInfo->stationary_turret.yCoordinate][gameInfo->stationary_turret.xCoordinate + step].passable == true &&
+			gameInfo->bulletOfStationaryTurret.xCoordinate == 0 && turretCanShootingToHero == true)
 		{
-			if (map[gameInfo->stationary_turret.yCoordinate][gameInfo->stationary_turret.xCoordinate + step].passable == true &&
-				gameInfo->bulletOfStationaryTurret.xCoordinate == 0)
+			gameInfo->bulletOfStationaryTurret.xCoordinate = gameInfo->stationary_turret.xCoordinate + step;
+			gameInfo->bulletOfStationaryTurret.yCoordinate = gameInfo->stationary_turret.yCoordinate;
+			list::addBegin(&map[gameInfo->bulletOfStationaryTurret.yCoordinate][gameInfo->bulletOfStationaryTurret.xCoordinate].types, BULLET_OF_STATIONARY_TURRET);
+		}
+
+		else if (gameInfo->bulletOfStationaryTurret.xCoordinate != 0 && step != 0)
+		{
+			if ((gameInfo->bulletOfStationaryTurret.yCoordinate == gameInfo->hero.yCoordinate) &&
+				(gameInfo->bulletOfStationaryTurret.xCoordinate == gameInfo->hero.xCoordinate))
 			{
-				gameInfo->bulletOfStationaryTurret.xCoordinate = gameInfo->stationary_turret.xCoordinate + step;
-				gameInfo->bulletOfStationaryTurret.yCoordinate = gameInfo->stationary_turret.yCoordinate;
-				list::addBegin(&map[gameInfo->bulletOfStationaryTurret.yCoordinate][gameInfo->bulletOfStationaryTurret.xCoordinate].types, BULLET_OF_STATIONARY_TURRET);
+				gameInfo->hero.healthPoints -= DAMAGE_TO_HERO; // отнимается здоровье игрока
+				// удаляется текстура пули
+				list::deleteCurrentElement(&map[gameInfo->bulletOfStationaryTurret.yCoordinate][gameInfo->bulletOfStationaryTurret.xCoordinate].types, BULLET_OF_STATIONARY_TURRET);
+				// пуля исчезает
+				gameInfo->bulletOfStationaryTurret.xCoordinate = 0;
+			}
+			else if (map[gameInfo->bulletOfStationaryTurret.yCoordinate][gameInfo->bulletOfStationaryTurret.xCoordinate + step].passable == true)
+			{
+				moveBullet(BULLET_OF_STATIONARY_TURRET, gameInfo, map, step);
 			}
 
-			else if (gameInfo->bulletOfStationaryTurret.xCoordinate != 0 && step != 0)
+			else if (map[gameInfo->bulletOfStationaryTurret.yCoordinate][gameInfo->bulletOfStationaryTurret.xCoordinate + step].passable == false)
 			{
-				if ((gameInfo->bulletOfStationaryTurret.yCoordinate == gameInfo->hero.yCoordinate) &&
-					(gameInfo->bulletOfStationaryTurret.xCoordinate == gameInfo->hero.xCoordinate))
-				{
-					gameInfo->hero.healthPoints -= DAMAGE_TO_HERO; // отнимается здоровье игрока
-					// удаляется текстура пули
-					list::deleteCurrentElement(&map[gameInfo->bulletOfStationaryTurret.yCoordinate][gameInfo->bulletOfStationaryTurret.xCoordinate].types, BULLET_OF_STATIONARY_TURRET);
-					// пуля исчезает
-					gameInfo->bulletOfStationaryTurret.xCoordinate = 0;
-				}
-				else if (map[gameInfo->bulletOfStationaryTurret.yCoordinate][gameInfo->bulletOfStationaryTurret.xCoordinate + step].passable == true)
-				{
-					moveBullet(BULLET_OF_STATIONARY_TURRET, gameInfo, map, step);
-				}
-
-				else if (map[gameInfo->bulletOfStationaryTurret.yCoordinate][gameInfo->bulletOfStationaryTurret.xCoordinate + step].passable == false)
-				{
-					// удаляется текстура пули
-					list::deleteCurrentElement(&map[gameInfo->bulletOfStationaryTurret.yCoordinate][gameInfo->bulletOfStationaryTurret.xCoordinate].types, BULLET_OF_STATIONARY_TURRET);
-					// пуля исчезает
-					gameInfo->bulletOfStationaryTurret.xCoordinate = 0;
-				}
+				// удаляется текстура пули
+				list::deleteCurrentElement(&map[gameInfo->bulletOfStationaryTurret.yCoordinate][gameInfo->bulletOfStationaryTurret.xCoordinate].types, BULLET_OF_STATIONARY_TURRET);
+				// пуля исчезает
+				gameInfo->bulletOfStationaryTurret.xCoordinate = 0;
 			}
 		}
-		else if (step == 0)
+
+		else if (step == 0 && gameInfo->hero.yCoordinate == gameInfo->stationary_turret.yCoordinate)
 		{
 			gameInfo->hero.healthPoints -= DAMAGE_TO_HERO;	// у героя отнимается здоровье
 		}
@@ -178,40 +232,37 @@ void game::shootingToHero(char type, GameInfo* gameInfo, MapCell** map, bool tur
 	}
 	else if (type == PLATFORM_TURRET)
 	{
-		if (turretCanShootingToHero == true && (gameInfo->bulletOfPlatformTurret.xCoordinate != 0 ||
-			gameInfo->hero.yCoordinate == gameInfo->platform_turret.yCoordinate))
+
+		if (map[gameInfo->platform_turret.yCoordinate][gameInfo->platform_turret.xCoordinate + step].passable == true &&
+			gameInfo->bulletOfPlatformTurret.xCoordinate == 0 && turretCanShootingToHero == true)
 		{
-			if (map[gameInfo->platform_turret.yCoordinate][gameInfo->platform_turret.xCoordinate + step].passable == true &&
-				gameInfo->bulletOfPlatformTurret.xCoordinate == 0)
+			gameInfo->bulletOfPlatformTurret.xCoordinate = gameInfo->platform_turret.xCoordinate + step;
+			gameInfo->bulletOfPlatformTurret.yCoordinate = gameInfo->platform_turret.yCoordinate;
+			list::addBegin(&map[gameInfo->bulletOfPlatformTurret.yCoordinate][gameInfo->bulletOfPlatformTurret.xCoordinate].types, BULLET_OF_PLATFORM_TURRET);
+		}
+
+		else if (gameInfo->bulletOfPlatformTurret.xCoordinate != 0 && step != 0)
+		{
+			if ((gameInfo->bulletOfPlatformTurret.yCoordinate == gameInfo->hero.yCoordinate) &&
+				(gameInfo->bulletOfPlatformTurret.xCoordinate == gameInfo->hero.xCoordinate))
 			{
-				gameInfo->bulletOfPlatformTurret.xCoordinate = gameInfo->platform_turret.xCoordinate + step;
-				gameInfo->bulletOfPlatformTurret.yCoordinate = gameInfo->platform_turret.yCoordinate;
-				list::addBegin(&map[gameInfo->bulletOfPlatformTurret.yCoordinate][gameInfo->bulletOfPlatformTurret.xCoordinate].types, BULLET_OF_PLATFORM_TURRET);
+				gameInfo->hero.healthPoints -= DAMAGE_TO_HERO; // отнимается здоровье игрока
+				// удаляется текстура пули
+				list::deleteCurrentElement(&map[gameInfo->bulletOfPlatformTurret.yCoordinate][gameInfo->bulletOfPlatformTurret.xCoordinate].types, BULLET_OF_PLATFORM_TURRET);
+				// пуля исчезает
+				gameInfo->bulletOfPlatformTurret.xCoordinate = 0;
+			}
+			else if (map[gameInfo->bulletOfPlatformTurret.yCoordinate][gameInfo->bulletOfPlatformTurret.xCoordinate + step].passable == true)
+			{
+				moveBullet(BULLET_OF_PLATFORM_TURRET, gameInfo, map, step);
 			}
 
-			else if (gameInfo->bulletOfPlatformTurret.xCoordinate != 0 && step != 0)
+			else if (map[gameInfo->bulletOfPlatformTurret.yCoordinate][gameInfo->bulletOfPlatformTurret.xCoordinate + step].passable == false)
 			{
-				if ((gameInfo->bulletOfPlatformTurret.yCoordinate == gameInfo->hero.yCoordinate) &&
-					(gameInfo->bulletOfPlatformTurret.xCoordinate == gameInfo->hero.xCoordinate))
-				{
-					gameInfo->hero.healthPoints -= DAMAGE_TO_HERO; // отнимается здоровье игрока
-																   // удаляется текстура пули
-					list::deleteCurrentElement(&map[gameInfo->bulletOfPlatformTurret.yCoordinate][gameInfo->bulletOfPlatformTurret.xCoordinate].types, BULLET_OF_PLATFORM_TURRET);
-					// пуля исчезает
-					gameInfo->bulletOfPlatformTurret.xCoordinate = 0;
-				}
-				else if (map[gameInfo->bulletOfPlatformTurret.yCoordinate][gameInfo->bulletOfPlatformTurret.xCoordinate + step].passable == true)
-				{
-					moveBullet(BULLET_OF_PLATFORM_TURRET, gameInfo, map, step);
-				}
-
-				else if (map[gameInfo->bulletOfPlatformTurret.yCoordinate][gameInfo->bulletOfPlatformTurret.xCoordinate + step].passable == false)
-				{
-					// удаляется текстура пули
-					list::deleteCurrentElement(&map[gameInfo->bulletOfPlatformTurret.yCoordinate][gameInfo->bulletOfPlatformTurret.xCoordinate].types, BULLET_OF_PLATFORM_TURRET);
-					// пуля исчезает
-					gameInfo->bulletOfPlatformTurret.xCoordinate = 0;
-				}
+				// удаляется текстура пули
+				list::deleteCurrentElement(&map[gameInfo->bulletOfPlatformTurret.yCoordinate][gameInfo->bulletOfPlatformTurret.xCoordinate].types, BULLET_OF_PLATFORM_TURRET);
+				// пуля исчезает
+				gameInfo->bulletOfPlatformTurret.xCoordinate = 0;
 			}
 		}
 		else if (gameInfo->hero.xCoordinate == gameInfo->platform_turret.xCoordinate &&
@@ -223,6 +274,53 @@ void game::shootingToHero(char type, GameInfo* gameInfo, MapCell** map, bool tur
 		else if (turretCanShootingToHero == false && gameInfo->bulletOfPlatformTurret.xCoordinate != 0)
 		{
 			moveBullet(BULLET_OF_PLATFORM_TURRET, gameInfo, map, step);
+		}
+	}
+
+	else if (type == TURRET_HUNTER)
+	{
+
+		if (map[gameInfo->hunter_turret.yCoordinate][gameInfo->hunter_turret.xCoordinate + step].passable == true &&
+			gameInfo->bulletOfHunterTurret.xCoordinate == 0 && turretCanShootingToHero == true)
+		{
+			gameInfo->bulletOfHunterTurret.xCoordinate = gameInfo->hunter_turret.xCoordinate + step;
+			gameInfo->bulletOfHunterTurret.yCoordinate = gameInfo->hunter_turret.yCoordinate;
+			list::addBegin(&map[gameInfo->bulletOfHunterTurret.yCoordinate][gameInfo->bulletOfHunterTurret.xCoordinate].types, BULLET_OF_HUNTER_TURRET);
+		}
+
+		else if (gameInfo->bulletOfHunterTurret.xCoordinate != 0 && step != 0)
+		{
+			if ((gameInfo->bulletOfHunterTurret.yCoordinate == gameInfo->hero.yCoordinate) &&
+				(gameInfo->bulletOfHunterTurret.xCoordinate == gameInfo->hero.xCoordinate))
+			{
+				gameInfo->hero.healthPoints -= DAMAGE_TO_HERO; // отнимается здоровье игрока
+															   // удаляется текстура пули
+				list::deleteCurrentElement(&map[gameInfo->bulletOfHunterTurret.yCoordinate][gameInfo->bulletOfHunterTurret.xCoordinate].types, BULLET_OF_HUNTER_TURRET);
+				// пуля исчезает
+				gameInfo->bulletOfHunterTurret.xCoordinate = 0;
+			}
+			else if (map[gameInfo->bulletOfHunterTurret.yCoordinate][gameInfo->bulletOfHunterTurret.xCoordinate + step].passable == true)
+			{
+				moveBullet(BULLET_OF_HUNTER_TURRET, gameInfo, map, step);
+			}
+
+			else if (map[gameInfo->bulletOfHunterTurret.yCoordinate][gameInfo->bulletOfHunterTurret.xCoordinate + step].passable == false)
+			{
+				// удаляется текстура пули
+				list::deleteCurrentElement(&map[gameInfo->bulletOfHunterTurret.yCoordinate][gameInfo->bulletOfHunterTurret.xCoordinate].types, BULLET_OF_HUNTER_TURRET);
+				// пуля исчезает
+				gameInfo->bulletOfHunterTurret.xCoordinate = 0;
+			}
+		}
+		else if (gameInfo->hero.xCoordinate == gameInfo->hunter_turret.xCoordinate &&
+			gameInfo->hero.yCoordinate == gameInfo->hunter_turret.yCoordinate)
+		{
+			gameInfo->hero.healthPoints -= DAMAGE_TO_HERO;	// у героя отнимается здоровье
+		}
+
+		else if (turretCanShootingToHero == false && gameInfo->bulletOfHunterTurret.xCoordinate != 0)
+		{
+			moveBullet(BULLET_OF_HUNTER_TURRET, gameInfo, map, step);
 		}
 	}
 }
@@ -245,35 +343,73 @@ void game::moveBullet(char type, GameInfo* gameInfo, MapCell** map, int step)
 		list::deleteCurrentElement(&map[gameInfo->bulletOfPlatformTurret.yCoordinate][gameInfo->bulletOfPlatformTurret.xCoordinate].types, BULLET_OF_PLATFORM_TURRET);
 		gameInfo->bulletOfPlatformTurret.xCoordinate = gameInfo->bulletOfPlatformTurret.xCoordinate + step;
 	}
+
+	else if (type == BULLET_OF_HUNTER_TURRET)
+	{
+		list::addBegin(&map[gameInfo->bulletOfHunterTurret.yCoordinate][gameInfo->bulletOfHunterTurret.xCoordinate + step].types, BULLET_OF_HUNTER_TURRET);
+
+		list::deleteCurrentElement(&map[gameInfo->bulletOfHunterTurret.yCoordinate][gameInfo->bulletOfHunterTurret.xCoordinate].types, BULLET_OF_HUNTER_TURRET);
+		gameInfo->bulletOfHunterTurret.xCoordinate = gameInfo->bulletOfHunterTurret.xCoordinate + step;
+	}
 }
 
-bool isMovingRight = true; // пока так, пофикшу
+bool isMovingRight = true; // пока так, нужен фикс
 void game::platformTurretPatrol(GameInfo* gameInfo, MapCell** map, bool turretCanShootingToHero, int step)
 {
+	int sideOfMoving = step;
 	if (turretCanShootingToHero == false ||
 		gameInfo->hero.yCoordinate != gameInfo->platform_turret.yCoordinate)
 	{
-		// если справа от турели проходмое пространство и турель двигалась вправо
 		if (map[gameInfo->platform_turret.yCoordinate][gameInfo->platform_turret.xCoordinate + 1].passable == true && isMovingRight == true)
 		{
-			moveRight(PLATFORM_TURRET, gameInfo, map); // турель перемещается вправо
+			sideOfMoving = 1;
+			moveOx(sideOfMoving, PLATFORM_TURRET, gameInfo, map);
 		}
-		// если справа от турели проходмое пространство и турель двигалась влево 
 		else if (map[gameInfo->platform_turret.yCoordinate][gameInfo->platform_turret.xCoordinate - 1].passable == true && isMovingRight == false)
 		{
-			moveLeft(PLATFORM_TURRET, gameInfo, map); // турель перемещается влево
+			sideOfMoving = -1;
+			moveOx(sideOfMoving, PLATFORM_TURRET, gameInfo, map);
 		}
-		// если справа от турели непроходимое пространство
 		else if (map[gameInfo->platform_turret.yCoordinate][gameInfo->platform_turret.xCoordinate + 1].passable == false)
 		{
-			isMovingRight = false;	// текущее направление движения - влево
-			moveLeft(PLATFORM_TURRET, gameInfo, map);	//турель перемещается влево
+			sideOfMoving = -1;
+			isMovingRight = false;
+			moveOx(sideOfMoving, PLATFORM_TURRET, gameInfo, map);
 		}
-		// если слева от турели непроходимое пространство
 		else if (map[gameInfo->platform_turret.yCoordinate][gameInfo->platform_turret.xCoordinate - 1].passable == false)
 		{
-			isMovingRight = true;	// текущее направление движения - вправо
-			moveRight(PLATFORM_TURRET, gameInfo, map);
+			sideOfMoving = 1;
+			isMovingRight = true;
+			moveOx(sideOfMoving, PLATFORM_TURRET, gameInfo, map);
+		}
+	}
+}
+
+void game::turretHunterMoving(GameInfo* gameInfo, MapCell** map, bool turretCanShootingToHero, int step)
+{
+	if (turretCanShootingToHero == false)
+	{
+		if (gameInfo->hero.xCoordinate > gameInfo->hunter_turret.xCoordinate + 4 &&
+			map[gameInfo->hunter_turret.yCoordinate][gameInfo->hunter_turret.xCoordinate + step].passable == true)
+		{
+			moveOx(step, TURRET_HUNTER, gameInfo, map);
+		}
+		else if (gameInfo->hero.xCoordinate < gameInfo->hunter_turret.xCoordinate - 4 &&
+			map[gameInfo->hunter_turret.yCoordinate][gameInfo->hunter_turret.xCoordinate + step].passable == true)
+		{
+			moveOx(step, TURRET_HUNTER, gameInfo, map);
+		}
+		else if (gameInfo->hero.xCoordinate > gameInfo->hunter_turret.xCoordinate + 4 &&
+			map[gameInfo->hunter_turret.yCoordinate][gameInfo->hunter_turret.xCoordinate + step].passable == false)
+		{
+			jump(TURRET_HUNTER, gameInfo, map);
+			moveOx(step, TURRET_HUNTER, gameInfo, map);
+		}
+		else if (gameInfo->hero.xCoordinate < gameInfo->hunter_turret.xCoordinate - 4 &&
+			map[gameInfo->hunter_turret.yCoordinate][gameInfo->hunter_turret.xCoordinate + step].passable == false)
+		{
+			jump(TURRET_HUNTER, gameInfo, map);
+			moveOx(step, TURRET_HUNTER, gameInfo, map);
 		}
 	}
 }
@@ -281,259 +417,6 @@ void game::platformTurretPatrol(GameInfo* gameInfo, MapCell** map, bool turretCa
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//// Фукнция отвечает за работу ИИ турели
-//void game::turretPatrolAI(GameInfo* gameInfo, MapCell** map, bool *isMovingRight)
-//{
-//	//bool heroIsSpotted = spottingHeroPatrol(gameInfo, map);
-//	// переменная хранит в себе информацию о наличии стены между турелью и героем
-//	// true - стена есть, false - стены нет
-//	bool wallIsHere = checkTheWall(gameInfo, map);
-//	//запускается функция патрулирования турели
-//	turretPatrol(gameInfo, map, isMovingRight, &wallIsHere);
-//	// запускается функция стрельбы турели
-//	shootingToHeroPatrol(gameInfo, map, &wallIsHere);
-//}
-//
-//// Функция проверяет, есть ли между героем и турелью стены
-//bool game::checkTheWall(GameInfo* gameInfo, MapCell** map)
-//{
-//	// если герой и турель находятся на одной высоте, и герой находится правее
-//	if (gameInfo->hero.yCoordinate == gameInfo->platform_turret.yCoordinate &&
-//		gameInfo->hero.xCoordinate > gameInfo->platform_turret.xCoordinate)
-//	{
-//		// поиск стен между героем и турелью
-//		for (int i = gameInfo->platform_turret.xCoordinate; i < gameInfo->hero.xCoordinate; i++)
-//		{
-//			if (map[gameInfo->platform_turret.yCoordinate][i].passable == false)
-//			{
-//				return true; // если стена найдена - возвращается зачение true
-//			}
-//		}
-//	}
-//	// если герой и турель находятся на одной высоте, и герой находится левее
-//	else if (gameInfo->hero.yCoordinate == gameInfo->platform_turret.yCoordinate &&
-//		gameInfo->hero.xCoordinate < gameInfo->platform_turret.xCoordinate)
-//	{
-//		// поиск стен между героем и турель
-//		for (int i = gameInfo->platform_turret.xCoordinate; i > gameInfo->hero.xCoordinate; i--)
-//		{
-//			if (map[gameInfo->platform_turret.yCoordinate][i].passable == false)
-//			{
-//				return true; // если стена найдена - возвращается зачение true
-//			}
-//		}
-//	}
-//	return false;	// если стена не найдена - возвращается зачение false
-//}
-//
-//// Фукнция отвечает за стрельбу по герою
-//void game::shootingToHeroPatrol(GameInfo* gameInfo, MapCell** map, bool *wallIsHere)
-//{
-//	// Начинает стрельбу только если между героем и турелью отсутствуют стены
-//	if (*wallIsHere == false && gameInfo->hero.yCoordinate == gameInfo->platform_turret.yCoordinate)
-//	{
-//		// если герой правее турели
-//		if (gameInfo->hero.xCoordinate > gameInfo->platform_turret.xCoordinate)
-//		{
-//			// если пуля существует и справа от турели проходимое пространство
-//			if (gameInfo->bullet.xCoordinate == 0 &&
-//				map[gameInfo->platform_turret.yCoordinate][gameInfo->platform_turret.xCoordinate + 1].passable == true)
-//			{
-//				// справа от турели появляется пуля
-//				gameInfo->bullet.xCoordinate = gameInfo->platform_turret.xCoordinate + 1;
-//				gameInfo->bullet.yCoordinate = gameInfo->platform_turret.yCoordinate;
-//				// справа от турели появляется текстура пули
-//				list::addBegin(&map[gameInfo->bullet.yCoordinate][gameInfo->bullet.xCoordinate].types, BULLET);
-//			}
-//		}
-//		// если герой левее турели
-//		else if (gameInfo->hero.xCoordinate < gameInfo->platform_turret.xCoordinate)
-//		{
-//			// если пули не существует и слева от турели проходимое пространство
-//			if (gameInfo->bullet.xCoordinate == 0 &&
-//				map[gameInfo->platform_turret.yCoordinate][gameInfo->platform_turret.xCoordinate - 1].passable == true)
-//			{
-//				// слева от турели появляется пуля
-//				gameInfo->bullet.xCoordinate = gameInfo->platform_turret.xCoordinate - 1;
-//				gameInfo->bullet.yCoordinate = gameInfo->platform_turret.yCoordinate;
-//				// слева от турели появояется текстура пули
-//				list::addBegin(&map[gameInfo->bullet.yCoordinate][gameInfo->bullet.xCoordinate].types, BULLET);
-//			}
-//		}
-//		// если герой и турель в одной клетке
-//		else if ((gameInfo->hero.xCoordinate == gameInfo->platform_turret.xCoordinate) &&
-//			(gameInfo->hero.yCoordinate == gameInfo->platform_turret.yCoordinate))
-//		{
-//			gameInfo->hero.healthPoints -= DAMAGE_TO_HERO;	// у героя отнимается здоровье
-//		}
-//	}
-//	// Если герой находится справа
-//	if (gameInfo->hero.xCoordinate > gameInfo->platform_turret.xCoordinate)
-//	{
-//		shootingRight(gameInfo, map);	// турель стреляет вправо
-//	}
-//
-//	// Если герой находится слева
-//	else if (gameInfo->hero.xCoordinate < gameInfo->platform_turret.xCoordinate)
-//	{
-//		shootingLeft(gameInfo, map);	// турель стреляет влево
-//	}
-//}
-//
-//// Отвечает за стрельбу вправо
-//void game::shootingRight(GameInfo* gameInfo, MapCell** map)
-//{
-//	// если пуля существует
-//	if (gameInfo->bullet.xCoordinate != 0)
-//	{
-//		// если координаты пули и игрока совпадают
-//		if ((gameInfo->bullet.yCoordinate == gameInfo->hero.yCoordinate) &&
-//			(gameInfo->bullet.xCoordinate == gameInfo->hero.xCoordinate))
-//		{
-//			gameInfo->hero.healthPoints -= DAMAGE_TO_HERO; // отнимается здоровье игрока
-//			// удаляется текстура пули
-//			list::deleteCurrentElement(&map[gameInfo->bullet.yCoordinate][gameInfo->bullet.xCoordinate].types, BULLET);
-//			// пуля исчезает
-//			gameInfo->bullet.xCoordinate = 0;
-//		}
-//		// если справа от пули проходимое пространство
-//		else if (map[gameInfo->bullet.yCoordinate][gameInfo->bullet.xCoordinate + 1].passable == true)
-//		{
-//			moveRight(BULLET, gameInfo, map);	//пуля перемещается вправо
-//		}
-//		// если справа от пули непроходимое пространство
-//		else if (map[gameInfo->bullet.yCoordinate][gameInfo->bullet.xCoordinate + 1].passable == false)
-//		{
-//			// текстура пули исчезает
-//			list::deleteCurrentElement(&map[gameInfo->bullet.yCoordinate][gameInfo->bullet.xCoordinate].types, BULLET);
-//			// пуля исчезает
-//			gameInfo->bullet.xCoordinate = 0;
-//		}
-//	}
-//}
-//
-//// Отвечает за стрельбу влево
-//void game::shootingLeft(GameInfo* gameInfo, MapCell** map)
-//{
-//	// если пуля существует
-//	if (gameInfo->bullet.xCoordinate != 0)
-//	{
-//		// если координаты пули и игрока совпадают
-//		if ((gameInfo->bullet.yCoordinate == gameInfo->hero.yCoordinate) &&
-//			(gameInfo->bullet.xCoordinate == gameInfo->hero.xCoordinate))
-//		{
-//			gameInfo->hero.healthPoints -= DAMAGE_TO_HERO; // отнимается здоровье игрока
-//			// удаляется текстура пули
-//			list::deleteCurrentElement(&map[gameInfo->bullet.yCoordinate][gameInfo->bullet.xCoordinate].types, BULLET);
-//			// пуля исчезает
-//			gameInfo->bullet.xCoordinate = 0;
-//		}
-//		// если слева от пули проходимое пространство
-//		else if (map[gameInfo->bullet.yCoordinate][gameInfo->bullet.xCoordinate - 1].passable == true)
-//		{
-//			moveLeft(BULLET, gameInfo, map); // пуля перемещается влево
-//		}
-//		// если слева от пули непроходимое пространство
-//		else if (map[gameInfo->bullet.yCoordinate][gameInfo->bullet.xCoordinate - 1].passable == false)
-//		{
-//			// удаляется текстура пули
-//			list::deleteCurrentElement(&map[gameInfo->bullet.yCoordinate][gameInfo->bullet.xCoordinate].types, BULLET);
-//			// пуля исчезает
-//			gameInfo->bullet.xCoordinate = 0;
-//		}
-//	}
-//}
-//
-//// Отвечает за патрулирование местности турелью
-//void game::turretPatrol(GameInfo* gameInfo, MapCell** map, bool *isMovingRight, bool *isWallHere)
-//{
-//	// если между игроком и турелью есть стена или турель и игрок находятся на разной высоте
-//	if (*isWallHere == true ||
-//		gameInfo->hero.yCoordinate != gameInfo->platform_turret.yCoordinate)
-//	{
-//		// если справа от турели проходмое пространство и турель двигалась вправо
-//		if (map[gameInfo->platform_turret.yCoordinate][gameInfo->platform_turret.xCoordinate + 1].passable == true && *isMovingRight == true)
-//		{
-//			moveRight(PLATFORM_TURRET, gameInfo, map); // турель перемещается вправо
-//			*isMovingRight = true; // текущее направление движения - вправо
-//		}
-//		// если справа от турели проходмое пространство и турель двигалась влево 
-//		else if (map[gameInfo->platform_turret.yCoordinate][gameInfo->platform_turret.xCoordinate - 1].passable == true && *isMovingRight == false)
-//		{
-//			moveLeft(PLATFORM_TURRET, gameInfo, map); // турель перемещается влево
-//			*isMovingRight = false; // текущее направление движения - влево
-//		}
-//		// если справа от турели непроходимое пространство
-//		else if (map[gameInfo->platform_turret.yCoordinate][gameInfo->platform_turret.xCoordinate + 1].passable == false)
-//		{
-//			*isMovingRight = false;	// текущее направление движения - влево
-//			moveLeft(PLATFORM_TURRET, gameInfo, map);	//турель перемещается влево
-//		}
-//		// если слева от турели непроходимое пространство
-//		else if (map[gameInfo->platform_turret.yCoordinate][gameInfo->platform_turret.xCoordinate - 1].passable == false)
-//		{
-//			*isMovingRight = true;	// текущее направление движения - вправо
-//			moveRight(PLATFORM_TURRET, gameInfo, map);
-//		}
-//	}
-//}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-
-
-			TURRET HUNTER BELOW
-
-
-*/
 
 //void game::turretAI(GameInfo* gameInfo, MapCell** map)
 //{
@@ -543,16 +426,6 @@ void game::platformTurretPatrol(GameInfo* gameInfo, MapCell** map, bool turretCa
 //	shootingToHero(gameInfo, map, heroIsSpotted);
 //}
 
-//// Функция проверяет, находится ли герой в зоне видимости турели
-//bool game::spottingHeroPatrol(GameInfo* gameInfo, MapCell** map)
-//{
-//	bool heroIsSpotted = false;
-//	if (gameInfo->hero.yCoordinate == gameInfo->platform_turret.yCoordinate)
-//	{
-//		return true;
-//	}
-//	return false;
-//}
 
 //void game::turretMoving(GameInfo* gameInfo, MapCell** map, bool heroIsSpotted)
 //{
@@ -581,22 +454,6 @@ void game::platformTurretPatrol(GameInfo* gameInfo, MapCell** map, bool turretCa
 //			moveLeft(TURRET_EASY, gameInfo, map);
 //		}
 //	}
-//}
-
-//bool game::spottingHero(GameInfo* gameInfo, MapCell** map)
-//{
-//	bool heroIsSpotted = false;
-//	for (int i = gameInfo->turret.xCoordinate - HERO_SPOTTING_RANGE_X; i < gameInfo->turret.xCoordinate + HERO_SPOTTING_RANGE_X; i++)
-//	{
-//		for (int j = gameInfo->turret.yCoordinate + HERO_SPOTTING_RANGE_Y; j > gameInfo->turret.yCoordinate - HERO_SPOTTING_RANGE_Y; j--)
-//		{
-//			if ((gameInfo->hero.xCoordinate == i) && (gameInfo->hero.yCoordinate == j))
-//			{
-//				return heroIsSpotted = true;
-//			}
-//		}
-//	}
-//	return false;
 //}
 
 //void game::shootingToHero(GameInfo* gameInfo, MapCell** map, bool heroIsSpotted)
@@ -679,5 +536,39 @@ void game::platformTurretPatrol(GameInfo* gameInfo, MapCell** map, bool turretCa
 //	else if ((gameInfo->hero.xCoordinate == gameInfo->turret.xCoordinate) && (gameInfo->hero.yCoordinate == gameInfo->turret.yCoordinate))
 //	{
 //		gameInfo->hero.healthPoints -= DAMAGE_TO_HERO;
+//	}
+//}
+
+
+//void game::turretPatrol(GameInfo* gameInfo, MapCell** map, bool *isMovingRight, bool *isWallHere)
+//{
+//	// если между игроком и турелью есть стена или турель и игрок находятся на разной высоте
+//	if (*isWallHere == true ||
+//		gameInfo->hero.yCoordinate != gameInfo->platform_turret.yCoordinate)
+//	{
+//		// если справа от турели проходмое пространство и турель двигалась вправо
+//		if (map[gameInfo->platform_turret.yCoordinate][gameInfo->platform_turret.xCoordinate + 1].passable == true && *isMovingRight == true)
+//		{
+//			moveRight(PLATFORM_TURRET, gameInfo, map); // турель перемещается вправо
+//			*isMovingRight = true; // текущее направление движения - вправо
+//		}
+//		// если справа от турели проходмое пространство и турель двигалась влево 
+//		else if (map[gameInfo->platform_turret.yCoordinate][gameInfo->platform_turret.xCoordinate - 1].passable == true && *isMovingRight == false)
+//		{
+//			moveLeft(PLATFORM_TURRET, gameInfo, map); // турель перемещается влево
+//			*isMovingRight = false; // текущее направление движения - влево
+//		}
+//		// если справа от турели непроходимое пространство
+//		else if (map[gameInfo->platform_turret.yCoordinate][gameInfo->platform_turret.xCoordinate + 1].passable == false)
+//		{
+//			*isMovingRight = false;	// текущее направление движения - влево
+//			moveLeft(PLATFORM_TURRET, gameInfo, map);	//турель перемещается влево
+//		}
+//		// если слева от турели непроходимое пространство
+//		else if (map[gameInfo->platform_turret.yCoordinate][gameInfo->platform_turret.xCoordinate - 1].passable == false)
+//		{
+//			*isMovingRight = true;	// текущее направление движения - вправо
+//			moveRight(PLATFORM_TURRET, gameInfo, map);
+//		}
 //	}
 //}

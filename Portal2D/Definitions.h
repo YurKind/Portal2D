@@ -16,8 +16,9 @@
 #define BLACK_WALL_S 'X'	// символ непроходимой стены в текстовом файле
 #define EXIT (char)178		// символ выхода в игре '▓'
 #define EXIT_S 'E'			// символ выхода в текстовом файле
-#define BULLET_OF_STATIONARY_TURRET char(250)	// символ пули в игре '·'
-#define BULLET_OF_PLATFORM_TURRET char(249)		// символ пули в игре '∙'
+#define BULLET_OF_STATIONARY_TURRET char(250)	// символ пули от стационарной турели в игре '·'
+#define BULLET_OF_PLATFORM_TURRET char(249)		// символ пули от патрулируещей турели в игре '∙'
+#define BULLET_OF_HUNTER_TURRET '~'				// символ пули от турели охотника '~'
 
 //------MAP------//
 #define NEW_LINE '\n'		// символ новой строки (для считывания из файла)

@@ -23,7 +23,9 @@ namespace game
 	struct GameInfo
 	{
 		Hero hero;
-		Objects redPortal, bluePortal, aim, blackWall, exitFromLevel, button, turret, stationary_turret, platform_turret, bulletOfStationaryTurret, bulletOfPlatformTurret;
+		Objects redPortal, bluePortal, aim, blackWall, exitFromLevel, button,
+			hunter_turret, stationary_turret, platform_turret,
+			bulletOfStationaryTurret, bulletOfPlatformTurret, bulletOfHunterTurret;
 	};
 
 	struct MapCell					// структура MapCell хранит всебе данные о клетке карты

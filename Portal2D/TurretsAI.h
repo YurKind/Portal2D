@@ -11,6 +11,8 @@ namespace game
 	void moveBullet(char type, GameInfo* gameInfo, MapCell** map, int step);
 	void platformTurretPatrol(GameInfo* gameInfo, MapCell** map, bool turretCanShootingToHero, int step);
 
+	//-----TURRET_HUNTER------//
+	void turretHunterMoving(GameInfo* gameInfo, MapCell** map, bool turretCanShootingToHero, int step);
 
 	//// Фукнция отвечает за работу ИИ турели
 	//void turretPatrolAI(GameInfo* gameInfo, MapCell** map, bool *isMovingRight);
@@ -26,8 +28,8 @@ namespace game
 	//bool checkTheWall(GameInfo* gameInfo, MapCell** map);
 
 	//void turretAI(GameInfo* gameInfo, MapCell** map);
-	//void turretMoving(GameInfo* gameInfo, MapCell** map, bool heroIsSpotted);
-	//bool spottingHero(GameInfo* gameInfo, MapCell** map);
+	
+	
 	//bool spottingHeroPatrol(GameInfo* gameInfo, MapCell** map);
 	//void shootingToHero(GameInfo* gameInfo, MapCell** map, bool heroIsSpotted);
 }

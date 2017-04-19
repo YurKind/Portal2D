@@ -60,6 +60,10 @@ void game::drawFrame(game::MapCell** map, game::GameInfo* gameInfo)		// отрисовк
 				game::printSpecialSymbol(consoleHandler, i, j, LightRed, BULLET_OF_STATIONARY_TURRET);
 				break;
 
+			case BULLET_OF_HUNTER_TURRET:				// если встречен тип "пуля", то отрисовывается пуля 
+				game::printSpecialSymbol(consoleHandler, i, j, LightRed, BULLET_OF_STATIONARY_TURRET);
+				break;
+
 			case STATIONARY_TURRET:		// если встречен тип "стационарная турель", то отрисовывается стационарная турель турель
 				game::printSpecialSymbol(consoleHandler, i, j, LightGrey, STATIONARY_TURRET);
 				break;

@@ -27,8 +27,8 @@ namespace game
 	void performAnAction(GameInfo* gameInfo, MapCell** map);
 
 	// Функции для перемещения объектов влево-вправо-вверх-вниз
-	void moveLeft(char type, GameInfo* gameInfo, MapCell** map);
-	void moveRight(char type, GameInfo* gameInfo, MapCell** map);
+	void moveOx(int sideOfMovingOx, char type, GameInfo* gameInfo, game::MapCell** map);
+	void moveOy(int sideOfMovingOy, char type, GameInfo* gameInfo, game::MapCell** map);
 	void moveUp(GameInfo* gameInfo, MapCell** map);
 	void moveDown(char type, GameInfo* gameInfo, MapCell** map);
 
