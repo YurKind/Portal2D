@@ -12,9 +12,10 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 	bool gameIsRunning = true;	// условие выполнение цикла
 	bool isMovingRight = true;  // переменная для патрулирующей турели (отвечает за направление движения)
 	double timeBeforeGame = clock(); // переменная для отображения времени, затраченного на прохождение уровня
-	double timeOnPause = 0.0; // переменная для хранения времени на паузе
-	int sideOfMovingOx = 0;
-	int sideOfMovingOy = 0;
+	double timeOnPause = 0.0;	// переменная для хранения времени на паузе
+	int sideOfMovingOx = 0;		// переменная для хранения направления движения и количество шагов по оси Ох
+	int sideOfMovingOy = 0;		// переменная для хранения направления движения и количество шагов по оси Оу
+	
 	while (gameIsRunning == true)
 	{
 		if (_kbhit()) // Если нажата клавиша
@@ -44,13 +45,11 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 			case UP_ARROW:
 				sideOfMovingOy = - 1;
 				moveOy(sideOfMovingOy, AIM_DOT, gameInfo, map);
-				//moveUp(gameInfo, map);
 				break;
 
 			case DOWN_ARROW:
 				sideOfMovingOy = 1;
 				moveOy(sideOfMovingOy, AIM_DOT, gameInfo, map);
-				//moveDown(AIM_DOT, gameInfo, map);
 				break;
 
 			case SPACE_JUMP:
@@ -83,13 +82,15 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 			}
 		}
 
-		//game::turretAI(gameInfo, map);
 		// Запускает ИИ стационарной турели
 		game::turretAI(STATIONARY_TURRET, gameInfo, map);
+		
 		// Запускает ИИ патрулирующей турели
 		game::turretAI(PLATFORM_TURRET, gameInfo, map);
+		
 		// Запускает ИИ турели охотника
 		game::turretAI(TURRET_HUNTER, gameInfo, map);
+		
 		// Проверяет условия конца игры (кончилось ли здоровье, нашел ли игрок выход)
 		gameIsRunning = checkGameOverConditions(gameInfo, map, gameIsRunning);
 
@@ -109,9 +110,6 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 			gameInfo->hero.score -= 1.02354;
 		}
 	}
-
-	/*double timeAfterGame = clock();
-	double requiredTime = (timeAfterGame - timeBeforeGame) / 1000.0;*/
 }
 
 //------Moving_Functions------//
@@ -185,7 +183,7 @@ void game::jump(char type, GameInfo* gameInfo, game::MapCell** map)
 				// координата турели по оси Оу уменьшается на один
 				gameInfo->hunter_turret.yCoordinate = gameInfo->hunter_turret.yCoordinate - 1;
 			}
-			// если проходима только одна клетка
+			// если проходима только одна клетка на турелью
 			else if ((map[gameInfo->hunter_turret.yCoordinate - 1][gameInfo->hunter_turret.xCoordinate].passable == true) &&
 				(map[gameInfo->hunter_turret.yCoordinate - 2][gameInfo->hunter_turret.xCoordinate].passable == false))
 			{
@@ -201,63 +199,66 @@ void game::jump(char type, GameInfo* gameInfo, game::MapCell** map)
 	}
 }
 
+// функция перемещения объектов по оси Ox
 void game::moveOx(int sideOfMovingOx, char type, GameInfo* gameInfo, game::MapCell** map)
 {
 	switch (type)
 	{
 	case AIM_DOT:
+		// если в соседней клетке проходимое пространство
 		if (map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate + sideOfMovingOx].passable == true)
 		{
 			// удаляем символ прицела из текущей ячейки карты
 			list::deleteCurrentElement(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types, AIM_DOT);
-			//добавляем в ячейку карты слева символ прицела
+			//добавляем в соседнюю ячейку карты символ прицела
 			list::addBegin(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate + sideOfMovingOx].types, AIM_DOT);
 			gameInfo->aim.xCoordinate = gameInfo->aim.xCoordinate + sideOfMovingOx;
 		}
 		break;
 
 	case HERO:
+		// если в соседней клетке проходимое пространство
 		if (map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate + sideOfMovingOx].passable == true)
 		{
 			//удаляем символ героя из текущей ячейки карты
 			list::deleteCurrentElement(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types, HERO);
-			//добавляем в ячейку карты слева символ героя
+			//добавляем в соседнюю ячейку карты символ героя
 			list::addBegin(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate + sideOfMovingOx].types, HERO);
 			gameInfo->hero.xCoordinate = gameInfo->hero.xCoordinate + sideOfMovingOx;
 		}
 		break;
 
 	case TURRET_HUNTER:
-		// если слева от турели прохоидмое пространство
+		// если в соседней клетке проходимое пространство
 		if (map[gameInfo->hunter_turret.yCoordinate][gameInfo->hunter_turret.xCoordinate + sideOfMovingOx].passable == true)
 		{
 			// из текущей ячейки удаляется символ турели
 			list::deleteCurrentElement(&map[gameInfo->hunter_turret.yCoordinate][gameInfo->hunter_turret.xCoordinate].types, TURRET_HUNTER);
-			// в ячейку слева добавляется символ турели
+			// добавляем в соседнюю ячейку карты символ турели
 			list::addBegin(&map[gameInfo->hunter_turret.yCoordinate][gameInfo->hunter_turret.xCoordinate + sideOfMovingOx].types, TURRET_HUNTER);
 			gameInfo->hunter_turret.xCoordinate = gameInfo->hunter_turret.xCoordinate + sideOfMovingOx;
 		}
 		break;
 
 	case STATIONARY_TURRET:
-		// если слева от турели прохоидмое пространство
+		// если в соседней клетке проходимое пространство
 		if (map[gameInfo->stationary_turret.yCoordinate][gameInfo->stationary_turret.xCoordinate + sideOfMovingOx].passable == true)
 		{
 			// из текущей ячейки удаляется символ турели
 			list::deleteCurrentElement(&map[gameInfo->stationary_turret.yCoordinate][gameInfo->stationary_turret.xCoordinate].types, STATIONARY_TURRET);
-			// в ячейку слева добавляется символ турели
+			// добавляем в соседнюю ячейку карты символ турели
 			list::addBegin(&map[gameInfo->stationary_turret.yCoordinate][gameInfo->stationary_turret.xCoordinate + sideOfMovingOx].types, STATIONARY_TURRET);
 			gameInfo->stationary_turret.xCoordinate = gameInfo->stationary_turret.xCoordinate + sideOfMovingOx;
 		}
 		break;
 
 	case PLATFORM_TURRET:
-		// если справа от турели проходимое пространство
+		// если в соседней клетке проходимое пространство
 		if (map[gameInfo->platform_turret.yCoordinate][gameInfo->platform_turret.xCoordinate + sideOfMovingOx].passable == true)
 		{
 			// удаляется символ турели из текущей ячейки
 			list::deleteCurrentElement(&map[gameInfo->platform_turret.yCoordinate][gameInfo->platform_turret.xCoordinate].types, PLATFORM_TURRET);
-			// добавляется в ячейку карты справа символ турели
+			// добавляем в соседнюю ячейку карты символ турели
 			list::addBegin(&map[gameInfo->platform_turret.yCoordinate][gameInfo->platform_turret.xCoordinate + sideOfMovingOx].types, PLATFORM_TURRET);
 			gameInfo->platform_turret.xCoordinate = gameInfo->platform_turret.xCoordinate + sideOfMovingOx;
 		}
@@ -265,17 +266,18 @@ void game::moveOx(int sideOfMovingOx, char type, GameInfo* gameInfo, game::MapCe
 	}
 }
 
+// функция перемещения объектов по оси Oy
 void game::moveOy(int sideOfMovingOy, char type, GameInfo* gameInfo, game::MapCell** map)
 {
 	switch (type)
 	{
 	case AIM_DOT:
-		// если ячейка карты ниже героя проходима
+		// если в соседней клетке проходимое пространство
 		if (map[gameInfo->aim.yCoordinate + sideOfMovingOy][gameInfo->aim.xCoordinate].passable == true)
 		{
-			//удаляем символ прицела из текущей ячейки карты
+			// удаляем символ прицела из текущей ячейки карты
 			list::deleteCurrentElement(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types, AIM_DOT);
-			//добавляем в ячейку карты ниже символ прицела
+			// добавляем в соседнюю ячейку карты символ прицела
 			list::addBegin(&map[gameInfo->aim.yCoordinate + sideOfMovingOy][gameInfo->aim.xCoordinate].types, AIM_DOT);
 
 			gameInfo->aim.yCoordinate = gameInfo->aim.yCoordinate + sideOfMovingOy;
@@ -283,12 +285,12 @@ void game::moveOy(int sideOfMovingOy, char type, GameInfo* gameInfo, game::MapCe
 		break;
 
 	case HERO:
-		// если ячейка карты ниже героя проходима
+		// если в соседней клетке проходимое пространство
 		if (map[gameInfo->hero.yCoordinate + sideOfMovingOy][gameInfo->hero.xCoordinate].passable == true)
 		{
-			//удаляем символ героя из текущей ячейки карты
+			// удаляем символ героя из текущей ячейки карты
 			list::deleteCurrentElement(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types, HERO);
-			//добавляем в ячейку карты ниже символ героя
+			// добавляем соседнюю в ячейку карты символ героя
 			list::addBegin(&map[gameInfo->hero.yCoordinate + sideOfMovingOy][gameInfo->hero.xCoordinate].types, HERO);
 
 			gameInfo->hero.yCoordinate = gameInfo->hero.yCoordinate + sideOfMovingOy;
@@ -296,12 +298,12 @@ void game::moveOy(int sideOfMovingOy, char type, GameInfo* gameInfo, game::MapCe
 		break;
 
 	case TURRET_HUNTER:
-		// если ячейка карты ниже турели проходима
+		// если в соседней клетке проходимое пространство
 		if (map[gameInfo->hunter_turret.yCoordinate + sideOfMovingOy][gameInfo->hunter_turret.xCoordinate].passable == true)
 		{
-			//удаляем символ турели из текущей ячейки карты
+			// удаляем символ турели из текущей ячейки карты
 			list::deleteCurrentElement(&map[gameInfo->hunter_turret.yCoordinate][gameInfo->hunter_turret.xCoordinate].types, TURRET_HUNTER);
-			//добавляем в ячейку карты ниже символ турели
+			// добавляем в соседнюю ячейку карты символ турели
 			list::addBegin(&map[gameInfo->hunter_turret.yCoordinate + sideOfMovingOy][gameInfo->hunter_turret.xCoordinate].types, TURRET_HUNTER);
 
 			gameInfo->hunter_turret.yCoordinate = gameInfo->hunter_turret.yCoordinate + sideOfMovingOy;
@@ -309,12 +311,12 @@ void game::moveOy(int sideOfMovingOy, char type, GameInfo* gameInfo, game::MapCe
 		break;
 
 	case STATIONARY_TURRET:
-		// если ячейка карты ниже турели проходима
+		// если в соседней клетке проходимое пространство
 		if (map[gameInfo->stationary_turret.yCoordinate + sideOfMovingOy][gameInfo->stationary_turret.xCoordinate].passable == true)
 		{
-			//удаляем символ турели из текущей ячейки карты
+			// удаляем символ турели из текущей ячейки карты
 			list::deleteCurrentElement(&map[gameInfo->stationary_turret.yCoordinate][gameInfo->stationary_turret.xCoordinate].types, STATIONARY_TURRET);
-			//добавляем в ячейку карты ниже символ турели
+			// добавляем в соседнюю ячейку карты символ турели
 			list::addBegin(&map[gameInfo->stationary_turret.yCoordinate + sideOfMovingOy][gameInfo->stationary_turret.xCoordinate].types, STATIONARY_TURRET);
 
 			gameInfo->stationary_turret.yCoordinate = gameInfo->stationary_turret.yCoordinate + sideOfMovingOy;
@@ -322,12 +324,12 @@ void game::moveOy(int sideOfMovingOy, char type, GameInfo* gameInfo, game::MapCe
 		break;
 
 	case PLATFORM_TURRET:
-		// если ячейка карты ниже турели проходима
+		// если в соседней клетке проходимое пространство
 		if (map[gameInfo->platform_turret.yCoordinate + 1][gameInfo->platform_turret.xCoordinate].passable == true)
 		{
-			//удаляем символ турели из текущей ячейки карты
+			// удаляем символ турели из текущей ячейки карты
 			list::deleteCurrentElement(&map[gameInfo->platform_turret.yCoordinate][gameInfo->platform_turret.xCoordinate].types, PLATFORM_TURRET);
-			//добавляем в ячейку карты ниже символ турели
+			// добавляем в соседнюю ячейку карты символ турели
 			list::addBegin(&map[gameInfo->platform_turret.yCoordinate + sideOfMovingOy][gameInfo->platform_turret.xCoordinate].types, PLATFORM_TURRET);
 
 			gameInfo->platform_turret.yCoordinate = gameInfo->platform_turret.yCoordinate + sideOfMovingOy;

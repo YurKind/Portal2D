@@ -14,9 +14,6 @@
 
 namespace game
 {
-	struct GameInfo;
-	struct MapCell;
-
 	/* Останавливает процесс игры и возвращает кол-во миллисекунд, проведенных на паузе*/
 	double pause(GameInfo* gameInfo, MapCell** map);
 
@@ -30,24 +27,24 @@ namespace game
 	void moveOx(int sideOfMovingOx, char type, GameInfo* gameInfo, game::MapCell** map);
 	void moveOy(int sideOfMovingOy, char type, GameInfo* gameInfo, game::MapCell** map);
 
-	// функция переставляет прицел, при установке портала
-	//void replaceTheAim(GameInfo* gameInfo, MapCell** map);
-	//void replaceTheAimMovement(GameInfo* gameInfo, MapCell** map);
-
 	// Временная функция для запуска первого уровня
 	records::DataAboutTheChampion* startLevel(char* levelName);
 
 	// Выполняя необходимые проверки, имитирует гравитацию
 	void gravity(MapCell** map, GameInfo* gameInfo);
 
+	// функуция установки портала
+	void setPortal(char type, GameInfo* gameInfo, MapCell** map);
 
-	void setPortal(char type, GameInfo* gameInfo, MapCell** map);	// функуция установки портала
-	void enterThePortal(char type, GameInfo* gameInfo, MapCell** map);	// функуция перехода по порталам
+	// функуция перехода по порталам
+	void enterThePortal(char type, GameInfo* gameInfo, MapCell** map);	
 
-	void activateTheButton(GameInfo* gameInfo, MapCell** map);	// функция активации кнопки
+	// функция активации кнопки
+	void activateTheButton(GameInfo* gameInfo, MapCell** map);
 
 	// Функция проверяет, не настали ли условия, приводящие к концу игры (нашел ли игрок выход, кончилось ли у игрока здоровье)
 	bool checkGameOverConditions(GameInfo* gameInfo, MapCell** map, bool gameIsRunning);
+	
 	// функция выхода из уровня
 	bool quitTheLevel(GameInfo* gameInfo, MapCell** map);
 }

@@ -26,43 +26,43 @@ game::MapCell** game::createMap(char* levelName, GameInfo* gameInfo)
 
 			switch (currentSymbol)			 
 			{
-			case HERO_SYMBOL:					// если текущий символ равен "H", то
+			case HERO_SYMBOL:
 				map[i][j].types = new list::List<char>;
 				list::addBegin(&map[i][j].types, EMPTY_SPACE);
 				list::addBegin(&map[i][j].types, HERO);
-				gameInfo->hero.xCoordinate = j;	// запоминаются его координаты
+				gameInfo->hero.xCoordinate = j;
 				gameInfo->hero.yCoordinate = i;
 				break;
 
-			case BLOCK_SHARP:				// если текущий символ равен "решётка", то
+			case BLOCK_SHARP:
 				map[i][j].types = new list::List<char>;
 				list::addBegin(&map[i][j].types, BLOCK);
-				map[i][j].passable = false;	//клетка становится непроходимой
+				map[i][j].passable = false;
 				break;
 
-			case EMPTY_SPACE:				// если текущий символ равен "_", то
+			case EMPTY_SPACE:
 				map[i][j].types = new list::List<char>;
 				list::addBegin(&map[i][j].types, EMPTY_SPACE);
 				break;
 
-			case AIM_DOT:					// если текущий символ равен "точке", то
+			case AIM_DOT:
 				map[i][j].types = new list::List<char>;
 				list::addBegin(&map[i][j].types, EMPTY_SPACE);
 				list::addBegin(&map[i][j].types, AIM_DOT);
-				gameInfo->aim.xCoordinate = j;	// запоминаются его координаты
+				gameInfo->aim.xCoordinate = j;
 				gameInfo->aim.yCoordinate = i;
 				break;
 
-			case BLACK_WALL_S:				// если текущий символ равен "X", то
+			case BLACK_WALL_S:
 				map[i][j].types = new list::List<char>;
 				list::addBegin(&map[i][j].types, EMPTY_SPACE);
 				list::addBegin(&map[i][j].types, BLACK_WALL);
 				gameInfo->blackWall.xCoordinate = j;
 				gameInfo->blackWall.yCoordinate = i;
-				map[i][j].passable = false;	// клетка становится непроходимой
+				map[i][j].passable = false;
 				break;
 
-			case EXIT_S:					// если текущий символ равен "X", то
+			case EXIT_S:
 				map[i][j].types = new list::List<char>;
 				list::addBegin(&map[i][j].types, EMPTY_SPACE);
 				list::addBegin(&map[i][j].types, EXIT);

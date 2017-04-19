@@ -48,19 +48,15 @@ void game::drawFrame(game::MapCell** map, game::GameInfo* gameInfo)		// отрисовк
 				game::printSpecialSymbol(consoleHandler, i, j, Yellow, BUTTON);
 				break;
 
-			case TURRET_HUNTER:				// если встречен тип "турель", то отрисовывается обычная турель 
-				game::printSpecialSymbol(consoleHandler, i, j, LightGrey, TURRET_HUNTER);
-				break;
-
-			case BULLET_OF_STATIONARY_TURRET:				// если встречен тип "пуля", то отрисовывается пуля 
+			case BULLET_OF_STATIONARY_TURRET:			// если встречен тип "пуля стационарной турели", то отрисовывается пуля стационарной турели
 				game::printSpecialSymbol(consoleHandler, i, j, LightRed, BULLET_OF_STATIONARY_TURRET);
 				break;
 
-			case BULLET_OF_PLATFORM_TURRET:				// если встречен тип "пуля", то отрисовывается пуля 
+			case BULLET_OF_PLATFORM_TURRET:				// если встречен тип "пуля патрулирующей турели", то отрисовывается пуля стационарной турели
 				game::printSpecialSymbol(consoleHandler, i, j, LightRed, BULLET_OF_STATIONARY_TURRET);
 				break;
 
-			case BULLET_OF_HUNTER_TURRET:				// если встречен тип "пуля", то отрисовывается пуля 
+			case BULLET_OF_HUNTER_TURRET:				// если встречен тип "пуля турели-охотника", то отрисовывается пуля стационарной турели
 				game::printSpecialSymbol(consoleHandler, i, j, LightRed, BULLET_OF_STATIONARY_TURRET);
 				break;
 
@@ -70,6 +66,10 @@ void game::drawFrame(game::MapCell** map, game::GameInfo* gameInfo)		// отрисовк
 
 			case PLATFORM_TURRET:		// если встречен тип "турель на платформе", то отрисовывается турель на платформе 
 				game::printSpecialSymbol(consoleHandler, i, j, LightGrey, PLATFORM_TURRET);
+				break;
+
+			case TURRET_HUNTER:			// если встречен тип "турель", то отрисовывается обычная турель 
+				game::printSpecialSymbol(consoleHandler, i, j, LightGrey, TURRET_HUNTER);
 				break;
 
 			default:

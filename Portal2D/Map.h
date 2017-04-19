@@ -5,7 +5,7 @@
 
 namespace game
 {
-	struct Hero							// Хранит данные о герое (координаты, очки здоровья)
+	struct Hero					// Хранит данные о герое (координаты, очки здоровья)
 	{
 		int xCoordinate;
 		int yCoordinate;
@@ -14,13 +14,13 @@ namespace game
 		double time = 10000.0;
 	};
 
-	struct Objects                  // Хранит данные об объектах на карте (прицел, порталы)
+	struct Objects				// Хранит данные об объектах на карте (прицел, порталы)
 	{
 		int xCoordinate = 0;
 		int yCoordinate = 0;
 	};
 
-	struct Turret
+	struct Turret				// Хранит данные о турелях
 	{
 		int xCoordinate = 0;
 		int yCoordinate = 0;
@@ -38,7 +38,7 @@ namespace game
 	struct MapCell					// структура MapCell хранит всебе данные о клетке карты
 	{
 		list::List<char>* types;	// переменная для хранения текстуры (персонажа, блоков и тд)
-		bool passable = true;				// переменная хранит в себе данные о возможности пройти сквозь неё
+		bool passable = true;		// переменная хранит в себе данные о возможности пройти сквозь неё
 	};
 
 	// функция считывающая карту из файла в двумерный массив структур, функция принимает в качетсве аргумета имя уровня

@@ -13,14 +13,22 @@
 
 namespace game
 {
-	/*struct GameInfo;
-	struct MapCell;*/
+	// отрисовка карты, функция принимает в качетсве аргумета двумерный массив структур
+	void drawFrame(MapCell** map, GameInfo* gameInfo);
 
-	void drawFrame(MapCell** map, GameInfo* gameInfo);	// отрисовка карты, функция принимает в качетсве аргумета двумерный массив структур
-	void clearScreen();									// функция очистки консоли (без мерцания) !(надо разобраться)!
+	// функция очистки консоли (без мерцания)
+	void clearScreen();
+	
+	// отчиствка памяти
 	void freeMemory(MapCell** map, GameInfo* gameInfo);
+	
+	// вывод определённого символа в заданное место карты
 	void printSpecialSymbol(HANDLE consoleHandler, int yCoordinate, int xCoordinate, int color, char symbol);
+	
+	// вычисление очков, набранных игроком
 	double computeTheScore(GameInfo* gameInfo);
+	
+	// вывод инструкций к игре
 	void showInstruction();
 }
 
