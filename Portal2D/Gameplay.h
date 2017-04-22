@@ -42,6 +42,9 @@ namespace game
 	// функция активации кнопки
 	void activateTheButton(GameInfo* gameInfo, MapCell** map);
 
+	// функция перемещения прицела к герою
+	void replayceTheAimToHero(GameInfo* gameInfo, MapCell** map);
+
 	// Функция проверяет, не настали ли условия, приводящие к концу игры (нашел ли игрок выход, кончилось ли у игрока здоровье)
 	bool checkGameOverConditions(GameInfo* gameInfo, MapCell** map, bool gameIsRunning);
 	

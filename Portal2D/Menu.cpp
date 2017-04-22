@@ -159,7 +159,10 @@ void menu::printPointStart(int key)
 		cout << "\t\t\t\t\t    Random Level   " << endl;
 		cout << "\t\t\t\t\t      Level 1      " << endl;
 		cout << "\t\t\t\t\t      Level 2      " << endl;
-		cout << "\t\t\t\t\t      Back         " << endl;
+		cout << "\t\t\t\t\t      Level 3      " << endl;
+		cout << "\t\t\t\t\t      Level 4      " << endl;
+		cout << "\t\t\t\t\t      Level 5      " << endl;
+		cout << "\t\t\t\t\t       Back        " << endl;
 		break;
 
 	case RandomLevel:
@@ -167,7 +170,10 @@ void menu::printPointStart(int key)
 		cout << "\t\t\t\t\t<<  Random Level >>" << endl;
 		cout << "\t\t\t\t\t      Level 1      " << endl;
 		cout << "\t\t\t\t\t      Level 2      " << endl;
-		cout << "\t\t\t\t\t      Back         " << endl;
+		cout << "\t\t\t\t\t      Level 3      " << endl;
+		cout << "\t\t\t\t\t      Level 4      " << endl;
+		cout << "\t\t\t\t\t      Level 5      " << endl;
+		cout << "\t\t\t\t\t       Back        " << endl;
 		break;
 
 	case Level1:
@@ -175,7 +181,10 @@ void menu::printPointStart(int key)
 		cout << "\t\t\t\t\t    Random Level   " << endl;
 		cout << "\t\t\t\t\t<<    Level 1    >>"; records::giveBestPlayerInLevel(1);
 		cout << "\t\t\t\t\t      Level 2      " << endl;
-		cout << "\t\t\t\t\t      Back         " << endl;
+		cout << "\t\t\t\t\t      Level 3      " << endl;
+		cout << "\t\t\t\t\t      Level 4      " << endl;
+		cout << "\t\t\t\t\t      Level 5      " << endl;
+		cout << "\t\t\t\t\t       Back        " << endl;
 		break;
 
 	case Level2:
@@ -183,7 +192,43 @@ void menu::printPointStart(int key)
 		cout << "\t\t\t\t\t    Random Level   " << endl;
 		cout << "\t\t\t\t\t      Level 1      " << endl;
 		cout << "\t\t\t\t\t<<    Level 2    >>"; records::giveBestPlayerInLevel(2);
-		cout << "\t\t\t\t\t      Back         " << endl;
+		cout << "\t\t\t\t\t      Level 3      " << endl;
+		cout << "\t\t\t\t\t      Level 4      " << endl;
+		cout << "\t\t\t\t\t      Level 5      " << endl;
+		cout << "\t\t\t\t\t       Back        " << endl;
+		break;
+		
+	case Level3:
+		cout << "\t\t\t\t\t    Instruction    " << endl;
+		cout << "\t\t\t\t\t    Random Level   " << endl;
+		cout << "\t\t\t\t\t      Level 1      " << endl;
+		cout << "\t\t\t\t\t      Level 2      " << endl;
+		cout << "\t\t\t\t\t<<    Level 3    >>"; records::giveBestPlayerInLevel(3);
+		cout << "\t\t\t\t\t      Level 4      " << endl;
+		cout << "\t\t\t\t\t      Level 5      " << endl;
+		cout << "\t\t\t\t\t       Back        " << endl;
+		break;
+
+	case Level4:
+		cout << "\t\t\t\t\t    Instruction    " << endl;
+		cout << "\t\t\t\t\t    Random Level   " << endl;
+		cout << "\t\t\t\t\t      Level 1      " << endl;
+		cout << "\t\t\t\t\t      Level 2      " << endl;
+		cout << "\t\t\t\t\t      Level 3      "	<< endl;
+		cout << "\t\t\t\t\t<<    Level 4    >>"; records::giveBestPlayerInLevel(4);
+		cout << "\t\t\t\t\t      Level 5      " << endl;
+		cout << "\t\t\t\t\t       Back        " << endl;
+		break;
+
+	case Level5:
+		cout << "\t\t\t\t\t    Instruction    " << endl;
+		cout << "\t\t\t\t\t    Random Level   " << endl;
+		cout << "\t\t\t\t\t      Level 1      " << endl;
+		cout << "\t\t\t\t\t      Level 2      " << endl;
+		cout << "\t\t\t\t\t      Level 3      " << endl;
+		cout << "\t\t\t\t\t      Level 4      " << endl;
+		cout << "\t\t\t\t\t<<    Level 5    >>"; records::giveBestPlayerInLevel(5);
+		cout << "\t\t\t\t\t       Back        " << endl;
 		break;
 
 	case BackLevel:
@@ -191,7 +236,10 @@ void menu::printPointStart(int key)
 		cout << "\t\t\t\t\t    Random Level   " << endl;
 		cout << "\t\t\t\t\t      Level 1      " << endl;
 		cout << "\t\t\t\t\t      Level 2      " << endl;
-		cout << "\t\t\t\t\t<<    Back       >>" << endl;
+		cout << "\t\t\t\t\t      Level 3      " << endl;
+		cout << "\t\t\t\t\t      Level 4      " << endl;
+		cout << "\t\t\t\t\t      Level 5      " << endl;
+		cout << "\t\t\t\t\t<<     Back      >>" << endl;
 		break;
 	}
 
@@ -389,7 +437,22 @@ void menu::doPointStart(queue::Queue<int> *queue, bool flag)
 			break;
 
 		case Level2:
-			newChampion = game::startLevel("TestLevel.txt");
+			newChampion = game::startLevel("Lvl_2.txt");
+			records::addInRecordsOrShowRecords(newChampion, "add");
+			break;
+
+		case Level3:
+			newChampion = game::startLevel("Lvl_3.txt");
+			records::addInRecordsOrShowRecords(newChampion, "add");
+			break;
+
+		case Level4:
+			newChampion = game::startLevel("Lvl_4.txt");
+			records::addInRecordsOrShowRecords(newChampion, "add");
+			break;
+
+		case Level5:
+			newChampion = game::startLevel("Lvl_5.txt");
 			records::addInRecordsOrShowRecords(newChampion, "add");
 			break;
 

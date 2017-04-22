@@ -16,6 +16,7 @@
  aiming - arrows "up, down, left, right"
  set blue portal - e
  set red portal - q
+ replace aim to hero - p
  action - enter
  pause - p
  quit the level - backspace

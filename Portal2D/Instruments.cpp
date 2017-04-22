@@ -72,6 +72,10 @@ void game::drawFrame(game::MapCell** map, game::GameInfo* gameInfo)		// отрисовк
 				game::printSpecialSymbol(consoleHandler, i, j, LightGrey, TURRET_HUNTER);
 				break;
 
+			case WALL:			// если встречен тип "турель", то отрисовывается обычная турель 
+				game::printSpecialSymbol(consoleHandler, i, j, LightGrey, WALL);
+				break;
+
 			default:
 				break;
 			}
@@ -152,7 +156,7 @@ void game::showInstruction()
 			cout << AIM_DOT;
 			break;
 
-		case BLACK_WALL_S:
+		case BLACK_WALL_ONE_S:
 			cout << BLACK_WALL;
 			break;
 
@@ -164,7 +168,7 @@ void game::showInstruction()
 			cout << RED_PORTAL;
 			break;
 
-		case BUTTON_S:
+		case BUTTON_ONE_S:
 			cout << BUTTON;
 			break;
 

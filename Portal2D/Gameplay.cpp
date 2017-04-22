@@ -57,17 +57,21 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 				break;
 
 			case E_LOWER_CASE:
-				setPortal(RED_PORTAL, gameInfo, map);
+				setPortal(BLUE_PORTAL, gameInfo, map);
 				break;
 
 			case Q_LOWER_CASE:
-				setPortal(BLUE_PORTAL, gameInfo, map);
+				setPortal(RED_PORTAL, gameInfo, map);
 				break;
 
 			case ENTER:
 				enterThePortal(HERO, gameInfo, map);
 				activateTheButton(gameInfo, map);
 				break;
+
+			/*case R_BUTTON_LOWER_CASE:
+				replayceTheAimToHero(gameInfo, map);
+				break;*/
 
 			case PAUSE:
 				timeOnPause += pause(gameInfo, map);
@@ -206,7 +210,9 @@ void game::moveOx(int sideOfMovingOx, char type, GameInfo* gameInfo, game::MapCe
 	{
 	case AIM_DOT:
 		// если в соседней клетке проходимое пространство
-		if (map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate + sideOfMovingOx].passable == true)
+		if (map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate + sideOfMovingOx].passable == true &&
+			map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate + sideOfMovingOx].types->value != BUTTON &&
+			map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate + sideOfMovingOx].types->value != WALL)
 		{
 			// удаляем символ прицела из текущей ячейки карты
 			list::deleteCurrentElement(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types, AIM_DOT);
@@ -273,7 +279,9 @@ void game::moveOy(int sideOfMovingOy, char type, GameInfo* gameInfo, game::MapCe
 	{
 	case AIM_DOT:
 		// если в соседней клетке проходимое пространство
-		if (map[gameInfo->aim.yCoordinate + sideOfMovingOy][gameInfo->aim.xCoordinate].passable == true)
+		if (map[gameInfo->aim.yCoordinate + sideOfMovingOy][gameInfo->aim.xCoordinate].passable == true &&
+			map[gameInfo->aim.yCoordinate + sideOfMovingOy][gameInfo->aim.xCoordinate].types->value != BUTTON &&
+			map[gameInfo->aim.yCoordinate + sideOfMovingOy][gameInfo->aim.xCoordinate].types->value != WALL)
 		{
 			// удаляем символ прицела из текущей ячейки карты
 			list::deleteCurrentElement(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types, AIM_DOT);
@@ -476,15 +484,59 @@ void game::enterThePortal(char type, GameInfo* gameInfo, MapCell** map)
 // функция активации клавиши, принимает структуру с информацией об объекте на карте и двумерный массив структур
 void game::activateTheButton(GameInfo* gameInfo, MapCell** map)
 {
-	if (gameInfo->hero.xCoordinate == gameInfo->button.xCoordinate &&	// если персонаж и кнопка находятся в одной клетке
-		gameInfo->hero.yCoordinate == gameInfo->button.yCoordinate &&	// и существует непроходимая стена
-		map[gameInfo->blackWall.yCoordinate][gameInfo->blackWall.xCoordinate].types->value == BLACK_WALL)
+	if (gameInfo->hero.xCoordinate == gameInfo->buttonOne.xCoordinate &&	// если персонаж и кнопка находятся в одной клетке
+		gameInfo->hero.yCoordinate == gameInfo->buttonOne.yCoordinate &&	// и существует непроходимая стена
+		map[gameInfo->blackWallOne.yCoordinate][gameInfo->blackWallOne.xCoordinate].types->value == BLACK_WALL)
 	{
 		// ячейка карты, в которой была непроходимая стена, становится проходимой
-		map[gameInfo->blackWall.yCoordinate][gameInfo->blackWall.xCoordinate].passable = true;
+		map[gameInfo->blackWallOne.yCoordinate][gameInfo->blackWallOne.xCoordinate].passable = true;
 		// на месте непроходимой стены отображается проходимая
-		list::deleteCurrentElement(&map[gameInfo->blackWall.yCoordinate][gameInfo->blackWall.xCoordinate].types, BLACK_WALL);
+		list::deleteCurrentElement(&map[gameInfo->blackWallOne.yCoordinate][gameInfo->blackWallOne.xCoordinate].types, BLACK_WALL);
+		list::deleteCurrentElement(&map[gameInfo->buttonOne.yCoordinate][gameInfo->buttonOne.xCoordinate].types, BUTTON);
 	}
+	else if (gameInfo->hero.xCoordinate == gameInfo->buttonTwo.xCoordinate &&	// если персонаж и кнопка находятся в одной клетке
+		gameInfo->hero.yCoordinate == gameInfo->buttonTwo.yCoordinate &&	// и существует непроходимая стена
+		map[gameInfo->blackWallTwo.yCoordinate][gameInfo->blackWallTwo.xCoordinate].types->value == BLACK_WALL)
+	{
+		// ячейка карты, в которой была непроходимая стена, становится проходимой
+		map[gameInfo->blackWallTwo.yCoordinate][gameInfo->blackWallTwo.xCoordinate].passable = true;
+		// на месте непроходимой стены отображается проходимая
+		list::deleteCurrentElement(&map[gameInfo->blackWallTwo.yCoordinate][gameInfo->blackWallTwo.xCoordinate].types, BLACK_WALL);
+		list::deleteCurrentElement(&map[gameInfo->buttonTwo.yCoordinate][gameInfo->buttonTwo.xCoordinate].types, BUTTON);
+	}
+	else if (gameInfo->hero.xCoordinate == gameInfo->buttonThree.xCoordinate &&	// если персонаж и кнопка находятся в одной клетке
+		gameInfo->hero.yCoordinate == gameInfo->buttonThree.yCoordinate &&	// и существует непроходимая стена
+		map[gameInfo->blackWallThree.yCoordinate][gameInfo->blackWallThree.xCoordinate].types->value == BLACK_WALL)
+	{
+		// ячейка карты, в которой была непроходимая стена, становится проходимой
+		map[gameInfo->blackWallThree.yCoordinate][gameInfo->blackWallThree.xCoordinate].passable = true;
+		// на месте непроходимой стены отображается проходимая
+		list::deleteCurrentElement(&map[gameInfo->blackWallThree.yCoordinate][gameInfo->blackWallThree.xCoordinate].types, BLACK_WALL);
+		list::deleteCurrentElement(&map[gameInfo->buttonThree.yCoordinate][gameInfo->buttonThree.xCoordinate].types, BUTTON);
+	}
+	else if (gameInfo->hero.xCoordinate == gameInfo->buttonFour.xCoordinate &&	// если персонаж и кнопка находятся в одной клетке
+		gameInfo->hero.yCoordinate == gameInfo->buttonFour.yCoordinate &&	// и существует непроходимая стена
+		map[gameInfo->blackWallFour.yCoordinate][gameInfo->blackWallFour.xCoordinate].types->value == BLACK_WALL)
+	{
+		// ячейка карты, в которой была непроходимая стена, становится проходимой
+		map[gameInfo->blackWallFour.yCoordinate][gameInfo->blackWallFour.xCoordinate].passable = true;
+		// на месте непроходимой стены отображается проходимая
+		list::deleteCurrentElement(&map[gameInfo->blackWallFour.yCoordinate][gameInfo->blackWallFour.xCoordinate].types, BLACK_WALL);
+		list::deleteCurrentElement(&map[gameInfo->buttonFour.yCoordinate][gameInfo->buttonFour.xCoordinate].types, BUTTON);
+	}
+}
+
+// функция перемещения прицела к герою
+void game::replayceTheAimToHero(GameInfo* gameInfo, MapCell** map)
+{
+	// добавляется текстура прицела по координатам героя
+	list::addBegin(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types, AIM_DOT);
+	// удаляется текущая текстура прицела
+	list::deleteCurrentElement(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types, AIM_DOT);
+	
+	// координатам прицела присваиваются координаты героя
+	gameInfo->aim.xCoordinate = gameInfo->hero.xCoordinate;
+	gameInfo->aim.yCoordinate = gameInfo->hero.yCoordinate;
 }
 
 // Функция проверяет, наступило ли событие, при котором игра должна закончиться

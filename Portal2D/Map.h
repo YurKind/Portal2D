@@ -30,8 +30,9 @@ namespace game
 	struct GameInfo
 	{
 		Hero hero;
-		Objects redPortal, bluePortal, aim, blackWall, exitFromLevel, button,
-			bulletOfStationaryTurret, bulletOfPlatformTurret, bulletOfHunterTurret;
+		Objects redPortal, bluePortal, aim, blackWallOne, blackWallTwo, blackWallThree, blackWallFour,
+			exitFromLevel, buttonOne, buttonTwo, buttonThree, buttonFour,
+			bulletOfStationaryTurret, bulletOfPlatformTurret, bulletOfHunterTurret, wall;
 		Turret hunter_turret, stationary_turret, platform_turret;
 	};
 
