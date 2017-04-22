@@ -1,10 +1,11 @@
  Welcome to Portal 2D!
 
  "H" - hero
- "." - aim
+ "+" - aim
  "O" - portal
  "E" - exit
  "X" - impassable wall
+ "|" - impassable wall for aim
  "`" - button to turn off impassable wall
  "=" - stationary_turret
  "*" - platform_turret
@@ -16,7 +17,6 @@
  aiming - arrows "up, down, left, right"
  set blue portal - e
  set red portal - q
- replace aim to hero - p
  action - enter
  pause - p
  quit the level - backspace

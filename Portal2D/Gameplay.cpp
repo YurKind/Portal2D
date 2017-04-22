@@ -7,7 +7,7 @@
 
 //------Moving_Functions------//
 // принимает структуру с информацией об объекте на карте и двумерный массив структур
-void game::performAnAction(GameInfo* gameInfo, MapCell** map)
+bool game::performAnAction(GameInfo* gameInfo, MapCell** map)
 {
 	bool gameIsRunning = true;	// условие выполнение цикла
 	bool isMovingRight = true;  // переменная для патрулирующей турели (отвечает за направление движения)
@@ -15,7 +15,7 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 	double timeOnPause = 0.0;	// переменная для хранения времени на паузе
 	int sideOfMovingOx = 0;		// переменная для хранения направления движения и количество шагов по оси Ох
 	int sideOfMovingOy = 0;		// переменная для хранения направления движения и количество шагов по оси Оу
-	
+
 	while (gameIsRunning == true)
 	{
 		if (_kbhit()) // Если нажата клавиша
@@ -43,7 +43,7 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 				break;
 
 			case UP_ARROW:
-				sideOfMovingOy = - 1;
+				sideOfMovingOy = -1;
 				moveOy(sideOfMovingOy, AIM_DOT, gameInfo, map);
 				break;
 
@@ -69,9 +69,9 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 				activateTheButton(gameInfo, map);
 				break;
 
-			/*case R_BUTTON_LOWER_CASE:
-				replayceTheAimToHero(gameInfo, map);
-				break;*/
+				/*case R_BUTTON_LOWER_CASE:
+					replayceTheAimToHero(gameInfo, map);
+					break;*/
 
 			case PAUSE:
 				timeOnPause += pause(gameInfo, map);
@@ -88,13 +88,13 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 
 		// Запускает ИИ стационарной турели
 		game::turretAI(STATIONARY_TURRET, gameInfo, map);
-		
+
 		// Запускает ИИ патрулирующей турели
 		game::turretAI(PLATFORM_TURRET, gameInfo, map);
-		
+
 		// Запускает ИИ турели охотника
 		game::turretAI(TURRET_HUNTER, gameInfo, map);
-		
+
 		// Проверяет условия конца игры (кончилось ли здоровье, нашел ли игрок выход)
 		gameIsRunning = checkGameOverConditions(gameInfo, map, gameIsRunning);
 
@@ -113,6 +113,14 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 		{
 			gameInfo->hero.score -= 1.02354;
 		}
+	}
+	if (gameInfo->hero.healthPoints <= 0)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
 	}
 }
 
@@ -389,23 +397,26 @@ records::DataAboutTheChampion* game::startLevel(char* levelName)
 
 	game::clearScreen(); // Чистим экран
 	game::drawFrame(map, gameInfo); // Рисуем первый кадр
-	game::performAnAction(gameInfo, map); // Выполняем далее в зависимости от действий игрока
+	bool playerPassedLevel = game::performAnAction(gameInfo, map); // Выполняем далее в зависимости от действий игрока
 
 	system("cls");
 
-	std::cout << "Please enter your name" << std::endl;
+	if (playerPassedLevel == true || playerPassedLevel == false) // Что то тут не так (я не про условие)
+	{
+		std::cout << "Please enter your name" << std::endl;
 
-	std::cin >> player->name;
+		std::cin >> player->name;
 
-	player->score = gameInfo->hero.score;
+		player->score = gameInfo->hero.score;
 
-	player->level = atoi(&levelName[4]); // Номер уровня находится в названии на пятом месте
+		player->level = atoi(&levelName[4]); // Номер уровня находится в названии на пятом месте
 
-	double score = gameInfo->hero.score;
+		double score = gameInfo->hero.score;
 
-	std::cout << "\n\n\t\t\tSCORE: " << score << std::endl;
-	std::cout << "\t\t\tTIME: " << gameInfo->hero.time << std::endl;
-	std::cout << "\n\n\t\t\tPRESS ANY KEY TO CONTINUE" << std::endl;
+		std::cout << "\n\n\t\t\tSCORE: " << score << std::endl;
+		std::cout << "\t\t\tTIME: " << gameInfo->hero.time << std::endl;
+		std::cout << "\n\n\t\t\tPRESS ANY KEY TO CONTINUE" << std::endl;
+	}
 
 	_getch();
 
