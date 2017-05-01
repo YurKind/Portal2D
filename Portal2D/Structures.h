@@ -18,6 +18,7 @@ namespace records
 		std::string name;
 		double score;
 		int level;
+		bool isPlayerPassedLevel;
 	};
 }
 

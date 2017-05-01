@@ -7,7 +7,7 @@
 
 //------Moving_Functions------//
 // принимает структуру с информацией об объекте на карте и двумерный массив структур
-bool game::performAnAction(GameInfo* gameInfo, MapCell** map)
+void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 {
 	bool gameIsRunning = true;	// условие выполнение цикла
 	bool isMovingRight = true;  // переменная для патрулирующей турели (отвечает за направление движения)
@@ -113,14 +113,6 @@ bool game::performAnAction(GameInfo* gameInfo, MapCell** map)
 		{
 			gameInfo->hero.score -= 1.02354;
 		}
-	}
-	if (gameInfo->hero.healthPoints <= 0)
-	{
-		return false;
-	}
-	else
-	{
-		return true;
 	}
 }
 
@@ -394,14 +386,11 @@ records::DataAboutTheChampion* game::startLevel(char* levelName)
 	game::GameInfo* gameInfo = new GameInfo;
 	game::MapCell** map = game::createMap(levelName, gameInfo); // Создаем двумерный массив структур, используя текстовый документ
 	records::DataAboutTheChampion* player = new records::DataAboutTheChampion;
-
 	game::clearScreen(); // Чистим экран
 	game::drawFrame(map, gameInfo); // Рисуем первый кадр
-	bool playerPassedLevel = game::performAnAction(gameInfo, map); // Выполняем далее в зависимости от действий игрока
-
 	system("cls");
 
-	if (playerPassedLevel == true || playerPassedLevel == false) // Что то тут не так (я не про условие)
+	if (gameInfo->hero.healthPoints > 0)
 	{
 		std::cout << "Please enter your name" << std::endl;
 
@@ -416,6 +405,11 @@ records::DataAboutTheChampion* game::startLevel(char* levelName)
 		std::cout << "\n\n\t\t\tSCORE: " << score << std::endl;
 		std::cout << "\t\t\tTIME: " << gameInfo->hero.time << std::endl;
 		std::cout << "\n\n\t\t\tPRESS ANY KEY TO CONTINUE" << std::endl;
+	}
+	else
+	{
+		std::cout << "\n\n\t\t\tYOU LOSE";
+		Sleep(100);
 	}
 
 	_getch();

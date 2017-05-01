@@ -21,7 +21,7 @@ namespace game
 	void jump(char type, GameInfo* gameInfo, MapCell** map);
 
 	// Совершает определенное действие в зависимости от нажатой игроком клавиши
-	bool performAnAction(GameInfo* gameInfo, MapCell** map);
+	void performAnAction(GameInfo* gameInfo, MapCell** map);
 
 	// Функции для перемещения объектов влево-вправо-вверх-вниз
 	void moveOx(int sideOfMovingOx, char type, GameInfo* gameInfo, game::MapCell** map);
