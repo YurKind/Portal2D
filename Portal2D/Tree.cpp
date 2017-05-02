@@ -111,6 +111,7 @@ namespace tree
 		return tree->data;
 	}
 
+	/* Освобождает память */
 	void freeMemory(BranchForNumber<records::DataAboutTheChampion> *tree)
 	{
 		if (tree)     

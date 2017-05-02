@@ -200,7 +200,6 @@ void menu::doPointRecords()
 	do
 	{
 		key = controlMenu(parametersForMenu);											// key получает значение пункта на котором остановился пользователь и нажал Enter
-
 		system("cls");
 
 		/*Заходим в раздел который выбрал пользователь*/
@@ -216,6 +215,7 @@ void menu::doPointRecords()
 
 		case BestOfTheBest:
 			std::cout << "\n\n\t\t\t\t\t Best of the best" << std::endl;
+
 			for (int i = NUMBER_OF_LEVELS; i >= 1; i--)
 			{
 				std::cout << "\n\t\t\t\t" << (11 - i) << " lvl"; records::giveBestPlayerInLevel(i);
@@ -227,8 +227,6 @@ void menu::doPointRecords()
 		default:
 			break;
 		}
-
-
 	} while (key != BackRecords);
 	system("cls");
 }
@@ -304,7 +302,7 @@ void menu::doPointRecordSearch()
 //Воспроизводит выбранный пользователем пункт в разделе Start
 void menu::doPointStart(queue::Queue<int> *queue, bool flag)
 {
-	int key = Instruction;																// Пункт на котором остановился пользователь
+	int key = Instruction;			// Пункт на котором остановился пользователь
 	records::DataAboutTheChampion *newChampion = NULL;
 
 	/*Верхняя граница равна Instruction, нижняя равна BackLevel,
@@ -315,10 +313,11 @@ void menu::doPointStart(queue::Queue<int> *queue, bool flag)
 	осуществляется перемещения по меню*/
 	do
 	{
-		key = controlMenu(parametersForMenu);											// key получает значение пункта на котором остановился пользователь и нажал Enter
+		key = controlMenu(parametersForMenu);		// key получает значение пункта на котором остановился пользователь и нажал Enter
 		system("cls");
 
-		int numberOfLevel = 0;
+		int numberOfLevel = 0;		// Номер уровня
+
 		/*Заходим в раздел который выбрал пользователь*/
 		switch (key)
 		{
@@ -348,24 +347,6 @@ void menu::doPointStart(queue::Queue<int> *queue, bool flag)
 			break;
 
 		case Level2:
-
-			int mass[10];
-
-			for (int i = 0; i < 10; i++)
-			{
-				mass[i] = rand() % 10;
-				cout << mass[i] << " ";
-			}
-
-			sorting::stableCountingSort(10, mass, 10);
-
-			cout << endl;
-
-			for (int i = 0; i < 10; i++)
-			{
-				cout << mass[i] << " ";
-			}
-
 			system("pause");
 			break;
 
@@ -418,7 +399,9 @@ int menu::controlMenu(ParametersForMenu parametersForMenu)
 			parametersForMenu.print(key);													// Выводит нужный вариант меню
 		} 
 	}
-	else if (press == ESCAPE)
+	/* Если был нажат Escape, то перемещаемся на самый нижний пункт
+	и сразу выходим из данного пункта меню*/
+	else if (press == ESCAPE)								
 		key = parametersForMenu.lowerBorder;
 	return key;																				// Возвращаем выбор пользователя
 }
@@ -426,7 +409,8 @@ int menu::controlMenu(ParametersForMenu parametersForMenu)
 //Воспроизводит выбранный пользователем пункт в главном меню
 void menu::menu(queue::Queue<int> *queue, bool flag)
 {
-	int key;
+	int key;		// Номер пункта на котором остановился пользователь
+
 	/*Верхняя граница равна Start, нижняя равна Exit,
 	вывод данного подпункта меню осуществляет printMenu*/
 	ParametersForMenu parametersForMenu = { Start, Exit, &printMenu };
@@ -435,7 +419,7 @@ void menu::menu(queue::Queue<int> *queue, bool flag)
 	осуществляется перемещения по меню*/
 	do
 	{
-		key = controlMenu(parametersForMenu);															// key получает значение пункта на котором остановился пользователь и нажал Enter
+		key = controlMenu(parametersForMenu);		// key получает значение пункта на котором остановился пользователь и нажал Enter
 
 		/*После нажатия кнопки Enter, заходим в пункт который был выбран*/
 		switch (key)

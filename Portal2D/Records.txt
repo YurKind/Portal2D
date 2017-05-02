@@ -18,6 +18,7 @@ Nikita|3696.01|1>
 Alexander|3640.74|1>
 Sanek|3610.03|1>
 Svetlana|3596.73|1>
+sad|3558.85|1>
 Nikita|3540.43|1>
 Alexander|3539.41|1>
 Nikita|3448.31|1>
