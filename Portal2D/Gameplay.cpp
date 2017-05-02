@@ -7,7 +7,7 @@
 
 //------Moving_Functions------//
 // принимает структуру с информацией об объекте на карте и двумерный массив структур
-bool game::performAnAction(GameInfo* gameInfo, MapCell** map)
+void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 {
 	bool gameIsRunning = true;	// условие выполнение цикла
 	bool isMovingRight = true;  // переменна€ дл€ патрулирующей турели (отвечает за направление движени€)
@@ -113,14 +113,6 @@ bool game::performAnAction(GameInfo* gameInfo, MapCell** map)
 		{
 			gameInfo->hero.score -= 1.02354;
 		}
-	}
-	if (gameInfo->hero.healthPoints <= 0)
-	{
-		return false;
-	}
-	else
-	{
-		return true;
 	}
 }
 
@@ -397,11 +389,11 @@ records::DataAboutTheChampion* game::startLevel(char* levelName)
 
 	game::clearScreen(); // „истим экран
 	game::drawFrame(map, gameInfo); // –исуем первый кадр
-	bool playerPassedLevel = game::performAnAction(gameInfo, map); // ¬ыполн€ем далее в зависимости от действий игрока
+	game::performAnAction(gameInfo, map); // ¬ыполн€ем далее в зависимости от действий игрока
 
 	system("cls");
 
-	if (playerPassedLevel == true || playerPassedLevel == false) // „то то тут не так (€ не про условие)
+	if (gameInfo->hero.isPlayerPassedLevel == true)
 	{
 		std::cout << "Please enter your name" << std::endl;
 
@@ -416,6 +408,12 @@ records::DataAboutTheChampion* game::startLevel(char* levelName)
 		std::cout << "\n\n\t\t\tSCORE: " << score << std::endl;
 		std::cout << "\t\t\tTIME: " << gameInfo->hero.time << std::endl;
 		std::cout << "\n\n\t\t\tPRESS ANY KEY TO CONTINUE" << std::endl;
+	}
+
+	else
+	{
+		player->isPlayerPassedLevel = false;
+		std::cout << "\n\n\t\t\tEND OF GAME" << std::endl;
 	}
 
 	_getch();
@@ -560,6 +558,7 @@ bool game::checkGameOverConditions(GameInfo* gameInfo, MapCell** map, bool gameI
 	}
 	else if (gameInfo->hero.healthPoints <= 0) // если здоровье игрока ниже или равно 0
 	{
+		gameInfo->hero.isPlayerPassedLevel = false;
 		return false;
 	}
 	else if (gameIsRunning == false)
@@ -575,20 +574,21 @@ bool game::checkGameOverConditions(GameInfo* gameInfo, MapCell** map, bool gameI
 bool game::quitTheLevel(GameInfo* gameInfo, MapCell** map)
 {
 	std::cout << "\n\n\n\n\n\n\n\n\t   Quit the level?\n\n\t   Press 'y' or 'n'" << std::endl;
-
+	bool isPlayerWantsToQuitLevel = false;
 	switch (_getch())
 	{
 	case YES:
-		gameInfo->hero.score = 0;
-		gameInfo->hero.time = 100000.0;
-		return false;
+		gameInfo->hero.isPlayerPassedLevel = false;
+		isPlayerWantsToQuitLevel = true;
 		break;
 
 	case NO:
 		drawFrame(map, gameInfo);
-		return true;
+		isPlayerWantsToQuitLevel = false;
 		break;
+		
 	}
+	return !isPlayerWantsToQuitLevel;
 }
 
 // функци€ паузы
