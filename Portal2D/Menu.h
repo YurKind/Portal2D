@@ -27,6 +27,8 @@ struct ParametersForMenu
 
 namespace menu
 {
+	char* getFileNameFormNumberOfLevel(int numberOfLevel);
+
 	//Рисует логотип
 	void drawLogo();
 

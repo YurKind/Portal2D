@@ -39,7 +39,7 @@ namespace search
 	/* Поиск по очкам до первого результата */
 	tree::BranchForNumber<records::DataAboutTheChampion> *searchByScoreOfOneResult(tree::BranchForNumber<records::DataAboutTheChampion> *tree, double score)
 	{
-		if (!tree || score <= tree->data.score)     // если конец дерева или совпало кол-во очков
+		if (!tree || score == tree->data.score)     // если конец дерева или совпало кол-во очков
 		{
 			return tree;
 		}

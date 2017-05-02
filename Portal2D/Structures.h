@@ -15,7 +15,7 @@ namespace records
 {
 	struct DataAboutTheChampion
 	{
-		std::string name = "name";
+		std::string name;
 		double score = 0;
 		int level = 0;
 		bool isPlayerPassedLevel = true;
