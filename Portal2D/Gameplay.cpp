@@ -388,7 +388,9 @@ records::DataAboutTheChampion* game::startLevel(char* levelName)
 	records::DataAboutTheChampion* player = new records::DataAboutTheChampion;
 	game::clearScreen(); // Чистим экран
 	game::drawFrame(map, gameInfo); // Рисуем первый кадр
+	game::performAnAction(gameInfo, map);
 	system("cls");
+	
 
 	if (gameInfo->hero.healthPoints > 0)
 	{
@@ -569,20 +571,24 @@ bool game::checkGameOverConditions(GameInfo* gameInfo, MapCell** map, bool gameI
 bool game::quitTheLevel(GameInfo* gameInfo, MapCell** map)
 {
 	std::cout << "\n\n\n\n\n\n\n\n\t   Quit the level?\n\n\t   Press 'y' or 'n'" << std::endl;
-
+	bool playerWantsToQuit = false;
 	switch (_getch())
 	{
 	case YES:
 		gameInfo->hero.score = 0;
 		gameInfo->hero.time = 100000.0;
-		return false;
+		playerWantsToQuit = true;
 		break;
 
 	case NO:
 		drawFrame(map, gameInfo);
-		return true;
+		playerWantsToQuit = false;
+		break;
+
+	default:
 		break;
 	}
+	return !playerWantsToQuit;
 }
 
 // функция паузы

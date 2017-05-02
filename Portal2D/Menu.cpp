@@ -438,22 +438,22 @@ void menu::doPointStart(queue::Queue<int> *queue, bool flag)
 
 		case Level2:
 			newChampion = game::startLevel("Lvl_2.txt");
-			records::addInRecordsOrShowRecords(newChampion, "add");
+			//records::addInRecordsOrShowRecords(newChampion, "add");
 			break;
 
 		case Level3:
 			newChampion = game::startLevel("Lvl_3.txt");
-			records::addInRecordsOrShowRecords(newChampion, "add");
+			//records::addInRecordsOrShowRecords(newChampion, "add");
 			break;
 
 		case Level4:
 			newChampion = game::startLevel("Lvl_4.txt");
-			records::addInRecordsOrShowRecords(newChampion, "add");
+			//records::addInRecordsOrShowRecords(newChampion, "add");
 			break;
 
 		case Level5:
 			newChampion = game::startLevel("Lvl_5.txt");
-			records::addInRecordsOrShowRecords(newChampion, "add");
+			//records::addInRecordsOrShowRecords(newChampion, "add");
 			break;
 
 		default:
