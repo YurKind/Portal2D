@@ -386,7 +386,6 @@ records::DataAboutTheChampion* game::startLevel(char* levelName)
 	game::GameInfo* gameInfo = new GameInfo;
 	game::MapCell** map = game::createMap(levelName, gameInfo); // Создаем двумерный массив структур, используя текстовый документ
 	records::DataAboutTheChampion* player = new records::DataAboutTheChampion;
-
 	game::clearScreen(); // Чистим экран
 	game::drawFrame(map, gameInfo); // Рисуем первый кадр
 	game::performAnAction(gameInfo, map); // Выполняем далее в зависимости от действий игрока
@@ -409,7 +408,6 @@ records::DataAboutTheChampion* game::startLevel(char* levelName)
 		std::cout << "\t\t\tTIME: " << gameInfo->hero.time << std::endl;
 		std::cout << "\n\n\t\t\tPRESS ANY KEY TO CONTINUE" << std::endl;
 	}
-
 	else
 	{
 		player->isPlayerPassedLevel = false;
