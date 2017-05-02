@@ -2,7 +2,7 @@
 #include "Gameplay.h"
 #include "Search.h"
 #include "RandomLevel.h"
-#include "SortingMethods.h"
+#include "List.h"
 
 HANDLE H = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -57,7 +57,7 @@ void menu::printPointRecord(int key)
 	}
 }
 
-void menu::printPointRecordSearch(int key)
+void menu::printPointSearch(int key)
 {
 	drawLogo();
 
@@ -135,7 +135,7 @@ void menu::printMenu(int key)
 //Выводит вариант меню, на котором остановился пользователь в пункте Start
 void menu::printPointStart(int key)
 {
-	system("cls");
+	std::system("cls");
 	drawLogo();																			// Рисуем лого
 
 	/*В зависимости от того, на каком пункте остановился пользователь,
@@ -147,7 +147,10 @@ void menu::printPointStart(int key)
 		cout << "\t\t\t\t\t    Random Level   " << endl;
 		cout << "\t\t\t\t\t      Level 1      " << endl;
 		cout << "\t\t\t\t\t      Level 2      " << endl;
-		cout << "\t\t\t\t\t      Back         " << endl;
+		cout << "\t\t\t\t\t      Level 3      " << endl;
+		cout << "\t\t\t\t\t      Level 4      " << endl;
+		cout << "\t\t\t\t\t      Level 5      " << endl;
+		cout << "\t\t\t\t\t       Back        " << endl;
 		break;
 
 	case RandomLevel:
@@ -155,7 +158,10 @@ void menu::printPointStart(int key)
 		cout << "\t\t\t\t\t<<  Random Level >>" << endl;
 		cout << "\t\t\t\t\t      Level 1      " << endl;
 		cout << "\t\t\t\t\t      Level 2      " << endl;
-		cout << "\t\t\t\t\t      Back         " << endl;
+		cout << "\t\t\t\t\t      Level 3      " << endl;
+		cout << "\t\t\t\t\t      Level 4      " << endl;
+		cout << "\t\t\t\t\t      Level 5      " << endl;
+		cout << "\t\t\t\t\t       Back        " << endl;
 		break;
 
 	case Level1:
@@ -163,7 +169,10 @@ void menu::printPointStart(int key)
 		cout << "\t\t\t\t\t    Random Level   " << endl;
 		cout << "\t\t\t\t\t<<    Level 1    >>"; records::giveBestPlayerInLevel(1);
 		cout << "\t\t\t\t\t      Level 2      " << endl;
-		cout << "\t\t\t\t\t      Back         " << endl;
+		cout << "\t\t\t\t\t      Level 3      " << endl;
+		cout << "\t\t\t\t\t      Level 4      " << endl;
+		cout << "\t\t\t\t\t      Level 5      " << endl;
+		cout << "\t\t\t\t\t       Back        " << endl;
 		break;
 
 	case Level2:
@@ -171,7 +180,43 @@ void menu::printPointStart(int key)
 		cout << "\t\t\t\t\t    Random Level   " << endl;
 		cout << "\t\t\t\t\t      Level 1      " << endl;
 		cout << "\t\t\t\t\t<<    Level 2    >>"; records::giveBestPlayerInLevel(2);
-		cout << "\t\t\t\t\t      Back         " << endl;
+		cout << "\t\t\t\t\t      Level 3      " << endl;
+		cout << "\t\t\t\t\t      Level 4      " << endl;
+		cout << "\t\t\t\t\t      Level 5      " << endl;
+		cout << "\t\t\t\t\t       Back        " << endl;
+		break;
+
+	case Level3:
+		cout << "\t\t\t\t\t    Instruction    " << endl;
+		cout << "\t\t\t\t\t    Random Level   " << endl;
+		cout << "\t\t\t\t\t      Level 1      " << endl;
+		cout << "\t\t\t\t\t      Level 2      " << endl;
+		cout << "\t\t\t\t\t<<    Level 3    >>"; records::giveBestPlayerInLevel(3);
+		cout << "\t\t\t\t\t      Level 4      " << endl;
+		cout << "\t\t\t\t\t      Level 5      " << endl;
+		cout << "\t\t\t\t\t       Back        " << endl;
+		break;
+
+	case Level4:
+		cout << "\t\t\t\t\t    Instruction    " << endl;
+		cout << "\t\t\t\t\t    Random Level   " << endl;
+		cout << "\t\t\t\t\t      Level 1      " << endl;
+		cout << "\t\t\t\t\t      Level 2      " << endl;
+		cout << "\t\t\t\t\t      Level 3      " << endl;
+		cout << "\t\t\t\t\t<<    Level 4    >>"; records::giveBestPlayerInLevel(4);
+		cout << "\t\t\t\t\t      Level 5      " << endl;
+		cout << "\t\t\t\t\t       Back        " << endl;
+		break;
+
+	case Level5:
+		cout << "\t\t\t\t\t    Instruction    " << endl;
+		cout << "\t\t\t\t\t    Random Level   " << endl;
+		cout << "\t\t\t\t\t      Level 1      " << endl;
+		cout << "\t\t\t\t\t      Level 2      " << endl;
+		cout << "\t\t\t\t\t      Level 3      " << endl;
+		cout << "\t\t\t\t\t      Level 4      " << endl;
+		cout << "\t\t\t\t\t<<    Level 5    >>"; records::giveBestPlayerInLevel(5);
+		cout << "\t\t\t\t\t       Back        " << endl;
 		break;
 
 	case BackLevel:
@@ -179,7 +224,10 @@ void menu::printPointStart(int key)
 		cout << "\t\t\t\t\t    Random Level   " << endl;
 		cout << "\t\t\t\t\t      Level 1      " << endl;
 		cout << "\t\t\t\t\t      Level 2      " << endl;
-		cout << "\t\t\t\t\t<<    Back       >>" << endl;
+		cout << "\t\t\t\t\t      Level 3      " << endl;
+		cout << "\t\t\t\t\t      Level 4      " << endl;
+		cout << "\t\t\t\t\t      Level 5      " << endl;
+		cout << "\t\t\t\t\t<<     Back      >>" << endl;
 		break;
 	}
 
@@ -201,7 +249,7 @@ void menu::doPointRecords()
 	{
 		key = controlMenu(parametersForMenu);											// key получает значение пункта на котором остановился пользователь и нажал Enter
 
-		system("cls");
+		std::system("cls");
 
 		/*Заходим в раздел который выбрал пользователь*/
 		switch (key)
@@ -221,16 +269,14 @@ void menu::doPointRecords()
 				std::cout << "\n\t\t\t\t" << (11 - i) << " lvl"; records::giveBestPlayerInLevel(i);
 			}
 			_getch();
-			system("cls");
+			std::system("cls");
 			break;
 
 		default:
 			break;
 		}
-
-
 	} while (key != BackRecords);
-	system("cls");
+	std::system("cls");
 }
 
 //Воспроизводит выбранный пользователем пункт в разделе Records->Search
@@ -240,65 +286,124 @@ void menu::doPointRecordSearch()
 
 	/*Верхняя граница равна Search, нижняя равна BackRecords,
 	вывод данного подпункта меню осуществляет printPointRecord*/
-	ParametersForMenu parametersForMenu = { ByScore, BackRecordsSearch, &printPointRecordSearch };
+	ParametersForMenu parametersForMenu = { ByScore, BackRecordsSearch, &printPointSearch };
 
 	/*Пока пользователь не захочет выйти из этого подпункта меню,
 	осуществляется перемещения по меню*/
 	do
 	{
 		key = controlMenu(parametersForMenu);											// key получает значение пункта на котором остановился пользователь и нажал Enter
+		std::system("cls");
 
-		system("cls");
-
-		list::List<records::DataAboutTheChampion> *list = NULL;       // список с найденными рекорсдменами 
+		list::List<records::DataAboutTheChampion> *list = NULL, *printList = NULL;       // список с найденными рекорсдменами 
 		tree::BranchForNumber<records::DataAboutTheChampion> *tree = NULL;        // дерево со всеми рекордсменами
+
 		double numberOfScore = 0.0;
 		int numberOfLevel = 0;
 		char *name = new char[1000];
 		bool print = true;
+
 		switch (key)
 		{
 		case ByScore:
 			createTree(&tree, FILE_NAME_RECORDS, ByScore);     // создаем и инициализируем список по очкам
-			std::cout << "\Enter the number of score: ";
+			std::cout << "\n\n\n\t\t\t\tEnter the number of score: ";
 			std::cin >> numberOfScore;
 			std::cout << "\n";
 			list = search::searchAllElements<double>(tree, numberOfScore, search::searchByScoreOfOneResult);       // указатель на список с найденными рекорсдменами 
+
+			while (list)
+			{
+				list::addBegin(&printList, list->value);
+				list = list->next;
+			}
 			break;
 
 		case ByLevel:
 			createTree(&tree, FILE_NAME_RECORDS, ByLevel);     // создаем и инициализируем список по уровням
-			std::cout << "\Enter the number of level: ";
+			std::cout << "\n\n\n\t\t\t\tEnter the number of level: ";
 			std::cin >> numberOfLevel;
 			std::cout << "\n";
 			list = search::searchAllElements<int>(tree, numberOfLevel, search::searchByLevelOfOneResult);       // указатель на список с найденными рекорсдменами 
+
+			while (list)
+			{
+				list::addBegin(&printList, list->value);
+				list = list->next;
+			}
 			break;
 
 		case ByName:
 			createTree(&tree, FILE_NAME_RECORDS, ByName);     // создаем и инициализируем список по именам
-			std::cout << "\tEnter the string: ";
+			std::cout << "\n\n\n\t\t\t\tEnter the string: ";
 			std::cin >> name;
 			std::cout << "\n";
 			list = search::searchAllElements<char*>(tree, name, search::searchByStringOfOneResult);       // указатель на список с найденными рекорсдменами 
+
+			while (list)
+			{
+				list::addBegin(&printList, list->value);
+				list = list->next;
+			}
 			break;
 
 		case BySubstring:
+			std::cout << "\n\n\n\t\t\t\tEnter the substring: ";
+			std::cin >> name;
+			std::cout << "\n";
+			printList = search::searchBySubstringAllResults(list, name);
 			break;
 
 		default:
 			print = false;
 			break;
 		}
+
 		if (print)
 		{
-			search::printFoundChampions(list);
-			_getch();
+			search::printFoundChampions(printList, key);
+			system("pause");
 		}
 		list::freeMemory(list);
 		tree::freeMemory(tree);
 		delete[] name;
-		system("cls");
+		std::system("cls");
+
 	} while (key != BackRecordsSearch);
+}
+
+/* Для RandomLevel */
+char* menu::getFileNameFormNumberOfLevel(int numberOfLevel)
+{
+	char* result;
+	switch (numberOfLevel)
+	{
+	case 1:
+		result = "Lvl_1.txt";
+		break;
+
+	case 2:
+		result = "Lvl_2.txt";
+		break;
+
+	case 3:
+		result = "Lvl_3.txt";
+		break;
+
+	case 4:
+		result = "Lvl_4.txt";
+		break;
+
+	case 5:
+		result = "Lvl_5.txt";
+		break;
+
+	default:
+		result = "Lvl_4.txt";
+		break;
+	}
+
+	return result;
 }
 
 //Воспроизводит выбранный пользователем пункт в разделе Start
@@ -316,13 +421,14 @@ void menu::doPointStart(queue::Queue<int> *queue, bool flag)
 	do
 	{
 		key = controlMenu(parametersForMenu);											// key получает значение пункта на котором остановился пользователь и нажал Enter
-		system("cls");
+		std::system("cls");
 
 		int numberOfLevel = 0;
+		char* fileNameForRandomLevel = "";
+
 		/*Заходим в раздел который выбрал пользователь*/
 		switch (key)
 		{
-
 		case Instruction:
 			game::showInstruction();
 			break;
@@ -338,16 +444,53 @@ void menu::doPointStart(queue::Queue<int> *queue, bool flag)
 				flag = true;
 				numberOfLevel = random::initializeQueueAndReturnHead(queue);
 			}
-			newChampion = game::startLevel("Lvl_1.txt");
-			records::addInRecordsOrShowRecords(newChampion, "add");
+
+			fileNameForRandomLevel = menu::getFileNameFormNumberOfLevel(numberOfLevel);
+			newChampion = game::startLevel(fileNameForRandomLevel);
+			if (newChampion->isPlayerPassedLevel == true)
+			{
+				records::addInRecordsOrShowRecords(newChampion, "add");
+			}
 			break;
 
 		case Level1:
 			newChampion = game::startLevel("Lvl_1.txt");
-			records::addInRecordsOrShowRecords(newChampion, "add");
+			if (newChampion->isPlayerPassedLevel == true)
+			{
+				records::addInRecordsOrShowRecords(newChampion, "add");
+			}
 			break;
 
 		case Level2:
+			newChampion = game::startLevel("Lvl_2.txt");
+			if (newChampion->isPlayerPassedLevel == true)
+			{
+				records::addInRecordsOrShowRecords(newChampion, "add");
+			}
+			break;
+
+		case Level3:
+			newChampion = game::startLevel("Lvl_3.txt");
+			if (newChampion->isPlayerPassedLevel == true)
+			{
+				records::addInRecordsOrShowRecords(newChampion, "add");
+			}
+			break;
+
+		case Level4:
+			newChampion = game::startLevel("Lvl_4.txt");
+			if (newChampion->isPlayerPassedLevel == true)
+			{
+				records::addInRecordsOrShowRecords(newChampion, "add");
+			}
+			break;
+
+		case Level5:
+			newChampion = game::startLevel("Lvl_5.txt");
+			if (newChampion->isPlayerPassedLevel == true)
+			{
+				records::addInRecordsOrShowRecords(newChampion, "add");
+			}
 			break;
 
 		default:
@@ -355,7 +498,7 @@ void menu::doPointStart(queue::Queue<int> *queue, bool flag)
 		}
 	} while (key != BackLevel);
 
-	system("cls");
+	std::system("cls");
 }
 
 //Реализует управление меню и его вывод на экран

@@ -26,60 +26,155 @@ game::MapCell** game::createMap(char* levelName, GameInfo* gameInfo)
 
 			switch (currentSymbol)			 
 			{
-			case HERO_SYMBOL:					// если текущий символ равен "H", то
+			case HERO_SYMBOL:
 				map[i][j].types = new list::List<char>;
 				list::addBegin(&map[i][j].types, EMPTY_SPACE);
 				list::addBegin(&map[i][j].types, HERO);
-				gameInfo->hero.xCoordinate = j;	// запоминаются его координаты
+				gameInfo->hero.xCoordinate = j;
 				gameInfo->hero.yCoordinate = i;
-				map[i][j].passable = true;
 				break;
 
-			case BLOCK_SHARP:				// если текущий символ равен "решётка", то
+			case BLOCK_SHARP:
 				map[i][j].types = new list::List<char>;
 				list::addBegin(&map[i][j].types, BLOCK);
-				map[i][j].passable = false;	//клетка становится непроходимой
+				map[i][j].passable = false;
 				break;
 
-			case EMPTY_SPACE:				// если текущий символ равен "_", то
+			case EMPTY_SPACE:
 				map[i][j].types = new list::List<char>;
 				list::addBegin(&map[i][j].types, EMPTY_SPACE);
-				map[i][j].passable = true;	// клетка становится проходимой
 				break;
 
-			case AIM_DOT:					// если текущий символ равен "точке", то
+			case AIM_DOT:
 				map[i][j].types = new list::List<char>;
 				list::addBegin(&map[i][j].types, EMPTY_SPACE);
 				list::addBegin(&map[i][j].types, AIM_DOT);
-				gameInfo->aim.xCoordinate = j;	// запоминаются его координаты
+				gameInfo->aim.xCoordinate = j;
 				gameInfo->aim.yCoordinate = i;
-				map[i][j].passable = true;	// клетка становится проходимой
 				break;
 
-			case BLACK_WALL_S:				// если текущий символ равен "X", то
+			case BLACK_WALL_ONE_S:
 				map[i][j].types = new list::List<char>;
 				list::addBegin(&map[i][j].types, EMPTY_SPACE);
 				list::addBegin(&map[i][j].types, BLACK_WALL);
-				gameInfo->blackWall.xCoordinate = j;
-				gameInfo->blackWall.yCoordinate = i;
-				map[i][j].passable = false;	// клетка становится непроходимой
+				gameInfo->blackWallOne.xCoordinate = j;
+				gameInfo->blackWallOne.yCoordinate = i;
+				map[i][j].passable = false;
 				break;
 
-			case EXIT_S:					// если текущий символ равен "X", то
+			case BLACK_WALL_TWO_S:
+				map[i][j].types = new list::List<char>;
+				list::addBegin(&map[i][j].types, EMPTY_SPACE);
+				list::addBegin(&map[i][j].types, BLACK_WALL);
+				gameInfo->blackWallTwo.xCoordinate = j;
+				gameInfo->blackWallTwo.yCoordinate = i;
+				map[i][j].passable = false;
+				break;
+
+			case BLACK_WALL_THREE_S:
+				map[i][j].types = new list::List<char>;
+				list::addBegin(&map[i][j].types, EMPTY_SPACE);
+				list::addBegin(&map[i][j].types, BLACK_WALL);
+				gameInfo->blackWallThree.xCoordinate = j;
+				gameInfo->blackWallThree.yCoordinate = i;
+				map[i][j].passable = false;
+				break;
+
+			case BLACK_WALL_FOUR_S:
+				map[i][j].types = new list::List<char>;
+				list::addBegin(&map[i][j].types, EMPTY_SPACE);
+				list::addBegin(&map[i][j].types, BLACK_WALL);
+				gameInfo->blackWallFour.xCoordinate = j;
+				gameInfo->blackWallFour.yCoordinate = i;
+				map[i][j].passable = false;
+				break;
+
+			case EXIT_S:
 				map[i][j].types = new list::List<char>;
 				list::addBegin(&map[i][j].types, EMPTY_SPACE);
 				list::addBegin(&map[i][j].types, EXIT);
 				gameInfo->exitFromLevel.xCoordinate = j;
 				gameInfo->exitFromLevel.yCoordinate = i;
-				map[i][j].passable = true;	// клетка становится проходимой
 				break;
 
-			case BUTTON_S:
+			case BUTTON_ONE_S:
 				map[i][j].types = new list::List<char>;
+				list::addBegin(&map[i][j].types, EMPTY_SPACE);
 				list::addBegin(&map[i][j].types, BUTTON);
-				gameInfo->button.xCoordinate = j;
-				gameInfo->button.yCoordinate = i;
-				map[i][j].passable = true;
+				gameInfo->buttonOne.xCoordinate = j;
+				gameInfo->buttonOne.yCoordinate = i;
+				break;
+				
+			case BUTTON_TWO_S:
+				map[i][j].types = new list::List<char>;
+				list::addBegin(&map[i][j].types, EMPTY_SPACE);
+				list::addBegin(&map[i][j].types, BUTTON);
+				gameInfo->buttonTwo.xCoordinate = j;
+				gameInfo->buttonTwo.yCoordinate = i;
+				break;
+
+			case BUTTON_THREE_S:
+				map[i][j].types = new list::List<char>;
+				list::addBegin(&map[i][j].types, EMPTY_SPACE);
+				list::addBegin(&map[i][j].types, BUTTON);
+				gameInfo->buttonThree.xCoordinate = j;
+				gameInfo->buttonThree.yCoordinate = i;
+				break;
+
+			case BUTTON_FOUR_S:
+				map[i][j].types = new list::List<char>;
+				list::addBegin(&map[i][j].types, EMPTY_SPACE);
+				list::addBegin(&map[i][j].types, BUTTON);
+				gameInfo->buttonFour.xCoordinate = j;
+				gameInfo->buttonFour.yCoordinate = i;
+				break;
+
+			case TURRET_HUNTER_S:
+				map[i][j].types = new list::List<char>;
+				list::addBegin(&map[i][j].types, EMPTY_SPACE);
+				list::addBegin(&map[i][j].types, TURRET_HUNTER);
+				gameInfo->hunter_turret.xCoordinate = j;
+				gameInfo->hunter_turret.yCoordinate = i;
+				break;
+
+			case STATIONARY_TURRET_S:
+				map[i][j].types = new list::List<char>;
+				list::addBegin(&map[i][j].types, EMPTY_SPACE);
+				list::addBegin(&map[i][j].types, STATIONARY_TURRET);
+				gameInfo->stationary_turret.xCoordinate = j;
+				gameInfo->stationary_turret.yCoordinate = i;
+				break;
+
+			case PLATFORM_TURRET_S:
+				map[i][j].types = new list::List<char>;
+				list::addBegin(&map[i][j].types, EMPTY_SPACE);
+				list::addBegin(&map[i][j].types, PLATFORM_TURRET);
+				gameInfo->platform_turret.xCoordinate = j;
+				gameInfo->platform_turret.yCoordinate = i;
+				break;
+
+			case WALL:
+				map[i][j].types = new list::List<char>;
+				list::addBegin(&map[i][j].types, EMPTY_SPACE);
+				list::addBegin(&map[i][j].types, WALL);
+				gameInfo->wall.xCoordinate = j;
+				gameInfo->wall.yCoordinate = i;
+				break;
+
+			case BLUE_PORTAL:
+				map[i][j].types = new list::List<char>;
+				list::addBegin(&map[i][j].types, EMPTY_SPACE);
+				list::addBegin(&map[i][j].types, BLUE_PORTAL);
+				gameInfo->bluePortal.xCoordinate = j;
+				gameInfo->bluePortal.yCoordinate = i;
+				break;
+
+			case RED_PORTAL:
+				map[i][j].types = new list::List<char>;
+				list::addBegin(&map[i][j].types, EMPTY_SPACE);
+				list::addBegin(&map[i][j].types, RED_PORTAL);
+				gameInfo->redPortal.xCoordinate = j;
+				gameInfo->redPortal.yCoordinate = i;
 				break;
 
 			default:

@@ -5,8 +5,9 @@
 
 namespace sorting
 {
+	void sort(list::List<records::DataAboutTheChampion> *root);
 
-	void bubbleSortForList(list::List<records::DataAboutTheChampion> *begin);
+	void bubbleSortForList(list::List<records::DataAboutTheChampion> *list);
 
 	template<typename T> void insertionSort(T *arr, int length)
 	{

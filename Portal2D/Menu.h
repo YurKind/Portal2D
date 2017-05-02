@@ -27,6 +27,8 @@ struct ParametersForMenu
 
 namespace menu
 {
+	char* getFileNameFormNumberOfLevel(int numberOfLevel);
+
 	//–исует логотип
 	void drawLogo();
 
@@ -39,7 +41,7 @@ namespace menu
 	//¬ыводит вариант меню, на котором остановилс€ пользователь в пункте Records
 	void printPointRecord(int key);
 
-	void printPointRecordSearch(int key);
+	void printPointSearch(int key);
 
 	//¬оспроизводит выбранный пользователем пункт в разделе Start
 	void doPointStart(queue::Queue<int> *queue, bool flag);
@@ -89,6 +91,9 @@ enum PointStart
 	RandomLevel,
 	Level1,
 	Level2,
+	Level3,
+	Level4,
+	Level5,
 	BackLevel,
 };
 

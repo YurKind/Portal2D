@@ -1,24 +1,37 @@
 #include "Search.h"
+#include "Menu.h"
 
 namespace search
 {
 	/* Выводит список на печать */
-	void printFoundChampions(list::List<records::DataAboutTheChampion> *list)
+	void printFoundChampions(list::List<records::DataAboutTheChampion> *list, int key)
 	{
-		if (!list)
+		list::List<records::DataAboutTheChampion> *check;
+
+		if (key == BySubstring)
 		{
-			std::cout << "\t\tNoone here, be the first!" << std::endl;
+			check = list->next;
 		}
 		else
 		{
-			while (list)
+			check = list;
+		}
+
+		if (!check)
+		{
+			std::cout << "\t\t\t\t\tNoone here, be the first!" << std::endl;
+		}
+		else
+		{
+			while (check)
 			{
-				std::cout << "\t\t\tname: " << list->value.name
+				std::cout << "\t\t\t\tname: " << list->value.name
 					<< " level: " << list->value.level
 					<< " score: " << list->value.score
 					<< std::endl;
 
 				list = list->next;
+				check = check->next;
 			}
 		}
 	}
@@ -26,7 +39,7 @@ namespace search
 	/* Поиск по очкам до первого результата */
 	tree::BranchForNumber<records::DataAboutTheChampion> *searchByScoreOfOneResult(tree::BranchForNumber<records::DataAboutTheChampion> *tree, double score)
 	{
-		if (!tree || score <= tree->data.score)     // если конец дерева или совпало кол-во очков
+		if (!tree || score == tree->data.score)     // если конец дерева или совпало кол-во очков
 		{
 			return tree;
 		}
@@ -122,22 +135,30 @@ namespace search
 	/* Поиск по подстроке всех элементов из файла мс рекордами */
 	list::List<records::DataAboutTheChampion> *searchBySubstringAllResults(list::List<records::DataAboutTheChampion> *result, char *substring)
 	{
-		list::List<records::DataAboutTheChampion> *list = new list::List<records::DataAboutTheChampion>;
+		list::List<records::DataAboutTheChampion> *list = new list::List<records::DataAboutTheChampion>, *begin = NULL;
 		std::ifstream fin(FILE_NAME_RECORDS);
 		records::DataAboutTheChampion temp;
+		
 		list::addList(&list, fin);
+		result = new list::List<records::DataAboutTheChampion>;
+		begin = result;
+		begin->next = NULL;
 
 		while (list)
 		{
 			temp = searchBySubstringOfOneResult(list->value, substring);
 
 			if (temp.level != -1)
-			{
-				list::addBegin(&result, temp);
+			{		
+				result->next = new list::List<records::DataAboutTheChampion>;
+				result->value = temp;
+				result = result->next;
+				result->next = NULL;
 			}
 			list = list->next;
 		}
 
+		result = begin;
 		list::freeMemory(list);
 		return result;
 	}

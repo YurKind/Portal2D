@@ -3,62 +3,65 @@
 #include "Instruments.h"
 #include "Structures.h"
 #include "List.h"
-#include "Save.h"
-
+#include "TurretsAI.h"
 
 //------Moving_Functions------//
 // принимает структуру с информацией об объекте на карте и двумерный массив структур
 void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 {
 	bool gameIsRunning = true;	// условие выполнение цикла
+	bool isMovingRight = true;  // переменная для патрулирующей турели (отвечает за направление движения)
+	double timeBeforeGame = clock(); // переменная для отображения времени, затраченного на прохождение уровня
+	double timeOnPause = 0.0;	// переменная для хранения времени на паузе
+	int sideOfMovingOx = 0;		// переменная для хранения направления движения и количество шагов по оси Ох
+	int sideOfMovingOy = 0;		// переменная для хранения направления движения и количество шагов по оси Оу
 
-	double timeBeforeGame = clock();
-
-	while (gameIsRunning)
+	while (gameIsRunning == true)
 	{
-
 		if (_kbhit()) // Если нажата клавиша
 		{
 			switch (_getch()) // Читаем клавишу
 			{
-			case SAVE:
-				/*save::saveTheGame(gameInfo, map);*/
-				break;
-
 			case A_LOWER_CASE:
-				moveLeft(HERO, gameInfo, map);
+				sideOfMovingOx = -1;
+				moveOx(sideOfMovingOx, HERO, gameInfo, map);
 				break;
 
 			case D_LOWER_CASE:
-				moveRight(HERO, gameInfo, map);
+				sideOfMovingOx = 1;
+				moveOx(sideOfMovingOx, HERO, gameInfo, map);
 				break;
 
 			case LEFT_ARROW:
-				moveLeft(AIM_DOT, gameInfo, map);
+				sideOfMovingOx = -1;
+				moveOx(sideOfMovingOx, AIM_DOT, gameInfo, map);
 				break;
 
 			case RIGHT_ARROW:
-				moveRight(AIM_DOT, gameInfo, map);
+				sideOfMovingOx = 1;
+				moveOx(sideOfMovingOx, AIM_DOT, gameInfo, map);
 				break;
 
 			case UP_ARROW:
-				moveUp(gameInfo, map);
+				sideOfMovingOy = -1;
+				moveOy(sideOfMovingOy, AIM_DOT, gameInfo, map);
 				break;
 
 			case DOWN_ARROW:
-				moveDown(gameInfo, map);
+				sideOfMovingOy = 1;
+				moveOy(sideOfMovingOy, AIM_DOT, gameInfo, map);
 				break;
 
 			case SPACE_JUMP:
-				jump(gameInfo, map);
+				jump(HERO, gameInfo, map);
 				break;
 
 			case E_LOWER_CASE:
-				setPortal(RED_PORTAL, gameInfo, map);
+				setPortal(BLUE_PORTAL, gameInfo, map);
 				break;
 
 			case Q_LOWER_CASE:
-				setPortal(BLUE_PORTAL, gameInfo, map);
+				setPortal(RED_PORTAL, gameInfo, map);
 				break;
 
 			case ENTER:
@@ -66,22 +69,44 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 				activateTheButton(gameInfo, map);
 				break;
 
+				/*case R_BUTTON_LOWER_CASE:
+					replayceTheAimToHero(gameInfo, map);
+					break;*/
+
+			case PAUSE:
+				timeOnPause += pause(gameInfo, map);
+				break;
+
+			case BACKSPACE:
+				gameIsRunning = quitTheLevel(gameInfo, map);
+				break;
+
 			default:
 				break;
 			}
 		}
 
-		// если координаты героя равны координатам выхода, то переменной gameIsRunning присваивается значение false
-		gameIsRunning = checkGameOverConditions(gameInfo, map);
+		// Запускает ИИ стационарной турели
+		game::turretAI(STATIONARY_TURRET, gameInfo, map);
 
+		// Запускает ИИ патрулирующей турели
+		game::turretAI(PLATFORM_TURRET, gameInfo, map);
+
+		// Запускает ИИ турели охотника
+		game::turretAI(TURRET_HUNTER, gameInfo, map);
+
+		// Проверяет условия конца игры (кончилось ли здоровье, нашел ли игрок выход)
+		gameIsRunning = checkGameOverConditions(gameInfo, map, gameIsRunning);
 
 		game::clearScreen(); // Очищаем экран
-		game::drawFrame(map, gameInfo);
+		game::drawFrame(map, gameInfo); // Отрисовываем кадр
 		game::gravity(map, gameInfo); // Имитируем гравитацию
 		game::clearScreen(); // Очищаем экран
 
-		double timeAfterAction = clock();
+		// Переменная необходимая для отображения времени, затраченного на прохождение уровня
+		double timeAfterAction = clock() - timeOnPause;
 
+		// Вносим информация о затраченном на прохождение уровня времени (в секундах)
 		gameInfo->hero.time = (timeAfterAction - timeBeforeGame) / 1000.0;
 
 		if (gameInfo->hero.score > 0)	// если количество очков больше 0, то вычетается одно очко
@@ -89,242 +114,305 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 			gameInfo->hero.score -= 1.02354;
 		}
 	}
-
-	double timeAfterGame = clock();
-
-	double requiredTime = (timeAfterGame - timeBeforeGame) / 1000.0;
 }
 
 //------Moving_Functions------//
 // принимает структуру с информацией об объекте на карте и двумерный массив структур
-void game::jump(GameInfo* gameInfo, game::MapCell** map)
-{
-	if (map[gameInfo->hero.yCoordinate + 1][gameInfo->hero.xCoordinate].passable == false)	// если под персонажем есть непроходимый блок
-	{
-		//replaceTheAimMovement(gameInfo, map);
-
-		// Если обе клетки над героем свободны
-		if ((map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].passable == true) && 
-			(map[gameInfo->hero.yCoordinate - 2][gameInfo->hero.xCoordinate].passable == true))
-		{
-			//удаляем символ героя из текущей ячейки
-			list::deleteCurrentElement(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types, HERO);
-			//добавляем в ячейку выше символ героя
-			list::addBegin(&map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].types, HERO);
-
-			gameInfo->hero.yCoordinate = gameInfo->hero.yCoordinate - 1;
-
-			game::drawFrame(map, gameInfo);	// отрисовавается кадр
-
-			//удаляем символ героя из текущей ячейки
-			list::deleteCurrentElement(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types, HERO);
-			//добавляем в ячейку выше символ героя
-			list::addBegin(&map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].types, HERO);
-
-			gameInfo->hero.yCoordinate = gameInfo->hero.yCoordinate - 1;
-		}
-
-		else if ((map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].passable == true) && // Если свободна только одна
-			(map[gameInfo->hero.yCoordinate - 2][gameInfo->hero.xCoordinate].passable == false))
-		{
-			//удаляем символ героя из текущей ячейки
-			list::deleteCurrentElement(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types, HERO);
-			//добавляем в ячейку выше символ героя
-			list::addBegin(&map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].types, HERO);
-
-			gameInfo->hero.yCoordinate = gameInfo->hero.yCoordinate - 1;
-		}
-	}
-}
-
-//// функция перемещения влево
-// принимает символ персонажа или прицела, структуру с информацией об объекте на карте и двумерный массив структур
-void game::moveLeft(char type, GameInfo* gameInfo, game::MapCell** map)
+void game::jump(char type, GameInfo* gameInfo, game::MapCell** map)
 {
 	switch (type)
 	{
-
-	case AIM_DOT:
-		if (map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate - 1].passable == true)
+	case HERO:
+		// если под персонажем есть непроходимый блок
+		if (map[gameInfo->hero.yCoordinate + 1][gameInfo->hero.xCoordinate].passable == false)
 		{
-			//удаляем символ прицела из текущей ячейки карты
+			// Если обе клетки над героем проходимы
+			if ((map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].passable == true) &&
+				(map[gameInfo->hero.yCoordinate - 2][gameInfo->hero.xCoordinate].passable == true))
+			{
+				//удаляем символ героя из текущей ячейки
+				list::deleteCurrentElement(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types, HERO);
+				//добавляем в ячейку выше символ героя
+				list::addBegin(&map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].types, HERO);
+
+				// координата героя по оси Оу уменьшается на один
+				gameInfo->hero.yCoordinate = gameInfo->hero.yCoordinate - 1;
+
+				game::drawFrame(map, gameInfo);	// отрисовавается кадр
+
+				//удаляем символ героя из текущей ячейки
+				list::deleteCurrentElement(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types, HERO);
+				//добавляем в ячейку выше символ героя
+				list::addBegin(&map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].types, HERO);
+				// координата героя по оси Оу уменьшается на один
+				gameInfo->hero.yCoordinate = gameInfo->hero.yCoordinate - 1;
+			}
+			// Если проходима только одна клетка
+			else if ((map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].passable == true) &&
+				(map[gameInfo->hero.yCoordinate - 2][gameInfo->hero.xCoordinate].passable == false))
+			{
+				//удаляем символ героя из текущей ячейки
+				list::deleteCurrentElement(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types, HERO);
+				//добавляем в ячейку выше символ героя
+				list::addBegin(&map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].types, HERO);
+				// координата героя по оси Оу уменьшается на один
+				gameInfo->hero.yCoordinate = gameInfo->hero.yCoordinate - 1;
+			}
+
+		}
+		break;
+
+	case TURRET_HUNTER:
+		// если под турелью есть непроходимый блок
+		if (map[gameInfo->hunter_turret.yCoordinate + 1][gameInfo->hunter_turret.xCoordinate].passable == false)
+		{
+			// Если обе клетки над турелью проходимы
+			if ((map[gameInfo->hunter_turret.yCoordinate - 1][gameInfo->hunter_turret.xCoordinate].passable == true) &&
+				(map[gameInfo->hunter_turret.yCoordinate - 2][gameInfo->hunter_turret.xCoordinate].passable == true))
+			{
+				//удаляем символ турели из текущей ячейки
+				list::deleteCurrentElement(&map[gameInfo->hunter_turret.yCoordinate][gameInfo->hunter_turret.xCoordinate].types, TURRET_HUNTER);
+				//добавляем в ячейку выше символ турели
+				list::addBegin(&map[gameInfo->hunter_turret.yCoordinate - 1][gameInfo->hunter_turret.xCoordinate].types, TURRET_HUNTER);
+
+				// координата турели по оси Оу уменьшается на один
+				gameInfo->hunter_turret.yCoordinate = gameInfo->hunter_turret.yCoordinate - 1;
+
+				game::drawFrame(map, gameInfo);	// отрисовавается кадр
+
+				//удаляем символ турели из текущей ячейки
+				list::deleteCurrentElement(&map[gameInfo->hunter_turret.yCoordinate][gameInfo->hunter_turret.xCoordinate].types, TURRET_HUNTER);
+				//добавляем в ячейку выше символ турели
+				list::addBegin(&map[gameInfo->hunter_turret.yCoordinate - 1][gameInfo->hunter_turret.xCoordinate].types, TURRET_HUNTER);
+				// координата турели по оси Оу уменьшается на один
+				gameInfo->hunter_turret.yCoordinate = gameInfo->hunter_turret.yCoordinate - 1;
+			}
+			// если проходима только одна клетка на турелью
+			else if ((map[gameInfo->hunter_turret.yCoordinate - 1][gameInfo->hunter_turret.xCoordinate].passable == true) &&
+				(map[gameInfo->hunter_turret.yCoordinate - 2][gameInfo->hunter_turret.xCoordinate].passable == false))
+			{
+				//удаляем символ турели из текущей ячейки
+				list::deleteCurrentElement(&map[gameInfo->hunter_turret.yCoordinate][gameInfo->hunter_turret.xCoordinate].types, TURRET_HUNTER);
+				//добавляем в ячейку выше символ турели
+				list::addBegin(&map[gameInfo->hunter_turret.yCoordinate - 1][gameInfo->hunter_turret.xCoordinate].types, TURRET_HUNTER);
+				// координата турели по оси Оу уменьшается на один
+				gameInfo->hunter_turret.yCoordinate = gameInfo->hunter_turret.yCoordinate - 1;
+			}
+		}
+		break;
+	}
+}
+
+// функция перемещения объектов по оси Ox
+void game::moveOx(int sideOfMovingOx, char type, GameInfo* gameInfo, game::MapCell** map)
+{
+	switch (type)
+	{
+	case AIM_DOT:
+		// если в соседней клетке проходимое пространство
+		if (map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate + sideOfMovingOx].passable == true &&
+			map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate + sideOfMovingOx].types->value != BUTTON &&
+			map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate + sideOfMovingOx].types->value != WALL)
+		{
+			// удаляем символ прицела из текущей ячейки карты
 			list::deleteCurrentElement(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types, AIM_DOT);
-			//добавляем в ячейку карты слева символ прицела
-			list::addBegin(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate - 1].types, AIM_DOT);
-			gameInfo->aim.xCoordinate = gameInfo->aim.xCoordinate - 1;
+			//добавляем в соседнюю ячейку карты символ прицела
+			list::addBegin(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate + sideOfMovingOx].types, AIM_DOT);
+			gameInfo->aim.xCoordinate = gameInfo->aim.xCoordinate + sideOfMovingOx;
 		}
 		break;
 
 	case HERO:
-		if (map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate - 1].passable == true)
+		// если в соседней клетке проходимое пространство
+		if (map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate + sideOfMovingOx].passable == true)
 		{
 			//удаляем символ героя из текущей ячейки карты
 			list::deleteCurrentElement(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types, HERO);
-			//добавляем в ячейку карты слева символ героя
-			list::addBegin(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate - 1].types, HERO);
-			gameInfo->hero.xCoordinate = gameInfo->hero.xCoordinate - 1;
+			//добавляем в соседнюю ячейку карты символ героя
+			list::addBegin(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate + sideOfMovingOx].types, HERO);
+			gameInfo->hero.xCoordinate = gameInfo->hero.xCoordinate + sideOfMovingOx;
+		}
+		break;
+
+	case TURRET_HUNTER:
+		// если в соседней клетке проходимое пространство
+		if (map[gameInfo->hunter_turret.yCoordinate][gameInfo->hunter_turret.xCoordinate + sideOfMovingOx].passable == true)
+		{
+			// из текущей ячейки удаляется символ турели
+			list::deleteCurrentElement(&map[gameInfo->hunter_turret.yCoordinate][gameInfo->hunter_turret.xCoordinate].types, TURRET_HUNTER);
+			// добавляем в соседнюю ячейку карты символ турели
+			list::addBegin(&map[gameInfo->hunter_turret.yCoordinate][gameInfo->hunter_turret.xCoordinate + sideOfMovingOx].types, TURRET_HUNTER);
+			gameInfo->hunter_turret.xCoordinate = gameInfo->hunter_turret.xCoordinate + sideOfMovingOx;
+		}
+		break;
+
+	case STATIONARY_TURRET:
+		// если в соседней клетке проходимое пространство
+		if (map[gameInfo->stationary_turret.yCoordinate][gameInfo->stationary_turret.xCoordinate + sideOfMovingOx].passable == true)
+		{
+			// из текущей ячейки удаляется символ турели
+			list::deleteCurrentElement(&map[gameInfo->stationary_turret.yCoordinate][gameInfo->stationary_turret.xCoordinate].types, STATIONARY_TURRET);
+			// добавляем в соседнюю ячейку карты символ турели
+			list::addBegin(&map[gameInfo->stationary_turret.yCoordinate][gameInfo->stationary_turret.xCoordinate + sideOfMovingOx].types, STATIONARY_TURRET);
+			gameInfo->stationary_turret.xCoordinate = gameInfo->stationary_turret.xCoordinate + sideOfMovingOx;
+		}
+		break;
+
+	case PLATFORM_TURRET:
+		// если в соседней клетке проходимое пространство
+		if (map[gameInfo->platform_turret.yCoordinate][gameInfo->platform_turret.xCoordinate + sideOfMovingOx].passable == true)
+		{
+			// удаляется символ турели из текущей ячейки
+			list::deleteCurrentElement(&map[gameInfo->platform_turret.yCoordinate][gameInfo->platform_turret.xCoordinate].types, PLATFORM_TURRET);
+			// добавляем в соседнюю ячейку карты символ турели
+			list::addBegin(&map[gameInfo->platform_turret.yCoordinate][gameInfo->platform_turret.xCoordinate + sideOfMovingOx].types, PLATFORM_TURRET);
+			gameInfo->platform_turret.xCoordinate = gameInfo->platform_turret.xCoordinate + sideOfMovingOx;
 		}
 		break;
 	}
 }
 
-// функция перемещения вниз
-// принимает символ персонажа или прицела, структуру с информацией об объекте на карте и двумерный массив структур
-void game::moveRight(char type, GameInfo* gameInfo, game::MapCell** map)
+// функция перемещения объектов по оси Oy
+void game::moveOy(int sideOfMovingOy, char type, GameInfo* gameInfo, game::MapCell** map)
 {
-
 	switch (type)
 	{
-
 	case AIM_DOT:
-		if (map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate + 1].passable == true)
+		// если в соседней клетке проходимое пространство
+		if (map[gameInfo->aim.yCoordinate + sideOfMovingOy][gameInfo->aim.xCoordinate].passable == true &&
+			map[gameInfo->aim.yCoordinate + sideOfMovingOy][gameInfo->aim.xCoordinate].types->value != BUTTON &&
+			map[gameInfo->aim.yCoordinate + sideOfMovingOy][gameInfo->aim.xCoordinate].types->value != WALL)
 		{
-			//удаляем символ прицела из текущей ячейки карты
+			// удаляем символ прицела из текущей ячейки карты
 			list::deleteCurrentElement(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types, AIM_DOT);
-			//добавляем в ячейку карты справа символ прицела
-			list::addBegin(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate + 1].types, AIM_DOT);
-			gameInfo->aim.xCoordinate = gameInfo->aim.xCoordinate + 1;
+			// добавляем в соседнюю ячейку карты символ прицела
+			list::addBegin(&map[gameInfo->aim.yCoordinate + sideOfMovingOy][gameInfo->aim.xCoordinate].types, AIM_DOT);
+
+			gameInfo->aim.yCoordinate = gameInfo->aim.yCoordinate + sideOfMovingOy;
 		}
 		break;
 
 	case HERO:
-		if (map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate + 1].passable == true)
+		// если в соседней клетке проходимое пространство
+		if (map[gameInfo->hero.yCoordinate + sideOfMovingOy][gameInfo->hero.xCoordinate].passable == true)
 		{
-			//удаляем символ героя из текущей ячейки карты
+			// удаляем символ героя из текущей ячейки карты
 			list::deleteCurrentElement(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types, HERO);
-			//добавляем в ячейку карты справа символ героя
-			list::addBegin(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate + 1].types, HERO);
-			gameInfo->hero.xCoordinate = gameInfo->hero.xCoordinate + 1;
+			// добавляем соседнюю в ячейку карты символ героя
+			list::addBegin(&map[gameInfo->hero.yCoordinate + sideOfMovingOy][gameInfo->hero.xCoordinate].types, HERO);
+
+			gameInfo->hero.yCoordinate = gameInfo->hero.yCoordinate + sideOfMovingOy;
+		}
+		break;
+
+	case TURRET_HUNTER:
+		// если в соседней клетке проходимое пространство
+		if (map[gameInfo->hunter_turret.yCoordinate + sideOfMovingOy][gameInfo->hunter_turret.xCoordinate].passable == true)
+		{
+			// удаляем символ турели из текущей ячейки карты
+			list::deleteCurrentElement(&map[gameInfo->hunter_turret.yCoordinate][gameInfo->hunter_turret.xCoordinate].types, TURRET_HUNTER);
+			// добавляем в соседнюю ячейку карты символ турели
+			list::addBegin(&map[gameInfo->hunter_turret.yCoordinate + sideOfMovingOy][gameInfo->hunter_turret.xCoordinate].types, TURRET_HUNTER);
+
+			gameInfo->hunter_turret.yCoordinate = gameInfo->hunter_turret.yCoordinate + sideOfMovingOy;
+		}
+		break;
+
+	case STATIONARY_TURRET:
+		// если в соседней клетке проходимое пространство
+		if (map[gameInfo->stationary_turret.yCoordinate + sideOfMovingOy][gameInfo->stationary_turret.xCoordinate].passable == true)
+		{
+			// удаляем символ турели из текущей ячейки карты
+			list::deleteCurrentElement(&map[gameInfo->stationary_turret.yCoordinate][gameInfo->stationary_turret.xCoordinate].types, STATIONARY_TURRET);
+			// добавляем в соседнюю ячейку карты символ турели
+			list::addBegin(&map[gameInfo->stationary_turret.yCoordinate + sideOfMovingOy][gameInfo->stationary_turret.xCoordinate].types, STATIONARY_TURRET);
+
+			gameInfo->stationary_turret.yCoordinate = gameInfo->stationary_turret.yCoordinate + sideOfMovingOy;
+		}
+		break;
+
+	case PLATFORM_TURRET:
+		// если в соседней клетке проходимое пространство
+		if (map[gameInfo->platform_turret.yCoordinate + 1][gameInfo->platform_turret.xCoordinate].passable == true)
+		{
+			// удаляем символ турели из текущей ячейки карты
+			list::deleteCurrentElement(&map[gameInfo->platform_turret.yCoordinate][gameInfo->platform_turret.xCoordinate].types, PLATFORM_TURRET);
+			// добавляем в соседнюю ячейку карты символ турели
+			list::addBegin(&map[gameInfo->platform_turret.yCoordinate + sideOfMovingOy][gameInfo->platform_turret.xCoordinate].types, PLATFORM_TURRET);
+
+			gameInfo->platform_turret.yCoordinate = gameInfo->platform_turret.yCoordinate + sideOfMovingOy;
 		}
 		break;
 	}
 }
 
-// функция перемещения вниз
-// структуру с информацией об объекте на карте и двумерный массив структур
-void game::moveUp(GameInfo* gameInfo, game::MapCell** map)
-{
-	// если сверху ячека карты проходима и в ней не герой
-	if (map[gameInfo->aim.yCoordinate - 1][gameInfo->aim.xCoordinate].passable == true)
-	{
-		//удаляем символ прицела из текущей ячейки карты
-		list::deleteCurrentElement(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types, AIM_DOT);
-		//добавляем в ячейку карты выше символ прицела
-		list::addBegin(&map[gameInfo->aim.yCoordinate - 1][gameInfo->aim.xCoordinate].types, AIM_DOT);
-
-		gameInfo->aim.yCoordinate = gameInfo->aim.yCoordinate - 1;
-	}
-}
-
-// функция перемещения вниз
-// принимает структуру с информацией об объекте на карте и двумерный массив структур
-void game::moveDown(GameInfo* gameInfo, game::MapCell** map)
-{
-	// если снизу ячейка карты проходима и в ней не герой
-	if (map[gameInfo->aim.yCoordinate + 1][gameInfo->aim.xCoordinate].passable == true)
-	{
-		//удаляем символ прицела из текущей ячейки карты
-		list::deleteCurrentElement(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types, AIM_DOT);
-		//добавляем в ячейку карты ниже символ прицела
-		list::addBegin(&map[gameInfo->aim.yCoordinate + 1][gameInfo->aim.xCoordinate].types, AIM_DOT);
-
-		gameInfo->aim.yCoordinate = gameInfo->aim.yCoordinate + 1;
-	}
-}
-
-// функция переставляет прицел, при установке портала
-// принимает структуру с информацией об объекте на карте и двумерный массив структур
-void game::replaceTheAim(GameInfo* gameInfo, game::MapCell** map)
-{
-	// если ячека карты справа пуста
-	if (map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate + 1].types->value == EMPTY_SPACE)
-	{
-		moveRight(AIM_DOT, gameInfo, map);	// прицел перемещаяется влево на одну ячейку карты
-	}
-
-	// если ячека карты слева пуста
-	else if (map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate - 1].types->value == EMPTY_SPACE)
-	{
-		moveLeft(AIM_DOT, gameInfo, map);	// прицел перемещаяется вправо на одну ячейку карты
-	}
-
-	// если ячека карты сверху пуста
-	else if (map[gameInfo->aim.yCoordinate - 1][gameInfo->aim.xCoordinate].types->value == EMPTY_SPACE)
-	{
-		moveUp(gameInfo, map);	// прицел перемещаяется вверх на одну ячейку карты
-	}
-
-	// если ячека карты снизу пуста
-	else if (map[gameInfo->aim.yCoordinate + 1][gameInfo->aim.xCoordinate].types->value == EMPTY_SPACE)
-	{
-		moveDown(gameInfo, map);	// прицел перемещаяется вниз на одну ячейку карты
-	}
-}
-
-//// функция переставляет прицел, если герой падает на прицел
-//// принимает структуру с информацией об объекте на карте и двумерный массив структур
-//void game::replaceTheAimMovement(GameInfo* gameInfo, game::MapCell** map)
-//{
-//	if (peek(map[gameInfo->hero.yCoordinate + 1][gameInfo->hero.xCoordinate].types) == AIM_DOT)
-//	{
-//		replaceTheAim(gameInfo, map);
-//	}
-//
-//	else if (peek(map[gameInfo->hero.yCoordinate - 1][gameInfo->hero.xCoordinate].types) == AIM_DOT)
-//	{
-//		replaceTheAim(gameInfo, map);
-//	}
-//}
-//
-//------Gravitation_Functions------//
-// функция гравитации, принимает структуру с информацией об объекте на карте и двумерный массив структур
 void game::gravity(game::MapCell** map, GameInfo* gameInfo)
 {
-	// если под персонажем нет непроходимого блока/объекта
+	int step = 1;
+	// если в ячейке карты ниже героя проходимое пространство
 	if (map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types->value == HERO &&
 		map[gameInfo->hero.yCoordinate + 1][gameInfo->hero.xCoordinate].passable == true)
 	{
-		//replaceTheAimMovement(gameInfo, map);
-		Sleep(50);
-		// перемещение игрока вниз на одну ячейку карты
-		list::addBegin(&map[gameInfo->hero.yCoordinate + 1][gameInfo->hero.xCoordinate].types, HERO);
-		list::deleteCurrentElement(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types, HERO);
+		// перемещение героя вниз на одну ячейку карты
+		moveOy(step, HERO, gameInfo, map);
+	}
+	// если в ячейке карты ниже турели проходимое пространство
+	if (map[gameInfo->hunter_turret.yCoordinate][gameInfo->hunter_turret.xCoordinate].types->value == TURRET_HUNTER &&
+		map[gameInfo->hunter_turret.yCoordinate + 1][gameInfo->hunter_turret.xCoordinate].passable == true)
+	{
+		// перемещение турели вниз на одну ячейку карты
+		moveOy(step, TURRET_HUNTER, gameInfo, map);
+	}
+	// если в ячейке карты ниже турели проходимое пространство
+	if (map[gameInfo->stationary_turret.yCoordinate][gameInfo->stationary_turret.xCoordinate].types->value == STATIONARY_TURRET &&
+		map[gameInfo->stationary_turret.yCoordinate + 1][gameInfo->stationary_turret.xCoordinate].passable == true)
+	{
+		// перемещение турели вниз на одну ячейку карты
+		moveOy(step, STATIONARY_TURRET, gameInfo, map);
+	}
 
-		gameInfo->hero.yCoordinate = gameInfo->hero.yCoordinate + 1;
+	if (map[gameInfo->platform_turret.yCoordinate][gameInfo->platform_turret.xCoordinate].types->value == PLATFORM_TURRET &&
+		map[gameInfo->platform_turret.yCoordinate + 1][gameInfo->platform_turret.xCoordinate].passable == true)
+	{
+		// перемещение турели вниз на одну ячейку карты
+		moveOy(step, PLATFORM_TURRET, gameInfo, map);
 	}
 }
 
-// функция запуска уровня, принимает на вход название файла с уровнем
-// возвращает количество очков, набранное игроком
+// функция запуска уровня, отвчает за работу всей игры, принимает на вход название файла с уровнем
+// возвращает структуру с данными о уровне, количестве очков и времени, затраченном на прохождение
 records::DataAboutTheChampion* game::startLevel(char* levelName)
 {
 	game::GameInfo* gameInfo = new GameInfo;
-
 	game::MapCell** map = game::createMap(levelName, gameInfo); // Создаем двумерный массив структур, используя текстовый документ
-
 	records::DataAboutTheChampion* player = new records::DataAboutTheChampion;
-
 	game::clearScreen(); // Чистим экран
-
 	game::drawFrame(map, gameInfo); // Рисуем первый кадр
-
 	game::performAnAction(gameInfo, map); // Выполняем далее в зависимости от действий игрока
 
 	system("cls");
 
-	std::cout << "Please enter your name" << std::endl;
+	if (gameInfo->hero.isPlayerPassedLevel == true)
+	{
+		std::cout << "Please enter your name" << std::endl;
 
-	std::cin >> player->name;
+		std::cin >> player->name;
 
-	player->score = gameInfo->hero.score;
+		player->score = gameInfo->hero.score;
 
-	player->level = atoi(&levelName[4]);
+		player->level = atoi(&levelName[4]); // Номер уровня находится в названии на пятом месте
 
-	double score = gameInfo->hero.score;
+		double score = gameInfo->hero.score;
 
-	std::cout << "\n\n\t\t\tSCORE: " << score << std::endl;
-	std::cout << "\t\t\tTIME: " << gameInfo->hero.time << std::endl;
-	std::cout << "\n\n\t\t\tPRESS ANY KEY TO CONTINUE" << std::endl;
+		std::cout << "\n\n\t\t\tSCORE: " << score << std::endl;
+		std::cout << "\t\t\tTIME: " << gameInfo->hero.time << std::endl;
+		std::cout << "\n\n\t\t\tPRESS ANY KEY TO CONTINUE" << std::endl;
+	}
+	else
+	{
+		player->isPlayerPassedLevel = false;
+		std::cout << "\n\n\t\t\tEND OF GAME" << std::endl;
+	}
 
 	_getch();
 
@@ -342,56 +430,58 @@ void game::setPortal(char type, GameInfo* gameInfo, game::MapCell** map)
 {
 	if (type == RED_PORTAL)	// если устанавливется красный портал
 	{
-		if ((gameInfo->aim.xCoordinate != gameInfo->bluePortal.xCoordinate) ||
-			(gameInfo->aim.yCoordinate != gameInfo->bluePortal.yCoordinate))
-		{
-			if (gameInfo->redPortal.yCoordinate != 0)	// если красный портал уже есть, то существующий красный портал исчезает
-				list::deleteCurrentElement(&map[gameInfo->redPortal.yCoordinate][gameInfo->redPortal.xCoordinate].types, RED_PORTAL);
+		// если красный портал существует
+		if (gameInfo->redPortal.yCoordinate != 0)
+			// удаляется символ существующего красного портала
+			list::deleteCurrentElement(&map[gameInfo->redPortal.yCoordinate][gameInfo->redPortal.xCoordinate].types, RED_PORTAL);
+		// координаты нового портала приравниваются координатам прицела
+		gameInfo->redPortal.xCoordinate = gameInfo->aim.xCoordinate;
+		gameInfo->redPortal.yCoordinate = gameInfo->aim.yCoordinate;
 
-			gameInfo->redPortal.xCoordinate = gameInfo->aim.xCoordinate; // координаты нового портала приравниваются координатам прицела
-			gameInfo->redPortal.yCoordinate = gameInfo->aim.yCoordinate;
-
-			list::addBegin(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types, RED_PORTAL);
-			//replaceTheAim(gameInfo, map);	// прицел смещается с портала
-		}
+		// в ячейку карты, в которой находится прицел, добавляется символ красного портала
+		list::addBegin(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types, RED_PORTAL);
 	}
 
 	else if (type == BLUE_PORTAL) // если устанавливется синий портал
 	{
-		if ((gameInfo->aim.xCoordinate != gameInfo->bluePortal.xCoordinate) ||
-			(gameInfo->aim.yCoordinate != gameInfo->bluePortal.yCoordinate))
-		{
-			if (gameInfo->bluePortal.yCoordinate != 0)	// если синий портал уже есть, то существующий синий портал исчезает
-				list::deleteCurrentElement(&map[gameInfo->bluePortal.yCoordinate][gameInfo->bluePortal.xCoordinate].types, BLUE_PORTAL);
-
-			gameInfo->bluePortal.xCoordinate = gameInfo->aim.xCoordinate;	// координаты нового портала приравниваются координатам прицела
-			gameInfo->bluePortal.yCoordinate = gameInfo->aim.yCoordinate;
-
-			list::addBegin(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types, BLUE_PORTAL);
-			//replaceTheAim(gameInfo, map);	// прицел смещается с портала
-		}
+		// если синий портал уже существует
+		if (gameInfo->bluePortal.yCoordinate != 0)
+			// удаляется символ существующего красного портала
+			list::deleteCurrentElement(&map[gameInfo->bluePortal.yCoordinate][gameInfo->bluePortal.xCoordinate].types, BLUE_PORTAL);
+		// координаты нового портала приравниваются координатам прицела
+		gameInfo->bluePortal.xCoordinate = gameInfo->aim.xCoordinate;
+		gameInfo->bluePortal.yCoordinate = gameInfo->aim.yCoordinate;
+		// в ячейку карты, в которой находится прицел, добавляется символ синего портала
+		list::addBegin(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types, BLUE_PORTAL);
 	}
 }
 
 // функция перехода по порталам, принимает структуру с информацией об объекте на карте и двумерный массив структур
 void game::enterThePortal(char type, GameInfo* gameInfo, MapCell** map)
 {
-	if (gameInfo->hero.xCoordinate == gameInfo->redPortal.xCoordinate &&	// если персонаж и красный портал в одной клетке
+	// если персонаж и красный портал в одной клетке карты и существует синий портал
+	if (gameInfo->hero.xCoordinate == gameInfo->redPortal.xCoordinate &&
 		gameInfo->hero.yCoordinate == gameInfo->redPortal.yCoordinate &&
-		gameInfo->bluePortal.yCoordinate != 0 && gameInfo->bluePortal.xCoordinate != 0) // и второй портал существует
+		gameInfo->bluePortal.yCoordinate != 0 && gameInfo->bluePortal.xCoordinate != 0)
 	{
+		// в ячейку карты по координатам синего портала добавляется символ героя
 		list::addBegin(&map[gameInfo->bluePortal.yCoordinate][gameInfo->bluePortal.xCoordinate].types, HERO);
+		// из ячейки карты по текущим координатам героя удаляется символ героя
 		list::deleteCurrentElement(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types, HERO);
-
+		// координаты героя приравниваются к координатам синего портала
 		gameInfo->hero.xCoordinate = gameInfo->bluePortal.xCoordinate;
 		gameInfo->hero.yCoordinate = gameInfo->bluePortal.yCoordinate;
 	}
-	else if (gameInfo->hero.xCoordinate == gameInfo->bluePortal.xCoordinate && // если персонаж и синий портал в одной клетке
+	// если персонаж и синий портал в одной клетке карты и существует красный портал
+	else if (gameInfo->hero.xCoordinate == gameInfo->bluePortal.xCoordinate &&
 		gameInfo->hero.yCoordinate == gameInfo->bluePortal.yCoordinate &&
-		gameInfo->redPortal.yCoordinate != 0 && gameInfo->redPortal.xCoordinate != 0)	// и второй портал существует
+		gameInfo->redPortal.yCoordinate != 0 && gameInfo->redPortal.xCoordinate != 0)
 	{
+		// в ячейку карты по координатам красного портала добавляется символ героя
 		list::addBegin(&map[gameInfo->redPortal.yCoordinate][gameInfo->redPortal.xCoordinate].types, HERO);
-		list::deleteCurrentElement(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types, HERO);	// герой перемещается по координатам второго портала
+		// из ячейки карты по текущим координатам героя удаляется символ героя
+		list::deleteCurrentElement(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types, HERO);
+		// координаты героя приравниваются к координатам синего портала
 		gameInfo->hero.xCoordinate = gameInfo->redPortal.xCoordinate;
 		gameInfo->hero.yCoordinate = gameInfo->redPortal.yCoordinate;
 	}
@@ -401,18 +491,75 @@ void game::enterThePortal(char type, GameInfo* gameInfo, MapCell** map)
 // функция активации клавиши, принимает структуру с информацией об объекте на карте и двумерный массив структур
 void game::activateTheButton(GameInfo* gameInfo, MapCell** map)
 {
-	if (gameInfo->hero.xCoordinate == gameInfo->button.xCoordinate &&	// если персонаж и кнопка находятся в одной клетке
-		gameInfo->hero.yCoordinate == gameInfo->button.yCoordinate)
+	if (gameInfo->hero.xCoordinate == gameInfo->buttonOne.xCoordinate &&	// если персонаж и кнопка находятся в одной клетке
+		gameInfo->hero.yCoordinate == gameInfo->buttonOne.yCoordinate &&	// и существует непроходимая стена
+		map[gameInfo->blackWallOne.yCoordinate][gameInfo->blackWallOne.xCoordinate].types->value == BLACK_WALL)
 	{
-		map[gameInfo->blackWall.yCoordinate][gameInfo->blackWall.xCoordinate].passable = true;// непроходимая стена становится проходимой
-		list::deleteCurrentElement(&map[gameInfo->blackWall.yCoordinate][gameInfo->blackWall.xCoordinate].types, BLACK_WALL);	// на месте непроходимой стены отображается проходимая
+		// ячейка карты, в которой была непроходимая стена, становится проходимой
+		map[gameInfo->blackWallOne.yCoordinate][gameInfo->blackWallOne.xCoordinate].passable = true;
+		// на месте непроходимой стены отображается проходимая
+		list::deleteCurrentElement(&map[gameInfo->blackWallOne.yCoordinate][gameInfo->blackWallOne.xCoordinate].types, BLACK_WALL);
+		list::deleteCurrentElement(&map[gameInfo->buttonOne.yCoordinate][gameInfo->buttonOne.xCoordinate].types, BUTTON);
+	}
+	else if (gameInfo->hero.xCoordinate == gameInfo->buttonTwo.xCoordinate &&	// если персонаж и кнопка находятся в одной клетке
+		gameInfo->hero.yCoordinate == gameInfo->buttonTwo.yCoordinate &&	// и существует непроходимая стена
+		map[gameInfo->blackWallTwo.yCoordinate][gameInfo->blackWallTwo.xCoordinate].types->value == BLACK_WALL)
+	{
+		// ячейка карты, в которой была непроходимая стена, становится проходимой
+		map[gameInfo->blackWallTwo.yCoordinate][gameInfo->blackWallTwo.xCoordinate].passable = true;
+		// на месте непроходимой стены отображается проходимая
+		list::deleteCurrentElement(&map[gameInfo->blackWallTwo.yCoordinate][gameInfo->blackWallTwo.xCoordinate].types, BLACK_WALL);
+		list::deleteCurrentElement(&map[gameInfo->buttonTwo.yCoordinate][gameInfo->buttonTwo.xCoordinate].types, BUTTON);
+	}
+	else if (gameInfo->hero.xCoordinate == gameInfo->buttonThree.xCoordinate &&	// если персонаж и кнопка находятся в одной клетке
+		gameInfo->hero.yCoordinate == gameInfo->buttonThree.yCoordinate &&	// и существует непроходимая стена
+		map[gameInfo->blackWallThree.yCoordinate][gameInfo->blackWallThree.xCoordinate].types->value == BLACK_WALL)
+	{
+		// ячейка карты, в которой была непроходимая стена, становится проходимой
+		map[gameInfo->blackWallThree.yCoordinate][gameInfo->blackWallThree.xCoordinate].passable = true;
+		// на месте непроходимой стены отображается проходимая
+		list::deleteCurrentElement(&map[gameInfo->blackWallThree.yCoordinate][gameInfo->blackWallThree.xCoordinate].types, BLACK_WALL);
+		list::deleteCurrentElement(&map[gameInfo->buttonThree.yCoordinate][gameInfo->buttonThree.xCoordinate].types, BUTTON);
+	}
+	else if (gameInfo->hero.xCoordinate == gameInfo->buttonFour.xCoordinate &&	// если персонаж и кнопка находятся в одной клетке
+		gameInfo->hero.yCoordinate == gameInfo->buttonFour.yCoordinate &&	// и существует непроходимая стена
+		map[gameInfo->blackWallFour.yCoordinate][gameInfo->blackWallFour.xCoordinate].types->value == BLACK_WALL)
+	{
+		// ячейка карты, в которой была непроходимая стена, становится проходимой
+		map[gameInfo->blackWallFour.yCoordinate][gameInfo->blackWallFour.xCoordinate].passable = true;
+		// на месте непроходимой стены отображается проходимая
+		list::deleteCurrentElement(&map[gameInfo->blackWallFour.yCoordinate][gameInfo->blackWallFour.xCoordinate].types, BLACK_WALL);
+		list::deleteCurrentElement(&map[gameInfo->buttonFour.yCoordinate][gameInfo->buttonFour.xCoordinate].types, BUTTON);
 	}
 }
 
-bool game::checkGameOverConditions(GameInfo* gameInfo, MapCell** map)
+// функция перемещения прицела к герою
+void game::replayceTheAimToHero(GameInfo* gameInfo, MapCell** map)
 {
-	if (gameInfo->hero.xCoordinate == gameInfo->exitFromLevel.xCoordinate &&	// если персонаж находится в одной клетке с выходом
-		gameInfo->hero.yCoordinate == gameInfo->exitFromLevel.yCoordinate)
+	// добавляется текстура прицела по координатам героя
+	list::addBegin(&map[gameInfo->hero.yCoordinate][gameInfo->hero.xCoordinate].types, AIM_DOT);
+	// удаляется текущая текстура прицела
+	list::deleteCurrentElement(&map[gameInfo->aim.yCoordinate][gameInfo->aim.xCoordinate].types, AIM_DOT);
+	
+	// координатам прицела присваиваются координаты героя
+	gameInfo->aim.xCoordinate = gameInfo->hero.xCoordinate;
+	gameInfo->aim.yCoordinate = gameInfo->hero.yCoordinate;
+}
+
+// Функция проверяет, наступило ли событие, при котором игра должна закончиться
+bool game::checkGameOverConditions(GameInfo* gameInfo, MapCell** map, bool gameIsRunning)
+{
+	if ((gameInfo->hero.xCoordinate == gameInfo->exitFromLevel.xCoordinate &&	// если персонаж находится в одной клетке с выходом
+		gameInfo->hero.yCoordinate == gameInfo->exitFromLevel.yCoordinate))
+	{
+		return false;
+	}
+	else if (gameInfo->hero.healthPoints <= 0) // если здоровье игрока ниже или равно 0
+	{
+		gameInfo->hero.isPlayerPassedLevel = false;
+		return false;
+	}
+	else if (gameIsRunning == false)
 	{
 		return false;
 	}
@@ -420,4 +567,35 @@ bool game::checkGameOverConditions(GameInfo* gameInfo, MapCell** map)
 	{
 		return true;
 	}
+}
+
+bool game::quitTheLevel(GameInfo* gameInfo, MapCell** map)
+{
+	std::cout << "\n\n\n\n\n\n\n\n\t   Quit the level?\n\n\t   Press 'y' or 'n'" << std::endl;
+	bool isPlayerWantsToQuitLevel = false;
+	switch (_getch())
+	{
+	case YES:
+		gameInfo->hero.isPlayerPassedLevel = false;
+		isPlayerWantsToQuitLevel = true;
+		break;
+
+	case NO:
+		drawFrame(map, gameInfo);
+		isPlayerWantsToQuitLevel = false;
+		break;
+		
+	}
+	return !isPlayerWantsToQuitLevel;
+}
+
+// функция паузы
+double game::pause(GameInfo* gameInfo, MapCell** map)
+{
+	double startTime = clock();
+	std::cout << "\n\n\n\n\n\n\n\n\t       Pause\n\n\t   Press any key" << std::endl;
+	_getch();
+	system("cls");
+	double endTime = clock();
+	return endTime - startTime;
 }

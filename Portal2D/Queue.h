@@ -1,7 +1,7 @@
 #pragma once 
 #include "Structures.h" 
 
-#define NUMBER_OF_LEVELS 10 
+#define NUMBER_OF_LEVELS 5 
 
 namespace queue
 {

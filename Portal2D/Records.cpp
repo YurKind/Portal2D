@@ -1,7 +1,7 @@
 #include "List.h"
 #include "SortingMethods.h"
 
-/*Команды: add - добавить в рекорды / show - показать все рекорды (не больше 10к) / show10 - показать 10 рекордов*/
+/* Команды: add - добавить в рекорды / show - показать все рекорды (не больше 10к) */
 void records::addInRecordsOrShowRecords(records::DataAboutTheChampion *newChampion, char *variant)
 {
 	int counterOfPrintedChampions = 0;
@@ -29,20 +29,7 @@ void records::addInRecordsOrShowRecords(records::DataAboutTheChampion *newChampi
 		list::addInCertainPlace(&begin, placeInRank, *newChampion);          // вставляем в найденное место
 		records::overwriteFile(begin);               // перезапись файла 
 	}
-	else if (!strcmp(variant, "show10"))     // показать 10 лучших рекордов
-	{
-		std::cout << "\n\t\t\t\t\t TOP 10 RECORDS" << std::endl;
-		std::cout << "\n";
-		while (begin->next && counterOfPrintedChampions < 10)
-		{
-			counterOfPrintedChampions++;
-			std::cout << "\n\t\t\t  " << counterOfPrintedChampions << "." << "name: " << begin->value.name << " level: " << begin->value.level << " score: " << begin->value.score << std::endl;
-			begin = begin->next;	
-		}
-		std::cout << "\n";
-		_getch();
-		system("cls");
-	}
+
 	fin.close();
 	list::freeMemory(begin);
 }
@@ -66,9 +53,7 @@ void records::giveBestPlayerInLevel(int levelNumber)
 	fin.close();
 }
 
-/**
-  *функция удаляет элементы с уровнем != rightLevel и возвращает лучший результат среди рекордсменов уровня rightLevel
-  */
+/* Функция удаляет элементы с уровнем != rightLevel и возвращает лучший результат среди рекордсменов уровня rightLevel */
 records::DataAboutTheChampion records::removeItemsExcessLevels(list::List<records::DataAboutTheChampion> *begin, int rightLevel)    
 {                                                                
 	bool counterEmptyListOfRecordsForRightlevel = false;           
@@ -133,15 +118,15 @@ void records::overwriteFile(list::List<records::DataAboutTheChampion> *begin)   
 int records::findingTheLocationInOrder(list::List<records::DataAboutTheChampion> *begin, records::DataAboutTheChampion newChampion)     
 {                                                                 // высчитывание места нового рекордсмена в зависимости от уровня и очков (чтобы записать в файл не нарушив порядок)
 	int placInOrder = 0;
-	list::List<records::DataAboutTheChampion> *ptr = begin;
-	while (ptr->value.level > newChampion.level)    // пока уровень рекордсмена из списка больше чем у вставляемого рекордсмена
+	list::List<records::DataAboutTheChampion> *list = begin;
+	while (list->value.level > newChampion.level)    // пока уровень рекордсмена из списка больше чем у вставляемого рекордсмена
 	{
-		ptr = ptr->next;
+		list = list->next;
 		placInOrder++;
 	}
-	while (ptr->value.score > newChampion.score && ptr->value.level == newChampion.level)   // пока кол-во очков из списка больше вставляемого и уровень из списка равен уровню вставляемого рекордсмена
+	while (list->value.score > newChampion.score && list->value.level == newChampion.level)   // пока кол-во очков из списка больше вставляемого и уровень из списка равен уровню вставляемого рекордсмена
 	{
-		ptr = ptr->next;
+		list = list->next;
 		placInOrder++;
 	}
 
