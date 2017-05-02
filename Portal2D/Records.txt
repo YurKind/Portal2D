@@ -11,6 +11,7 @@ Victor|33.234|8>
 Polina|43.764|8>
 Vladislav|43.23|5>
 Sanek|12.345|3>
+testname|3579.33|2>
 Polina|3991.81|1>
 Oksana|3947.8|1>
 PussySlayer|3885.36|1>
