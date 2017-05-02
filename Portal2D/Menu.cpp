@@ -29,43 +29,31 @@ void menu::printPointRecord(int key)
 	switch (key)
 	{
 	case Search:
-		cout << "\t\t\t\t\t<<     Search         >>" << endl;
+		cout << "\t\t\t\t\t<<      Search        >>" << endl;
 		cout << "\t\t\t\t\t    Show All Records    " << endl;
-		cout << "\t\t\t\t\t    Show 10 Records     " << endl;
 		cout << "\t\t\t\t\t    Best Of The Best    " << endl;
-		cout << "\t\t\t\t\t       Back             " << endl;
+		cout << "\t\t\t\t\t         Back           " << endl;
 		break;
 
 	case ShowAllRecords:
-		cout << "\t\t\t\t\t       Search           " << endl;
+		cout << "\t\t\t\t\t        Search          " << endl;
 		cout << "\t\t\t\t\t<<  Show All Records  >>" << endl;
-		cout << "\t\t\t\t\t    Show 10 Records     " << endl;
 		cout << "\t\t\t\t\t    Best Of The Best    " << endl;
-		cout << "\t\t\t\t\t       Back             " << endl;
-		break;
-
-	case Show10Records:
-		cout << "\t\t\t\t\t       Search           " << endl;
-		cout << "\t\t\t\t\t    Show All Records    " << endl;
-		cout << "\t\t\t\t\t<<  Show 10 Records   >>" << endl;
-		cout << "\t\t\t\t\t    Best Of The Best    " << endl;
-		cout << "\t\t\t\t\t       Back             " << endl;
+		cout << "\t\t\t\t\t         Back           " << endl;
 		break;
 
 	case BestOfTheBest:
-		cout << "\t\t\t\t\t       Search           " << endl;
+		cout << "\t\t\t\t\t        Search          " << endl;
 		cout << "\t\t\t\t\t    Show All Records    " << endl;
-		cout << "\t\t\t\t\t    Show 10 Records     " << endl;
 		cout << "\t\t\t\t\t<<  Best Of The Best  >>" << endl;
-		cout << "\t\t\t\t\t       Back             " << endl;
+		cout << "\t\t\t\t\t         Back           " << endl;
 		break;
 
 	case BackRecords:
-		cout << "\t\t\t\t\t       Search           " << endl;
+		cout << "\t\t\t\t\t        Search          " << endl;
 		cout << "\t\t\t\t\t    Show All Records    " << endl;
-		cout << "\t\t\t\t\t    Show 10 Records     " << endl;
 		cout << "\t\t\t\t\t    Best Of The Best    " << endl;
-		cout << "\t\t\t\t\t<<     Back           >>" << endl;
+		cout << "\t\t\t\t\t<<       Back         >>" << endl;
 		break;
 	}
 }
@@ -273,10 +261,6 @@ void menu::doPointRecords()
 
 		case ShowAllRecords:
 			records::addInRecordsOrShowRecords(NULL, "show");
-			break;
-
-		case Show10Records:
-			records::addInRecordsOrShowRecords(NULL, "show10");
 			break;
 
 		case BestOfTheBest:
