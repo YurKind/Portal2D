@@ -388,11 +388,11 @@ records::DataAboutTheChampion* game::startLevel(char* levelName)
 	records::DataAboutTheChampion* player = new records::DataAboutTheChampion;
 	game::clearScreen(); // Чистим экран
 	game::drawFrame(map, gameInfo); // Рисуем первый кадр
-	game::performAnAction(gameInfo, map);
+	game::performAnAction(gameInfo, map); // Выполняем далее в зависимости от действий игрока
 	system("cls");
 	
 
-	if (gameInfo->hero.healthPoints > 0)
+	if (gameInfo->hero.isPlayerPassedLevel == true)
 	{
 		std::cout << "Please enter your name" << std::endl;
 
@@ -410,8 +410,8 @@ records::DataAboutTheChampion* game::startLevel(char* levelName)
 	}
 	else
 	{
-		std::cout << "\n\n\t\t\tYOU LOSE";
-		Sleep(100);
+		player->isPlayerPassedLevel = false;
+		std::cout << "\n\n\t\t\tEND OF GAME" << std::endl;
 	}
 
 	_getch();
@@ -556,6 +556,7 @@ bool game::checkGameOverConditions(GameInfo* gameInfo, MapCell** map, bool gameI
 	}
 	else if (gameInfo->hero.healthPoints <= 0) // если здоровье игрока ниже или равно 0
 	{
+		gameInfo->hero.isPlayerPassedLevel = false;
 		return false;
 	}
 	else if (gameIsRunning == false)
@@ -571,24 +572,21 @@ bool game::checkGameOverConditions(GameInfo* gameInfo, MapCell** map, bool gameI
 bool game::quitTheLevel(GameInfo* gameInfo, MapCell** map)
 {
 	std::cout << "\n\n\n\n\n\n\n\n\t   Quit the level?\n\n\t   Press 'y' or 'n'" << std::endl;
-	bool playerWantsToQuit = false;
+	bool isPlayerWantsToQuitLevel = false;
 	switch (_getch())
 	{
 	case YES:
-		gameInfo->hero.score = 0;
-		gameInfo->hero.time = 100000.0;
-		playerWantsToQuit = true;
+		gameInfo->hero.isPlayerPassedLevel = false;
+		isPlayerWantsToQuitLevel = true;
 		break;
 
 	case NO:
 		drawFrame(map, gameInfo);
-		playerWantsToQuit = false;
+		isPlayerWantsToQuitLevel = false;
 		break;
-
-	default:
-		break;
+		
 	}
-	return !playerWantsToQuit;
+	return !isPlayerWantsToQuitLevel;
 }
 
 // функция паузы

@@ -1,7 +1,7 @@
 #include "List.h"
 #include "SortingMethods.h"
 
-/* Команды: add - добавить в рекорды / show - показать все рекорды (не больше 10к) / show10 - показать 10 рекордов */
+/* Команды: add - добавить в рекорды / show - показать все рекорды (не больше 10к) */
 void records::addInRecordsOrShowRecords(records::DataAboutTheChampion *newChampion, char *variant)
 {
 	int counterOfPrintedChampions = 0;

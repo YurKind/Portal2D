@@ -12,6 +12,7 @@ namespace game
 		int healthPoints = 99;
 		double score = 4000.0;
 		double time = 10000.0;
+		bool isPlayerPassedLevel = true;
 	};
 
 	struct Objects				// Хранит данные об объектах на карте (прицел, порталы)
