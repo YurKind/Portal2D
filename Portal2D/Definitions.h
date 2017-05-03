@@ -51,10 +51,7 @@
 #define W_LOWER_CASE_RU 230	// клавиша 'ц' (в нижнем регистре)
 #define A_LOWER_CASE_RU 228	// клавиша 'ф' (в нижнем регистре)
 #define S_LOWER_CASE_RU 235	// клавиша 'ы' (в нижнем регистре)
-#define D_LOWER_CASE_RU 162	// клавиша 'в' С
-
-#define R_BUTTON_UPPER_CASE 'R'	// клавиша 'R' (в верхнем регистре)
-#define R_BUTTON_LOWER_CASE 'r'	// клавиша 'r' (в нижнем регистре)
+#define D_LOWER_CASE_RU 162	// клавиша 'в' (в нижнем регистре)
 
 #define SPACE_JUMP 32
 
@@ -78,12 +75,18 @@
 //------ACTION_KEYS------//
 #define ENTER 13	// клавиша 'Enter'
 #define BACKSPACE 8	// клавиша 'backspace'
-#define PAUSE 'p'	// клавиша 'p'
-#define YES 'y'		// клавиша 'y'
-#define NO 'n'		// клавиша 'n'
-
-/* SAVE THE GAME */
-#define SAVE 'k'
+#define PAUSE_UPPER_CASE 'P'	// клавиша 'P'
+#define PAUSE_LOWER_CASE 'p'	// клавиша 'p'
+#define PAUSE_UPPER_CASE_RU 'З'	// клавиша 'З'
+#define PAUSE_LOWER_CASE_RU 'з'	// клаивша 'з'
+#define YES_UPPER_CASE 'Y'		// клавиша 'Y'
+#define YES_LOWER_CASE 'y'		// клавиша 'y'
+#define YES_UPPER_CASE_RU 'Н'	// клавиша 'Н'
+#define YES_LOWER_CASE_RU 'н'	// клавиша 'н'
+#define NO_UPPER_CASE 'N'		// клавиша 'N'
+#define NO_LOWER_CASE 'n'		// клавиша 'n'
+#define NO_UPPER_CASE_RU 'Т'	// клавиша 'Т'
+#define NO_LOWER_CASE_RU 'т'	// клавиша 'т'
 
 /* TURRET */
 #define DAMAGE_TO_HERO 33			// урон по герою

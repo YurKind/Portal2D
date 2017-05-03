@@ -22,12 +22,12 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 		{
 			switch (_getch()) // „итаем клавишу
 			{
-			case A_LOWER_CASE:
+			case A_LOWER_CASE: case A_LOWER_CASE_RU: case A_UPPER_CASE: case A_UPPER_CASE_RU:
 				sideOfMovingOx = -1;
 				moveOx(sideOfMovingOx, HERO, gameInfo, map);
 				break;
 
-			case D_LOWER_CASE:
+			case D_LOWER_CASE: case D_LOWER_CASE_RU: case D_UPPER_CASE: case D_UPPER_CASE_RU:
 				sideOfMovingOx = 1;
 				moveOx(sideOfMovingOx, HERO, gameInfo, map);
 				break;
@@ -56,11 +56,11 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 				jump(HERO, gameInfo, map);
 				break;
 
-			case E_LOWER_CASE:
+			case E_LOWER_CASE: case E_LOWER_CASE_RU: case E_UPPER_CASE: case E_UPPER_CASE_RU:
 				setPortal(BLUE_PORTAL, gameInfo, map);
 				break;
 
-			case Q_LOWER_CASE:
+			case Q_LOWER_CASE: case Q_LOWER_CASE_RU: case Q_UPPER_CASE: case Q_UPPER_CASE_RU:
 				setPortal(RED_PORTAL, gameInfo, map);
 				break;
 
@@ -69,11 +69,7 @@ void game::performAnAction(GameInfo* gameInfo, MapCell** map)
 				activateTheButton(gameInfo, map);
 				break;
 
-				/*case R_BUTTON_LOWER_CASE:
-					replayceTheAimToHero(gameInfo, map);
-					break;*/
-
-			case PAUSE:
+			case PAUSE_LOWER_CASE: case PAUSE_LOWER_CASE_RU: // тут что-то не так
 				timeOnPause += pause(gameInfo, map);
 				break;
 
@@ -575,12 +571,12 @@ bool game::quitTheLevel(GameInfo* gameInfo, MapCell** map)
 	bool isPlayerWantsToQuitLevel = false;
 	switch (_getch())
 	{
-	case YES:
+	case YES_LOWER_CASE:
 		gameInfo->hero.isPlayerPassedLevel = false;
 		isPlayerWantsToQuitLevel = true;
 		break;
 
-	case NO:
+	case NO_LOWER_CASE:
 		drawFrame(map, gameInfo);
 		isPlayerWantsToQuitLevel = false;
 		break;
