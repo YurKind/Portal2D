@@ -266,7 +266,7 @@ void menu::doPointRecords()
 			std::cout << "\n\n\t\t\t\t\t Best of the best" << std::endl;
 			for (int i = NUMBER_OF_LEVELS; i >= 1; i--)
 			{
-				std::cout << "\n\t\t\t\t" << (11 - i) << " lvl"; records::giveBestPlayerInLevel(i);
+				std::cout << "\n\t\t\t\t" << (6 - i) << " lvl"; records::giveBestPlayerInLevel(i);
 			}
 			_getch();
 			std::system("cls");
@@ -362,7 +362,8 @@ void menu::doPointRecordSearch()
 		if (print)
 		{
 			search::printFoundChampions(printList, key);
-			system("pause");
+			cin.ignore();
+			cin.get();
 		}
 		list::freeMemory(list);
 		tree::freeMemory(tree);
