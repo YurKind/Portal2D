@@ -50,4 +50,14 @@ namespace game
 	
 	// функция выхода из уровня
 	bool quitTheLevel(GameInfo* gameInfo, MapCell** map);
+
+	bool objectIsStandingOnTheFloor(Coordinates coordinates, MapCell** map);
+
+	bool bothCellsAboveTheObjectAreFree(Coordinates coordinates, MapCell** map);
+
+	Coordinates getCoordinates(GameInfo* gameInfo, char type);
+
+	void setOXCoordinates(GameInfo* gameInfo, char type, int sideOfMovingOx);
+
+	void setOYCoordinates(GameInfo* gameInfo, char type, int sideOfMovingOy);
 }
