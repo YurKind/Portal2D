@@ -53,11 +53,21 @@ namespace game
 
 	bool objectIsStandingOnTheFloor(Coordinates coordinates, MapCell** map);
 
+	bool movingPossableOx(Coordinates coordinates, GameInfo* gameInfo, MapCell** map, int sideOfMovingOx, char type);
+
+	bool movingPossableOy(Coordinates coordinates, GameInfo* gameInfo, MapCell** map, int sideOfMovingOx, char type);
+
+	bool oneCellAboveTheObjectIsFree(Coordinates coordinates, MapCell** map);
+
 	bool bothCellsAboveTheObjectAreFree(Coordinates coordinates, MapCell** map);
 
 	Coordinates getCoordinates(GameInfo* gameInfo, char type);
 
-	void setOXCoordinates(GameInfo* gameInfo, char type, int sideOfMovingOx);
+	void setOXCoordinates(GameInfo* gameInfo, char type);
 
-	void setOYCoordinates(GameInfo* gameInfo, char type, int sideOfMovingOy);
+	void setOYCoordinates(GameInfo* gameInfo, char type);
+
+	void changeOXCoordinates(GameInfo* gameInfo, char type, int sideOfMovingOx);
+
+	void changeOYCoordinates(GameInfo* gameInfo, char type, int sideOfMovingOy);
 }

@@ -98,6 +98,6 @@
 #define STATIONARY_TURRET char(193)	// символ стационарной турели в игре '┴'
 #define PLATFORM_TURRET_S '*'		// символ патрулирующей турели в текстовом файле
 #define PLATFORM_TURRET char(207)	// символ патрулирующей турели в игре '╧'
-#define STEP_RIGHT_DOWN 1			// шаг объекта вправо (турели и пули)
-#define STEP_LEFT_UP -1				// шаг объекта влево (турели и пули)
+#define STEP_RIGHT_OR_DOWN 1		// шаг объекта вправо (турели и пули)
+#define STEP_LEFT_OR_UP -1			// шаг объекта влево (турели и пули)
 #define NO_STEP 0					// отсутствие шага 

@@ -56,7 +56,7 @@ game::MapCell** game::createMap(char* levelName, GameInfo* gameInfo)
 			case BLACK_WALL_ONE_S:
 				map[i][j].types = NULL;
 				list::addBegin(&map[i][j].types, EMPTY_SPACE);
-				list::addBegin(&map[i][j].types, BLACK_WALL);
+				list::addBegin(&map[i][j].types, BLACK_WALL_ONE_S);
 				gameInfo->blackWallOne.coordinates.xCoordinate = j;
 				gameInfo->blackWallOne.coordinates.yCoordinate = i;
 				map[i][j].passable = false;
@@ -65,7 +65,7 @@ game::MapCell** game::createMap(char* levelName, GameInfo* gameInfo)
 			case BLACK_WALL_TWO_S:
 				map[i][j].types = NULL;
 				list::addBegin(&map[i][j].types, EMPTY_SPACE);
-				list::addBegin(&map[i][j].types, BLACK_WALL);
+				list::addBegin(&map[i][j].types, BLACK_WALL_TWO_S);
 				gameInfo->blackWallTwo.coordinates.xCoordinate = j;
 				gameInfo->blackWallTwo.coordinates.yCoordinate = i;
 				map[i][j].passable = false;
@@ -74,7 +74,7 @@ game::MapCell** game::createMap(char* levelName, GameInfo* gameInfo)
 			case BLACK_WALL_THREE_S:
 				map[i][j].types = NULL;
 				list::addBegin(&map[i][j].types, EMPTY_SPACE);
-				list::addBegin(&map[i][j].types, BLACK_WALL);
+				list::addBegin(&map[i][j].types, BLACK_WALL_THREE_S);
 				gameInfo->blackWallThree.coordinates.xCoordinate = j;
 				gameInfo->blackWallThree.coordinates.yCoordinate = i;
 				map[i][j].passable = false;
@@ -83,7 +83,7 @@ game::MapCell** game::createMap(char* levelName, GameInfo* gameInfo)
 			case BLACK_WALL_FOUR_S:
 				map[i][j].types = NULL;
 				list::addBegin(&map[i][j].types, EMPTY_SPACE);
-				list::addBegin(&map[i][j].types, BLACK_WALL);
+				list::addBegin(&map[i][j].types, BLACK_WALL_FOUR_S);
 				gameInfo->blackWallFour.coordinates.xCoordinate = j;
 				gameInfo->blackWallFour.coordinates.yCoordinate = i;
 				map[i][j].passable = false;
@@ -100,7 +100,7 @@ game::MapCell** game::createMap(char* levelName, GameInfo* gameInfo)
 			case BUTTON_ONE_S:
 				map[i][j].types = NULL;
 				list::addBegin(&map[i][j].types, EMPTY_SPACE);
-				list::addBegin(&map[i][j].types, BUTTON);
+				list::addBegin(&map[i][j].types, BUTTON_ONE_S);
 				gameInfo->buttonOne.coordinates.xCoordinate = j;
 				gameInfo->buttonOne.coordinates.yCoordinate = i;
 				break;
@@ -108,7 +108,7 @@ game::MapCell** game::createMap(char* levelName, GameInfo* gameInfo)
 			case BUTTON_TWO_S:
 				map[i][j].types = NULL;
 				list::addBegin(&map[i][j].types, EMPTY_SPACE);
-				list::addBegin(&map[i][j].types, BUTTON);
+				list::addBegin(&map[i][j].types, BUTTON_TWO_S);
 				gameInfo->buttonTwo.coordinates.xCoordinate = j;
 				gameInfo->buttonTwo.coordinates.yCoordinate = i;
 				break;
@@ -116,7 +116,7 @@ game::MapCell** game::createMap(char* levelName, GameInfo* gameInfo)
 			case BUTTON_THREE_S:
 				map[i][j].types = NULL;
 				list::addBegin(&map[i][j].types, EMPTY_SPACE);
-				list::addBegin(&map[i][j].types, BUTTON);
+				list::addBegin(&map[i][j].types, BUTTON_THREE_S);
 				gameInfo->buttonThree.coordinates.xCoordinate = j;
 				gameInfo->buttonThree.coordinates.yCoordinate = i;
 				break;
@@ -124,7 +124,7 @@ game::MapCell** game::createMap(char* levelName, GameInfo* gameInfo)
 			case BUTTON_FOUR_S:
 				map[i][j].types = NULL;
 				list::addBegin(&map[i][j].types, EMPTY_SPACE);
-				list::addBegin(&map[i][j].types, BUTTON);
+				list::addBegin(&map[i][j].types, BUTTON_FOUR_S);
 				gameInfo->buttonFour.coordinates.xCoordinate = j;
 				gameInfo->buttonFour.coordinates.yCoordinate = i;
 				break;

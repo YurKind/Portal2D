@@ -28,8 +28,20 @@ void game::drawFrame(game::MapCell** map, game::GameInfo* gameInfo)		// отрисовк
 				game::printSpecialSymbol(consoleHandler, i, j, LightGrey, AIM);
 				break;
 
-			case BLACK_WALL:				// если встречен тип "непроходимая стена", то отрисовывается непроходимая стена
+			case BLACK_WALL_ONE_S:				// если встречен тип "непроходимая стена", то отрисовывается непроходимая стена
+				game::printSpecialSymbol(consoleHandler, i, j, LightGreen, BLACK_WALL);
+				break;
+
+			case BLACK_WALL_TWO_S:				// если встречен тип "непроходимая стена", то отрисовывается непроходимая стена
 				game::printSpecialSymbol(consoleHandler, i, j, Yellow, BLACK_WALL);
+				break;
+
+			case BLACK_WALL_THREE_S:				// если встречен тип "непроходимая стена", то отрисовывается непроходимая стена
+				game::printSpecialSymbol(consoleHandler, i, j, LightCyan, BLACK_WALL);
+				break;
+
+			case BLACK_WALL_FOUR_S:				// если встречен тип "непроходимая стена", то отрисовывается непроходимая стена
+				game::printSpecialSymbol(consoleHandler, i, j, LightMagenta, BLACK_WALL);
 				break;
 
 			case EXIT:					// если встречен тип "выход", то отрисовывается выход
@@ -41,11 +53,23 @@ void game::drawFrame(game::MapCell** map, game::GameInfo* gameInfo)		// отрисовк
 				break;
 
 			case BLUE_PORTAL:			// если встречен тип "синий портал", то отрисовывается синий портал 
-				game::printSpecialSymbol(consoleHandler, i, j, LightBlue, BLUE_PORTAL);
+				game::printSpecialSymbol(consoleHandler, i, j, LightBlue, RED_PORTAL);
 				break;
 
-			case BUTTON:				// если встречен тип "кнопка", то отрисовывается кнопка 
+			case BUTTON_ONE_S:				// если встречен тип "кнопка", то отрисовывается кнопка 
+				game::printSpecialSymbol(consoleHandler, i, j, LightGreen, BUTTON);
+				break;
+
+			case BUTTON_TWO_S:				// если встречен тип "кнопка", то отрисовывается кнопка 
 				game::printSpecialSymbol(consoleHandler, i, j, Yellow, BUTTON);
+				break;
+
+			case BUTTON_THREE_S:				// если встречен тип "кнопка", то отрисовывается кнопка 
+				game::printSpecialSymbol(consoleHandler, i, j, LightCyan, BUTTON);
+				break;
+
+			case BUTTON_FOUR_S:				// если встречен тип "кнопка", то отрисовывается кнопка 
+				game::printSpecialSymbol(consoleHandler, i, j, LightMagenta, BUTTON);
 				break;
 
 			case BULLET_OF_STATIONARY_TURRET:			// если встречен тип "пуля стационарной турели", то отрисовывается пуля стационарной турели

@@ -38,11 +38,11 @@ int game::determineMovingDirection(char type, GameInfo* gameInfo, MapCell** map)
 	{
 		if (gameInfo->hero.coordinates.xCoordinate > gameInfo->stationary_turret.coordinates.xCoordinate)
 		{
-			direction = STEP_RIGHT_DOWN;
+			direction = STEP_RIGHT_OR_DOWN;
 		}
 		else if (gameInfo->hero.coordinates.xCoordinate < gameInfo->stationary_turret.coordinates.xCoordinate)
 		{
-			direction = STEP_LEFT_UP;
+			direction = STEP_LEFT_OR_UP;
 		}
 	}
 
@@ -50,11 +50,11 @@ int game::determineMovingDirection(char type, GameInfo* gameInfo, MapCell** map)
 	{
 		if (gameInfo->hero.coordinates.xCoordinate >= gameInfo->platform_turret.coordinates.xCoordinate)
 		{
-			direction = STEP_RIGHT_DOWN;
+			direction = STEP_RIGHT_OR_DOWN;
 		}
 		else
 		{
-			direction = STEP_LEFT_UP;
+			direction = STEP_LEFT_OR_UP;
 		}
 	}
 
@@ -62,11 +62,11 @@ int game::determineMovingDirection(char type, GameInfo* gameInfo, MapCell** map)
 	{
 		if (gameInfo->hero.coordinates.xCoordinate > gameInfo->hunter_turret.coordinates.xCoordinate)
 		{
-			direction = STEP_RIGHT_DOWN;
+			direction = STEP_RIGHT_OR_DOWN;
 		}
 		else if (gameInfo->hero.coordinates.xCoordinate < gameInfo->hunter_turret.coordinates.xCoordinate)
 		{
-			direction = STEP_LEFT_UP;
+			direction = STEP_LEFT_OR_UP;
 		}
 	}
 
