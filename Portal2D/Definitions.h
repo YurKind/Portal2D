@@ -76,6 +76,7 @@
 #define E_LOWER_CASE_RU 227	// клавиша 'у' (в нижнем регистре)
 
 //------ACTION_KEYS------//
+#define ESCAPE 27
 #define ENTER 13	// клавиша 'Enter'
 #define BACKSPACE 8	// клавиша 'backspace'
 #define PAUSE 'p'	// клавиша 'p'

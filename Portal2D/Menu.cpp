@@ -19,236 +19,36 @@ void menu::drawLogo()
 	cout << "\n\n\n";
 }
 
-//Выводит вариант меню, на котором остановился пользователь в пункте Records
-void menu::printPointRecord(int key)
-{
-	drawLogo();																			// Рисуем лого
-
-	/* В зависимости от того, на каком пункте остановился пользователь,
-	рисуем меню*/
-	switch (key)
-	{
-	case Search:
-		cout << "\t\t\t\t\t<<      Search        >>" << endl;
-		cout << "\t\t\t\t\t    Show All Records    " << endl;
-		cout << "\t\t\t\t\t    Best Of The Best    " << endl;
-		cout << "\t\t\t\t\t         Back           " << endl;
-		break;
-
-	case ShowAllRecords:
-		cout << "\t\t\t\t\t        Search          " << endl;
-		cout << "\t\t\t\t\t<<  Show All Records  >>" << endl;
-		cout << "\t\t\t\t\t    Best Of The Best    " << endl;
-		cout << "\t\t\t\t\t         Back           " << endl;
-		break;
-
-	case BestOfTheBest:
-		cout << "\t\t\t\t\t        Search          " << endl;
-		cout << "\t\t\t\t\t    Show All Records    " << endl;
-		cout << "\t\t\t\t\t<<  Best Of The Best  >>" << endl;
-		cout << "\t\t\t\t\t         Back           " << endl;
-		break;
-
-	case BackRecords:
-		cout << "\t\t\t\t\t        Search          " << endl;
-		cout << "\t\t\t\t\t    Show All Records    " << endl;
-		cout << "\t\t\t\t\t    Best Of The Best    " << endl;
-		cout << "\t\t\t\t\t<<       Back         >>" << endl;
-		break;
-	}
-}
-
-void menu::printPointSearch(int key)
+void menu::printtMenu(string str[], int points, int key)
 {
 	drawLogo();
 
-	switch (key)
+	for (int i = 0; i <= points; i++)
 	{
-	case ByScore:
-		cout << "\t\t\t\t\t<<   Search By Score   >>" << endl;
-		cout << "\t\t\t\t\t     Search By Level     " << endl;
-		cout << "\t\t\t\t\t     Search By Name      " << endl;
-		cout << "\t\t\t\t\t   Search By Substring   " << endl;
-		cout << "\t\t\t\t\t          Back           " << endl;
-		break;
-
-	case ByLevel:
-		cout << "\t\t\t\t\t     Search By Score     " << endl;
-		cout << "\t\t\t\t\t<<   Search By Level   >>" << endl;
-		cout << "\t\t\t\t\t     Search By Name      " << endl;
-		cout << "\t\t\t\t\t   Search By Substring   " << endl;
-		cout << "\t\t\t\t\t          Back           " << endl;
-		break;
-
-	case ByName:
-		cout << "\t\t\t\t\t     Search By Score     " << endl;
-		cout << "\t\t\t\t\t     Search By Level     " << endl;
-		cout << "\t\t\t\t\t<<   Search By Name    >>" << endl;
-		cout << "\t\t\t\t\t   Search By Substring   " << endl;
-		cout << "\t\t\t\t\t          Back           " << endl;
-		break;
-
-	case BySubstring:
-		cout << "\t\t\t\t\t     Search By Score     " << endl;
-		cout << "\t\t\t\t\t     Search By Level     " << endl;
-		cout << "\t\t\t\t\t     Search By Name      " << endl;
-		cout << "\t\t\t\t\t<< Search By Substring >>" << endl;
-		cout << "\t\t\t\t\t          Back           " << endl;
-		break;
-
-	case BackRecordsSearch:
-		cout << "\t\t\t\t\t     Search By Score     " << endl;
-		cout << "\t\t\t\t\t     Search By Level     " << endl;
-		cout << "\t\t\t\t\t     Search By Name      " << endl;
-		cout << "\t\t\t\t\t   Search By Substring   " << endl;
-		cout << "\t\t\t\t\t<<        Back         >>" << endl;
-		break;
+		cout << "\t\t\t\t\t" << str[i];
+		if (key == i)
+			cout << "   <-";
+		cout << endl;
 	}
-}
-
-//Выводит вариант главного меню, на котором остановился пользователь
-void menu::printMenu(int key)
-{
-	drawLogo();																			// Рисуем лого
-
-	/* В зависимости от того, на каком пункте остановился пользователь,
-	рисуем меню*/
-	switch (key)
-	{
-	case Start:
-		cout << "\t\t\t\t\t<<  Start  >>" << endl;
-		cout << "\t\t\t\t\t   Records   " << endl;
-		cout << "\t\t\t\t\t    Exit     " << endl;
-		break;
-	case Records:
-		cout << "\t\t\t\t\t    Start    " << endl;
-		cout << "\t\t\t\t\t<< Records >>" << endl;
-		cout << "\t\t\t\t\t    Exit     " << endl;
-		break;
-	case Exit:
-		cout << "\t\t\t\t\t    Start    " << endl;
-		cout << "\t\t\t\t\t   Records   " << endl;
-		cout << "\t\t\t\t\t<<  Exit   >>" << endl;
-		break;
-	}
-}
-
-//Выводит вариант меню, на котором остановился пользователь в пункте Start
-void menu::printPointStart(int key)
-{
-	std::system("cls");
-	drawLogo();																			// Рисуем лого
-
-	/*В зависимости от того, на каком пункте остановился пользователь,
-		рисуем меню*/
-	switch (key)
-	{
-	case Instruction:
-		cout << "\t\t\t\t\t<<  Instruction  >>" << endl;
-		cout << "\t\t\t\t\t    Random Level   " << endl;
-		cout << "\t\t\t\t\t      Level 1      " << endl;
-		cout << "\t\t\t\t\t      Level 2      " << endl;
-		cout << "\t\t\t\t\t      Level 3      " << endl;
-		cout << "\t\t\t\t\t      Level 4      " << endl;
-		cout << "\t\t\t\t\t      Level 5      " << endl;
-		cout << "\t\t\t\t\t       Back        " << endl;
-		break;
-
-	case RandomLevel:
-		cout << "\t\t\t\t\t    Instruction    " << endl;
-		cout << "\t\t\t\t\t<<  Random Level >>" << endl;
-		cout << "\t\t\t\t\t      Level 1      " << endl;
-		cout << "\t\t\t\t\t      Level 2      " << endl;
-		cout << "\t\t\t\t\t      Level 3      " << endl;
-		cout << "\t\t\t\t\t      Level 4      " << endl;
-		cout << "\t\t\t\t\t      Level 5      " << endl;
-		cout << "\t\t\t\t\t       Back        " << endl;
-		break;
-
-	case Level1:
-		cout << "\t\t\t\t\t    Instruction    " << endl;
-		cout << "\t\t\t\t\t    Random Level   " << endl;
-		cout << "\t\t\t\t\t<<    Level 1    >>"; records::giveBestPlayerInLevel(1);
-		cout << "\t\t\t\t\t      Level 2      " << endl;
-		cout << "\t\t\t\t\t      Level 3      " << endl;
-		cout << "\t\t\t\t\t      Level 4      " << endl;
-		cout << "\t\t\t\t\t      Level 5      " << endl;
-		cout << "\t\t\t\t\t       Back        " << endl;
-		break;
-
-	case Level2:
-		cout << "\t\t\t\t\t    Instruction    " << endl;
-		cout << "\t\t\t\t\t    Random Level   " << endl;
-		cout << "\t\t\t\t\t      Level 1      " << endl;
-		cout << "\t\t\t\t\t<<    Level 2    >>"; records::giveBestPlayerInLevel(2);
-		cout << "\t\t\t\t\t      Level 3      " << endl;
-		cout << "\t\t\t\t\t      Level 4      " << endl;
-		cout << "\t\t\t\t\t      Level 5      " << endl;
-		cout << "\t\t\t\t\t       Back        " << endl;
-		break;
-
-	case Level3:
-		cout << "\t\t\t\t\t    Instruction    " << endl;
-		cout << "\t\t\t\t\t    Random Level   " << endl;
-		cout << "\t\t\t\t\t      Level 1      " << endl;
-		cout << "\t\t\t\t\t      Level 2      " << endl;
-		cout << "\t\t\t\t\t<<    Level 3    >>"; records::giveBestPlayerInLevel(3);
-		cout << "\t\t\t\t\t      Level 4      " << endl;
-		cout << "\t\t\t\t\t      Level 5      " << endl;
-		cout << "\t\t\t\t\t       Back        " << endl;
-		break;
-
-	case Level4:
-		cout << "\t\t\t\t\t    Instruction    " << endl;
-		cout << "\t\t\t\t\t    Random Level   " << endl;
-		cout << "\t\t\t\t\t      Level 1      " << endl;
-		cout << "\t\t\t\t\t      Level 2      " << endl;
-		cout << "\t\t\t\t\t      Level 3      " << endl;
-		cout << "\t\t\t\t\t<<    Level 4    >>"; records::giveBestPlayerInLevel(4);
-		cout << "\t\t\t\t\t      Level 5      " << endl;
-		cout << "\t\t\t\t\t       Back        " << endl;
-		break;
-
-	case Level5:
-		cout << "\t\t\t\t\t    Instruction    " << endl;
-		cout << "\t\t\t\t\t    Random Level   " << endl;
-		cout << "\t\t\t\t\t      Level 1      " << endl;
-		cout << "\t\t\t\t\t      Level 2      " << endl;
-		cout << "\t\t\t\t\t      Level 3      " << endl;
-		cout << "\t\t\t\t\t      Level 4      " << endl;
-		cout << "\t\t\t\t\t<<    Level 5    >>"; records::giveBestPlayerInLevel(5);
-		cout << "\t\t\t\t\t       Back        " << endl;
-		break;
-
-	case BackLevel:
-		cout << "\t\t\t\t\t    Instruction    " << endl;
-		cout << "\t\t\t\t\t    Random Level   " << endl;
-		cout << "\t\t\t\t\t      Level 1      " << endl;
-		cout << "\t\t\t\t\t      Level 2      " << endl;
-		cout << "\t\t\t\t\t      Level 3      " << endl;
-		cout << "\t\t\t\t\t      Level 4      " << endl;
-		cout << "\t\t\t\t\t      Level 5      " << endl;
-		cout << "\t\t\t\t\t<<     Back      >>" << endl;
-		break;
-	}
-
 }
 
 //------Control Functions------//
 //Воспроизводит выбранный пользователем пункт в разделе Records
 void menu::doPointRecords()
 {
+	string pointRecords[] = {"Search", "Show All Records", "Best Of The Best", "Back"};
+
 	int key = Search;																	// Пункт на котором остановился пользователь
 
 	/*Верхняя граница равна Search, нижняя равна BackRecords,
 	вывод данного подпункта меню осуществляет printPointRecord*/
-	ParametersForMenu parametersForMenu = { Search, BackRecords, &printPointRecord };
+	ParametersForMenu parametersForMenu = { Search, BackRecords};
 
 	/*Пока пользователь не захочет выйти из этого подпункта меню,
 	осуществляется перемещения по меню*/
 	do
 	{
-		key = controlMenu(parametersForMenu);											// key получает значение пункта на котором остановился пользователь и нажал Enter
+		key = controlMenu(parametersForMenu, pointRecords);											// key получает значение пункта на котором остановился пользователь и нажал Enter
 
 		std::system("cls");
 
@@ -270,7 +70,11 @@ void menu::doPointRecords()
 			{
 				std::cout << "\n\t\t\t\t" << (6 - i) << " lvl"; records::giveBestPlayerInLevel(i);
 			}
-			_getch();
+
+			system("pause");
+			/*cin.ignore();
+			cin.get();
+			cin.ignore();*/
 			std::system("cls");
 			break;
 
@@ -284,17 +88,19 @@ void menu::doPointRecords()
 //Воспроизводит выбранный пользователем пункт в разделе Records->Search
 void menu::doPointRecordSearch()
 {
+	string pointRecordSearch[] = {"Search By Score", "Search By Level", "Search By Name", "Search By Substring", "Back"};
+
 	int key = ByScore;																	// Пункт на котором остановился пользователь
 
 	/*Верхняя граница равна Search, нижняя равна BackRecords,
 	вывод данного подпункта меню осуществляет printPointRecord*/
-	ParametersForMenu parametersForMenu = { ByScore, BackRecordsSearch, &printPointSearch };
+	ParametersForMenu parametersForMenu = {ByScore, BackRecordsSearch};
 
 	/*Пока пользователь не захочет выйти из этого подпункта меню,
 	осуществляется перемещения по меню*/
 	do
 	{
-		key = controlMenu(parametersForMenu);											// key получает значение пункта на котором остановился пользователь и нажал Enter
+		key = controlMenu(parametersForMenu, pointRecordSearch);											// key получает значение пункта на котором остановился пользователь и нажал Enter
 		std::system("cls");
 
 		list::List<records::DataAboutTheChampion> *list = NULL, *printList = NULL;       // список с найденными рекорсдменами 
@@ -364,9 +170,13 @@ void menu::doPointRecordSearch()
 		if (print)
 		{
 			search::printFoundChampions(printList, key);
-			cin.ignore();
-			cin.get();
 		}
+
+		system("pause");
+		/*
+		cin.ignore();
+		cin.get();
+		cin.ignore();*/
 		list::freeMemory(list);
 		tree::freeMemory(tree);
 		delete[] name;
@@ -412,18 +222,20 @@ char* menu::getFileNameFormNumberOfLevel(int numberOfLevel)
 //Воспроизводит выбранный пользователем пункт в разделе Start
 void menu::doPointStart(queue::Queue<int> *queue, bool flag)
 {
+	string pointStart[] = { "Instruction", "RandomLevel", "Level 1", "Level 2", "Level 3", "Level 4", "Level 5", "Back" };
 	int key = Instruction;																// Пункт на котором остановился пользователь
 	records::DataAboutTheChampion *newChampion = NULL;
 
 	/*Верхняя граница равна Instruction, нижняя равна BackLevel,
 	вывод данного подпункта меню осуществляет printPointStart*/
-	ParametersForMenu parametersForMenu = { Instruction, BackLevel, &printPointStart };
+	ParametersForMenu parametersForMenu = { Instruction, BackLevel, };
 
 	/*Пока пользователь не захочет выйти из этого подпункта меню,
 	осуществляется перемещения по меню*/
 	do
 	{
-		key = controlMenu(parametersForMenu);											// key получает значение пункта на котором остановился пользователь и нажал Enter
+
+		key = controlMenu(parametersForMenu, pointStart);											// key получает значение пункта на котором остановился пользователь и нажал Enter
 		std::system("cls");
 
 		int numberOfLevel = 0;
@@ -505,12 +317,13 @@ void menu::doPointStart(queue::Queue<int> *queue, bool flag)
 }
 
 //Реализует управление меню и его вывод на экран
-int menu::controlMenu(ParametersForMenu parametersForMenu)
+int menu::controlMenu(ParametersForMenu parametersForMenu, string points[])
 {
 	int key = parametersForMenu.upBorder;													// key равен самому верхнему пункту меню
+	int countOfPoints = parametersForMenu.lowerBorder;
 	int press;																				// Нажатие пользователя
-	game::clearScreen();
-	parametersForMenu.print(key);															// Выводит нужный вариант меню
+	system("cls");
+	printtMenu(points, countOfPoints, key);															// Выводит нужный вариант меню
 	press = _getch();																		// Принимает значение нажатой клавиши
 
 	/*Если нажата стрелочка, то проверяем какая*/
@@ -540,27 +353,38 @@ int menu::controlMenu(ParametersForMenu parametersForMenu)
 				if (key != parametersForMenu.lowerBorder)
 					key += 1;
 				break;
+
+			case ESCAPE:
+				press = ENTER;
+				key = parametersForMenu.lowerBorder;
+				break;
 			}
 			game::clearScreen();
-			parametersForMenu.print(key);													// Выводит нужный вариант меню
+			system("cls");
+			printtMenu(points, countOfPoints, key);														// Выводит нужный вариант меню
 		}
 	}
+	else if (press == ESCAPE)
+		key = parametersForMenu.lowerBorder;
+
 	return key;																				// Возвращаем выбор пользователя
 }
 
 //Воспроизводит выбранный пользователем пункт в главном меню
-void menu::menu(queue::Queue<int> *queue, bool flag)
+void menu::doMenu(queue::Queue<int> *queue, bool flag)
 {
+	string mainPoint[] = { "Start", "Records", "Exit" };
+
 	int key;
 	/*Верхняя граница равна Start, нижняя равна Exit,
 	вывод данного подпункта меню осуществляет printMenu*/
-	ParametersForMenu parametersForMenu = { Start, Exit, &printMenu };
+	ParametersForMenu parametersForMenu = { Start, Exit };
 
 	/*Пока пользователь не захочет выйти из этого подпункта меню,
 	осуществляется перемещения по меню*/
 	do
 	{
-		key = controlMenu(parametersForMenu);															// key получает значение пункта на котором остановился пользователь и нажал Enter
+		key = controlMenu(parametersForMenu, mainPoint);															// key получает значение пункта на котором остановился пользователь и нажал Enter
 
 		/*После нажатия кнопки Enter, заходим в пункт который был выбран*/
 		switch (key)
@@ -577,4 +401,14 @@ void menu::menu(queue::Queue<int> *queue, bool flag)
 			break;
 		}
 	} while (key != Exit);
+}
+
+void menu::menu()
+{
+	queue::Queue<int> *queue = new queue::Queue<int>;
+	menu::doMenu(queue, false);
+	if (queue->head)
+	{
+		queue::freeMemory(queue);
+	}
 }

@@ -200,6 +200,5 @@ void game::showInstruction()
 	}
 	fout.close();
 
-	cout << endl << " PRESS ANY KEY TO CONTINUE" << endl;
-	_getch();
+	system("pause");
 }

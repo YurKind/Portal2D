@@ -10,12 +10,7 @@ int main()
 	system("mode con cols=100 lines=30");
 	srand(time(NULL));
 
-	queue::Queue<int> *queue = new queue::Queue<int>;
-	menu::menu(queue, false);
-	if (queue->head)
-	{
-		queue::freeMemory(queue);
-	}
+	menu::menu();
 
 	return 0;
 }

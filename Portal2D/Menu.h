@@ -22,7 +22,6 @@ struct ParametersForMenu
 {
 	int upBorder;																// Номер верхней границы меню	
 	int lowerBorder;															// Номер нижней границы меню
-	void(*print)(int);															// Выводит меню на экран
 };
 
 namespace menu
@@ -52,10 +51,14 @@ namespace menu
 	void doPointRecordSearch();
 
 	//Реализует управление меню и его вывод на экран
-	int controlMenu(ParametersForMenu borders);
+	int controlMenu(ParametersForMenu borders, string *points);
 
 	//Воспроизводит выбранный пользователем пункт в главном меню
-	void menu(queue::Queue<int> *queue, bool flag);
+	void doMenu(queue::Queue<int> *queue, bool flag);
+
+	void menu();
+
+	void printtMenu(string str[], int points, int key);
 }
 
 enum Colors
@@ -80,14 +83,14 @@ enum Colors
 
 enum MenuPoints
 {
-	Start = 1,
+	Start,
 	Records,
 	Exit,
 };
 
 enum PointStart
 {
-	Instruction = 1,
+	Instruction,
 	RandomLevel,
 	Level1,
 	Level2,
@@ -99,7 +102,7 @@ enum PointStart
 
 enum PointRecords
 {
-	Search = 1,
+	Search,
 	ShowAllRecords,
 	BestOfTheBest,
 	BackRecords
@@ -107,7 +110,7 @@ enum PointRecords
 
 enum PointRecordsSearch
 {
-	ByScore = 1,
+	ByScore,
 	ByLevel,
 	ByName,
 	BySubstring,

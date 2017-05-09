@@ -20,7 +20,10 @@ void records::addInRecordsOrShowRecords(records::DataAboutTheChampion *newChampi
 			begin = begin->next;
 		}
 		std::cout << "\n";
-		_getch();
+		system("pause");
+		/*cin.ignore();
+		cin.get();
+		cin.ignore();*/
 		system("cls");
 	}
 	else if (!strcmp(variant, "add"))     // добавить в рекорды
