@@ -37,13 +37,10 @@ namespace game
 	void setPortal(char type, GameInfo* gameInfo, MapCell** map);
 
 	// функуция перехода по порталам
-	void enterThePortal(char type, GameInfo* gameInfo, MapCell** map);	
+	void enterThePortal(GameInfo* gameInfo, MapCell** map);	
 
 	// функция активации кнопки
 	void activateTheButton(GameInfo* gameInfo, MapCell** map);
-
-	// функция перемещения прицела к герою
-	void replayceTheAimToHero(GameInfo* gameInfo, MapCell** map);
 
 	// Функция проверяет, не настали ли условия, приводящие к концу игры (нашел ли игрок выход, кончилось ли у игрока здоровье)
 	bool checkGameOverConditions(GameInfo* gameInfo, MapCell** map, bool gameIsRunning);
@@ -53,9 +50,9 @@ namespace game
 
 	bool objectIsStandingOnTheFloor(Coordinates coordinates, MapCell** map);
 
-	bool movingPossableOx(Coordinates coordinates, GameInfo* gameInfo, MapCell** map, int sideOfMovingOx, char type);
+	bool movingPossibleOx(Coordinates coordinates, MapCell** map, int sideOfMovingOx, char type);
 
-	bool movingPossableOy(Coordinates coordinates, GameInfo* gameInfo, MapCell** map, int sideOfMovingOx, char type);
+	bool movingPossibleOy(Coordinates coordinates, MapCell** map, int sideOfMovingOx, char type);
 
 	bool oneCellAboveTheObjectIsFree(Coordinates coordinates, MapCell** map);
 
@@ -63,11 +60,17 @@ namespace game
 
 	Coordinates getCoordinates(GameInfo* gameInfo, char type);
 
-	void setOXCoordinates(GameInfo* gameInfo, char type);
+	void setOXCoordinates(GameInfo* gameInfo, char type, int step);
 
 	void setOYCoordinates(GameInfo* gameInfo, char type);
 
 	void changeOXCoordinates(GameInfo* gameInfo, char type, int sideOfMovingOx);
 
 	void changeOYCoordinates(GameInfo* gameInfo, char type, int sideOfMovingOy);
+
+	char findTypeOfPortal(GameInfo* gameInfo);
+
+	char findTypeOfDoor(GameInfo* gameInfo, MapCell** map);
+
+	char findTypeOfButton(char typeOfDoor);
 }

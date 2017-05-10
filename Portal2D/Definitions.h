@@ -54,6 +54,7 @@
 #define D_LOWER_CASE_RU 162	// клавиша 'в' (в нижнем регистре)
 
 #define SPACE_JUMP 32
+#define JUMP_HEIGHT -1
 
 //------AIM_KEYS------//
 #define ARROWS 224
@@ -88,7 +89,7 @@
 #define NO_UPPER_CASE_RU 'Т'	// клавиша 'Т'
 #define NO_LOWER_CASE_RU 'т'	// клавиша 'т'
 
-/* TURRET */
+/* TURRETS */
 #define DAMAGE_TO_HERO 33			// урон по герою
 #define HERO_SPOTTING_RANGE_X 10	// дистанция обнаружения героя турелью по оси Ох
 #define HERO_SPOTTING_RANGE_Y 5		// дистанция обнаружения героя турелью по оси Оу
@@ -101,3 +102,4 @@
 #define STEP_RIGHT_OR_DOWN 1		// шаг объекта вправо (турели и пули)
 #define STEP_LEFT_OR_UP -1			// шаг объекта влево (турели и пули)
 #define NO_STEP 0					// отсутствие шага 
+#define RANGE_BETWEEN_HERO_AND_HUNTER_TURRET 4 // расстояние между игроком и турелью охотником

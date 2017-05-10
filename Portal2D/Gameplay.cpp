@@ -67,7 +67,7 @@ namespace game
 					break;
 
 				case ENTER:
-					enterThePortal(HERO, gameInfo, map);
+					enterThePortal(gameInfo, map);
 					activateTheButton(gameInfo, map);
 					break;
 
@@ -115,50 +115,10 @@ namespace game
 	}
 
 	//------Moving_Functions------//
-	// принимает структуру с информацией об объекте на карте и двумерный массив структур
-	void jump(char type, GameInfo* gameInfo, MapCell** map)
-	{
-		// если под персонажем есть непроходимый блок
-		if (objectIsStandingOnTheFloor(getCoordinates(gameInfo, type), map))
-		{
-			// Если обе клетки над объектом проходимы
-			if (bothCellsAboveTheObjectAreFree(getCoordinates(gameInfo, type), map))
-			{
-				//удаляем символ героя из текущей ячейки
-				list::deleteCurrentElement(&map[getCoordinates(gameInfo, type).yCoordinate][getCoordinates(gameInfo, type).xCoordinate].types, type);
-				//добавляем в ячейку выше символ героя
-				list::addBegin(&map[getCoordinates(gameInfo, type).yCoordinate + STEP_LEFT_OR_UP][getCoordinates(gameInfo, type).xCoordinate].types, type);
-
-				// координата героя по оси Оу уменьшается на один
-				changeOYCoordinates(gameInfo, type, STEP_LEFT_OR_UP);
-
-				drawFrame(map, gameInfo);	// отрисовавается кадр
-
-												//удаляем символ героя из текущей ячейки
-				list::deleteCurrentElement(&map[getCoordinates(gameInfo, type).yCoordinate][getCoordinates(gameInfo, type).xCoordinate].types, type);
-				//добавляем в ячейку выше символ героя
-				list::addBegin(&map[getCoordinates(gameInfo, type).yCoordinate + STEP_LEFT_OR_UP][getCoordinates(gameInfo, type).xCoordinate].types, type);
-				// координата героя по оси Оу уменьшается на один
-				changeOYCoordinates(gameInfo, type, STEP_LEFT_OR_UP);
-			}
-			// Если проходима только одна клетка
-			else if (oneCellAboveTheObjectIsFree(getCoordinates(gameInfo, type), map))
-			{
-				//удаляем символ героя из текущей ячейки
-				list::deleteCurrentElement(&map[getCoordinates(gameInfo, type).yCoordinate][getCoordinates(gameInfo, type).xCoordinate].types, type);
-				//добавляем в ячейку выше символ героя
-				list::addBegin(&map[getCoordinates(gameInfo, type).yCoordinate - 1][getCoordinates(gameInfo, type).xCoordinate].types, type);
-				// координата героя по оси Оу уменьшается на один
-				changeOYCoordinates(gameInfo, type, STEP_LEFT_OR_UP);
-			}
-
-		}
-	}
-
 	// функция перемещения объектов по оси Ox
 	void moveOx(int sideOfMovingOx, char type, GameInfo* gameInfo, MapCell** map)
 	{
-		if (movingPossableOx(getCoordinates(gameInfo, type), gameInfo, map, sideOfMovingOx, type))
+		if (movingPossibleOx(getCoordinates(gameInfo, type), map, sideOfMovingOx, type))
 		{
 			// удаляем символ прицела из текущей ячейки карты
 			list::deleteCurrentElement(&map[getCoordinates(gameInfo, type).yCoordinate][getCoordinates(gameInfo, type).xCoordinate].types, type);
@@ -172,7 +132,7 @@ namespace game
 	// функция перемещения объектов по оси Oy
 	void moveOy(int sideOfMovingOy, char type, GameInfo* gameInfo, MapCell** map)
 	{
-		if (movingPossableOy(getCoordinates(gameInfo, type), gameInfo, map, sideOfMovingOy, type))
+		if (movingPossibleOy(getCoordinates(gameInfo, type), map, sideOfMovingOy, type))
 		{
 			// удаляем символ прицела из текущей ячейки карты
 			list::deleteCurrentElement(&map[getCoordinates(gameInfo, type).yCoordinate][getCoordinates(gameInfo, type).xCoordinate].types, type);
@@ -182,28 +142,68 @@ namespace game
 		}
 	}
 
+	// принимает структуру с информацией об объекте на карте и двумерный массив структур
+	void jump(char type, GameInfo* gameInfo, MapCell** map)
+	{
+		// если под персонажем есть непроходимый блок
+		if (objectIsStandingOnTheFloor(getCoordinates(gameInfo, type), map))
+		{
+			// Если обе клетки над объектом проходимы
+			if (bothCellsAboveTheObjectAreFree(getCoordinates(gameInfo, type), map))
+			{
+				//удаляем символ героя из текущей ячейки
+				list::deleteCurrentElement(&map[getCoordinates(gameInfo, type).yCoordinate][getCoordinates(gameInfo, type).xCoordinate].types, type);
+				//добавляем в ячейку выше символ героя
+				list::addBegin(&map[getCoordinates(gameInfo, type).yCoordinate + JUMP_HEIGHT][getCoordinates(gameInfo, type).xCoordinate].types, type);
+
+				// координата героя по оси Оу уменьшается на один
+				changeOYCoordinates(gameInfo, type, STEP_LEFT_OR_UP);
+
+				drawFrame(map, gameInfo);	// отрисовавается кадр
+
+											//удаляем символ героя из текущей ячейки
+				list::deleteCurrentElement(&map[getCoordinates(gameInfo, type).yCoordinate][getCoordinates(gameInfo, type).xCoordinate].types, type);
+				//добавляем в ячейку выше символ героя
+				list::addBegin(&map[getCoordinates(gameInfo, type).yCoordinate + JUMP_HEIGHT][getCoordinates(gameInfo, type).xCoordinate].types, type);
+				// координата героя по оси Оу уменьшается на один
+				changeOYCoordinates(gameInfo, type, STEP_LEFT_OR_UP);
+			}
+			// Если проходима только одна клетка
+			else if (oneCellAboveTheObjectIsFree(getCoordinates(gameInfo, type), map))
+			{
+				//удаляем символ героя из текущей ячейки
+				list::deleteCurrentElement(&map[getCoordinates(gameInfo, type).yCoordinate][getCoordinates(gameInfo, type).xCoordinate].types, type);
+				//добавляем в ячейку выше символ героя
+				list::addBegin(&map[getCoordinates(gameInfo, type).yCoordinate + JUMP_HEIGHT][getCoordinates(gameInfo, type).xCoordinate].types, type);
+				// координата героя по оси Оу уменьшается на один
+				changeOYCoordinates(gameInfo, type, STEP_LEFT_OR_UP);
+			}
+
+		}
+	}
+
 	void gravity(MapCell** map, GameInfo* gameInfo)
 	{
 		// если в ячейке карты ниже героя проходимое пространство
-		if (map[gameInfo->hero.coordinates.yCoordinate + STEP_RIGHT_OR_DOWN][gameInfo->hero.coordinates.xCoordinate].passable == true)
+		if (map[getCoordinates(gameInfo, HERO).yCoordinate + STEP_RIGHT_OR_DOWN][getCoordinates(gameInfo, HERO).xCoordinate].passable == true)
 		{
 			// перемещение героя вниз на одну ячейку карты
 			moveOy(STEP_RIGHT_OR_DOWN, HERO, gameInfo, map);
 		}
 		// если в ячейке карты ниже турели проходимое пространство
-		if (map[gameInfo->hunter_turret.coordinates.yCoordinate + STEP_RIGHT_OR_DOWN][gameInfo->hunter_turret.coordinates.xCoordinate].passable == true)
+		if (map[getCoordinates(gameInfo, TURRET_HUNTER).yCoordinate + STEP_RIGHT_OR_DOWN][getCoordinates(gameInfo, TURRET_HUNTER).xCoordinate].passable == true)
 		{
 			// перемещение турели вниз на одну ячейку карты
 			moveOy(STEP_RIGHT_OR_DOWN, TURRET_HUNTER, gameInfo, map);
 		}
 		// если в ячейке карты ниже турели проходимое пространство
-		if (map[gameInfo->stationary_turret.coordinates.yCoordinate + STEP_RIGHT_OR_DOWN][gameInfo->stationary_turret.coordinates.xCoordinate].passable == true)
+		if (map[getCoordinates(gameInfo, STATIONARY_TURRET).yCoordinate + STEP_RIGHT_OR_DOWN][getCoordinates(gameInfo, STATIONARY_TURRET).xCoordinate].passable == true)
 		{
 			// перемещение турели вниз на одну ячейку карты
 			moveOy(STEP_RIGHT_OR_DOWN, STATIONARY_TURRET, gameInfo, map);
 		}
 
-		if (map[gameInfo->platform_turret.coordinates.yCoordinate + STEP_RIGHT_OR_DOWN][gameInfo->platform_turret.coordinates.xCoordinate].passable == true)
+		if (map[getCoordinates(gameInfo, PLATFORM_TURRET).yCoordinate + STEP_RIGHT_OR_DOWN][getCoordinates(gameInfo, PLATFORM_TURRET).xCoordinate].passable == true)
 		{
 			// перемещение турели вниз на одну ячейку карты
 			moveOy(STEP_RIGHT_OR_DOWN, PLATFORM_TURRET, gameInfo, map);
@@ -264,106 +264,44 @@ namespace game
 		{
 			list::deleteCurrentElement(&map[getCoordinates(gameInfo, type).yCoordinate][getCoordinates(gameInfo, type).xCoordinate].types, type);
 		}
-		setOXCoordinates(gameInfo, type);
+		setOXCoordinates(gameInfo, type, NO_STEP);
 		setOYCoordinates(gameInfo, type);
 		list::addBegin(&map[getCoordinates(gameInfo, type).yCoordinate][getCoordinates(gameInfo, type).xCoordinate].types, type);
 	}
 
 	// функция перехода по порталам, принимает структуру с информацией об объекте на карте и двумерный массив структур
-	void enterThePortal(char type, GameInfo* gameInfo, MapCell** map)
+	void enterThePortal(GameInfo* gameInfo, MapCell** map)
 	{
-		// если персонаж и красный портал в одной клетке карты и существует синий портал
-		if (gameInfo->hero.coordinates.xCoordinate == gameInfo->redPortal.coordinates.xCoordinate &&
-			gameInfo->hero.coordinates.yCoordinate == gameInfo->redPortal.coordinates.yCoordinate &&
-			gameInfo->bluePortal.coordinates.yCoordinate != 0 && gameInfo->bluePortal.coordinates.xCoordinate != 0)
+		char typeOfPortal = findTypeOfPortal(gameInfo);
+		if (typeOfPortal != NULL)
 		{
-			// в ячейку карты по координатам синего портала добавляется символ героя
-			list::addBegin(&map[gameInfo->bluePortal.coordinates.yCoordinate][gameInfo->bluePortal.coordinates.xCoordinate].types, HERO);
-			// из ячейки карты по текущим координатам героя удаляется символ героя
-			list::deleteCurrentElement(&map[gameInfo->hero.coordinates.yCoordinate][gameInfo->hero.coordinates.xCoordinate].types, HERO);
-			// координаты героя приравниваются к координатам синего портала
-			gameInfo->hero.coordinates.xCoordinate = gameInfo->bluePortal.coordinates.xCoordinate;
-			gameInfo->hero.coordinates.yCoordinate = gameInfo->bluePortal.coordinates.yCoordinate;
-		}
-		// если персонаж и синий портал в одной клетке карты и существует красный портал
-		else if (gameInfo->hero.coordinates.xCoordinate == gameInfo->bluePortal.coordinates.xCoordinate &&
-			gameInfo->hero.coordinates.yCoordinate == gameInfo->bluePortal.coordinates.yCoordinate &&
-			gameInfo->redPortal.coordinates.yCoordinate != 0 && gameInfo->redPortal.coordinates.xCoordinate != 0)
-		{
-			// в ячейку карты по координатам красного портала добавляется символ героя
-			list::addBegin(&map[gameInfo->redPortal.coordinates.yCoordinate][gameInfo->redPortal.coordinates.xCoordinate].types, HERO);
-			// из ячейки карты по текущим координатам героя удаляется символ героя
-			list::deleteCurrentElement(&map[gameInfo->hero.coordinates.yCoordinate][gameInfo->hero.coordinates.xCoordinate].types, HERO);
-			// координаты героя приравниваются к координатам синего портала
-			gameInfo->hero.coordinates.xCoordinate = gameInfo->redPortal.coordinates.xCoordinate;
-			gameInfo->hero.coordinates.yCoordinate = gameInfo->redPortal.coordinates.yCoordinate;
+			list::addBegin(&map[getCoordinates(gameInfo, typeOfPortal).yCoordinate][getCoordinates(gameInfo, typeOfPortal).xCoordinate].types, HERO);
+			list::deleteCurrentElement(&map[getCoordinates(gameInfo, HERO).yCoordinate][getCoordinates(gameInfo, HERO).xCoordinate].types, HERO);
+			gameInfo->hero.coordinates.xCoordinate = getCoordinates(gameInfo, typeOfPortal).xCoordinate;
+			gameInfo->hero.coordinates.yCoordinate = getCoordinates(gameInfo, typeOfPortal).yCoordinate;
 		}
 	}
+
 
 	//------Button_Functions------//
 	// функция активации клавиши, принимает структуру с информацией об объекте на карте и двумерный массив структур
 	void activateTheButton(GameInfo* gameInfo, MapCell** map)
 	{
-		if (gameInfo->hero.coordinates.xCoordinate == gameInfo->buttonOne.coordinates.xCoordinate &&	// если персонаж и кнопка находятся в одной клетке
-			gameInfo->hero.coordinates.yCoordinate == gameInfo->buttonOne.coordinates.yCoordinate &&	// и существует непроходимая стена
-			map[gameInfo->blackWallOne.coordinates.yCoordinate][gameInfo->blackWallOne.coordinates.xCoordinate].types->value == BLACK_WALL_ONE_S)
+		char typeOfDoor = findTypeOfDoor(gameInfo, map);
+		char typeOfButton = findTypeOfButton(typeOfDoor);
+		if (typeOfDoor != NULL)
 		{
-			// ячейка карты, в которой была непроходимая стена, становится проходимой
-			map[gameInfo->blackWallOne.coordinates.yCoordinate][gameInfo->blackWallOne.coordinates.xCoordinate].passable = true;
-			// на месте непроходимой стены отображается проходимая
-			list::deleteCurrentElement(&map[gameInfo->blackWallOne.coordinates.yCoordinate][gameInfo->blackWallOne.coordinates.xCoordinate].types, BLACK_WALL_ONE_S);
-			list::deleteCurrentElement(&map[gameInfo->buttonOne.coordinates.yCoordinate][gameInfo->buttonOne.coordinates.xCoordinate].types, BUTTON_ONE_S);
+			map[getCoordinates(gameInfo, typeOfDoor).yCoordinate][getCoordinates(gameInfo, typeOfDoor).xCoordinate].passable = true;
+			list::deleteCurrentElement(&map[getCoordinates(gameInfo, typeOfDoor).yCoordinate][getCoordinates(gameInfo, typeOfDoor).xCoordinate].types, typeOfDoor);
+			list::deleteCurrentElement(&map[getCoordinates(gameInfo, typeOfButton).yCoordinate][getCoordinates(gameInfo, typeOfButton).xCoordinate].types, typeOfButton);
 		}
-		else if (gameInfo->hero.coordinates.xCoordinate == gameInfo->buttonTwo.coordinates.xCoordinate &&	// если персонаж и кнопка находятся в одной клетке
-			gameInfo->hero.coordinates.yCoordinate == gameInfo->buttonTwo.coordinates.yCoordinate &&	// и существует непроходимая стена
-			map[gameInfo->blackWallTwo.coordinates.yCoordinate][gameInfo->blackWallTwo.coordinates.xCoordinate].types->value == BLACK_WALL_TWO_S)
-		{
-			// ячейка карты, в которой была непроходимая стена, становится проходимой
-			map[gameInfo->blackWallTwo.coordinates.yCoordinate][gameInfo->blackWallTwo.coordinates.xCoordinate].passable = true;
-			// на месте непроходимой стены отображается проходимая
-			list::deleteCurrentElement(&map[gameInfo->blackWallTwo.coordinates.yCoordinate][gameInfo->blackWallTwo.coordinates.xCoordinate].types, BLACK_WALL_TWO_S);
-			list::deleteCurrentElement(&map[gameInfo->buttonTwo.coordinates.yCoordinate][gameInfo->buttonTwo.coordinates.xCoordinate].types, BUTTON_TWO_S);
-		}
-		else if (gameInfo->hero.coordinates.xCoordinate == gameInfo->buttonThree.coordinates.xCoordinate &&	// если персонаж и кнопка находятся в одной клетке
-			gameInfo->hero.coordinates.yCoordinate == gameInfo->buttonThree.coordinates.yCoordinate &&	// и существует непроходимая стена
-			map[gameInfo->blackWallThree.coordinates.yCoordinate][gameInfo->blackWallThree.coordinates.xCoordinate].types->value == BLACK_WALL_THREE_S)
-		{
-			// ячейка карты, в которой была непроходимая стена, становится проходимой
-			map[gameInfo->blackWallThree.coordinates.yCoordinate][gameInfo->blackWallThree.coordinates.xCoordinate].passable = true;
-			// на месте непроходимой стены отображается проходимая
-			list::deleteCurrentElement(&map[gameInfo->blackWallThree.coordinates.yCoordinate][gameInfo->blackWallThree.coordinates.xCoordinate].types, BLACK_WALL_THREE_S);
-			list::deleteCurrentElement(&map[gameInfo->buttonThree.coordinates.yCoordinate][gameInfo->buttonThree.coordinates.xCoordinate].types, BUTTON_THREE_S);
-		}
-		else if (gameInfo->hero.coordinates.xCoordinate == gameInfo->buttonFour.coordinates.xCoordinate &&	// если персонаж и кнопка находятся в одной клетке
-			gameInfo->hero.coordinates.yCoordinate == gameInfo->buttonFour.coordinates.yCoordinate &&	// и существует непроходимая стена
-			map[gameInfo->blackWallFour.coordinates.yCoordinate][gameInfo->blackWallFour.coordinates.xCoordinate].types->value == BLACK_WALL_FOUR_S)
-		{
-			// ячейка карты, в которой была непроходимая стена, становится проходимой
-			map[gameInfo->blackWallFour.coordinates.yCoordinate][gameInfo->blackWallFour.coordinates.xCoordinate].passable = true;
-			// на месте непроходимой стены отображается проходимая
-			list::deleteCurrentElement(&map[gameInfo->blackWallFour.coordinates.yCoordinate][gameInfo->blackWallFour.coordinates.xCoordinate].types, BLACK_WALL_FOUR_S);
-			list::deleteCurrentElement(&map[gameInfo->buttonFour.coordinates.yCoordinate][gameInfo->buttonFour.coordinates.xCoordinate].types, BUTTON_FOUR_S);
-		}
-	}
-
-	// функция перемещения прицела к герою
-	void replayceTheAimToHero(GameInfo* gameInfo, MapCell** map)
-	{
-		// добавляется текстура прицела по координатам героя
-		list::addBegin(&map[gameInfo->hero.coordinates.yCoordinate][gameInfo->hero.coordinates.xCoordinate].types, AIM_DOT);
-		// удаляется текущая текстура прицела
-		list::deleteCurrentElement(&map[gameInfo->aim.coordinates.yCoordinate][gameInfo->aim.coordinates.xCoordinate].types, AIM_DOT);
-
-		// координатам прицела присваиваются координаты героя
-		gameInfo->aim.coordinates.xCoordinate = gameInfo->hero.coordinates.xCoordinate;
-		gameInfo->aim.coordinates.yCoordinate = gameInfo->hero.coordinates.yCoordinate;
 	}
 
 	// Функция проверяет, наступило ли событие, при котором игра должна закончиться
 	bool checkGameOverConditions(GameInfo* gameInfo, MapCell** map, bool gameIsRunning)
 	{
-		if ((gameInfo->hero.coordinates.xCoordinate == gameInfo->exitFromLevel.coordinates.xCoordinate &&	// если персонаж находится в одной клетке с выходом
-			gameInfo->hero.coordinates.yCoordinate == gameInfo->exitFromLevel.coordinates.yCoordinate))
+		if ((getCoordinates(gameInfo, HERO).xCoordinate == getCoordinates(gameInfo, EXIT).xCoordinate) &&	// если персонаж находится в одной клетке с выходом
+			(getCoordinates(gameInfo, HERO).yCoordinate == getCoordinates(gameInfo, EXIT).yCoordinate))
 		{
 			return false;
 		}
@@ -451,12 +389,87 @@ namespace game
 		}
 	}
 
-	bool movingPossableOx(Coordinates coordinates, GameInfo* gameInfo, MapCell** map, int sideOfMovingOx, char type)
+	char findTypeOfPortal(GameInfo* gameInfo)
 	{
-		if ((type == AIM_DOT && map[getCoordinates(gameInfo, type).yCoordinate][getCoordinates(gameInfo, type).xCoordinate + sideOfMovingOx].passable == true &&
-			map[getCoordinates(gameInfo, type).yCoordinate][getCoordinates(gameInfo, type).xCoordinate + sideOfMovingOx].types->value != BUTTON &&
-			map[getCoordinates(gameInfo, type).yCoordinate][getCoordinates(gameInfo, type).xCoordinate + sideOfMovingOx].types->value != WALL) ||
-			(type != AIM_DOT && map[getCoordinates(gameInfo, type).yCoordinate][getCoordinates(gameInfo, type).xCoordinate + sideOfMovingOx].passable == true))
+		char typeOfPortal = NULL;
+		if (getCoordinates(gameInfo, HERO).xCoordinate == getCoordinates(gameInfo, RED_PORTAL).xCoordinate &&
+			getCoordinates(gameInfo, HERO).yCoordinate == getCoordinates(gameInfo, RED_PORTAL).yCoordinate &&
+			getCoordinates(gameInfo, BLUE_PORTAL).yCoordinate != 0 && getCoordinates(gameInfo, BLUE_PORTAL).xCoordinate != 0)
+		{
+			typeOfPortal = BLUE_PORTAL;
+		}
+		else if (getCoordinates(gameInfo, HERO).xCoordinate == getCoordinates(gameInfo, BLUE_PORTAL).xCoordinate &&
+			getCoordinates(gameInfo, HERO).yCoordinate == getCoordinates(gameInfo, BLUE_PORTAL).yCoordinate &&
+			getCoordinates(gameInfo, RED_PORTAL).yCoordinate != 0 && getCoordinates(gameInfo, RED_PORTAL).xCoordinate != 0)
+		{
+			typeOfPortal = RED_PORTAL;
+		}
+
+		return typeOfPortal;
+	}
+
+	char findTypeOfDoor(GameInfo* gameInfo, MapCell** map)
+	{
+		char typeOfDoor = NULL;
+		if (gameInfo->hero.coordinates.xCoordinate == gameInfo->buttonOne.coordinates.xCoordinate &&
+			gameInfo->hero.coordinates.yCoordinate == gameInfo->buttonOne.coordinates.yCoordinate &&
+			map[gameInfo->blackWallOne.coordinates.yCoordinate][gameInfo->blackWallOne.coordinates.xCoordinate].types->value == BLACK_WALL_ONE_S)
+		{
+			typeOfDoor = BLACK_WALL_ONE_S;
+		}
+		else if (gameInfo->hero.coordinates.xCoordinate == gameInfo->buttonTwo.coordinates.xCoordinate &&
+			gameInfo->hero.coordinates.yCoordinate == gameInfo->buttonTwo.coordinates.yCoordinate &&
+			map[gameInfo->blackWallTwo.coordinates.yCoordinate][gameInfo->blackWallTwo.coordinates.xCoordinate].types->value == BLACK_WALL_TWO_S)
+		{
+			typeOfDoor = BLACK_WALL_TWO_S;
+		}
+		else if (gameInfo->hero.coordinates.xCoordinate == gameInfo->buttonThree.coordinates.xCoordinate &&
+			gameInfo->hero.coordinates.yCoordinate == gameInfo->buttonThree.coordinates.yCoordinate &&
+			map[gameInfo->blackWallThree.coordinates.yCoordinate][gameInfo->blackWallThree.coordinates.xCoordinate].types->value == BLACK_WALL_THREE_S)
+		{
+			typeOfDoor = BLACK_WALL_THREE_S;
+
+		}
+		else if (gameInfo->hero.coordinates.xCoordinate == gameInfo->buttonFour.coordinates.xCoordinate &&
+			gameInfo->hero.coordinates.yCoordinate == gameInfo->buttonFour.coordinates.yCoordinate &&
+			map[gameInfo->blackWallFour.coordinates.yCoordinate][gameInfo->blackWallFour.coordinates.xCoordinate].types->value == BLACK_WALL_FOUR_S)
+		{
+			typeOfDoor = BLACK_WALL_FOUR_S;
+		}
+		return typeOfDoor;
+	}
+	
+	char findTypeOfButton(char typeOfDoor)
+	{
+		char typeOfButton = NULL;
+		switch (typeOfDoor)
+		{
+		case BLACK_WALL_ONE_S:
+			typeOfButton = BUTTON_ONE_S;
+			break;
+
+		case BLACK_WALL_TWO_S:
+			typeOfButton = BUTTON_TWO_S;
+			break;
+
+		case BLACK_WALL_THREE_S:
+			typeOfButton = BUTTON_THREE_S;
+			break;
+
+		case BLACK_WALL_FOUR_S:
+			typeOfButton = BUTTON_FOUR_S;
+			break;
+		}
+
+		return typeOfButton;
+	}
+
+	bool movingPossibleOx(Coordinates coordinates, MapCell** map, int sideOfMovingOx, char type)
+	{
+		if ((type == AIM_DOT && map[coordinates.yCoordinate][coordinates.xCoordinate + sideOfMovingOx].passable == true &&
+			map[coordinates.yCoordinate][coordinates.xCoordinate + sideOfMovingOx].types->value != BUTTON &&
+			map[coordinates.yCoordinate][coordinates.xCoordinate + sideOfMovingOx].types->value != WALL) ||
+			(type != AIM_DOT && map[coordinates.yCoordinate][coordinates.xCoordinate + sideOfMovingOx].passable == true))
 		{
 			return true;
 		}
@@ -466,12 +479,12 @@ namespace game
 		}
 	}
 
-	bool movingPossableOy(Coordinates coordinates, GameInfo* gameInfo, MapCell** map, int sideOfMovingOy, char type)
+	bool movingPossibleOy(Coordinates coordinates, MapCell** map, int sideOfMovingOy, char type)
 	{
-		if ((type == AIM_DOT && map[getCoordinates(gameInfo, type).yCoordinate + sideOfMovingOy][getCoordinates(gameInfo, type).xCoordinate].passable == true &&
-			map[getCoordinates(gameInfo, type).yCoordinate + sideOfMovingOy][getCoordinates(gameInfo, type).xCoordinate].types->value != BUTTON &&
-			map[getCoordinates(gameInfo, type).yCoordinate + sideOfMovingOy][getCoordinates(gameInfo, type).xCoordinate].types->value != WALL) ||
-			(type != AIM_DOT && map[getCoordinates(gameInfo, type).yCoordinate + sideOfMovingOy][getCoordinates(gameInfo, type).xCoordinate].passable == true))
+		if ((type == AIM_DOT && map[coordinates.yCoordinate + sideOfMovingOy][coordinates.xCoordinate].passable == true &&
+			map[coordinates.yCoordinate + sideOfMovingOy][coordinates.xCoordinate].types->value != BUTTON &&
+			map[coordinates.yCoordinate + sideOfMovingOy][coordinates.xCoordinate].types->value != WALL) ||
+			(type != AIM_DOT && map[coordinates.yCoordinate + sideOfMovingOy][coordinates.xCoordinate].passable == true))
 		{
 			return true;
 		}
@@ -490,24 +503,79 @@ namespace game
 		case HERO:
 			requiredCoords = gameInfo->hero.coordinates;
 			break;
+
 		case AIM_DOT:
 			requiredCoords = gameInfo->aim.coordinates;
 			break;
+
 		case TURRET_HUNTER:
 			requiredCoords = gameInfo->hunter_turret.coordinates;
 			break;
+
 		case STATIONARY_TURRET:
 			requiredCoords = gameInfo->stationary_turret.coordinates;
 			break;
+
 		case PLATFORM_TURRET:
 			requiredCoords = gameInfo->platform_turret.coordinates;
 			break;
+
 		case RED_PORTAL:
 			requiredCoords = gameInfo->redPortal.coordinates;
 			break;
+
 		case BLUE_PORTAL:
 			requiredCoords = gameInfo->bluePortal.coordinates;
 			break;
+
+		case BULLET_OF_STATIONARY_TURRET:
+			requiredCoords = gameInfo->bulletOfStationaryTurret.coordinates;
+			break;
+
+		case BULLET_OF_PLATFORM_TURRET:
+			requiredCoords = gameInfo->bulletOfPlatformTurret.coordinates;
+			break;
+
+		case BULLET_OF_HUNTER_TURRET:
+			requiredCoords = gameInfo->bulletOfHunterTurret.coordinates;
+			break;
+
+		case BLACK_WALL_ONE_S:
+			requiredCoords = gameInfo->blackWallOne.coordinates;
+			break;
+
+		case BLACK_WALL_TWO_S:
+			requiredCoords = gameInfo->blackWallTwo.coordinates;
+			break;
+
+		case BLACK_WALL_THREE_S:
+			requiredCoords = gameInfo->blackWallThree.coordinates;
+			break;
+
+		case BLACK_WALL_FOUR_S:
+			requiredCoords = gameInfo->blackWallFour.coordinates;
+			break;
+
+		case BUTTON_ONE_S:
+			requiredCoords = gameInfo->buttonOne.coordinates;
+			break;
+
+		case BUTTON_TWO_S:
+			requiredCoords = gameInfo->buttonTwo.coordinates;
+			break;
+
+		case BUTTON_THREE_S:
+			requiredCoords = gameInfo->buttonThree.coordinates;
+			break;
+
+		case BUTTON_FOUR_S:
+			requiredCoords = gameInfo->buttonFour.coordinates;
+			break;
+
+		case EXIT:
+			requiredCoords = gameInfo->exitFromLevel.coordinates;
+			break;
+
 		default:
 			break;
 		}
@@ -533,6 +601,18 @@ namespace game
 
 		case PLATFORM_TURRET:
 			gameInfo->platform_turret.coordinates.xCoordinate += sideOfMovingOx;
+			break;
+
+		case BULLET_OF_STATIONARY_TURRET:
+			gameInfo->bulletOfStationaryTurret.coordinates.xCoordinate = gameInfo->bulletOfStationaryTurret.coordinates.xCoordinate + sideOfMovingOx;
+			break;
+
+		case BULLET_OF_PLATFORM_TURRET:
+			gameInfo->bulletOfPlatformTurret.coordinates.xCoordinate = gameInfo->bulletOfPlatformTurret.coordinates.xCoordinate + sideOfMovingOx;
+			break;
+
+		case BULLET_OF_HUNTER_TURRET:
+			gameInfo->bulletOfHunterTurret.coordinates.xCoordinate = gameInfo->bulletOfHunterTurret.coordinates.xCoordinate + sideOfMovingOx;
 			break;
 
 		default:
@@ -565,7 +645,7 @@ namespace game
 		}
 	}
 
-	void setOXCoordinates(GameInfo* gameInfo, char type)
+	void setOXCoordinates(GameInfo* gameInfo, char type, int step)
 	{
 		switch (type)
 		{
@@ -575,6 +655,39 @@ namespace game
 
 		case BLUE_PORTAL:
 			gameInfo->bluePortal.coordinates.xCoordinate = gameInfo->aim.coordinates.xCoordinate;
+			break;
+
+		case BULLET_OF_STATIONARY_TURRET:
+			if (step != NO_STEP)
+			{
+				gameInfo->bulletOfStationaryTurret.coordinates.xCoordinate = gameInfo->stationary_turret.coordinates.xCoordinate + step;
+			}
+			else
+			{
+				gameInfo->bulletOfStationaryTurret.coordinates.xCoordinate = NO_STEP;
+			}
+			break;
+
+		case BULLET_OF_PLATFORM_TURRET:
+			if (step != NO_STEP)
+			{
+				gameInfo->bulletOfPlatformTurret.coordinates.xCoordinate = gameInfo->platform_turret.coordinates.xCoordinate + step;
+			}
+			else
+			{
+				gameInfo->bulletOfPlatformTurret.coordinates.xCoordinate = NO_STEP;
+			}
+			break;
+
+		case BULLET_OF_HUNTER_TURRET:
+			if (step != NO_STEP)
+			{
+				gameInfo->bulletOfHunterTurret.coordinates.xCoordinate = gameInfo->hunter_turret.coordinates.xCoordinate + step;
+			}
+			else
+			{
+				gameInfo->bulletOfHunterTurret.coordinates.xCoordinate = NO_STEP;
+			}
 			break;
 
 		default:
@@ -592,6 +705,18 @@ namespace game
 
 		case BLUE_PORTAL:
 			gameInfo->bluePortal.coordinates.yCoordinate = gameInfo->aim.coordinates.yCoordinate;
+			break;
+
+		case BULLET_OF_STATIONARY_TURRET:
+			gameInfo->bulletOfStationaryTurret.coordinates.yCoordinate = gameInfo->stationary_turret.coordinates.yCoordinate;
+			break;
+
+		case BULLET_OF_PLATFORM_TURRET:
+			gameInfo->bulletOfPlatformTurret.coordinates.yCoordinate = gameInfo->platform_turret.coordinates.yCoordinate;
+			break;
+
+		case BULLET_OF_HUNTER_TURRET:
+			gameInfo->bulletOfHunterTurret.coordinates.yCoordinate = gameInfo->hunter_turret.coordinates.yCoordinate;
 			break;
 
 		default:
