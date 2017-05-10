@@ -28,37 +28,30 @@ namespace menu
 {
 	char* getFileNameFormNumberOfLevel(int numberOfLevel);
 
-	//–исует логотип
+	// –исует логотип
 	void drawLogo();
 
-	//¬ыводит вариант главного меню, на котором остановилс€ пользователь
-	void printMenu(int key);
-
-	//¬ыводит вариант меню, на котором остановилс€ пользователь в пункте Start
-	void printPointStart(int key);
-
-	//¬ыводит вариант меню, на котором остановилс€ пользователь в пункте Records
-	void printPointRecord(int key);
-
-	void printPointSearch(int key);
-
-	//¬оспроизводит выбранный пользователем пункт в разделе Start
+	// ¬оспроизводит выбранный пользователем пункт в разделе Start
 	void doPointStart(queue::Queue<int> *queue, bool flag);
 
-	//¬оспроизводит выбранный пользователем пункт в разделе Records
+	// ¬оспроизводит выбранный пользователем пункт в разделе Records
 	void doPointRecords();
 
 	void doPointRecordSearch();
 
-	//–еализует управление меню и его вывод на экран
-	int controlMenu(ParametersForMenu borders, string *points);
+	// –еализует управление меню и его вывод на экран
+	int controlMenu(ParametersForMenu borders, string points[]);
 
-	//¬оспроизводит выбранный пользователем пункт в главном меню
+	// «аполн€ет строковый массив
+	void fillArray(string array[], int count, char divider);
+
+	// ¬оспроизводит выбранный пользователем пункт в главном меню
 	void doMenu(queue::Queue<int> *queue, bool flag);
 
 	void menu();
 
-	void printtMenu(string str[], int points, int key);
+	// ¬ыводит меню на экран
+	void printMenu(string str[], int points, int key);
 }
 
 enum Colors

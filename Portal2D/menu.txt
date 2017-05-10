@@ -1,1 +1,23 @@
-Start	Records	Exit
+$Start
+Records
+Exit
+
+*Instructions
+Random Level
+Level 1
+Level 2
+Level 3
+Level 4
+Level 5
+Back
+
+%Search
+Show All Records
+Best Of The Best
+Back
+
+-Search By Score
+Search By Level
+Search By Name
+Search By Substring
+Back

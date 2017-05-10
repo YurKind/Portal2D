@@ -99,3 +99,9 @@
 #define STEP_RIGHT_DOWN 1			// шаг объекта вправо (турели и пули)
 #define STEP_LEFT_UP -1				// шаг объекта влево (турели и пули)
 #define NO_STEP 0					// отсутствие шага 
+
+/*COUNT OF MENU POINTS*/
+#define MAIN_POINTS 3
+#define START_POINTS 8
+#define RECORD_SPOINTS 4
+#define SEARCH_RECORDS_POINTS 5

@@ -7,6 +7,24 @@
 
 HANDLE H = GetStdHandle(STD_OUTPUT_HANDLE);
 
+// Заполняет строковый массив
+void menu::fillArray(string array[], int count, char divider)
+{
+	ifstream fout("menu.txt");
+	string BUF;			// Буфер для лишних символов
+	
+	/*Считываем пункты меню в ячейки массива*/
+	for (int i = 0; i < count; i++)
+	{
+		/*Съедаем ненужные символы при первом заходе*/
+		if (i==0)
+			getline(fout, BUF, divider);
+		
+		getline(fout, array[i]);
+	}
+	fout.close();
+}
+
 //------Print Functions------//
 //Рисует логотип
 void menu::drawLogo()
@@ -19,10 +37,12 @@ void menu::drawLogo()
 	cout << "\n\n\n";
 }
 
-void menu::printtMenu(string str[], int points, int key)
+/*Выводит меню на экран*/
+void menu::printMenu(string str[], int points, int key)
 {
 	drawLogo();
 
+	/*Выводим на экран пункты данной вкладки меню*/
 	for (int i = 0; i <= points; i++)
 	{
 		cout << "\t\t\t\t\t" << str[i];
@@ -36,7 +56,8 @@ void menu::printtMenu(string str[], int points, int key)
 //Воспроизводит выбранный пользователем пункт в разделе Records
 void menu::doPointRecords()
 {
-	string pointRecords[] = {"Search", "Show All Records", "Best Of The Best", "Back"};
+	string pointRecords[START_POINTS];
+	fillArray(pointRecords, START_POINTS, '%');
 
 	int key = Search;																	// Пункт на котором остановился пользователь
 
@@ -88,7 +109,8 @@ void menu::doPointRecords()
 //Воспроизводит выбранный пользователем пункт в разделе Records->Search
 void menu::doPointRecordSearch()
 {
-	string pointRecordSearch[] = {"Search By Score", "Search By Level", "Search By Name", "Search By Substring", "Back"};
+	string pointRecordSearch[SEARCH_RECORDS_POINTS];
+	fillArray(pointRecordSearch, SEARCH_RECORDS_POINTS, '-');
 
 	int key = ByScore;																	// Пункт на котором остановился пользователь
 
@@ -222,7 +244,8 @@ char* menu::getFileNameFormNumberOfLevel(int numberOfLevel)
 //Воспроизводит выбранный пользователем пункт в разделе Start
 void menu::doPointStart(queue::Queue<int> *queue, bool flag)
 {
-	string pointStart[] = { "Instruction", "RandomLevel", "Level 1", "Level 2", "Level 3", "Level 4", "Level 5", "Back" };
+	string pointStart[START_POINTS];
+	fillArray(pointStart, START_POINTS, '*');
 	int key = Instruction;																// Пункт на котором остановился пользователь
 	records::DataAboutTheChampion *newChampion = NULL;
 
@@ -323,7 +346,7 @@ int menu::controlMenu(ParametersForMenu parametersForMenu, string points[])
 	int countOfPoints = parametersForMenu.lowerBorder;
 	int press;																				// Нажатие пользователя
 	system("cls");
-	printtMenu(points, countOfPoints, key);															// Выводит нужный вариант меню
+	printMenu(points, countOfPoints, key);															// Выводит нужный вариант меню
 	press = _getch();																		// Принимает значение нажатой клавиши
 
 	/*Если нажата стрелочка, то проверяем какая*/
@@ -361,7 +384,7 @@ int menu::controlMenu(ParametersForMenu parametersForMenu, string points[])
 			}
 			game::clearScreen();
 			system("cls");
-			printtMenu(points, countOfPoints, key);														// Выводит нужный вариант меню
+			printMenu(points, countOfPoints, key);														// Выводит нужный вариант меню
 		}
 	}
 	else if (press == ESCAPE)
@@ -373,7 +396,8 @@ int menu::controlMenu(ParametersForMenu parametersForMenu, string points[])
 //Воспроизводит выбранный пользователем пункт в главном меню
 void menu::doMenu(queue::Queue<int> *queue, bool flag)
 {
-	string mainPoint[] = { "Start", "Records", "Exit" };
+	string mainPoint[MAIN_POINTS];
+	fillArray(mainPoint, MAIN_POINTS, '$');
 
 	int key;
 	/*Верхняя граница равна Start, нижняя равна Exit,
@@ -402,6 +426,7 @@ void menu::doMenu(queue::Queue<int> *queue, bool flag)
 		}
 	} while (key != Exit);
 }
+
 
 void menu::menu()
 {
