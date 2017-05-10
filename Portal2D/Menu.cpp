@@ -427,7 +427,6 @@ void menu::doMenu(queue::Queue<int> *queue, bool flag)
 	} while (key != Exit);
 }
 
-
 void menu::menu()
 {
 	queue::Queue<int> *queue = new queue::Queue<int>;
