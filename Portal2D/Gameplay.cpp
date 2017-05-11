@@ -12,11 +12,10 @@ namespace game
 	void performAnAction(GameInfo* gameInfo, MapCell** map)
 	{
 		bool gameIsRunning = true;	// условие выполнение цикла
-		bool isMovingRight = true;  // переменная для патрулирующей турели (отвечает за направление движения)
 		double timeBeforeGame = clock(); // переменная для отображения времени, затраченного на прохождение уровня
 		double timeOnPause = 0.0;	// переменная для хранения времени на паузе
-		int sideOfMovingOx = NO_STEP;		// переменная для хранения направления движения и количество шагов по оси Ох
-		int sideOfMovingOy = NO_STEP;		// переменная для хранения направления движения и количество шагов по оси Оу
+		int sideOfMovingOx;		// переменная для хранения направления движения и количество шагов по оси Ох
+		int sideOfMovingOy;		// переменная для хранения направления движения и количество шагов по оси Оу
 
 		while (gameIsRunning == true)
 		{
