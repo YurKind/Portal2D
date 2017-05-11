@@ -13,10 +13,10 @@ namespace game
 	bool checkTurretShootingConditions(char type, GameInfo* gameInfo, MapCell** map, int step);
 	
 	// Функция определяет поведение пули (ее появление, исчезновение)
-	void shootHero(char type, GameInfo* gameInfo, MapCell** map, bool turretCanShootingToHero, int step);
+	void shootHero(char type, char bullet, GameInfo* gameInfo, MapCell** map, bool turretCanShootingToHero, int step);
 	
 	// Функция отвечает за перемещение пули по карте
-	void moveBullet(char type, GameInfo* gameInfo, MapCell** map, int step);
+	void moveBullet(char bullet, GameInfo* gameInfo, MapCell** map, int step);
 	
 	// Функция отвечает за перемещение патрулирующей турели
 	void platformTurretPatrol(GameInfo* gameInfo, MapCell** map, bool turretCanShootingToHero, int step);
