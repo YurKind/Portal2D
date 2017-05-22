@@ -1,5 +1,5 @@
 #include "Tree.h"
-#include "Records.h"
+#include "HighScores.h"
 #include "List.h"
 #include <conio.h>
 
