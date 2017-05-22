@@ -17,8 +17,13 @@ void sorting::countingSort(int count, int *array, int range)
 	int d = 0;
 
 	for (int j = 0; j < range; j++)
+	{
 		for (int i = 0; i < c[j]; i++)
+		{
 			array[d++] = j;
+		}
+	}
+
 	delete[] c;
 }
 
@@ -100,13 +105,15 @@ void sort(list::List<records::DataAboutTheChampion> *root)
 			p = result;
 			while (p->next != NULL)
 			{     
-				if (p->next->value.score > key->value.score)
+				if (p->next->value.score > key->value.score) 
 					break;
+
 				p = p->next;
 			}
 			key->next = p->next;
 			p->next = key;
 		}
 	}
+
 	root = result;
 }

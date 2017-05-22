@@ -1,5 +1,8 @@
 ﻿#pragma once
 
+//------------//
+#define NUMBER_OF_LEVELS 5 
+
 //------TEXTURES------//
 #define HERO '\2'				// символ героя в игре '☻'
 #define HERO_SYMBOL 'H'			// символ героя в текстовом файле
