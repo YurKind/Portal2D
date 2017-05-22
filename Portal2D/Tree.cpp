@@ -10,6 +10,7 @@ namespace tree
 	{
 		std::ifstream fin(FILE_NAME_RECORDS);
 		tree::BranchForNumber<records::DataAboutTheChampion> *add = *tree;
+
 		while (!fin.eof())
 		{
 			char *buf = new char[1024];
@@ -31,9 +32,11 @@ namespace tree
 			{
 				addInTree(*data, add, STRING);     // добавление элемента в зависимости от имени 
 			}
+
 			delete data;
 			delete[] buf;
 		}
+
 		*tree = add;
 		fin.close();
 	}
@@ -85,6 +88,7 @@ namespace tree
 				{
 					tree::addInTree(newData, tree->right, STRING);
 				}
+
 				delete[] str1;
 				delete[] str2;
 			}
@@ -98,6 +102,7 @@ namespace tree
 		{
 			tree = tree->left;
 		}
+
 		return tree->data;
 	}
 
@@ -108,6 +113,7 @@ namespace tree
 		{
 			tree = tree->right;
 		}
+
 		return tree->data;
 	}
 
