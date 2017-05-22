@@ -1,8 +1,6 @@
 #pragma once 
 #include "Structures.h" 
 
-#define NUMBER_OF_LEVELS 5 
-
 namespace queue
 {
 	/* ¬озвращает текущий размер очереди */
@@ -14,6 +12,7 @@ namespace queue
 			resultOfCount++;
 			queue.head = queue.head->next;
 		}
+
 		return resultOfCount;
 	}
 
@@ -32,6 +31,7 @@ namespace queue
 			{
 				queue->head = NULL;
 			}
+
 			delete cleaner;
 		}
 	}
@@ -71,6 +71,7 @@ namespace queue
 		{
 			result = queue->head->data;    // результат приравниваем голове очереди
 		}
+
 		clean = queue->head;              
 		queue->head = queue->head->next;
 		delete clean;        // удал€ем голову

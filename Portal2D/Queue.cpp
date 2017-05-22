@@ -1,6 +1,7 @@
 #include "Queue.h"
+#include "Definitions.h"
 
-void initializeArrayWithDifferentNumbers(int *arr)
+void initializesArrayWithDifferentNumbers(int *arr) 
 {
 	for (int i = 0; i < NUMBER_OF_LEVELS; i++)
 	{
@@ -14,6 +15,7 @@ void initializeArrayWithDifferentNumbers(int *arr)
 				flag = false;
 			}
 		}
+
 		if (flag)
 		{
 			arr[i] = temp;

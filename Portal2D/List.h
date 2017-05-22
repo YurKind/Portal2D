@@ -1,7 +1,7 @@
 
 #pragma once
 #include <conio.h>
-#include "Records.h"
+#include "HighScores.h"
 
 namespace list
 {

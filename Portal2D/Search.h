@@ -1,6 +1,6 @@
 #pragma once
 #include "Tree.h"
-#include "Records.h"
+#include "HighScores.h"
 #include "List.h"
 #include "Instruments.h"
 #include "SortingMethods.h"
@@ -8,69 +8,6 @@
 
 namespace search
 {
-	/* В зависимости от введенных параметров руководит процессом поиска */
-	//template<typename T> void setSearchParametr(int parametr)
-	//{
-	//	list::List<records::DataAboutTheChampion> *list = NULL, *printList = NULL;       // список с найденными рекорсдменами и список для вывода на печать
-	//	tree::BranchForNumber<records::DataAboutTheChampion> *tree = NULL;        // дерево со всеми рекордсменами 
-
-	//	double numberOfScore = 0.0;
-	//	int numberOfLevel = 0;
-	//	char *name = new char[1000];
-	//	char *substring = new char[1000];
-	//	bool print = true;
-
-	//	switch (parametr)
-	//	{
-	//	case SCORE:
-	//		createTree(&tree, FILE_NAME_RECORDS, SCORE);     // создаем и инициализируем список по очкам
-	//		std::cout << "\tenter the number of score: ";
-	//		std::cin >> numberOfScore;
-	//		std::cout << "\n";
-	//		list = searchAllElements<double>(tree, numberOfScore, searchByScoreOfOneResult);       // указатель на список с найденными рекорсдменами 
-	//		break;
-
-	//	case LEVEL:
-	//		createTree(&tree, FILE_NAME_RECORDS, LEVEL);     // создаем и инициализируем список по уровням
-	//		std::cout << "\tenter the number of level: ";
-	//		std::cin >> numberOfLevel;
-	//		std::cout << "\n";
-	//		list = searchAllElements<int>(tree, numberOfLevel, searchByLevelOfOneResult);       // указатель на список с найденными рекорсдменами 
-	//		break;
-
-	//	case STRING:
-	//		createTree(&tree, FILE_NAME_RECORDS, STRING);     // создаем и инициализируем список по именам
-	//		std::cout << "\tenter the string: ";
-	//		std::cin >> name;
-	//		std::cout << "\n";
-	//		list = searchAllElements<char*>(tree, name, searchByStringOfOneResult);       // указатель на список с найденными рекорсдменами 
-	//		break;
-
-	//	case SUBSTRING:
-	//		std::cout << "\tenter the string: ";
-	//		std::cin >> name;
-	//		std::cout << "\n";
-	//		list = search::searchBySubstringAllResults(list, name);
-	//		break;
-
-	//	default:
-	//		std::cout << "\n\n\n\n\n\n\n\t\t\t\tHere nothing to search";
-	//		print = false;
-	//		break;
-	//	}
-
-	//	sorting::bubbleSortForList(list);
-
-	//	if (print)
-	//		printFoundChampions(list);        // печатаем список с найденными рекордсменами	
-
-	//	list::freeMemory(list);
-	//	tree::freeMemory(tree);
-	//	delete[] name, substring;
-	//	_getch();
-	//	system("cls");
-	//}
-
 	void printFoundChampions(list::List<records::DataAboutTheChampion> *list, int key);
 
 	int comparison(char *name, std::string str);

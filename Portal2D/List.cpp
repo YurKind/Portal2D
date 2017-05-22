@@ -1,26 +1,6 @@
 #include "List.h"
 #include "Definitions.h"
 
-void list::addList(list::List<records::DataAboutTheChampion> **list, std::ifstream &fin)          // создание и инициализаци€ списка
-{
-	list::List<records::DataAboutTheChampion> *add = *list;
-	std::ifstream finForSize(FILE_NAME_RECORDS);
-	char *buf = NULL;
-
-	while (!fin.eof())
-	{
-		int lengthLine = records::countLengthLine(finForSize);     // узнаем длинну строки дл€ объ€влени€ массива-буфера
-		buf = new char[lengthLine];
-		fin.getline(buf, lengthLine);
-		add->next = new list::List<records::DataAboutTheChampion>;
-		add->value = records::initializationDataAboutTheChampion(buf);
-		add = add->next;
-		add->next = NULL;
-		delete[] buf;
-	}
-	finForSize.close();
-}
-
 void list::addInCertainPlace(list::List<records::DataAboutTheChampion> **begin, int placeNumber, records::DataAboutTheChampion newChampion)       // вставка элемента списка с новым рекордсменом на соответствующее место 
 {
 	if (placeNumber == 0)
@@ -35,9 +15,11 @@ void list::addInCertainPlace(list::List<records::DataAboutTheChampion> **begin, 
 		{
 			insert = insert->next;      // передвигаемс€ до нужного места
 		}
+
 		list::List<records::DataAboutTheChampion> *end = insert->next;       // указатель на элемент на который будет ссылатьс€ новый элемент списка 
 		list::List<records::DataAboutTheChampion> *add = new list::List<records::DataAboutTheChampion>;           // новый элемент
 		insert->next = add;             // указатель предыдущего элемента на новый элемент
+
 		add->value = newChampion;       // инициализаци€ нового элемента
 		add->next = end;                // указатель нового элемента к следующему элементу списка
 	}
