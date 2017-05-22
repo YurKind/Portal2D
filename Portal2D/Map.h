@@ -5,7 +5,7 @@
 
 namespace game
 {
-	struct Coordinates
+	struct Coordinates			// Хранит координаты объекта
 	{
 		int xCoordinate = 0;
 		int yCoordinate = 0;

@@ -45,32 +45,45 @@ namespace game
 	// Функция проверяет, не настали ли условия, приводящие к концу игры (нашел ли игрок выход, кончилось ли у игрока здоровье)
 	bool checkGameOverConditions(GameInfo* gameInfo, MapCell** map, bool gameIsRunning);
 	
-	// функция выхода из уровня
+	// функция прерывает процесс игры
 	bool quitTheLevel(GameInfo* gameInfo, MapCell** map);
 
+	// функция проверяет стоит ли объект на непроходимой поверхности
 	bool objectIsStandingOnTheFloor(Coordinates coordinates, MapCell** map);
 
+	// функция проверяет возможность проходимости по оси Ox
 	bool movingPossibleOx(Coordinates coordinates, MapCell** map, int sideOfMovingOx, char type);
 
+	// функция проверяет возможность проходимости по оси Oy
 	bool movingPossibleOy(Coordinates coordinates, MapCell** map, int sideOfMovingOx, char type);
 
+	// функция проверяет есть ли над объектом одна свободная клетка
 	bool oneCellAboveTheObjectIsFree(Coordinates coordinates, MapCell** map);
 
+	// функция проверяет есть ли над объектом две свободных клетки
 	bool bothCellsAboveTheObjectAreFree(Coordinates coordinates, MapCell** map);
 
+	// функция возвращает координаты объекта
 	Coordinates getCoordinates(GameInfo* gameInfo, char type);
 
+	// функция устанавливает координаты объекта на оси Ox
 	void setOXCoordinates(GameInfo* gameInfo, char type, int step);
 
+	// функция устанавливает координаты объекта на оси Oy
 	void setOYCoordinates(GameInfo* gameInfo, char type);
 
+	// функция изменяет координаты объекта по оси Ox
 	void changeOXCoordinates(GameInfo* gameInfo, char type, int sideOfMovingOx);
 
+	// функция изменяет координаты объекта по оси Oy
 	void changeOYCoordinates(GameInfo* gameInfo, char type, int sideOfMovingOy);
 
+	// функция определяет тип портала, в который будет совершено перемещение
 	char findTypeOfPortal(GameInfo* gameInfo);
 
+	// функция определяет тип двери
 	char findTypeOfDoor(GameInfo* gameInfo, MapCell** map);
 
+	// функция определяет тип кнопки
 	char findTypeOfButton(char typeOfDoor);
 }
