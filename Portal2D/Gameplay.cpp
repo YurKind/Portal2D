@@ -108,7 +108,7 @@ namespace game
 
 			if (gameInfo->hero.score > 0)	// если количество очков больше 0, то вычетается одно очко
 			{
-				gameInfo->hero.score -= 1.02354;
+				gameInfo->hero.score -= SCORE_PER_SECOND;
 			}
 		}
 	}

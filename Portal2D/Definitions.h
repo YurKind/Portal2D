@@ -116,3 +116,6 @@
 #define STEP_LEFT_OR_UP -1			// шаг объекта влево (турели и пули)
 #define NO_STEP 0					// отсутствие шага 
 #define RANGE_BETWEEN_HERO_AND_HUNTER_TURRET 4 // расстояние между игроком и турелью охотником
+
+/*OTHER*/
+#define SCORE_PER_SECOND 1.02345 // изменение очков за секунду
