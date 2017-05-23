@@ -3,7 +3,9 @@
 
 namespace queue
 {
-	/* Возвращает текущий размер очереди */
+	/** 
+	 * Возвращает текущий размер очереди.
+	 */
 	template <typename T> int checkCurrentSizeOfQueue(queue::Queue<T> queue)
 	{
 		int resultOfCount = 0;
@@ -16,26 +18,9 @@ namespace queue
 		return resultOfCount;
 	}
 
-	template <typename T> void freeMemory(queue::Queue<T> *queue)
-	{
-		queue::Node<T> *cleaner;
-		while (queue->head)            // пока есть голова удаляем элемента с хвоста
-		{
-			cleaner = queue->tail;
-			queue->tail = queue->tail->previous;
-			if (queue->head->next)
-			{
-				queue->tail->next = NULL;
-			}
-			else
-			{
-				queue->head = NULL;
-			}
-
-			delete cleaner;
-		}
-	}
-
+	/**
+	 * Освобождает память из под очереди.
+	 */
 	template <typename T> void addQueue(queue::Queue<T> *queue, T *dataArray, int numberOfElements)
 	{
 		for (int i = 0; i < numberOfElements; i++)
@@ -44,6 +29,9 @@ namespace queue
 		}
 	}
 
+	/**
+	 * Добавляет элемент в очередь.
+	 */
 	template <typename T> void enQueue(queue::Queue<T> *queue, T newData)
 	{
 		queue::Node<T> *node = new queue::Node<T>;
@@ -63,6 +51,9 @@ namespace queue
 		}
 	}
 
+	/**
+	 * Удаляет элемент из очереди и возвращает его. (с головы)
+	 */
 	template <typename T> T deQueue(queue::Queue<T> *queue)
 	{
 		T result = NULL;
@@ -78,4 +69,29 @@ namespace queue
 
 		return result;       // возвращаем значение удаленной головы
 	}
+
+	/**
+	 * Освобождает память из под очереди.
+	 */
+	template <typename T> void freeMemory(queue::Queue<T> *queue)
+	{
+		queue::Node<T> *cleaner;
+		while (queue->head)            // пока есть голова удаляем элемента с хвоста
+		{
+			cleaner = queue->tail;
+			queue->tail = queue->tail->previous;
+
+			if (queue->head->next)
+			{
+				queue->tail->next = NULL;
+			}
+			else
+			{
+				queue->head = NULL;
+			}
+
+			delete cleaner;
+		}
+	}
+
 }

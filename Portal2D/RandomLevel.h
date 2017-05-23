@@ -4,10 +4,14 @@
 
 namespace random
 {
-	/*   «аполнение массива разными числами   */
+	/**
+	 * «аполнение массива разными числами от 0 до NUMBER_OF_LEVELS 
+	 */
 	void initializesArrayWithUnmatchedNumbers(int *arr);
 
-	/*   »нициализирует очередь из массива со случайными числами и возвращает элемент очереди   */
+	/**
+	 * »нициализирует очередь из массива со случайными числами и возвращает элемент очереди
+	 */
 	template <typename T> T initializeQueueAndReturnHead(queue::Queue<T> *queue)
 	{
 		int *arr = new int[NUMBER_OF_LEVELS];
