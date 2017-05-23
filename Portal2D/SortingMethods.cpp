@@ -22,7 +22,7 @@ void sorting::countingSort(int count, int *array, int range)
 	delete[] c;
 }
 
-void sorting::stableCountingSort(int count, int *array, int range)
+void sorting::stableCountingSort(int count, int array[], int range)
 {
 	int *c = new int[range];
 	int *result = new int[count];

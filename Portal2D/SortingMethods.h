@@ -70,5 +70,5 @@ namespace sorting
 
 	void countingSort(int count, int *array, int range);
 
-	void stableCountingSort(int count, int *array, int range);
+	void stableCountingSort(int count, int array[], int range);
 }
