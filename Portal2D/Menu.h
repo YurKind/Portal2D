@@ -17,8 +17,8 @@
 
 using namespace std;
 
-/*Параметры меню от которых зависит его вывод*/
-struct ParametersForMenu
+/*Границы вкладки меню*/
+struct BordersOfMenu
 {
 	int upBorder;																// Номер верхней границы меню	
 	int lowerBorder;															// Номер нижней границы меню
@@ -37,17 +37,19 @@ namespace menu
 	// Воспроизводит выбранный пользователем пункт в разделе Records
 	void doPointRecords();
 
+	// Воспроизводит выбранный пользователем пункт в разделе Search, вкладки Records
 	void doPointRecordSearch();
 
 	// Реализует управление меню и его вывод на экран
-	int controlMenu(ParametersForMenu borders, string points[]);
+	int controlMenu(BordersOfMenu borders, string points[]);
 
 	// Заполняет строковый массив
 	void fillArray(string array[], int count, char divider);
 
 	// Воспроизводит выбранный пользователем пункт в главном меню
-	void doMenu(queue::Queue<int> *queue, bool flag);
+	void doMainMenu(queue::Queue<int> *queue, bool flag);
 
+	/*Стартовая функция*/
 	void menu();
 
 	// Выводит меню на экран
