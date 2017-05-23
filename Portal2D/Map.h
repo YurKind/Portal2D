@@ -3,12 +3,18 @@
 #include "Stack.h"
 #include "List.h"
 
+// За модуль отвечают: Меньшиков Юрий и Наговицин Максим
 namespace game
 {
+	struct Coordinates			// Хранит координаты объекта
+	{
+		int xCoordinate = 0;
+		int yCoordinate = 0;
+	};
+
 	struct Hero					// Хранит данные о герое (координаты, очки здоровья)
 	{
-		int xCoordinate;
-		int yCoordinate;
+		Coordinates coordinates;
 		int healthPoints = 99;
 		double score = 4000.0;
 		double time = 10000.0;
@@ -17,14 +23,12 @@ namespace game
 
 	struct Objects				// Хранит данные об объектах на карте (прицел, порталы)
 	{
-		int xCoordinate = 0;
-		int yCoordinate = 0;
+		Coordinates coordinates;
 	};
 
 	struct Turret				// Хранит данные о турелях
 	{
-		int xCoordinate = 0;
-		int yCoordinate = 0;
+		Coordinates coordinates;
 		bool isMovingRight = true;
 	};
 

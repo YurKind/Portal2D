@@ -1,25 +1,28 @@
 ﻿#pragma once
 
+//------------//
+#define NUMBER_OF_LEVELS 5 
+
 //------TEXTURES------//
 #define HERO '\2'				// символ героя в игре '☻'
 #define HERO_SYMBOL 'H'			// символ героя в текстовом файле
 #define BLOCK_SHARP '#'			// символ блока в текстовом файле
 #define BLOCK char(219)			// символ блока в игре '█'
 #define EMPTY_SPACE ' '			// символ пустого пространства
-#define BUTTON_ONE_S '`'		// символ кнопки в текстовом файле
-#define BUTTON_TWO_S '<'		// символ кнопки в текстовом файле
-#define BUTTON_THREE_S '>'		// символ кнопки в текстовом файле
-#define BUTTON_FOUR_S '?'		// символ кнопки в текстовом файле
+#define BUTTON_ONE_S '`'		// символ кнопки, открывающей первую дверь в текстовом файле
+#define BUTTON_TWO_S '<'		// символ кнопки, открывающей вторую дверь в текстовом файле
+#define BUTTON_THREE_S '>'		// символ кнопки, открывающей третью двери в текстовом файле
+#define BUTTON_FOUR_S '?'		// символ кнопки, открывающей четвертую дверь в текстовом файле
 #define BUTTON char(127)		// символ кнопки в игре '⌂'
 #define RED_PORTAL 'O'			// символ красного портала
 #define BLUE_PORTAL '0'			// символ синего портала
 #define AIM '+'					// символ прицела в текстовом файле
 #define AIM_DOT '.'				// символ прицела в игре '.'
 #define BLACK_WALL (char)176	// символ непроходимой стены в игре '░'
-#define BLACK_WALL_ONE_S 'X'	// символ первой непроходимой стены в текстовом файле
-#define BLACK_WALL_TWO_S '^'	// символ второй непроходимой стены в текстовом файле
-#define BLACK_WALL_THREE_S '!'	// символ третьей непроходимой стены в текстовом файле
-#define BLACK_WALL_FOUR_S '%'	// символ четвёртой непроходимой стены в текстовом файле
+#define BLACK_WALL_ONE_S 'X'	// символ первой непроходимой двери в текстовом файле
+#define BLACK_WALL_TWO_S '^'	// символ второй непроходимой двери в текстовом файле
+#define BLACK_WALL_THREE_S '!'	// символ третьей непроходимой двери в текстовом файле
+#define BLACK_WALL_FOUR_S '%'	// символ четвёртой непроходимой двери в текстовом файле
 #define EXIT (char)178			// символ выхода в игре '▓'
 #define EXIT_S 'E'				// символ выхода в текстовом файле
 #define BULLET_OF_STATIONARY_TURRET char(250)	// символ пули от стационарной турели в игре '·'
@@ -51,12 +54,10 @@
 #define W_LOWER_CASE_RU 230	// клавиша 'ц' (в нижнем регистре)
 #define A_LOWER_CASE_RU 228	// клавиша 'ф' (в нижнем регистре)
 #define S_LOWER_CASE_RU 235	// клавиша 'ы' (в нижнем регистре)
-#define D_LOWER_CASE_RU 162	// клавиша 'в' С
-
-#define R_BUTTON_UPPER_CASE 'R'	// клавиша 'R' (в верхнем регистре)
-#define R_BUTTON_LOWER_CASE 'r'	// клавиша 'r' (в нижнем регистре)
+#define D_LOWER_CASE_RU 162	// клавиша 'в' (в нижнем регистре)
 
 #define SPACE_JUMP 32
+#define JUMP_HEIGHT -1
 
 //------AIM_KEYS------//
 #define ARROWS 224
@@ -79,14 +80,20 @@
 #define ESCAPE 27
 #define ENTER 13	// клавиша 'Enter'
 #define BACKSPACE 8	// клавиша 'backspace'
-#define PAUSE 'p'	// клавиша 'p'
-#define YES 'y'		// клавиша 'y'
-#define NO 'n'		// клавиша 'n'
+#define PAUSE_UPPER_CASE 'P'	// клавиша 'P'
+#define PAUSE_LOWER_CASE 'p'	// клавиша 'p'
+#define PAUSE_UPPER_CASE_RU 'З'	// клавиша 'З'
+#define PAUSE_LOWER_CASE_RU 'з'	// клаивша 'з'
+#define YES_UPPER_CASE 'Y'		// клавиша 'Y'
+#define YES_LOWER_CASE 'y'		// клавиша 'y'
+#define YES_UPPER_CASE_RU 'Н'	// клавиша 'Н'
+#define YES_LOWER_CASE_RU 'н'	// клавиша 'н'
+#define NO_UPPER_CASE 'N'		// клавиша 'N'
+#define NO_LOWER_CASE 'n'		// клавиша 'n'
+#define NO_UPPER_CASE_RU 'Т'	// клавиша 'Т'
+#define NO_LOWER_CASE_RU 'т'	// клавиша 'т'
 
-/* SAVE THE GAME */
-#define SAVE 'k'
-
-/* TURRET */
+/* TURRETS */
 #define DAMAGE_TO_HERO 33			// урон по герою
 #define HERO_SPOTTING_RANGE_X 10	// дистанция обнаружения героя турелью по оси Ох
 #define HERO_SPOTTING_RANGE_Y 5		// дистанция обнаружения героя турелью по оси Оу
@@ -105,3 +112,10 @@
 #define START_POINTS 8
 #define RECORD_SPOINTS 4
 #define SEARCH_RECORDS_POINTS 5
+#define STEP_RIGHT_OR_DOWN 1		// шаг объекта вправо (турели и пули)
+#define STEP_LEFT_OR_UP -1			// шаг объекта влево (турели и пули)
+#define NO_STEP 0					// отсутствие шага 
+#define RANGE_BETWEEN_HERO_AND_HUNTER_TURRET 4 // расстояние между игроком и турелью охотником
+
+/*OTHER*/
+#define SCORE_PER_SECOND 1.02345 // изменение очков за секунду

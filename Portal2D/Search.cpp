@@ -37,7 +37,9 @@ namespace search
 	}
 
 	/* ѕоиск по очкам до первого результата */
-	tree::BranchForNumber<records::DataAboutTheChampion> *searchByScoreOfOneResult(tree::BranchForNumber<records::DataAboutTheChampion> *tree, double score)
+	tree::BranchForNumber<records::DataAboutTheChampion> *searchByScoreOfOneResult(
+		tree::BranchForNumber<records::DataAboutTheChampion> *tree, double score
+	)
 	{
 		if (!tree || score == tree->data.score)     // если конец дерева или совпало кол-во очков
 		{
@@ -55,7 +57,9 @@ namespace search
 	}
 
 	/* ѕоиск по уровню до первого результата */
-	tree::BranchForNumber<records::DataAboutTheChampion> *searchByLevelOfOneResult(tree::BranchForNumber<records::DataAboutTheChampion> *tree, int level)
+	tree::BranchForNumber<records::DataAboutTheChampion> *searchByLevelOfOneResult(
+		tree::BranchForNumber<records::DataAboutTheChampion> *tree, int level
+	)
 	{
 		if (!tree || level == tree->data.level)     // если конец дерева или совпало кол-во очков
 		{
@@ -73,7 +77,9 @@ namespace search
 	}
 
 	/* ѕоиск по имени до первого результата */
-	tree::BranchForNumber<records::DataAboutTheChampion> *searchByStringOfOneResult(tree::BranchForNumber<records::DataAboutTheChampion> *tree, char *name)
+	tree::BranchForNumber<records::DataAboutTheChampion> *searchByStringOfOneResult(
+		tree::BranchForNumber<records::DataAboutTheChampion> *tree, char *name
+	)
 	{
 		if (!tree || comparison(name, tree->data.name) == 0)     // если конец дерева или совпало кол-во очков
 		{
@@ -91,75 +97,87 @@ namespace search
 	}
 
 	/* —равнивает строки вне зависимости от регистра */
-	int comparison(char *name, std::string str)
+	int comparison(char *name, std::string str
+	)
 	{
 		char *checking = new char[str.length() + 1];
 		strcpy_s(checking, str.length() + 1, str.c_str());
+
 		return _stricmp(name, checking);
 	}
 
 	/* ѕоиск по подстроке в строке */
-	records::DataAboutTheChampion searchBySubstringOfOneResult(records::DataAboutTheChampion subjectOfSearch, char *substring)
+	records::DataAboutTheChampion searchBySubstringOfOneResult(
+		records::DataAboutTheChampion subjectOfSearch, char *substring
+	)
 	{
-		bool flag = false;
+		bool isResultPositive = false;
 		int lengthOfSubstring = 0;
-		records::DataAboutTheChampion result = subjectOfSearch; 
-		char *stringForSearch = new char[subjectOfSearch.name.length() + 1];     
+		char *stringForSearch = new char[subjectOfSearch.name.length() + 1];
+
+		records::DataAboutTheChampion result = subjectOfSearch;
 		strcpy_s(stringForSearch, subjectOfSearch.name.length() + 1, subjectOfSearch.name.c_str());
 
 		for (lengthOfSubstring = 0; substring[lengthOfSubstring]; lengthOfSubstring++);      // вычисление размера подстроки
 
-		if (subjectOfSearch.name.length() < lengthOfSubstring) 
+		if (subjectOfSearch.name.length() < lengthOfSubstring)
 		{
 			result.level = -1;      // результат поиска отрицательный
 		}
 		else
 		{
-			for (int i = 0, j = 0; i <= subjectOfSearch.name.length() && j <= lengthOfSubstring && !flag; i++, j++)
+			for (int i = 0, j = 0; i <= subjectOfSearch.name.length() && j <= lengthOfSubstring && !isResultPositive; i++, j++)
 			{
 				if (j == lengthOfSubstring)
-					flag = true;         // результат поиска положительный
+					isResultPositive = true;         // результат поиска положительный
 
 				if (!(stringForSearch[i] == substring[j]))
-					j = -1;			
+					j = -1;
 			}
 		}
 
-		if (!flag)
+		if (!isResultPositive)
 			result.level = -1;
 
 		delete[] stringForSearch;
+
 		return result;
 	}
 
 	/* ѕоиск по подстроке всех элементов из файла мс рекордами */
-	list::List<records::DataAboutTheChampion> *searchBySubstringAllResults(list::List<records::DataAboutTheChampion> *result, char *substring)
+	list::List<records::DataAboutTheChampion> *searchBySubstringAllResults(
+		list::List<records::DataAboutTheChampion> *result, char *substring
+	)
 	{
-		list::List<records::DataAboutTheChampion> *list = new list::List<records::DataAboutTheChampion>, *begin = NULL;
+		list::List<records::DataAboutTheChampion>
+			*listWithAll = new list::List<records::DataAboutTheChampion>,
+			*begin = NULL;
 		std::ifstream fin(FILE_NAME_RECORDS);
 		records::DataAboutTheChampion temp;
-		
-		list::addList(&list, fin);
+
+		list::addList(&listWithAll, fin);
 		result = new list::List<records::DataAboutTheChampion>;
 		begin = result;
 		begin->next = NULL;
 
-		while (list)
+		while (listWithAll)
 		{
-			temp = searchBySubstringOfOneResult(list->value, substring);
-
-			if (temp.level != -1)
-			{		
+			temp = searchBySubstringOfOneResult(listWithAll->value, substring);
+			if (temp.level != -1)       // temp.level == -1 если в результате поиска число вхождений подстроки в строку равно 0
+			{
 				result->next = new list::List<records::DataAboutTheChampion>;
 				result->value = temp;
 				result = result->next;
 				result->next = NULL;
 			}
-			list = list->next;
+
+			listWithAll = listWithAll->next;
 		}
 
+		fin.close();
 		result = begin;
-		list::freeMemory(list);
+		list::freeMemory(listWithAll);
+
 		return result;
 	}
 }

@@ -2,6 +2,8 @@
 #include "Gameplay.h"
 #include "Map.h"
 
+
+// За модуль отвечают: Лебедев Никита, Меньшиков Юрий и Наговицин Максим
 namespace game
 {	// Главная функция ИИ турелей, запускает их работу
 	void turretAI(char type, GameInfo* gameInfo, MapCell** map);
@@ -13,10 +15,10 @@ namespace game
 	bool checkTurretShootingConditions(char type, GameInfo* gameInfo, MapCell** map, int step);
 	
 	// Функция определяет поведение пули (ее появление, исчезновение)
-	void shootHero(char type, GameInfo* gameInfo, MapCell** map, bool turretCanShootingToHero, int step);
+	void shootHero(char type, char bullet, GameInfo* gameInfo, MapCell** map, bool turretCanShootingToHero, int step);
 	
 	// Функция отвечает за перемещение пули по карте
-	void moveBullet(char type, GameInfo* gameInfo, MapCell** map, int step);
+	void moveBullet(char bullet, GameInfo* gameInfo, MapCell** map, int step);
 	
 	// Функция отвечает за перемещение патрулирующей турели
 	void platformTurretPatrol(GameInfo* gameInfo, MapCell** map, bool turretCanShootingToHero, int step);

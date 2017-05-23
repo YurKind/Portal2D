@@ -7,7 +7,7 @@
 #include <stdio.h> 
 
 #include "Instruments.h"
-#include "Records.h"
+#include "HighScores.h"
 #include "Gameplay.h"
 #include "Definitions.h"
 #include "Queue.h"
