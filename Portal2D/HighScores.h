@@ -11,7 +11,7 @@ namespace records
 	/**
 	 * Перезаписывает файл с учетом нового рекордсмена.
 	 */
-	void overwriteFile(list::List<DataAboutTheChampion> *begin);
+	void overwriteFile(list::List<DataAboutTheChampion> *listWithAll);
 
 	/**
 	 * Возвращает место нового рекордсмена в зависимости от уровня и очков,
@@ -38,7 +38,7 @@ namespace records
 	 * Функция удаляет элементы с уровнем != rightLevel и
 	 * возвращает лучший результат среди рекордсменов уровня rightLevel.
 	 */
-	DataAboutTheChampion getBestResultOnTheLevel(list::List<DataAboutTheChampion> *begin, int rightLevel);
+	DataAboutTheChampion getBestResultOnTheLevel(list::List<DataAboutTheChampion> *listWithAll, int rightLevel);
 
 	/**
 	 * Возвращает длину строки.

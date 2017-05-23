@@ -45,14 +45,14 @@ void records::addInRecordsOrShowRecords(
 
 void records::printBestPlayerInLevel(int levelNumber)
 {
-	list::List<records::DataAboutTheChampion> *begin
-		= new list::List<records::DataAboutTheChampion>;  // указатель на начало списка
+	list::List<records::DataAboutTheChampion> *listWithAll
+		= new list::List<records::DataAboutTheChampion>;  
 	std::ifstream fin(FILE_NAME_RECORDS);
 
-	begin->next = NULL;
-	list::addList(&begin, fin);    // инициализируем список
+	listWithAll->next = NULL;
+	list::addList(&listWithAll, fin);    // инициализируем список
 
-	records::DataAboutTheChampion bestResult = records::getBestResultOnTheLevel(begin, levelNumber);
+	records::DataAboutTheChampion bestResult = records::getBestResultOnTheLevel(listWithAll, levelNumber);
 	if (bestResult.name == "_errorEmptyListOfRecords")      // если никого не нашли на данном уровне
 	{
 		std::cout << " -> Be the first at this level! " << std::endl;
@@ -67,32 +67,32 @@ void records::printBestPlayerInLevel(int levelNumber)
 }
 
 records::DataAboutTheChampion records::getBestResultOnTheLevel(
-	list::List<records::DataAboutTheChampion> *begin, int rightLevel)
+	list::List<records::DataAboutTheChampion> *listWithAll, int rightLevel)
 {
 	bool counterChampionsInRightLevel = false;
 
-	list::List<records::DataAboutTheChampion> *cleaner = begin;    // новый указатель на начало списка
+	list::List<records::DataAboutTheChampion> *cleaner = listWithAll;    // новый указатель на начало списка
 	list::List<records::DataAboutTheChampion> *end = NULL;         // указатель для хранения конца списка
 
 	records::DataAboutTheChampion bestResult;
 	bestResult.score = NULL;
-	while (begin && bestResult.score == NULL)
+	while (listWithAll && bestResult.score == NULL)
 	{
-		if (begin->value.level != rightLevel && bestResult.score == NULL)
+		if (listWithAll->value.level != rightLevel && bestResult.score == NULL)
 		{
 			if (end)
 				end->next = NULL;
 
-			cleaner = begin;
-			begin = begin->next;
+			cleaner = listWithAll;
+			listWithAll = listWithAll->next;
 			delete cleaner;
 		}
 		else
 		{
-			end = begin;
+			end = listWithAll;
 			counterChampionsInRightLevel++;
-			bestResult = begin->value;
-			begin = begin->next;
+			bestResult = listWithAll->value;
+			listWithAll = listWithAll->next;
 		}
 	}
 
@@ -101,7 +101,7 @@ records::DataAboutTheChampion records::getBestResultOnTheLevel(
 		bestResult.name = "_errorEmptyListOfRecords";
 	}
 
-	list::freeMemory(begin);
+	list::freeMemory(listWithAll);
 
 	return bestResult;
 }
@@ -119,19 +119,20 @@ int records::getLineLength(std::ifstream &finForSize)
 	return ++lineLength;
 }
 
-void records::overwriteFile(list::List<records::DataAboutTheChampion> *begin)        // перезапись файла
+void records::overwriteFile(list::List<records::DataAboutTheChampion> *listWithAll)        // перезапись файла
 {
 	std::ofstream fout(FILE_NAME_RECORDS);
-	while (begin->next != NULL)
+	while (listWithAll->next != NULL)
 	{
-		fout << begin->value.name << "|"
-			<< begin->value.score << "|"
-			<< begin->value.level << ">";
-		if (begin->next->next != NULL) {
+		fout << listWithAll->value.name << "|"
+			<< listWithAll->value.score << "|"
+			<< listWithAll->value.level << ">";
+		if (listWithAll->next->next != NULL) 
+		{
 			fout << std::endl;
 		}
 
-		begin = begin->next;
+		listWithAll = listWithAll->next;
 	}
 
 	fout.close();
@@ -193,7 +194,7 @@ records::DataAboutTheChampion records::getChampionWithDataFromBuffer(char *buf)
 	return champion;
 }
 
-void list::addList(list::List<records::DataAboutTheChampion> **list, std::ifstream &fin)          // создание и инициализация списка
+void list::addList(list::List<records::DataAboutTheChampion> **list, std::ifstream &fin)   // создание и инициализация списка
 {
 	list::List<records::DataAboutTheChampion> *add = *list;
 	std::ifstream finForSize(FILE_NAME_RECORDS);
