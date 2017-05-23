@@ -1,12 +1,13 @@
 #include "List.h"
 #include "SortingMethods.h"
 
-/* Команды: add - добавить в рекорды / show - показать все рекорды (не больше 10к) */
-void records::addInRecordsOrShowRecords(records::DataAboutTheChampion *newChampion,
-	char *variant)
+
+void records::addInRecordsOrShowRecords(
+	records::DataAboutTheChampion *newChampion, char *variant)
 {
 	int counterOfPrintedChampions = 0;
-	list::List<records::DataAboutTheChampion> *begin = new list::List<records::DataAboutTheChampion>;
+	list::List<records::DataAboutTheChampion> *begin
+		= new list::List<records::DataAboutTheChampion>; // указатель на начало списка
 	std::ifstream fin(FILE_NAME_RECORDS);
 
 	list::addList(&begin, fin);       // инициализируем список
@@ -16,10 +17,14 @@ void records::addInRecordsOrShowRecords(records::DataAboutTheChampion *newChampi
 		std::cout << "\n\t\t\t\t\t\tALL RECORDS" << std::endl;
 		std::cout << "\n";
 
-		while (begin->next && counterOfPrintedChampions < 1000)
+		while (begin->next && counterOfPrintedChampions < 10000)
 		{
 			counterOfPrintedChampions++;
-			std::cout << "\n\t\t\t  " << counterOfPrintedChampions << "." << "name: " << begin->value.name << " level: " << begin->value.level << " score: " << begin->value.score << std::endl;
+			std::cout << "\n\t\t\t  " << counterOfPrintedChampions
+				<< ". name: " << begin->value.name
+				<< " level: " << begin->value.level
+				<< " score: " << begin->value.score << std::endl;
+
 			begin = begin->next;
 		}
 
@@ -29,7 +34,7 @@ void records::addInRecordsOrShowRecords(records::DataAboutTheChampion *newChampi
 	}
 	else if (!strcmp(variant, "add"))     // добавить в рекорды
 	{
-		int placeInRank = records::findingTheLocationInOrder(begin, *newChampion);    // узнаем потенциальное место в списке
+		int placeInRank = records::getPlaceOfChampionInOrder(begin, *newChampion);    // узнаем потенциальное место в списке
 		list::addInCertainPlace(&begin, placeInRank, *newChampion);          // вставляем в найденное место
 		records::overwriteFile(begin);               // перезапись файла 
 	}
@@ -38,34 +43,33 @@ void records::addInRecordsOrShowRecords(records::DataAboutTheChampion *newChampi
 	list::freeMemory(begin);
 }
 
-void records::giveBestPlayerInLevel(int levelNumber)
+void records::printBestPlayerInLevel(int levelNumber)
 {
-	list::List<records::DataAboutTheChampion> *begin = new list::List<records::DataAboutTheChampion>;;
-	begin->next = NULL;
+	list::List<records::DataAboutTheChampion> *begin
+		= new list::List<records::DataAboutTheChampion>;  // указатель на начало списка
 	std::ifstream fin(FILE_NAME_RECORDS);
+
+	begin->next = NULL;
 	list::addList(&begin, fin);    // инициализируем список
 
-	records::DataAboutTheChampion bestResult = records::removeItemsExcessLevels(begin, levelNumber);
+	records::DataAboutTheChampion bestResult = records::getBestResultOnTheLevel(begin, levelNumber);
 	if (bestResult.name == "_errorEmptyListOfRecords")      // если никого не нашли на данном уровне
 	{
 		std::cout << " -> Be the first at this level! " << std::endl;
 	}
 	else
 	{
-		std::cout << " -> name: " << bestResult.name << " score: " << bestResult.score << std::endl;
+		std::cout << " -> name: " << bestResult.name
+			<< " score: " << bestResult.score << std::endl;
 	}
 
 	fin.close();
 }
 
-/**
-  * Функция удаляет элементы с уровнем != rightLevel 
-  * и возвращает лучший результат среди рекордсменов уровня rightLevel
-  */
-records::DataAboutTheChampion records::removeItemsExcessLevels(
+records::DataAboutTheChampion records::getBestResultOnTheLevel(
 	list::List<records::DataAboutTheChampion> *begin, int rightLevel)
 {
-	bool counterEmptyListOfRecordsForRightlevel = false;
+	bool counterChampionsInRightLevel = false;
 
 	list::List<records::DataAboutTheChampion> *cleaner = begin;    // новый указатель на начало списка
 	list::List<records::DataAboutTheChampion> *end = NULL;         // указатель для хранения конца списка
@@ -77,9 +81,8 @@ records::DataAboutTheChampion records::removeItemsExcessLevels(
 		if (begin->value.level != rightLevel && bestResult.score == NULL)
 		{
 			if (end)
-			{
 				end->next = NULL;
-			}
+
 			cleaner = begin;
 			begin = begin->next;
 			delete cleaner;
@@ -87,13 +90,13 @@ records::DataAboutTheChampion records::removeItemsExcessLevels(
 		else
 		{
 			end = begin;
-			counterEmptyListOfRecordsForRightlevel++;
+			counterChampionsInRightLevel++;
 			bestResult = begin->value;
 			begin = begin->next;
 		}
 	}
 
-	if (!counterEmptyListOfRecordsForRightlevel)       // если никого в рекордах с уровнем rightLevel нет, то возвращаем имя-ошибку
+	if (!counterChampionsInRightLevel)       // если никого в рекордах с уровнем rightLevel нет, то возвращаем имя-ошибку
 	{
 		bestResult.name = "_errorEmptyListOfRecords";
 	}
@@ -103,17 +106,17 @@ records::DataAboutTheChampion records::removeItemsExcessLevels(
 	return bestResult;
 }
 
-int records::countLengthLine(std::ifstream &finForSize)
+int records::getLineLength(std::ifstream &finForSize)
 {
-	int lengthLine = 0;
+	int lineLength = 0;
 	char temp = ' ';
 	while (temp != '>')
 	{
 		finForSize >> temp;
-		lengthLine++;
+		lineLength++;
 	}
 
-	return ++lengthLine;
+	return ++lineLength;
 }
 
 void records::overwriteFile(list::List<records::DataAboutTheChampion> *begin)        // перезапись файла
@@ -121,7 +124,9 @@ void records::overwriteFile(list::List<records::DataAboutTheChampion> *begin)   
 	std::ofstream fout(FILE_NAME_RECORDS);
 	while (begin->next != NULL)
 	{
-		fout << begin->value.name << "|" << begin->value.score << "|" << begin->value.level << ">";
+		fout << begin->value.name << "|"
+			<< begin->value.score << "|"
+			<< begin->value.level << ">";
 		if (begin->next->next != NULL) {
 			fout << std::endl;
 		}
@@ -132,26 +137,26 @@ void records::overwriteFile(list::List<records::DataAboutTheChampion> *begin)   
 	fout.close();
 }
 
-int records::findingTheLocationInOrder(list::List<records::DataAboutTheChampion> *begin,
+int records::getPlaceOfChampionInOrder(list::List<records::DataAboutTheChampion> *begin,
 	records::DataAboutTheChampion newChampion)
-{                                                                 // высчитывание места нового рекордсмена в зависимости от уровня и очков (чтобы записать в файл не нарушив порядок)
-	int placInOrder = 0;
+{                                                                 
+	int placeInOrder = 0;
 	list::List<records::DataAboutTheChampion> *list = begin;
 	while (list->value.level > newChampion.level)    // пока уровень рекордсмена из списка больше чем у вставляемого рекордсмена
 	{
 		list = list->next;
-		placInOrder++;
+		placeInOrder++;
 	}
 	while (list->value.score > newChampion.score && list->value.level == newChampion.level)   // пока кол-во очков из списка больше вставляемого и уровень из списка равен уровню вставляемого рекордсмена
 	{
 		list = list->next;
-		placInOrder++;
+		placeInOrder++;
 	}
 
-	return placInOrder;
+	return placeInOrder;
 }
 
-records::DataAboutTheChampion records::initializationDataAboutTheChampion(char *buf)
+records::DataAboutTheChampion records::getChampionWithDataFromBuffer(char *buf)
 {
 	char points[25], lvl[2];
 	records::DataAboutTheChampion champion = {};
@@ -196,12 +201,12 @@ void list::addList(list::List<records::DataAboutTheChampion> **list, std::ifstre
 
 	while (!fin.eof())
 	{
-		int lengthLine = records::countLengthLine(finForSize);     // узнаем длинну строки для объявления массива-буфера
+		int lengthLine = records::getLineLength(finForSize);     // узнаем длинну строки для объявления массива-буфера
 		buf = new char[lengthLine];
 		fin.getline(buf, lengthLine);
 
 		add->next = new list::List<records::DataAboutTheChampion>;
-		add->value = records::initializationDataAboutTheChampion(buf);
+		add->value = records::getChampionWithDataFromBuffer(buf);
 		add = add->next;
 		add->next = NULL;
 

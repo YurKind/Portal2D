@@ -89,7 +89,7 @@ void menu::doPointRecords()
 
 			for (int i = NUMBER_OF_LEVELS; i >= 1; i--)
 			{
-				std::cout << "\n\t\t\t\t" << (6 - i) << " lvl"; records::giveBestPlayerInLevel(i);
+				std::cout << "\n\t\t\t\t" << (6 - i) << " lvl"; records::printBestPlayerInLevel(i);
 			}
 
 			system("pause");

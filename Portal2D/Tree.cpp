@@ -17,7 +17,7 @@ namespace tree
 			fin.getline(buf, 1024);      // заполн€ем буфер из файла данными об одном рекордсмене 
 
 			records::DataAboutTheChampion *data = new records::DataAboutTheChampion(
-				records::initializationDataAboutTheChampion(buf)
+				records::getChampionWithDataFromBuffer(buf)
 			);   // объ€вление и инициализаци€ переменной из буфера
 
 			if (variant == SCORE)     // добавление элемента в зависимости от очков 
