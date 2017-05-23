@@ -63,13 +63,13 @@ void menu::doPointRecords()
 
 	/*Верхняя граница равна Search, нижняя равна BackRecords,
 	вывод данного подпункта меню осуществляет printPointRecord*/
-	ParametersForMenu parametersForMenu = { Search, BackRecords};
+	BordersOfMenu borders = { Search, BackRecords};
 
 	/*Пока пользователь не захочет выйти из этого подпункта меню,
 	осуществляется перемещения по меню*/
 	do
 	{
-		key = controlMenu(parametersForMenu, pointRecords);											// key получает значение пункта на котором остановился пользователь и нажал Enter
+		key = controlMenu(borders, pointRecords);											// key получает значение пункта на котором остановился пользователь и нажал Enter
 
 		std::system("cls");
 
@@ -116,13 +116,13 @@ void menu::doPointRecordSearch()
 
 	/*Верхняя граница равна Search, нижняя равна BackRecords,
 	вывод данного подпункта меню осуществляет printPointRecord*/
-	ParametersForMenu parametersForMenu = {ByScore, BackRecordsSearch};
+	BordersOfMenu borders = {ByScore, BackRecordsSearch};
 
 	/*Пока пользователь не захочет выйти из этого подпункта меню,
 	осуществляется перемещения по меню*/
 	do
 	{
-		key = controlMenu(parametersForMenu, pointRecordSearch);											// key получает значение пункта на котором остановился пользователь и нажал Enter
+		key = controlMenu(borders, pointRecordSearch);											// key получает значение пункта на котором остановился пользователь и нажал Enter
 		std::system("cls");
 
 		list::List<records::DataAboutTheChampion> *list = NULL, *printList = NULL;       // список с найденными рекорсдменами 
@@ -251,14 +251,14 @@ void menu::doPointStart(queue::Queue<int> *queue, bool flag)
 
 	/*Верхняя граница равна Instruction, нижняя равна BackLevel,
 	вывод данного подпункта меню осуществляет printPointStart*/
-	ParametersForMenu parametersForMenu = { Instruction, BackLevel, };
+	BordersOfMenu borders = { Instruction, BackLevel, };
 
 	/*Пока пользователь не захочет выйти из этого подпункта меню,
 	осуществляется перемещения по меню*/
 	do
 	{
 
-		key = controlMenu(parametersForMenu, pointStart);											// key получает значение пункта на котором остановился пользователь и нажал Enter
+		key = controlMenu(borders, pointStart);											// key получает значение пункта на котором остановился пользователь и нажал Enter
 		std::system("cls");
 
 		int numberOfLevel = 0;
@@ -340,14 +340,14 @@ void menu::doPointStart(queue::Queue<int> *queue, bool flag)
 }
 
 //Реализует управление меню и его вывод на экран
-int menu::controlMenu(ParametersForMenu parametersForMenu, string points[])
+int menu::controlMenu(BordersOfMenu borders, string points[])
 {
-	int key = parametersForMenu.upBorder;													// key равен самому верхнему пункту меню
-	int countOfPoints = parametersForMenu.lowerBorder;
-	int press;																				// Нажатие пользователя
+	int key = borders.upBorder;				// key равен самому верхнему пункту меню
+	int countOfPoints = borders.lowerBorder;
+	int press;							// Нажатие пользователя
 	system("cls");
-	printMenu(points, countOfPoints, key);															// Выводит нужный вариант меню
-	press = _getch();																		// Принимает значение нажатой клавиши
+	printMenu(points, countOfPoints, key);		// Выводит нужный вариант меню
+	press = _getch();				// Принимает значение нажатой клавиши
 
 	/*Если нажата стрелочка, то проверяем какая*/
 	if (press == ARROWS)
@@ -355,7 +355,7 @@ int menu::controlMenu(ParametersForMenu parametersForMenu, string points[])
 		/*Пока не нажат Enter перемещаемся по меню*/
 		while (press != ENTER)
 		{
-			press = _getch();																// Примаем значение стрелочки
+			press = _getch();	// Примаем значение стрелочки
 
 			/*Если нажата стрелочка вниз, то спускаемся на пункт ниже
 			  Если нажата стрелочка вверх, то поднимаемся на пункт вверх*/
@@ -365,7 +365,7 @@ int menu::controlMenu(ParametersForMenu parametersForMenu, string points[])
 
 				/*Если пользователь не достиг верхнего пункта меню,
 				то поднимаемся на пункт выше*/
-				if (key != parametersForMenu.upBorder)
+				if (key != borders.upBorder)
 					key -= 1;
 				break;
 
@@ -373,28 +373,28 @@ int menu::controlMenu(ParametersForMenu parametersForMenu, string points[])
 
 				/*Если пользователь не достиг нижнего пункта меню,
 					то спускаемся на пункт ниже*/
-				if (key != parametersForMenu.lowerBorder)
+				if (key != borders.lowerBorder)
 					key += 1;
 				break;
 
 			case ESCAPE:
 				press = ENTER;
-				key = parametersForMenu.lowerBorder;
+				key = borders.lowerBorder;
 				break;
 			}
 			game::clearScreen();
 			system("cls");
-			printMenu(points, countOfPoints, key);														// Выводит нужный вариант меню
+			printMenu(points, countOfPoints, key);			// Выводит нужный вариант меню
 		}
 	}
 	else if (press == ESCAPE)
-		key = parametersForMenu.lowerBorder;
+		key = borders.lowerBorder;
 
-	return key;																				// Возвращаем выбор пользователя
+	return key;						// Возвращаем выбор пользователя
 }
 
 //Воспроизводит выбранный пользователем пункт в главном меню
-void menu::doMenu(queue::Queue<int> *queue, bool flag)
+void menu::doMainMenu(queue::Queue<int> *queue, bool flag)
 {
 	string mainPoint[MAIN_POINTS];
 	fillArray(mainPoint, MAIN_POINTS, '$');
@@ -402,13 +402,13 @@ void menu::doMenu(queue::Queue<int> *queue, bool flag)
 	int key;
 	/*Верхняя граница равна Start, нижняя равна Exit,
 	вывод данного подпункта меню осуществляет printMenu*/
-	ParametersForMenu parametersForMenu = { Start, Exit };
+	BordersOfMenu borders = { Start, Exit };
 
 	/*Пока пользователь не захочет выйти из этого подпункта меню,
 	осуществляется перемещения по меню*/
 	do
 	{
-		key = controlMenu(parametersForMenu, mainPoint);															// key получает значение пункта на котором остановился пользователь и нажал Enter
+		key = controlMenu(borders, mainPoint);															// key получает значение пункта на котором остановился пользователь и нажал Enter
 
 		/*После нажатия кнопки Enter, заходим в пункт который был выбран*/
 		switch (key)
@@ -430,7 +430,7 @@ void menu::doMenu(queue::Queue<int> *queue, bool flag)
 void menu::menu()
 {
 	queue::Queue<int> *queue = new queue::Queue<int>;
-	menu::doMenu(queue, false);
+	menu::doMainMenu(queue, false);		// Запускаем главное меню
 	if (queue->head)
 	{
 		queue::freeMemory(queue);

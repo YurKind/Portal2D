@@ -3,9 +3,10 @@
 #include "Stack.h"
 #include "List.h"
 
+// За модуль отвечают: Меньшиков Юрий и Наговицин Максим
 namespace game
 {
-	struct Coordinates
+	struct Coordinates			// Хранит координаты объекта
 	{
 		int xCoordinate = 0;
 		int yCoordinate = 0;

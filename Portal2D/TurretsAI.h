@@ -2,6 +2,8 @@
 #include "Gameplay.h"
 #include "Map.h"
 
+
+// За модуль отвечают: Лебедев Никита, Меньшиков Юрий и Наговицин Максим
 namespace game
 {	// Главная функция ИИ турелей, запускает их работу
 	void turretAI(char type, GameInfo* gameInfo, MapCell** map);

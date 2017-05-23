@@ -5,25 +5,38 @@
 // Главная функция ИИ турелей, запускает их работу
 void game::turretAI(char type, GameInfo* gameInfo, MapCell** map)
 {
-	if (type == STATIONARY_TURRET && gameInfo->stationary_turret.coordinates.xCoordinate != 0)
+	// если существует стационарная турель
+	if (type == STATIONARY_TURRET && getCoordinates(gameInfo, STATIONARY_TURRET).xCoordinate != 0)
 	{
-		// step - переменная для хранения направления движения с количеством 
+		// step - переменная для хранения направления движения с количеством перемещений
 		int step = determineMovingDirection(STATIONARY_TURRET, gameInfo, map);
+		// turretCanShootHero - переменная для хранения информации о возможности турели стрелять
 		bool turretCanShootHero = checkTurretShootingConditions(STATIONARY_TURRET, gameInfo, map, step);
+		// стационарная турель совершает выстрел
 		shootHero(STATIONARY_TURRET, BULLET_OF_STATIONARY_TURRET, gameInfo, map, turretCanShootHero, step);
 	}
-	else if (type == PLATFORM_TURRET && gameInfo->platform_turret.coordinates.xCoordinate != 0)
+	// если существует патрулирующая турель
+	else if (type == PLATFORM_TURRET && getCoordinates(gameInfo, PLATFORM_TURRET).xCoordinate != 0)
 	{
+		// step - переменная для хранения направления движения с количеством перемещений
 		int step = determineMovingDirection(PLATFORM_TURRET, gameInfo, map);
+		// turretCanShootHero - переменная для хранения информации о возможности турели стрелять
 		bool turretCanShootHero = checkTurretShootingConditions(PLATFORM_TURRET, gameInfo, map, step);
+		// патрулирующая турель перемещаяется
 		platformTurretPatrol(gameInfo, map, turretCanShootHero, step);
+		// патрулирующая турель совершает выстрел
 		shootHero(PLATFORM_TURRET, BULLET_OF_PLATFORM_TURRET, gameInfo, map, turretCanShootHero, step);
 	}
-	else if (type == TURRET_HUNTER && gameInfo->hunter_turret.coordinates.xCoordinate != 0)
+	// если существует турель-охотник
+	else if (type == TURRET_HUNTER && getCoordinates(gameInfo, TURRET_HUNTER).xCoordinate != 0)
 	{
+		// step - переменная для хранения направления движения с количеством перемещений
 		int step = determineMovingDirection(TURRET_HUNTER, gameInfo, map);
+		// turretCanShootHero - переменная для хранения информации о возможности турели стрелять
 		bool turretCanShootHero = checkTurretShootingConditions(TURRET_HUNTER, gameInfo, map, step);
+		// турель-охотник перемещается
 		turretHunterMoving(gameInfo, map, turretCanShootHero, step);
+		// турель-охотник совершает выстрел
 		shootHero(TURRET_HUNTER, BULLET_OF_HUNTER_TURRET, gameInfo, map, turretCanShootHero, step);
 	}
 }
@@ -31,13 +44,19 @@ void game::turretAI(char type, GameInfo* gameInfo, MapCell** map)
 // Определяет направление движения объектов (пуль и турелей), основываясь на положении героя
 int game::determineMovingDirection(char type, GameInfo* gameInfo, MapCell** map)
 {
+	// переменная для хранения направления двищения
 	int direction = NO_STEP;
+	
+	// если герой левее турели
 	if (getCoordinates(gameInfo, HERO).xCoordinate > getCoordinates(gameInfo, type).xCoordinate)
 	{
+		// направление равняется 1
 		direction = STEP_RIGHT_OR_DOWN;
 	}
+	// если герой правее турели
 	else if (getCoordinates(gameInfo, HERO).xCoordinate < getCoordinates(gameInfo, type).xCoordinate)
 	{
+		// направление равняется -1
 		direction = STEP_LEFT_OR_UP;
 	}
 	return direction;
@@ -46,28 +65,38 @@ int game::determineMovingDirection(char type, GameInfo* gameInfo, MapCell** map)
 // Проверяет, должна ли турель стрелять
 bool game::checkTurretShootingConditions(char type, GameInfo* gameInfo, MapCell** map, int step)
 {
+	// переменная для хранения информации о возможности турели стрелять
 	bool turretCanShoot = false;
+	// переменная для хранения информации о наличии стены слева(справа)
 	bool wallIsHere = false;
+	// переменная для хранения координат поисковика турели на оси Ox
 	int searcher = getCoordinates(gameInfo, type).xCoordinate;
+	
+	// если пермещение пуди возможно и герой находится на одном уровне с турелью
 	if (step != NO_STEP &&
 		getCoordinates(gameInfo, HERO).yCoordinate == getCoordinates(gameInfo, type).yCoordinate)
 	{
+		// пока поисковик не дошёл до героя и не была найдена стена
 		while (getCoordinates(gameInfo, HERO).xCoordinate != searcher && wallIsHere == false)
 		{
+			// если поисковиком встречен герой
 			if (map[getCoordinates(gameInfo, type).yCoordinate][searcher + step].types->value == HERO)
 			{
+				// стена не найдена
 				wallIsHere = false;
-				// К координатам поиска прибаляется шаг
+				// координаты поисковика пермещаются влево(вправо)
 				searcher = searcher + step;
 			}
 			// Если по координатам поиска нет стены
 			else if (map[getCoordinates(gameInfo, type).yCoordinate][searcher + step].types->value != BLOCK)
 			{
+				// координаты поисковика пермещаются влево(вправо)
 				searcher = searcher + step;
 			}
 			// Если по координатам поиска есть стена
 			else if (map[getCoordinates(gameInfo, type).yCoordinate][searcher + step].types->value == BLOCK)
 			{
+				// стена была найдена
 				wallIsHere = true;
 			}
 		}
@@ -95,7 +124,7 @@ void game::shootHero(char type, char bullet, GameInfo* gameInfo, MapCell** map, 
 		list::addBegin(&map[getCoordinates(gameInfo, bullet).yCoordinate][getCoordinates(gameInfo, bullet).xCoordinate].types, bullet);
 	}
 
-// если пуля существует и возможно перемещение
+	// если пуля существует и возможно перемещение
 	else if (getCoordinates(gameInfo, bullet).xCoordinate != 0 && step != NO_STEP)
 	{
 		// если координаты пули и героя совпадают
@@ -123,12 +152,12 @@ void game::shootHero(char type, char bullet, GameInfo* gameInfo, MapCell** map, 
 			setOXCoordinates(gameInfo, bullet, NO_STEP);
 		}
 	}
-// если перемещение не требуется и герой на одном уровне с турелью
+	// если перемещение не требуется и герой на одном уровне с турелью
 	else if (step == NO_STEP && getCoordinates(gameInfo, HERO).yCoordinate == getCoordinates(gameInfo, type).yCoordinate)
 	{
 		gameInfo->hero.healthPoints -= DAMAGE_TO_HERO;	// у героя отнимается здоровье
 	}
-// если героя нет на линии огня и пуля существует
+	// если героя нет на линии огня и пуля существует
 	else if (turretCanShootHero == false && getCoordinates(gameInfo, bullet).xCoordinate != 0)
 	{
 		// пуля перемещается
@@ -141,7 +170,7 @@ void game::moveBullet(char bullet, GameInfo* gameInfo, MapCell** map, int step)
 {
 	// слева(справа) создаётся текстура пули
 	list::addBegin(&map[getCoordinates(gameInfo, bullet).yCoordinate][getCoordinates(gameInfo, bullet).xCoordinate + step].types, bullet);
-	// существующая текстура удаляется
+	// существующий символ пули удаляется
 	list::deleteCurrentElement(&map[getCoordinates(gameInfo, bullet).yCoordinate][getCoordinates(gameInfo, bullet).xCoordinate].types, bullet);
 	// координата по Ox увеличивается(уменьшается) на step(на один)
 	changeOXCoordinates(gameInfo, bullet, step);

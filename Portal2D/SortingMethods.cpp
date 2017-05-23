@@ -1,21 +1,28 @@
 #include "SortingMethods.h"
 
+/*Упрощенный алгоритм сортировки подсчетом*/
 void sorting::countingSort(int count, int *array, int range)
 {
-	int *c = new int[range];
+	int *c = new int[range];		// Вспомогательный массив для подсчета
 
+	/*Обнуляем вспомогательный массив*/
 	for (int i = 0; i < range; i++)
 	{
 		c[i] = 0;
 	}
 
+	/*Подсчитываем кол-во каждого значения в сортируемом массиве
+	  и записываем это число в вспомогательный массив в ячейку
+	  под индексом этого значения*/
 	for (int j = 0; j < count; j++)
 	{
 		c[array[j]]++;
 	}
 
+
 	int d = 0;
 
+	/*Заполняем сортируемый массив в нужном порядке*/
 	for (int j = 0; j < range; j++)
 	{
 		for (int i = 0; i < c[j]; i++)
@@ -27,19 +34,21 @@ void sorting::countingSort(int count, int *array, int range)
 	delete[] c;
 }
 
-void sorting::stableCountingSort(int count, int *array, int range)
+/*Сортировка подсчетом*/
+void sorting::stableCountingSort(int count, int array[], int range)
 {
-	int *c = new int[range];
-	int *result = new int[count];
+	int *c = new int[range];		// Вспомогательный массив
+	int *result = new int[count];	// Результирующий массив
 
+	/*Обноляем вспомогательный массив*/
 	for (int i = 0; i < range; i++)
 	{
 		c[i] = 0;
 	}
 
+	/*Заполняем вспомогательный массив*/
 	for (int i = 0; i < range; i++)
 	{
-
 		for (int j = 0; j < count; j++)
 		{
 			if (array[j] <= i)
@@ -47,12 +56,14 @@ void sorting::stableCountingSort(int count, int *array, int range)
 		}
 	}
 
+	/*Заполняем результирующий массив*/
 	for (int i = count - 1; i >= 0; i--)
 	{
 		c[array[i]]--;
 		result[c[array[i]]] = array[i];
 	}
 
+	/*Присваиваем сортируемому массиву результирующий*/
 	for (int i = 0; i < count; i++)
 	{
 		array[i] = result[i];
@@ -60,27 +71,6 @@ void sorting::stableCountingSort(int count, int *array, int range)
 
 	delete[] result;
 	delete[] c;
-}
-
-void sorting::bubbleSortForList(list::List<records::DataAboutTheChampion> *list)
-{
-	list::List<records::DataAboutTheChampion> *sort = list;
-	int swap = 1;
-	while (swap != 0)
-	{
-		swap = 0;
-		while (sort->next)
-		{
-			if (sort->value.score > sort->next->value.score)
-			{
-				records::DataAboutTheChampion temp = sort->value;
-				sort->value = sort->next->value;
-				sort->next->value = temp;
-				swap++;
-			}
-			sort = sort->next;
-		}
-	}
 }
 
 void sort(list::List<records::DataAboutTheChampion> *root)

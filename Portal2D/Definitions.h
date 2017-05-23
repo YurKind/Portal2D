@@ -77,7 +77,7 @@
 #define E_LOWER_CASE_RU 227	// клавиша 'у' (в нижнем регистре)
 
 //------ACTION_KEYS------//
-#define ESCAPE 27
+#define ESCAPE 27	// клавиша 'Escape'
 #define ENTER 13	// клавиша 'Enter'
 #define BACKSPACE 8	// клавиша 'backspace'
 #define PAUSE_UPPER_CASE 'P'	// клавиша 'P'
@@ -116,3 +116,6 @@
 #define STEP_LEFT_OR_UP -1			// шаг объекта влево (турели и пули)
 #define NO_STEP 0					// отсутствие шага 
 #define RANGE_BETWEEN_HERO_AND_HUNTER_TURRET 4 // расстояние между игроком и турелью охотником
+
+/*OTHER*/
+#define SCORE_PER_SECOND 1.02345 // изменение очков за секунду
