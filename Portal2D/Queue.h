@@ -19,7 +19,7 @@ namespace queue
 	}
 
 	/**
-	 * Освобождает память из под очереди.
+	 * Инициализирует очередь из массива данных dataArray.
 	 */
 	template <typename T> void addQueue(queue::Queue<T> *queue, T *dataArray, int numberOfElements)
 	{
@@ -71,7 +71,7 @@ namespace queue
 	}
 
 	/**
-	 * Освобождает память из под очереди.
+	 * Освобождает память, выделенную для данной очереди.
 	 */
 	template <typename T> void freeMemory(queue::Queue<T> *queue)
 	{
@@ -93,5 +93,4 @@ namespace queue
 			delete cleaner;
 		}
 	}
-
 }

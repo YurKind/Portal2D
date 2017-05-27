@@ -5,6 +5,9 @@
 
 namespace list
 {
+	/**
+	 * Освобождает память, выделенную для данного списка.
+	 */
 	void freeMemory(List<records::DataAboutTheChampion> *begin);
 
 	template<class T1, class T2> void addBegin(T1 **begin, T2 insertable)        // вставка в начало списка
