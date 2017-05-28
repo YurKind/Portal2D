@@ -5,8 +5,7 @@
 
 namespace tree
 {
-	/* Создает дерево и заполняет в зависимости от параметра "varaint" */
-	void createTree(BranchForNumber<records::DataAboutTheChampion> **tree, char *fileName, int variant)
+	void initializeTree(BranchForNumber<records::DataAboutTheChampion> **tree, char *fileName, int variant)
 	{
 		std::ifstream fin(FILE_NAME_RECORDS);
 		tree::BranchForNumber<records::DataAboutTheChampion> *add = *tree;
@@ -41,7 +40,6 @@ namespace tree
 		fin.close();
 	}
 
-	/* Добавляет элемент в дерево */
 	void addInTree(records::DataAboutTheChampion newData, BranchForNumber<records::DataAboutTheChampion> *&tree, int variant)
 	{
 		if (!tree)       // если дерево пустое или конец ветки, то создаем элемент и инициализируем новым значением 
@@ -95,7 +93,7 @@ namespace tree
 		}
 	}
 
-	/* Возвращает минимальный элемент */
+	
 	records::DataAboutTheChampion getMinimum(BranchForNumber<records::DataAboutTheChampion> *tree)
 	{
 		while (tree->left)

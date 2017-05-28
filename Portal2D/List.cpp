@@ -1,15 +1,15 @@
 #include "List.h"
 #include "Definitions.h"
 
-void list::addInCertainPlace(list::List<records::DataAboutTheChampion> **begin, int placeNumber, records::DataAboutTheChampion newChampion)       // вставка элемента списка с новым рекордсменом на соответствующее место 
+void list::addInCertainPlace(list::List<records::DataAboutTheChampion> **list, int placeNumber, records::DataAboutTheChampion newChampion)       // вставка элемента списка с новым рекордсменом на соответствующее место 
 {
 	if (placeNumber == 0)
 	{
-		list::addBegin(begin, newChampion);           // вставка в начало списка
+		list::addBegin(list, newChampion);           // вставка в начало списка
 	}
 	else
 	{
-		list::List<records::DataAboutTheChampion> *insert = *begin;         // новый указатель на начало списка
+		list::List<records::DataAboutTheChampion> *insert = *list;         // новый указатель на начало списка
 
 		for (int i = 0; i < placeNumber - 1; i++)
 		{

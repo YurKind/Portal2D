@@ -3,8 +3,7 @@
 
 namespace search
 {
-	/* ¬ыводит список на печать */
-	void printFoundChampions(list::List<records::DataAboutTheChampion> *list, int key)
+	void printFoundChampion(list::List<records::DataAboutTheChampion> *list, int key)
 	{
 		list::List<records::DataAboutTheChampion> *check;
 
@@ -36,10 +35,8 @@ namespace search
 		}
 	}
 
-	/* ѕоиск по очкам до первого результата */
 	tree::BranchForNumber<records::DataAboutTheChampion> *searchByScoreOfOneResult(
-		tree::BranchForNumber<records::DataAboutTheChampion> *tree, double score
-	)
+		tree::BranchForNumber<records::DataAboutTheChampion> *tree, double score)
 	{
 		if (!tree || score == tree->data.score)     // если конец дерева или совпало кол-во очков
 		{
@@ -56,10 +53,8 @@ namespace search
 		}
 	}
 
-	/* ѕоиск по уровню до первого результата */
 	tree::BranchForNumber<records::DataAboutTheChampion> *searchByLevelOfOneResult(
-		tree::BranchForNumber<records::DataAboutTheChampion> *tree, int level
-	)
+		tree::BranchForNumber<records::DataAboutTheChampion> *tree, int level)
 	{
 		if (!tree || level == tree->data.level)     // если конец дерева или совпало кол-во очков
 		{
@@ -76,10 +71,8 @@ namespace search
 		}
 	}
 
-	/* ѕоиск по имени до первого результата */
-	tree::BranchForNumber<records::DataAboutTheChampion> *searchByStringOfOneResult(
-		tree::BranchForNumber<records::DataAboutTheChampion> *tree, char *name
-	)
+	tree::BranchForNumber<records::DataAboutTheChampion> *searchByNameOfOneResult(
+		tree::BranchForNumber<records::DataAboutTheChampion> *tree, char *name)
 	{
 		if (!tree || comparison(name, tree->data.name) == 0)     // если конец дерева или совпало кол-во очков
 		{
@@ -88,17 +81,15 @@ namespace search
 
 		if (comparison(name, tree->data.name) < 0)         // если параметр меньше чем им€ текущего рекордсмена, то влево по дереву, иначе вправо
 		{
-			search::searchByStringOfOneResult(tree->left, name);
+			search::searchByNameOfOneResult(tree->left, name);
 		}
 		else
 		{
-			search::searchByStringOfOneResult(tree->right, name);
+			search::searchByNameOfOneResult(tree->right, name);
 		}
 	}
 
-	/* —равнивает строки вне зависимости от регистра */
-	int comparison(char *name, std::string str
-	)
+	int comparison(char *name, std::string str)
 	{
 		char *checking = new char[str.length() + 1];
 		strcpy_s(checking, str.length() + 1, str.c_str());
@@ -106,10 +97,8 @@ namespace search
 		return _stricmp(name, checking);
 	}
 
-	/* ѕоиск по подстроке в строке */
 	records::DataAboutTheChampion searchBySubstringOfOneResult(
-		records::DataAboutTheChampion subjectOfSearch, char *substring
-	)
+		records::DataAboutTheChampion subjectOfSearch, char *substring)
 	{
 		bool isResultPositive = false;
 		int lengthOfSubstring = 0;
@@ -144,12 +133,10 @@ namespace search
 		return result;
 	}
 
-	/* ѕоиск по подстроке всех элементов из файла мс рекордами */
-	list::List<records::DataAboutTheChampion> *searchBySubstringAllResults(
-		list::List<records::DataAboutTheChampion> *result, char *substring
-	)
+	list::List<records::DataAboutTheChampion> *searchBySubstringAllResults(char *substring)
 	{
 		list::List<records::DataAboutTheChampion>
+			*result,
 			*listWithAll = new list::List<records::DataAboutTheChampion>,
 			*begin = NULL;
 		std::ifstream fin(FILE_NAME_RECORDS);
