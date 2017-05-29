@@ -3,7 +3,7 @@
 
 enum Parametr
 {
-	SCORE = 1, LEVEL = 2, STRING = 3, SUBSTRING = 4
+	SCORE, LEVEL, NAME, SUBSTRING
 };
 
 namespace tree

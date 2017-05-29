@@ -27,9 +27,9 @@ namespace tree
 			{
 				addInTree(*data, add, LEVEL);
 			}
-			else if (variant == STRING)
+			else if (variant == NAME)
 			{
-				addInTree(*data, add, STRING);     // добавление элемента в зависимости от имени 
+				addInTree(*data, add, NAME);     // добавление элемента в зависимости от имени 
 			}
 
 			delete data;
@@ -71,7 +71,7 @@ namespace tree
 					tree::addInTree(newData, tree->right, LEVEL);
 				}
 			}
-			else if (variant == STRING)        // если инициализация по имени
+			else if (variant == NAME)        // если инициализация по имени
 			{
 				int size1 = tree->data.name.length() + 1, size2 = newData.name.length() + 1;
 				char *str1 = new char[size1], *str2 = new char[size2];
@@ -80,11 +80,11 @@ namespace tree
 
 				if (strcmp(str1, str2) > 0)
 				{
-					tree::addInTree(newData, tree->left, STRING);
+					tree::addInTree(newData, tree->left, NAME);
 				}
 				else
 				{
-					tree::addInTree(newData, tree->right, STRING);
+					tree::addInTree(newData, tree->right, NAME);
 				}
 
 				delete[] str1;

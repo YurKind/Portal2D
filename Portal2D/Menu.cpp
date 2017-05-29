@@ -4,8 +4,11 @@
 #include "RandomLevel.h"
 #include "Definitions.h"
 #include "List.h"
+#include "Tree.h"
 
 HANDLE H = GetStdHandle(STD_OUTPUT_HANDLE);
+
+extern Parametr;
 
 // Заполняет строковый массив
 void menu::fillArray(string array[], int count, char divider)
@@ -112,11 +115,11 @@ void menu::doPointRecordSearch()
 	string pointRecordSearch[SEARCH_RECORDS_POINTS];
 	fillArray(pointRecordSearch, SEARCH_RECORDS_POINTS, '-');
 
-	int key = ByScore;																	// Пункт на котором остановился пользователь
+	int key = SCORE;																	// Пункт на котором остановился пользователь
 
 	/*Верхняя граница равна Search, нижняя равна BackRecords,
 	вывод данного подпункта меню осуществляет printPointRecord*/
-	BordersOfMenu borders = {ByScore, BackRecordsSearch};
+	BordersOfMenu borders = { SCORE, BackRecordsSearch};
 
 	/*Пока пользователь не захочет выйти из этого подпункта меню,
 	осуществляется перемещения по меню*/
@@ -135,8 +138,8 @@ void menu::doPointRecordSearch()
 
 		switch (key)
 		{
-		case ByScore:
-			initializeTree(&tree, FILE_NAME_RECORDS, ByScore);     // создаем и инициализируем список по очкам
+		case SCORE:
+			initializeTree(&tree, FILE_NAME_RECORDS, SCORE);     // инициализируем дерево и заполняем по очкам
 			std::cout << "\n\n\n\t\t\t\tEnter the number of score: ";
 			std::cin >> numberOfScore;
 			std::cout << "\n";
@@ -149,8 +152,8 @@ void menu::doPointRecordSearch()
 			}
 			break;
 
-		case ByLevel:
-			initializeTree(&tree, FILE_NAME_RECORDS, ByLevel);     // создаем и инициализируем список по уровням
+		case LEVEL:
+			initializeTree(&tree, FILE_NAME_RECORDS, LEVEL);     // создаем и инициализируем список по уровням
 			std::cout << "\n\n\n\t\t\t\tEnter the number of level: ";
 			std::cin >> numberOfLevel;
 			std::cout << "\n";
@@ -163,8 +166,8 @@ void menu::doPointRecordSearch()
 			}
 			break;
 
-		case ByName:
-			initializeTree(&tree, FILE_NAME_RECORDS, ByName);     // создаем и инициализируем список по именам
+		case NAME:
+			initializeTree(&tree, FILE_NAME_RECORDS, NAME);     // создаем и инициализируем список по именам
 			std::cout << "\n\n\n\t\t\t\tEnter the string: ";
 			std::cin >> name;
 			std::cout << "\n";
@@ -177,7 +180,7 @@ void menu::doPointRecordSearch()
 			}
 			break;
 
-		case BySubstring:
+		case SUBSTRING:
 			std::cout << "\n\n\n\t\t\t\tEnter the substring: ";
 			std::cin >> name;
 			std::cout << "\n";
