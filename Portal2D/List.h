@@ -28,7 +28,7 @@ namespace list
 		records::DataAboutTheChampion newChampion);
 
 	/**
-	 * Удаляет элемент из списка.
+	 *  Удаляет указанный элемент
 	 */
 	void deleteCurrentElement(list::List<char> **types, char element);
 }

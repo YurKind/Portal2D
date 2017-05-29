@@ -37,28 +37,32 @@ void list::freeMemory(list::List<records::DataAboutTheChampion> *begin)       //
 	}
 }
 
+
 void list::deleteCurrentElement(list::List<char> **types, char element)
 {
-	bool flag = true;
+	bool isCurrentElementFound = true;
 	list::List<char> *del = *types;
 	list::List<char> *temp = del->next;
 
-	if ((*types)->value == element)
+	//если указанный элемент совпал с элементом в списке
+	if ((*types)->value == element)	
 	{
 		*types = (*types)->next;
 		delete del;
 	}
 	else
 	{
-		while (flag)
+		// пока не найден указанный элемент или не достигли конца списка
+		while (isCurrentElementFound)
 		{
 			temp = del;
 			del = del->next;
+			//если указанный элемент совпал с элементом в списке
 			if (del->value == element)
 			{
 				temp->next = del->next;
 				delete del;
-				flag = false;
+				isCurrentElementFound = false;
 			}
 		}
 	}
