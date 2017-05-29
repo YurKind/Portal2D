@@ -118,7 +118,7 @@ namespace game
 	void moveOx(int sideOfMovingOx, char type, GameInfo* gameInfo, MapCell** map)
 	{
 		// если перемещение по оси Ox возможно
-		if (movingPossibleOx(getCoordinates(gameInfo, type), map, sideOfMovingOx, type))
+		if (isMovingPossibleOx(getCoordinates(gameInfo, type), map, sideOfMovingOx, type))
 		{
 			// удаляем символ объекта из текущей ячейки карты
 			list::deleteCurrentElement(&map[getCoordinates(gameInfo, type).yCoordinate][getCoordinates(gameInfo, type).xCoordinate].types, type);
@@ -134,7 +134,7 @@ namespace game
 	void moveOy(int sideOfMovingOy, char type, GameInfo* gameInfo, MapCell** map)
 	{
 		// если перемещение по оси Oy возможно
-		if (movingPossibleOy(getCoordinates(gameInfo, type), map, sideOfMovingOy, type))
+		if (isMovingPossibleOy(getCoordinates(gameInfo, type), map, sideOfMovingOy, type))
 		{
 			// удаляем символ объекта из текущей ячейки карты
 			list::deleteCurrentElement(&map[getCoordinates(gameInfo, type).yCoordinate][getCoordinates(gameInfo, type).xCoordinate].types, type);
@@ -149,7 +149,7 @@ namespace game
 	void jump(char type, GameInfo* gameInfo, MapCell** map)
 	{
 		// если под объектом есть непроходимый блок
-		if (objectIsStandingOnTheFloor(getCoordinates(gameInfo, type), map))
+		if (isObjectStandingOnTheFloor(getCoordinates(gameInfo, type), map))
 		{
 			// Если обе клетки над объектом проходимы
 			if (bothCellsAboveTheObjectAreFree(getCoordinates(gameInfo, type), map))
@@ -469,7 +469,7 @@ namespace game
 	}
 
 	// функция проверяет стоит ли объект на непроходимой поверхности
-	bool objectIsStandingOnTheFloor(Coordinates coordinates, MapCell** map)
+	bool isObjectStandingOnTheFloor(Coordinates coordinates, MapCell** map)
 	{
 		// если под объектом свободно
 		if (map[coordinates.yCoordinate + STEP_RIGHT_OR_DOWN][coordinates.xCoordinate].passable == false)
@@ -513,7 +513,7 @@ namespace game
 	}
 
 	// функция проверяет возможность проходимости по оси Ox
-	bool movingPossibleOx(Coordinates coordinates, MapCell** map, int sideOfMovingOx, char type)
+	bool isMovingPossibleOx(Coordinates coordinates, MapCell** map, int sideOfMovingOx, char type)
 	{
 		// если по оси Ox проходимое пространство
 		// если слева(справа) от прицела нет кнопки или стены (в случае перемещения прицела) 
@@ -531,7 +531,7 @@ namespace game
 	}
 
 	// функция проверяет возможность проходимости по оси Oy
-	bool movingPossibleOy(Coordinates coordinates, MapCell** map, int sideOfMovingOy, char type)
+	bool isMovingPossibleOy(Coordinates coordinates, MapCell** map, int sideOfMovingOy, char type)
 	{
 		// если по оси Oy проходимое пространство
 		// если сверху(снизу) от прицела нет кнопки или стены (в случае перемещения прицела) 

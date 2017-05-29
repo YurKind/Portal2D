@@ -8,22 +8,38 @@
 
 namespace search
 {
-	void printFoundChampions(list::List<records::DataAboutTheChampion> *list, int key);
+	/**
+	 * Выводит на печать лучший результат на уровне. 
+	 */
+	void printFoundChampion(list::List<records::DataAboutTheChampion> *list, int key);
 
+	/**
+	 * Сравнивает строки вне зависимости от регистра.
+	 */
 	int comparison(char *name, std::string str);
 
+	/**
+	 * Поиск по уровню до первого результата.
+	 */
 	tree::BranchForNumber<records::DataAboutTheChampion> *searchByLevelOfOneResult(tree::BranchForNumber<records::DataAboutTheChampion> *tree, int level);
 
+	/**
+	 * Поиск по очкам до первого результата.
+	 */
 	tree::BranchForNumber<records::DataAboutTheChampion> *searchByScoreOfOneResult(tree::BranchForNumber<records::DataAboutTheChampion> *tree, double score);
 
-	tree::BranchForNumber<records::DataAboutTheChampion> *searchByStringOfOneResult(tree::BranchForNumber<records::DataAboutTheChampion> *tree, char *name);
+	/**
+	 * Поиск по имени до первого результата.
+	 */
+	tree::BranchForNumber<records::DataAboutTheChampion> *searchByNameOfOneResult(tree::BranchForNumber<records::DataAboutTheChampion> *tree, char *name);
 
-	/* Заполняет список найденными рекордсменами и возвращает указатель на этот список */
+	/**
+	 * Заполняет список найденными рекордсменами и возвращает указатель на этот список 
+	 */
 	template<typename T> list::List<records::DataAboutTheChampion> *searchAllElements(
 		tree::BranchForNumber<records::DataAboutTheChampion> *tree,
 		T data,
-		tree::BranchForNumber<records::DataAboutTheChampion>*(*searchFunc)(tree::BranchForNumber<records::DataAboutTheChampion> *, T)
-	)
+		tree::BranchForNumber<records::DataAboutTheChampion> *(*searchFunc)(tree::BranchForNumber<records::DataAboutTheChampion> *, T))
 	{
 		int counterOfLoop = 0;
 		list::List<records::DataAboutTheChampion> *list = NULL;       // список с найденными рекорсдменами 
@@ -41,6 +57,7 @@ namespace search
 			{
 				*search = searchFunc(temp, data);       // вызываем функцию, соответствующую параметру заполнения дерева, от начала дерева
 			}
+
 			temp = *search;      // инициализируем указатель 
 			if (temp)
 			{
@@ -52,7 +69,13 @@ namespace search
 		return list;
 	}
 
+	/**
+	 * Поиск по подстроке в строке.
+	 */
 	records::DataAboutTheChampion searchBySubstringOfOneResult(records::DataAboutTheChampion subjectOfSearch, char *substring);
 
-	list::List<records::DataAboutTheChampion> *searchBySubstringAllResults(list::List<records::DataAboutTheChampion> *result, char *substring);
+	/**
+	 * Поиск по подстроке всех элементов из файла с рекордами.
+	 */
+	list::List<records::DataAboutTheChampion> *searchBySubstringAllResults(char *substring);
 }

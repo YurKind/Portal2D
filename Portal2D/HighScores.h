@@ -17,7 +17,7 @@ namespace records
 	 * ¬озвращает место нового рекордсмена в зависимости от уровн€ и очков,
 	 * чтобы записать в файл не нарушив пор€док.
 	 */
-	int getPlaceOfChampionInOrder(list::List<DataAboutTheChampion> *list, DataAboutTheChampion newChampion);
+	int getPlaceOfChampionInOrder(list::List<DataAboutTheChampion> *listWithAll, DataAboutTheChampion newChampion);
 
 	/**
 	 *  оманды: "add" - добавить в рекорды, "show" - показать все рекорды (не больше 10к).
@@ -44,4 +44,12 @@ namespace records
 	 * ¬озвращает длину строки.
 	 */
 	int getLineLength(std::ifstream &finForSize);
+}
+
+namespace list 
+{
+	/**
+	 * Cозданет и инициализирует список из файла.
+	 */
+	void addList(List<records::DataAboutTheChampion> **begin, std::ifstream &fin);   
 }

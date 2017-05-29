@@ -69,4 +69,24 @@ namespace sorting
 	void countingSort(int count, int *array, int range);
 
 	void stableCountingSort(int count, int array[], int range);
+
+	//------Sorts------//
+	void selectionSort(int* array, int size);
+	void bubbleSort(int* array, int size);
+	void insertionSort(int* array, int size);
+	void coctailSort(int *array, int size);
+	void shellSort(int* array, int size);
+	void quickSort(int *arr, int left, int right);
+	void radixSort(int* A, int size);
+
+	void mergeSort(int *arr, int left, int right);
+	void merge(int* arr, int left, int right);
+
+	void countingSort(int* arr, int size, int range);
+
+	//------Search------//
+	void linearSearch(int* arr, int size, int key);
+	void binarySearch(int* arr, int size, int key);
+	void kmpMatcher(char* text, char* pattern);
+
 }

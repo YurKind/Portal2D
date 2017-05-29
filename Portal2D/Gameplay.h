@@ -50,13 +50,13 @@ namespace game
 	bool quitTheLevel(GameInfo* gameInfo, MapCell** map);
 
 	// функция проверяет стоит ли объект на непроходимой поверхности
-	bool objectIsStandingOnTheFloor(Coordinates coordinates, MapCell** map);
+	bool isObjectStandingOnTheFloor(Coordinates coordinates, MapCell** map);
 
 	// функция проверяет возможность проходимости по оси Ox
-	bool movingPossibleOx(Coordinates coordinates, MapCell** map, int sideOfMovingOx, char type);
+	bool isMovingPossibleOx(Coordinates coordinates, MapCell** map, int sideOfMovingOx, char type);
 
 	// функция проверяет возможность проходимости по оси Oy
-	bool movingPossibleOy(Coordinates coordinates, MapCell** map, int sideOfMovingOx, char type);
+	bool isMovingPossibleOy(Coordinates coordinates, MapCell** map, int sideOfMovingOx, char type);
 
 	// функция проверяет есть ли над объектом одна свободная клетка
 	bool oneCellAboveTheObjectIsFree(Coordinates coordinates, MapCell** map);

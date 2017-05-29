@@ -5,8 +5,7 @@
 
 namespace tree
 {
-	/* —оздает дерево и заполн€ет в зависимости от параметра "varaint" */
-	void createTree(BranchForNumber<records::DataAboutTheChampion> **tree, char *fileName, int variant)
+	void initializeTree(BranchForNumber<records::DataAboutTheChampion> **tree, char *fileName, int variant)
 	{
 		std::ifstream fin(FILE_NAME_RECORDS);
 		tree::BranchForNumber<records::DataAboutTheChampion> *add = *tree;
@@ -28,9 +27,9 @@ namespace tree
 			{
 				addInTree(*data, add, LEVEL);
 			}
-			else if (variant == STRING)
+			else if (variant == NAME)
 			{
-				addInTree(*data, add, STRING);     // добавление элемента в зависимости от имени 
+				addInTree(*data, add, NAME);     // добавление элемента в зависимости от имени 
 			}
 
 			delete data;
@@ -41,7 +40,6 @@ namespace tree
 		fin.close();
 	}
 
-	/* ƒобавл€ет элемент в дерево */
 	void addInTree(records::DataAboutTheChampion newData, BranchForNumber<records::DataAboutTheChampion> *&tree, int variant)
 	{
 		if (!tree)       // если дерево пустое или конец ветки, то создаем элемент и инициализируем новым значением 
@@ -73,7 +71,7 @@ namespace tree
 					tree::addInTree(newData, tree->right, LEVEL);
 				}
 			}
-			else if (variant == STRING)        // если инициализаци€ по имени
+			else if (variant == NAME)        // если инициализаци€ по имени
 			{
 				int size1 = tree->data.name.length() + 1, size2 = newData.name.length() + 1;
 				char *str1 = new char[size1], *str2 = new char[size2];
@@ -82,11 +80,11 @@ namespace tree
 
 				if (strcmp(str1, str2) > 0)
 				{
-					tree::addInTree(newData, tree->left, STRING);
+					tree::addInTree(newData, tree->left, NAME);
 				}
 				else
 				{
-					tree::addInTree(newData, tree->right, STRING);
+					tree::addInTree(newData, tree->right, NAME);
 				}
 
 				delete[] str1;
@@ -95,7 +93,7 @@ namespace tree
 		}
 	}
 
-	/* ¬озвращает минимальный элемент */
+	
 	records::DataAboutTheChampion getMinimum(BranchForNumber<records::DataAboutTheChampion> *tree)
 	{
 		while (tree->left)

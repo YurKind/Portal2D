@@ -138,16 +138,17 @@ void records::overwriteFile(list::List<records::DataAboutTheChampion> *listWithA
 	fout.close();
 }
 
-int records::getPlaceOfChampionInOrder(list::List<records::DataAboutTheChampion> *begin,
+int records::getPlaceOfChampionInOrder(list::List<records::DataAboutTheChampion> *listWithAll,
 	records::DataAboutTheChampion newChampion)
 {                                                                 
 	int placeInOrder = 0;
-	list::List<records::DataAboutTheChampion> *list = begin;
+	list::List<records::DataAboutTheChampion> *list = listWithAll;
 	while (list->value.level > newChampion.level)    // пока уровень рекордсмена из списка больше чем у вставляемого рекордсмена
 	{
 		list = list->next;
 		placeInOrder++;
 	}
+
 	while (list->value.score > newChampion.score && list->value.level == newChampion.level)   // пока кол-во очков из списка больше вставляемого и уровень из списка равен уровню вставляемого рекордсмена
 	{
 		list = list->next;
@@ -194,9 +195,9 @@ records::DataAboutTheChampion records::getChampionWithDataFromBuffer(char *buf)
 	return champion;
 }
 
-void list::addList(list::List<records::DataAboutTheChampion> **list, std::ifstream &fin)   // создание и инициализация списка
+void list::addList(list::List<records::DataAboutTheChampion> **begin, std::ifstream &fin)
 {
-	list::List<records::DataAboutTheChampion> *add = *list;
+	list::List<records::DataAboutTheChampion> *add = *begin;
 	std::ifstream finForSize(FILE_NAME_RECORDS);
 	char *buf = NULL;
 
