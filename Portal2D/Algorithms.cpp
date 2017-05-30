@@ -1,9 +1,9 @@
-#include "SortingMethods.h"
+#include "Algorithms.h"
 
 using namespace std;
 
 /*Упрощенный алгоритм сортировки подсчетом*/
-void sorting::countingSort(int count, int *array, int range)
+void algorithms::countingSort(int count, int *array, int range)
 {
 	int *c = new int[range];		// Вспомогательный массив для подсчета
 
@@ -37,7 +37,7 @@ void sorting::countingSort(int count, int *array, int range)
 }
 
 /*Сортировка подсчетом*/
-void sorting::stableCountingSort(int count, int array[], int range)
+void algorithms::stableCountingSort(int count, int array[], int range)
 {
 	int *c = new int[range];		// Вспомогательный массив
 	int *result = new int[count];	// Результирующий массив
@@ -111,7 +111,7 @@ void sort(list::List<records::DataAboutTheChampion> *root)
 
 }
 
-void sorting::selectionSort(int* arr, int size)
+void algorithms::selectionSort(int* arr, int size)
 {
 	for (int i = 0; i < size; i++)
 	{
@@ -134,7 +134,7 @@ void sorting::selectionSort(int* arr, int size)
 	cout << endl;
 }
 
-void sorting::bubbleSort(int* arr, int size)
+void algorithms::bubbleSort(int* arr, int size)
 {
 	bool exit = false;
 
@@ -153,7 +153,7 @@ void sorting::bubbleSort(int* arr, int size)
 	}
 }
 
-void sorting::coctailSort(int *arr, int size)
+void algorithms::coctailSort(int *arr, int size)
 {
 	int leftMark = 0;
 	int rightMark = size - 1;
@@ -184,7 +184,7 @@ void sorting::coctailSort(int *arr, int size)
 	}
 }
 
-void sorting::insertionSort(int* arr, int size)
+void algorithms::insertionSort(int* arr, int size)
 {
 	int i, j;
 	for (i = 1; i < size; i++)
@@ -198,7 +198,7 @@ void sorting::insertionSort(int* arr, int size)
 	}
 }
 
-void sorting::shellSort(int* arr, int size)
+void algorithms::shellSort(int* arr, int size)
 {
 	int i, j;
 	int step = size / 2;
@@ -218,7 +218,7 @@ void sorting::shellSort(int* arr, int size)
 	}
 }
 
-void sorting::quickSort(int* arr, int left, int right)
+void algorithms::quickSort(int* arr, int left, int right)
 {
 	int i = left;
 	int j = right;
@@ -253,7 +253,7 @@ void sorting::quickSort(int* arr, int left, int right)
 
 }
 
-void sorting::merge(int* arr, int left, int right)
+void algorithms::merge(int* arr, int left, int right)
 {
 	int i = left;
 	int mid = (left + right) / 2;
@@ -294,7 +294,7 @@ void sorting::merge(int* arr, int left, int right)
 	}
 }
 
-void sorting::mergeSort(int* arr, int left, int right)
+void algorithms::mergeSort(int* arr, int left, int right)
 {
 	if (left < right)
 	{
@@ -315,7 +315,7 @@ void sorting::mergeSort(int* arr, int left, int right)
 	}
 }
 
-void sorting::countingSort(int* arr, int size, int range)
+void algorithms::countingSort(int* arr, int size, int range)
 {
 	int* c = new int[range];
 	int* result = new int[size];
@@ -352,7 +352,7 @@ void sorting::countingSort(int* arr, int size, int range)
 }
 
 
-void sorting::linearSearch(int* arr, int size, int key)
+void algorithms::linearSearch(int* arr, int size, int key)
 {
 	bool success = false;
 	for (int i = 0; i < size; i++)
@@ -369,7 +369,7 @@ void sorting::linearSearch(int* arr, int size, int key)
 	}
 }
 
-void sorting::binarySearch(int* arr, int size, int key)
+void algorithms::binarySearch(int* arr, int size, int key)
 {
 	int left = -1;
 	int right = size + 1;
@@ -397,7 +397,7 @@ void sorting::binarySearch(int* arr, int size, int key)
 	}
 }
 
-void sorting::kmpMatcher(char* text, char* pattern)
+void algorithms::kmpMatcher(char* text, char* pattern)
 {
 	int i, j;
 	int stringLength = strlen(text);

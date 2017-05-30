@@ -3,7 +3,7 @@
 #include "HighScores.h"
 #include "List.h"
 #include "Instruments.h"
-#include "SortingMethods.h"
+#include "Algorithms.h"
 #include <conio.h>
 
 namespace search

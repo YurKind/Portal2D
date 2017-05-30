@@ -1,8 +1,6 @@
 #include "Menu.h"
 #include "Gameplay.h"
 #include "Instruments.h"
-#include "Map.h"
-#include "SortingMethods.h"
 
 using namespace std;
 

@@ -3,7 +3,7 @@
 #include "List.h"
 #include <string.h>
 
-namespace sorting
+namespace algorithms
 {
 	void sort(list::List<records::DataAboutTheChampion> *root);
 
@@ -77,7 +77,6 @@ namespace sorting
 	void coctailSort(int *array, int size);
 	void shellSort(int* array, int size);
 	void quickSort(int *arr, int left, int right);
-	void radixSort(int* A, int size);
 
 	void mergeSort(int *arr, int left, int right);
 	void merge(int* arr, int left, int right);

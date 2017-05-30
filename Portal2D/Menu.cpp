@@ -198,10 +198,6 @@ void menu::doPointRecordSearch()
 		}
 
 		system("pause");
-		/*
-		cin.ignore();
-		cin.get();
-		cin.ignore();*/
 		list::freeMemory(list);
 		tree::freeMemory(tree);
 		delete[] name;

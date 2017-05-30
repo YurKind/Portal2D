@@ -1,5 +1,5 @@
 #include "List.h"
-#include "SortingMethods.h"
+#include "Algorithms.h"
 
 
 void records::addInRecordsOrShowRecords(
